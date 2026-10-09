@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tính chất điện môi của mô | Sinh điện từ | My N. Nguyen</title>
+<meta name="description" content="Độ dẫn điện, hằng số điện môi, điện trở suất của mô; tán sắc α, β, γ; mô hình Debye, Cole–Cole và mô hình 4 vùng của Gabriel; độ xuyên sâu.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/4-dien-moi.html, giai đoạn 4: TÍNH CHẤT ĐIỆN MÔI)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      debye-cole.js   : một vùng tán sắc, Debye và Cole–Cole
+      gabriel.js      : phổ εr(f), σ(f) theo mô hình 4 vùng Gabriel (so sánh 2 mô)
+      penetration.js  : độ xuyên sâu δ(f), suy giảm qua lớp da–mỡ–cơ
+    Dữ liệu dùng chung: lib/demos/gabriel-data.js (bảng tham số Gabriel 1996).
+  - Bảng giá trị tham khảo (#dai-luong) được tính từ cùng mô hình đó.
+  - Hình vẽ: lib/figures/co-che-tan-sac.svg
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Sinh điện từ</a> / Phần 4</p>
+  <h1><span class="dot"></span>Tính chất điện môi của mô</h1>
+  <p class="lead">Mô sống vừa dẫn điện (nhờ ion), vừa tích điện như tụ điện (nhờ màng tế bào và phân tử nước phân cực). Mức độ của hai tính chất này thay đổi rất mạnh theo tần số. Muốn biết trường điện từ đi vào cơ thể bao xa và để lại bao nhiêu năng lượng, trước hết phải biết hai con số: độ dẫn điện σ và hằng số điện môi ε của từng loại mô.</p>
+</header>
+
+<!-- ================= 4.1 CÁC ĐẠI LƯỢNG ================= -->
+<section class="part" id="dai-luong">
+  <div class="wrap">
+    <h2>Độ dẫn điện, hằng số điện môi, điện trở suất</h2>
+    <div class="prose">
+      <p>Đặt một mẫu mô giữa hai bản cực và cho dòng xoay chiều tần số f chạy qua. Dòng điện tổng gồm hai phần. <span class="term">Dòng dẫn</span> <span class="en">(conduction current)</span> do ion di chuyển, cùng pha với điện trường và tỉ lệ với <span class="term">độ dẫn điện</span> <span class="en">(conductivity)</span> σ. <span class="term">Dòng dịch chuyển</span> <span class="en">(displacement current)</span> do các điện tích bị kéo lệch hoặc phân tử bị xoay theo trường, sớm pha 90° và tỉ lệ với <span class="term">hằng số điện môi</span> <span class="en">(permittivity)</span> ε = ε₀εᵣ.</p>
+      <p>Hai phần này có thể gộp thành một số phức duy nhất, <span class="term">hằng số điện môi phức</span> <span class="en">(complex permittivity)</span>. Phần thực ε′ cho biết mô "chứa" được bao nhiêu năng lượng điện; phần ảo ε″ (<span class="term">hệ số tổn hao</span>, <span class="en">loss factor</span>) cho biết bao nhiêu năng lượng bị biến thành nhiệt.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \vec J_{\text{tổng}} = \left(\sigma + j\omega\varepsilon_0\varepsilon_r\right)\vec E = j\omega\varepsilon_0\,\varepsilon^{*}\vec E, \qquad \varepsilon^{*} = \varepsilon' - j\varepsilon'', \qquad \varepsilon'' = \frac{\sigma}{\omega\varepsilon_0} \]</div>
+      <div class="eq">\[ \rho = \frac{1}{\sigma}, \qquad \tan\delta = \frac{\varepsilon''}{\varepsilon'} = \frac{\sigma}{\omega\varepsilon_0\varepsilon'} = \frac{|J_{\text{dẫn}}|}{|J_{\text{dịch chuyển}}|} \]</div>
+      <p class="where"><b>ω = 2πf</b>: tần số góc (rad/s); <b>ε₀ ≈ 8,854 × 10⁻¹² F/m</b>; <b>εᵣ</b> (hay ε′): hằng số điện môi tương đối, không có đơn vị; <b>σ</b>: độ dẫn điện (S/m); <b>ρ</b>: điện trở suất (Ω·m); <b>tan δ</b>: hệ số tổn hao <span class="en">(loss tangent)</span>. Khi tan δ ≫ 1, mô cư xử như vật dẫn; khi tan δ ≪ 1, mô cư xử như chất điện môi.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Đại lượng</th><th>Ký hiệu</th><th>Đơn vị</th><th>Ý nghĩa</th><th>Ghi chú với mô</th></tr></thead>
+        <tbody>
+          <tr><td>Độ dẫn điện<span class="en">conductivity</span></td><td class="sym">\(\sigma\)</td><td class="unit">S/m</td><td>Khả năng cho dòng điện cùng pha đi qua.</td><td>Tăng theo tần số: từ ~0,1–0,7 S/m ở tần số thấp đến vài S/m ở GHz.</td></tr>
+          <tr><td>Điện trở suất<span class="en">resistivity</span></td><td class="sym">\(\rho\)</td><td class="unit">Ω·m</td><td>Nghịch đảo của σ.</td><td>Hay dùng trong đo trở kháng sinh học tần số thấp.</td></tr>
+          <tr><td>Hằng số điện môi tương đối<span class="en">relative permittivity</span></td><td class="sym">\(\varepsilon_r, \varepsilon'\)</td><td class="unit">không đơn vị</td><td>Khả năng phân cực, "chứa" năng lượng điện.</td><td>Giảm theo tần số: từ 10⁶–10⁷ ở Hz xuống ~50 ở GHz với mô giàu nước.</td></tr>
+          <tr><td>Hằng số điện môi tuyệt đối<span class="en">permittivity</span></td><td class="sym">\(\varepsilon = \varepsilon_0\varepsilon_r\)</td><td class="unit">F/m</td><td>Như trên, kèm đơn vị.</td><td>D = εE.</td></tr>
+          <tr><td>Hệ số tổn hao<span class="en">loss factor</span></td><td class="sym">\(\varepsilon''\)</td><td class="unit">không đơn vị</td><td>Phần năng lượng bị tiêu tán thành nhiệt.</td><td>Gộp cả dòng ion và tổn hao do phân tử xoay.</td></tr>
+          <tr><td>Hệ số tổn hao góc<span class="en">loss tangent</span></td><td class="sym">\(\tan\delta\)</td><td class="unit">không đơn vị</td><td>Tỉ số dòng dẫn trên dòng dịch chuyển.</td><td>Cơ: ≈ 8 ở 100 kHz, ≈ 0,24 ở 2,45 GHz.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Giá trị tham khảo</h3>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Mô</th><th>100 Hz</th><th>1 MHz</th><th>100 MHz</th><th>2,45 GHz</th></tr></thead>
+        <tbody>
+          <tr><td>Cơ<span class="en">muscle</span></td><td>εᵣ ≈ 9,3 × 10⁶; σ ≈ 0,27</td><td>1840; 0,50</td><td>66; 0,71</td><td>53; 1,74</td></tr>
+          <tr><td>Mỡ<span class="en">fat</span></td><td>4,6 × 10⁵; 0,021</td><td>27; 0,025</td><td>6,1; 0,036</td><td>5,3; 0,10</td></tr>
+          <tr><td>Máu<span class="en">blood</span></td><td>5260; 0,70</td><td>3030; 0,82</td><td>77; 1,23</td><td>58; 2,54</td></tr>
+          <tr><td>Chất xám<span class="en">brain grey matter</span></td><td>3,9 × 10⁶; 0,089</td><td>860; 0,16</td><td>80; 0,56</td><td>49; 1,81</td></tr>
+          <tr><td>Xương vỏ<span class="en">cortical bone</span></td><td>5850; 0,020</td><td>145; 0,024</td><td>15; 0,064</td><td>11; 0,39</td></tr>
+          <tr><td>Da ướt<span class="en">wet skin</span></td><td>4,5 × 10⁴; 0,00046</td><td>1830; 0,22</td><td>66; 0,52</td><td>43; 1,59</td></tr>
+        </tbody>
+        <caption>Mỗi ô: εᵣ; σ (S/m). Tính từ mô hình 4 vùng Cole–Cole của Gabriel et al. (1996), nhiệt độ cơ thể. Mô hình đáng tin trên 1 MHz; ở 100 Hz chỉ là ước lượng (sai số có thể tới 2 lần). 2,45 GHz là tần số của lò vi sóng và Wi-Fi.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4.2 TÁN SẮC ================= -->
+<section class="part tint" id="tan-sac">
+  <div class="wrap">
+    <h2>Tán sắc α, β, γ</h2>
+    <div class="prose">
+      <p>Mỗi cơ chế phân cực cần một khoảng thời gian để "theo kịp" điện trường. Khi tần số vượt quá tốc độ đó, cơ chế này không còn kịp phản ứng, εᵣ tụt xuống một bậc và σ tăng lên một bậc. Mỗi bậc như vậy gọi là một vùng <span class="term">tán sắc điện môi</span> <span class="en">(dielectric dispersion)</span>, hay vùng <span class="term">hồi phục</span> <span class="en">(relaxation)</span>. Herman Schwan đặt tên ba vùng chính là α, β, γ (1957); về sau người ta thêm vùng δ nhỏ giữa β và γ.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Vùng</th><th>Dải tần (cỡ)</th><th>Cơ chế chính</th><th>Mức tụt của εᵣ</th><th>Ứng dụng / hệ quả</th></tr></thead>
+        <tbody>
+          <tr><td>α</td><td class="unit">10 Hz – 10 kHz</td><td>Lớp ion "bám" quanh bề mặt tích điện của tế bào và màng (<span class="en">counterion polarization</span>) dịch chuyển theo trường.</td><td>10⁶ – 10⁷</td><td>Làm εᵣ ở tần số thấp cực lớn; khó đo vì lẫn với phân cực điện cực.</td></tr>
+          <tr><td>β</td><td class="unit">100 kHz – 10 MHz</td><td>Màng tế bào cách điện bị nạp như tụ điện (<span class="en">Maxwell–Wagner, interfacial polarization</span>); thêm phần phân cực của protein.</td><td>10³ – 10⁵</td><td>Trên vùng β, dòng điện đi xuyên qua tế bào. Đo trở kháng sinh học (BIA), phân tích tế bào.</td></tr>
+          <tr><td>δ</td><td class="unit">0,1 – 1 GHz</td><td>Nước liên kết với protein, nhóm bên của protein.</td><td>vài đơn vị – vài chục</td><td>Nhỏ, thường lẫn vào β và γ.</td></tr>
+          <tr><td>γ</td><td class="unit">quanh 20 GHz</td><td>Phân tử nước tự do xoay theo trường (<span class="en">dipolar relaxation</span>, Debye).</td><td>~50 với mô giàu nước</td><td>Nguồn gốc của đốt nóng bằng vi sóng; mô càng nhiều nước, hấp thụ càng mạnh.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="fig">
+      <img src="lib/figures/co-che-tan-sac.svg" alt="Ba sơ đồ: vùng α, ion âm và dương tụ quanh bề mặt tế bào lệch về hai phía; vùng β, màng tế bào tích điện trái dấu ở hai mặt như tụ điện; vùng γ, các phân tử nước xoay để lưỡng cực hướng theo điện trường." loading="lazy">
+      <figcaption><b>Ba cơ chế phân cực chính trong mô.</b> Điện trường hướng từ trái sang phải trong cả ba hình. Sơ đồ tự vẽ, giản lược, theo mô tả của Schwan (1957) và Foster &amp; Schwan (1989).</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= 4.3 DEBYE & COLE–COLE ================= -->
+<section class="part" id="cole-cole">
+  <div class="wrap">
+    <h2>Mô hình Debye và Cole–Cole</h2>
+    <div class="prose">
+      <p>Một vùng tán sắc đơn giản nhất được mô tả bởi <span class="term">mô hình Debye</span> <span class="en">(Debye relaxation)</span>, với một thời gian hồi phục τ duy nhất: εᵣ tụt từ giá trị tĩnh εₛ xuống ε∞ quanh <span class="term">tần số đặc trưng</span> <span class="en">(characteristic frequency)</span> f<sub>c</sub> = 1/(2πτ), còn ε″ đạt đỉnh tại đúng f<sub>c</sub>. Nước tinh khiết khớp mô hình này rất tốt.</p>
+      <p>Mô thì phức tạp hơn: có vô số tế bào với kích thước và hình dạng khác nhau, nên mỗi vùng tán sắc thực chất là chồng của nhiều vùng Debye với τ hơi khác nhau, và bị "trải rộng" ra. Năm 1941, anh em Kenneth và Robert Cole thêm một tham số α (0 ≤ α &lt; 1) để mô tả độ trải rộng đó. Vẽ ε″ theo ε′, mô hình Debye cho một nửa đường tròn; Cole–Cole cho một cung tròn bị "ép dẹt" với tâm nằm dưới trục hoành: đó là <span class="term">giản đồ Cole–Cole</span> <span class="en">(Cole–Cole plot)</span>.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \underbrace{\varepsilon^{*}(\omega) = \varepsilon_\infty + \frac{\Delta\varepsilon}{1 + j\omega\tau}}_{\text{Debye}} \qquad \underbrace{\varepsilon^{*}(\omega) = \varepsilon_\infty + \frac{\Delta\varepsilon}{1 + (j\omega\tau)^{1-\alpha}} + \frac{\sigma_i}{j\omega\varepsilon_0}}_{\text{Cole–Cole, có thêm độ dẫn ion}} \]</div>
+      <p class="where"><b>Δε = εₛ − ε∞</b>: mức tụt của εᵣ; <b>τ</b>: thời gian hồi phục (s); <b>α</b>: độ trải rộng (α = 0 là Debye); <b>σᵢ</b>: độ dẫn ion tĩnh (S/m), làm ε″ tăng vọt ở tần số thấp.</p>
+    </div>
+    <div class="demo" id="demoDebye" data-demo="debye-cole">
+      <div class="demo-title"><h4>Debye và Cole–Cole: một vùng tán sắc</h4><span>Chỉnh tham số, so sánh với đường Debye</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4.4 MÔ HÌNH GABRIEL ================= -->
+<section class="part tint" id="gabriel">
+  <div class="wrap">
+    <h2>Phổ điện môi của mô: mô hình 4 vùng</h2>
+    <div class="prose">
+      <p>Năm 1996, Camelia Gabriel, Sami Gabriel và R. W. Lau đo hơn 30 loại mô từ 10 Hz đến 20 GHz và mô tả mỗi loại bằng tổng của bốn số hạng Cole–Cole (ứng với α, β, δ, γ) cộng với độ dẫn ion. Bộ tham số này đến nay vẫn là chuẩn tham chiếu cho hầu hết các mô phỏng đo liều (dosimetry) và được dùng trong các cơ sở dữ liệu như IT'IS.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \varepsilon^{*}(\omega) = \varepsilon_\infty + \sum_{n=1}^{4}\frac{\Delta\varepsilon_n}{1 + (j\omega\tau_n)^{1-\alpha_n}} + \frac{\sigma_i}{j\omega\varepsilon_0}, \qquad \sigma(\omega) = \omega\varepsilon_0\,\varepsilon''(\omega) \]</div>
+      <p class="where">Mỗi mô có 14 tham số. Mô hình dùng tin cậy trên 1 MHz; dưới đó là ước lượng tốt nhất, sai số có thể tới hai lần do khó đo (phân cực điện cực).</p>
+    </div>
+    <div class="demo" id="demoGabriel" data-demo="gabriel">
+      <div class="demo-title"><h4>Phổ điện môi của mô (mô hình Gabriel)</h4><span>So sánh hai mô; kéo trên đồ thị để đọc giá trị</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Vài điều đáng chú ý trên đồ thị. Mỡ và xương nghèo nước nên εᵣ và σ của chúng thấp hơn cơ, máu khoảng mười lần ở mọi tần số. Máu và dịch não tủy có σ gần như phẳng ở tần số thấp, vì không có (hoặc ít) màng tế bào chắn dòng điện. Còn da khô ở tần số thấp gần như cách điện: lớp sừng ngoài cùng chặn dòng điện, đó là lý do điện cực ECG cần gel.</p>
+    </div>
+    <h3>Tham số của một số mô</h3>
+    <div class="tablewrap">
+      <table class="cmp" style="min-width:860px">
+        <thead><tr><th>Mô</th><th>ε∞</th><th>σᵢ (S/m)</th><th>Δε₁; τ₁ (ps); α₁</th><th>Δε₂; τ₂ (ns); α₂</th><th>Δε₃; τ₃ (µs); α₃</th><th>Δε₄; τ₄ (ms); α₄</th></tr></thead>
+        <tbody>
+          <tr><td>Cơ</td><td>4</td><td>0,2</td><td>50; 7,234; 0,1</td><td>7000; 353,68; 0,1</td><td>1,2 × 10⁶; 318,31; 0,1</td><td>2,5 × 10⁷; 2,274; 0</td></tr>
+          <tr><td>Mỡ</td><td>2,5</td><td>0,01</td><td>3; 7,958; 0,2</td><td>15; 15,915; 0,1</td><td>3,3 × 10⁴; 159,16; 0,05</td><td>10⁷; 7,958; 0,01</td></tr>
+          <tr><td>Máu</td><td>4</td><td>0,7</td><td>56; 8,377; 0,1</td><td>5200; 132,63; 0,1</td><td>0</td><td>0</td></tr>
+          <tr><td>Chất xám</td><td>4</td><td>0,02</td><td>45; 7,958; 0,1</td><td>400; 15,915; 0,15</td><td>2 × 10⁵; 106,1; 0,22</td><td>4,5 × 10⁷; 5,305; 0</td></tr>
+          <tr><td>Xương vỏ</td><td>2,5</td><td>0,02</td><td>10; 13,263; 0,2</td><td>180; 79,577; 0,2</td><td>5000; 159,16; 0,2</td><td>10⁵; 15,915; 0</td></tr>
+          <tr><td>Dịch não tủy</td><td>4</td><td>2</td><td>65; 7,958; 0,1</td><td>40; 1,592; 0</td><td>0</td><td>0</td></tr>
+        </tbody>
+        <caption>Trích từ bảng tóm tắt Appendix C của C. Gabriel &amp; S. Gabriel (1996), bản trên <a href="https://niremf.ifac.cnr.it/docs/DIELECTRIC/AppendixC.html" target="_blank" rel="noopener">WebNIR / IFAC-CNR</a>. Lưu ý chỉ số: số hạng 1 (ps) là vùng γ, số hạng 4 (ms) là vùng α. Bảng đầy đủ (13 mô) nằm trong lib/demos/gabriel-data.js.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4.5 ĐỘ XUYÊN SÂU ================= -->
+<section class="part" id="xuyen-sau">
+  <div class="wrap">
+    <h2>Độ xuyên sâu</h2>
+    <div class="prose">
+      <p>Khi sóng điện từ đi vào mô dẫn điện, năng lượng bị hấp thụ dần và biên độ trường giảm theo hàm mũ. <span class="term">Độ xuyên sâu</span> <span class="en">(penetration depth)</span> δ là độ sâu mà tại đó biên độ điện trường còn 1/e ≈ 37% so với ở bề mặt; khi đó công suất (∝ E²) chỉ còn 1/e² ≈ 13,5%. Một số tài liệu định nghĩa độ xuyên sâu theo công suất, bằng δ/2; khi đọc số liệu cần để ý định nghĩa nào đang được dùng.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ E(z) = E_0\,e^{-z/\delta}, \qquad k = \frac{\omega}{c}\sqrt{\varepsilon^{*}}, \qquad \delta = \frac{1}{|\operatorname{Im} k|} \]</div>
+      <p class="where">Hai trường hợp giới hạn: vật dẫn tốt (tan δ ≫ 1) có \(\delta \approx \sqrt{2/(\omega\mu_0\sigma)}\), tức <b>độ sâu lớp da</b> <span class="en">(skin depth)</span>; điện môi ít tổn hao (tan δ ≪ 1) có \(\delta \approx \frac{2}{\sigma}\sqrt{\varepsilon_0\varepsilon'/\mu_0}\).</p>
+    </div>
+    <div class="demo" id="demoDepth" data-demo="penetration">
+      <div class="demo-title"><h4>Độ xuyên sâu và lớp mô</h4><span>Chọn tần số và bề dày lớp mỡ</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="callout"><b>Vì sao lò vi sóng dùng 2,45 GHz chứ không phải 20 GHz, nơi nước hấp thụ mạnh nhất?</b> Ở 20 GHz, độ xuyên sâu trong thực phẩm giàu nước chỉ còn cỡ milimet: bề mặt bị nướng cháy trong khi bên trong còn sống. 2,45 GHz là một dải tần được cấp phép cho thiết bị công nghiệp, khoa học và y tế (ISM), với độ xuyên sâu cỡ 1–2 cm, đủ để làm nóng sâu hơn. Cũng vì lý do tương tự, tác động của sóng milimet (5G ở 26–40 GHz) lên cơ thể chủ yếu giới hạn ở da.</div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part tint" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1873</span><div><h4>Maxwell và Wagner: phân cực mặt phân cách</h4><p>Maxwell (1873) rồi Karl Willy Wagner (1914) chỉ ra rằng một vật liệu gồm nhiều lớp có độ dẫn khác nhau sẽ tích điện ở mặt phân cách và cư xử như có hằng số điện môi rất lớn ở tần số thấp. Đây chính là cơ chế của vùng β ở mô.</p></div></li>
+      <li class="bio"><span class="yr">1910</span><div><h4>Rudolf Höber: bên trong tế bào dẫn điện</h4><p>Höber thấy huyết cầu dẫn điện kém ở tần số thấp nhưng tốt hơn hẳn ở tần số cao, và kết luận rằng tế bào có phần bên trong dẫn điện được bao bởi một lớp màng cách điện.</p></div></li>
+      <li><span class="yr">1912</span><div><h4>Peter Debye: phân tử phân cực</h4><p>Debye đưa ra lý thuyết về các phân tử có lưỡng cực vĩnh cửu xoay theo điện trường với một thời gian hồi phục, cơ sở của mô hình Debye và của vùng γ do nước.</p></div></li>
+      <li class="bio"><span class="yr">1925</span><div><h4>Hugo Fricke: đo bề dày màng tế bào</h4><p>Từ điện dung của dung dịch hồng cầu (khoảng 0,8 µF/cm² màng), Fricke ước tính màng tế bào chỉ dày cỡ 3–4 nm, tức một lớp phân tử kép. Đây là phép đo bề dày màng sớm nhất, trước kính hiển vi điện tử nhiều chục năm.</p></div></li>
+      <li class="bio"><span class="yr">1939</span><div><h4>Cole và Curtis: trở kháng của sợi trục mực ống</h4><p>Kenneth Cole và Howard Curtis đo trở kháng màng sợi trục trong lúc có điện thế hoạt động: độ dẫn của màng tăng vọt nhiều lần trong khi điện dung gần như không đổi. Màng "mở cửa" cho ion, ý tưởng dẫn tới mô hình Hodgkin–Huxley.</p></div></li>
+      <li><span class="yr">1941</span><div><h4>Kenneth và Robert Cole: giản đồ Cole–Cole</h4><p>Hai anh em đề xuất biểu thức có thêm tham số α và cách vẽ ε″ theo ε′, nay là công cụ chuẩn để phân tích phổ điện môi.</p></div></li>
+      <li class="bio"><span class="yr">1957</span><div><h4>Herman Schwan: các vùng α, β, γ</h4><p>Trong bài tổng quan "Electrical properties of tissue and cell suspensions", Schwan phân loại và đặt tên ba vùng tán sắc chính của mô, đặt nền móng cho ngành điện từ sinh học hiện đại.</p></div></li>
+      <li class="bio"><span class="yr">1996</span><div><h4>Gabriel, Lau và Gabriel</h4><p>Ba bài báo trên <i>Physics in Medicine and Biology</i>: tổng quan tài liệu, đo hơn 30 loại mô từ 10 Hz đến 20 GHz, và mô hình 4 vùng Cole–Cole dùng trong trang này.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>S. Gabriel, R. W. Lau, C. Gabriel, "The dielectric properties of biological tissues: III. Parametric models for the dielectric spectrum of tissues", <i>Phys. Med. Biol.</i> 41 (1996) 2271–2293. <a href="https://doi.org/10.1088/0031-9155/41/11/003" target="_blank" rel="noopener">doi:10.1088/0031-9155/41/11/003</a>.</li>
+      <li>C. Gabriel, S. Gabriel, <i>Compilation of the dielectric properties of body tissues at RF and microwave frequencies</i>, 1996. <a href="https://niremf.ifac.cnr.it/docs/DIELECTRIC/AppendixC.html" target="_blank" rel="noopener">Appendix C trên WebNIR / IFAC-CNR</a> (bảng tham số, công cụ tính trực tuyến).</li>
+      <li>IT'IS Foundation, <a href="https://itis.swiss/virtual-population/tissue-properties/database/" target="_blank" rel="noopener">Tissue Properties Database</a> (εᵣ, σ, khối lượng riêng, tính chất nhiệt).</li>
+      <li>K. R. Foster, H. P. Schwan, "Dielectric properties of tissues and biological materials: a critical review", <i>Crit. Rev. Biomed. Eng.</i> 17 (1989) 25–104.</li>
+      <li>K. S. Cole, R. H. Cole, "Dispersion and absorption in dielectrics I", <i>J. Chem. Phys.</i> 9 (1941) 341–351.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-maxwell.html"><small>Phần 3</small><b>Các phương trình Maxwell</b></a>
+      <a class="next" href="5-do-lieu.html"><small>Phần 5</small><b>Đo liều</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

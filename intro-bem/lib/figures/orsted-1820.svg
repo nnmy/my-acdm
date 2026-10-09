@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 400" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Thí nghiệm Ørsted 1820 (sơ đồ giản lược)</title>
+  <!-- Vẽ lại, giản lược, tham khảo https://en.wikipedia.org/wiki/Hans_Christian_%C3%98rsted . My Academic / Sinh điện từ. -->
+  <rect width="440" height="400" fill="#FBFCFD"/>
+  <!-- hai nửa: trước và sau khi đóng mạch -->
+  <g>
+    <text x="110" y="28" text-anchor="middle" font-weight="700">Chưa có dòng điện</text>
+    <circle cx="110" cy="190" r="72" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <g font-size="11" fill="#59606B" text-anchor="middle"><text x="110" y="132">B</text><text x="110" y="256">N</text><text x="50" y="194">T</text><text x="170" y="194">Đ</text></g>
+    <path d="M110 140 L118 190 L102 190 Z" fill="#d8312a" stroke="#1B1920" stroke-width="1"/>
+    <path d="M110 240 L118 190 L102 190 Z" fill="#B9C0C8" stroke="#1B1920" stroke-width="1"/>
+    <!-- dây phía trên kim -->
+    <line x1="110" y1="80" x2="110" y2="300" stroke="#C97A40" stroke-width="5" opacity=".8"/>
+  </g>
+  <g>
+    <text x="330" y="28" text-anchor="middle" font-weight="700">Có dòng điện</text>
+    <circle cx="330" cy="190" r="72" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <g font-size="11" fill="#59606B" text-anchor="middle"><text x="330" y="132">B</text><text x="330" y="256">N</text><text x="270" y="194">T</text><text x="390" y="194">Đ</text></g>
+    <g transform="rotate(-62 330 190)">
+      <path d="M330 140 L338 190 L322 190 Z" fill="#d8312a" stroke="#1B1920" stroke-width="1"/>
+      <path d="M330 240 L338 190 L322 190 Z" fill="#B9C0C8" stroke="#1B1920" stroke-width="1"/>
+    </g>
+    <line x1="330" y1="80" x2="330" y2="300" stroke="#C97A40" stroke-width="5" opacity=".8"/>
+    <path d="M346 290 V96" stroke="#1B1920" stroke-width="2" fill="none"/>
+    <path d="M346 86 l-6 12 h12z" fill="#1B1920"/>
+    <text x="354" y="104" font-weight="700">I</text>
+  </g>
+  <text x="20" y="340">Dây dẫn (màu đồng) căng ngay phía trên kim la bàn,</text>
+  <text x="20" y="358">song song với kim. Khi có dòng điện, từ trường của dây</text>
+  <text x="20" y="376">làm kim quay lệch gần vuông góc với dây.</text>
+</svg>

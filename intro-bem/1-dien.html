@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Điện | Sinh điện từ | My N. Nguyen</title>
+<meta name="description" content="Điện tích, điện trường, điện thế và dòng điện: minh họa tương tác cho nhập môn điện từ sinh học (bioelectromagnetics).">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/1-dien.html, giai đoạn 1: ĐIỆN)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+    Công thức viết bằng TeX: \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới
+      demoCoulomb   : 2 điện tích, đường sức, lực
+      demoPotential : bản đồ điện thế, đường đẳng thế, điện tích thử
+      demoCurrent   : dòng điện trong vật dẫn / mô (bảng MATERIALS)
+  - Hình vẽ lại: lib/figures/coulomb-can-xoan.svg, lib/figures/pin-volta.svg
+  - Navbar, footer, mèo: ../common (site.css, site.js)
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Sinh điện từ</a> / Phần 1</p>
+  <h1><span class="dot"></span>Điện</h1>
+  <p class="lead">Điện tích tạo ra điện trường, điện trường tạo ra lực, và sự chênh lệch điện thế đẩy các điện tích chuyển động thành dòng điện. Trong cơ thể, các điện tích đó là ion: Na⁺, K⁺, Ca²⁺, Cl⁻.</p>
+</header>
+
+<!-- ================= 1.1 ĐIỆN TÍCH & ĐIỆN TRƯỜNG ================= -->
+<section class="part" id="dien-tich">
+  <div class="wrap">
+    <h2>Điện tích &amp; điện trường</h2>
+    <div class="prose">
+      <p><span class="term">Điện tích</span> <span class="en">(electric charge)</span>, ký hiệu \(q\), là một tính chất của hạt khiến nó hút hoặc đẩy các hạt mang điện khác. Đơn vị là <span class="term">coulomb</span> (C). Có hai loại: dương và âm. Cùng dấu thì đẩy nhau, trái dấu thì hút nhau.</p>
+      <p>Điện tích được <span class="term">lượng tử hóa</span> <span class="en">(quantized)</span>: mọi điện tích đều là bội số nguyên của <span class="term">điện tích nguyên tố</span> <span class="en">(elementary charge)</span> \(e \approx 1{,}602 \times 10^{-19}\) C. Điện tích cũng được <span class="term">bảo toàn</span> <span class="en">(conserved)</span>: tổng điện tích của một hệ cô lập không đổi.</p>
+      <p>Lực giữa hai điện tích điểm được mô tả bằng <span class="term">định luật Coulomb</span> <span class="en">(Coulomb's law)</span>:</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ F = k\,\frac{|q_1 q_2|}{r^2}, \qquad k = \frac{1}{4\pi\varepsilon_0} \approx 8{,}99 \times 10^{9}\ \mathrm{N\,m^2/C^2} \]</div>
+      <p class="where"><b>F</b>: độ lớn lực (N); <b>q₁, q₂</b>: điện tích (C); <b>r</b>: khoảng cách (m); <b>ε₀ ≈ 8,854 × 10⁻¹² F/m</b>: hằng số điện <span class="en">(vacuum permittivity)</span></p>
+    </div>
+
+    <div class="prose">
+      <p>Thay vì nói "q₁ đẩy q₂ từ xa", vật lý hiện đại nói: q₁ tạo ra quanh nó một <span class="term">điện trường</span> <span class="en">(electric field)</span> \(\vec E\), và chính trường đó tác dụng lực lên q₂. Điện trường tại một điểm là lực trên mỗi đơn vị điện tích thử đặt tại đó:</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ \vec E = \frac{\vec F}{q_0}, \qquad \vec E_{\text{điểm}} = k\,\frac{q}{r^2}\,\hat r, \qquad \vec E_{\text{tổng}} = \sum_i \vec E_i \]</div>
+      <p class="where">Đơn vị của <b>E</b>: N/C, tương đương V/m. Biểu thức cuối là <b>nguyên lý chồng chất</b> <span class="en">(superposition principle)</span>: trường của nhiều điện tích là tổng vector các trường riêng lẻ.</p>
+    </div>
+
+    <!-- DEMO 1 -->
+    <div class="demo" id="demoCoulomb" data-demo="coulomb">
+        <div class="demo-title"><h4>Hai điện tích</h4><span>Kéo rê điện tích, hoặc chỉnh q₁, q₂, r</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="prose">
+      <p>Một vài quy tắc của <span class="term">đường sức điện</span> <span class="en">(electric field lines)</span> mà bạn có thể kiểm tra trên demo:</p>
+      <ul>
+        <li>Đường sức đi ra từ điện tích dương và đi vào điện tích âm.</li>
+        <li>Số đường sức gắn với một điện tích tỉ lệ với độ lớn của nó. Thử chọn "Lệch độ lớn": nhiều đường từ q₁ không về được q₂ mà chạy ra xa.</li>
+        <li>Đường sức càng dày thì trường càng mạnh. Hai đường sức không bao giờ cắt nhau.</li>
+        <li>Với hai điện tích cùng dấu, có một điểm ở giữa mà E = 0 (<span class="term">điểm trung hòa</span>, <span class="en">neutral point</span>).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 1.2 ĐIỆN THẾ, ĐIỆN TRƯỜNG & DÒNG ĐIỆN ================= -->
+<section class="part tint" id="dien-the">
+  <div class="wrap">
+    <h2>Điện thế, điện trường &amp; dòng điện</h2>
+
+    <h3>Điện thế</h3>
+    <div class="prose">
+      <p><span class="term">Điện thế</span> <span class="en">(electric potential)</span> \(V\) tại một điểm là thế năng điện trên mỗi đơn vị điện tích đặt tại đó. Đơn vị là <span class="term">volt</span> (V = J/C). Điện thế giống như "độ cao" trong một địa hình: điện tích dương có xu hướng "lăn xuống" từ chỗ điện thế cao sang chỗ thấp.</p>
+      <p>Điều đo được trong thực tế luôn là <span class="term">hiệu điện thế</span> <span class="en">(potential difference, voltage)</span> giữa hai điểm, ví dụ điện thế màng tế bào hay tín hiệu ECG giữa hai điện cực.</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ V = \frac{U}{q_0}, \qquad V_{\text{điểm}} = k\,\frac{q}{r}, \qquad \vec E = -\nabla V \quad\left(\text{1 chiều: } E_x = -\frac{dV}{dx}\right) \]</div>
+      <p class="where"><b>U</b>: thế năng (J); <b>V</b>: điện thế (V). Điện trường hướng theo chiều điện thế <b>giảm nhanh nhất</b>, và luôn vuông góc với các <b>đường đẳng thế</b> <span class="en">(equipotential lines)</span>. Với trường đều giữa hai bản song song: \(E = U/d\).</p>
+    </div>
+
+    <!-- DEMO 2 -->
+    <div class="demo" id="demoPotential" data-demo="potential">
+        <div class="demo-title"><h4>Địa hình điện thế</h4><span>Kéo điện tích thử (ô vuông vàng) hoặc hai điện tích</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="callout"><b>Liên hệ sinh học.</b> Màng tế bào thần kinh lúc nghỉ có hiệu điện thế khoảng −70 mV, đặt trên một lớp màng lipid dày chỉ khoảng 5–10 nm. Theo \(E = U/d\), điện trường bên trong màng vào khoảng \(10^7\) V/m, mạnh hơn nhiều so với ngưỡng gây phóng điện trong không khí khô (khoảng \(3 \times 10^6\) V/m).</div>
+
+    <h3>Dòng điện</h3>
+    <div class="prose">
+      <p><span class="term">Dòng điện</span> <span class="en">(electric current)</span> \(I\) là lượng điện tích đi qua một tiết diện trong một đơn vị thời gian, đơn vị <span class="term">ampere</span> (A = C/s). Khi xét từng điểm bên trong vật dẫn, ta dùng <span class="term">mật độ dòng điện</span> <span class="en">(current density)</span> \(\vec J\), đơn vị A/m².</p>
+      <p>Trong kim loại, hạt mang điện là electron tự do. Trong dung dịch và mô sống, hạt mang điện là <span class="term">ion</span>: ion dương đi theo chiều \(\vec E\), ion âm đi ngược lại, và cả hai cùng góp vào dòng điện theo chiều \(\vec E\). Khả năng dẫn điện của vật liệu được đặc trưng bởi <span class="term">độ dẫn điện</span> <span class="en">(conductivity)</span> \(\sigma\) hoặc nghịch đảo của nó là <span class="term">điện trở suất</span> <span class="en">(resistivity)</span> \(\rho\).</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ I = \frac{dQ}{dt}, \qquad \vec J = \sigma \vec E \ \ \text{(định luật Ohm dạng vi mô)}, \qquad R = \frac{\rho L}{A} = \frac{L}{\sigma A}, \qquad U = IR \]</div>
+      <p class="where"><b>σ</b>: độ dẫn điện (S/m); <b>ρ = 1/σ</b>: điện trở suất (Ω·m); <b>R</b>: điện trở (Ω); <b>L</b>: chiều dài (m); <b>A</b>: tiết diện (m²)</p>
+    </div>
+
+    <!-- DEMO 3 -->
+    <div class="demo" id="demoCurrent" data-demo="current">
+        <div class="demo-title"><h4>Dòng điện trong vật dẫn</h4><span>Chọn vật liệu, chỉnh hiệu điện thế và kích thước mẫu</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="prose">
+      <p>Ở tần số thấp, màng tế bào gần như là chất cách điện, nên dòng điện trong mô chủ yếu chạy qua <span class="term">dịch ngoại bào</span> <span class="en">(extracellular fluid)</span>, len lỏi giữa các tế bào. Vì vậy mô mỡ (tế bào to, xếp sát, ít dịch) dẫn điện kém hơn cơ nhiều lần, và cơ dẫn điện tốt hơn theo chiều dọc thớ so với chiều ngang (<span class="term">dị hướng</span>, <span class="en">anisotropy</span>). Khi tần số tăng, dòng điện bắt đầu "xuyên" qua màng; câu chuyện này sẽ được kể ở phần Tính chất điện môi của mô.</p>
+      <p>Tốc độ hạt trên hình không theo tỉ lệ thật. <span class="term">Vận tốc trôi</span> <span class="en">(drift velocity)</span> thực tế rất chậm: dòng 1 A trong dây đồng tiết diện 1 mm² chỉ làm electron trôi khoảng 0,07 mm/s. Tín hiệu điện truyền nhanh vì trường lan truyền nhanh, chứ không phải vì từng hạt chạy nhanh.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BẢNG THUẬT NGỮ ================= -->
+<section class="part" id="bang">
+  <div class="wrap">
+    <h2>Bảng thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Đại lượng</th><th>Ký hiệu</th><th>Đơn vị SI</th><th>Công thức chính</th><th>Ý nghĩa</th></tr></thead>
+        <tbody>
+          <tr><td>Điện tích<span class="en">electric charge</span></td><td class="sym">\(q, Q\)</td><td class="unit">C</td><td>\(q = ne\)</td><td>Thuộc tính gây ra lực điện; lượng tử hóa và bảo toàn.</td></tr>
+          <tr><td>Lực điện<span class="en">electric force, Coulomb force</span></td><td class="sym">\(\vec F\)</td><td class="unit">N</td><td>\(F = k\lvert q_1q_2\rvert/r^2\)</td><td>Lực hút hoặc đẩy giữa hai điện tích.</td></tr>
+          <tr><td>Điện trường<span class="en">electric field</span></td><td class="sym">\(\vec E\)</td><td class="unit">V/m = N/C</td><td>\(\vec E = \vec F/q_0 = -\nabla V\)</td><td>Lực trên mỗi coulomb; đại lượng vector.</td></tr>
+          <tr><td>Điện thế<span class="en">electric potential</span></td><td class="sym">\(V, \varphi\)</td><td class="unit">V = J/C</td><td>\(V = kq/r\)</td><td>Thế năng trên mỗi coulomb; đại lượng vô hướng.</td></tr>
+          <tr><td>Hiệu điện thế<span class="en">voltage, potential difference</span></td><td class="sym">\(U, \Delta V\)</td><td class="unit">V</td><td>\(U = V_A - V_B\)</td><td>Thứ đo được bằng vôn kế hoặc điện cực.</td></tr>
+          <tr><td>Thế năng điện<span class="en">electric potential energy</span></td><td class="sym">\(U_e, W\)</td><td class="unit">J</td><td>\(U_e = qV\)</td><td>Năng lượng của điện tích trong trường.</td></tr>
+          <tr><td>Dòng điện<span class="en">electric current</span></td><td class="sym">\(I\)</td><td class="unit">A = C/s</td><td>\(I = dQ/dt\)</td><td>Lưu lượng điện tích qua một tiết diện.</td></tr>
+          <tr><td>Mật độ dòng điện<span class="en">current density</span></td><td class="sym">\(\vec J\)</td><td class="unit">A/m²</td><td>\(\vec J = \sigma\vec E\)</td><td>Dòng điện trên mỗi m² tại một điểm; dùng nhiều trong đo liều (dosimetry).</td></tr>
+          <tr><td>Điện trở<span class="en">resistance</span></td><td class="sym">\(R\)</td><td class="unit">Ω = V/A</td><td>\(R = U/I = \rho L/A\)</td><td>Thuộc tính của một vật cụ thể (phụ thuộc hình dạng).</td></tr>
+          <tr><td>Điện trở suất<span class="en">resistivity</span></td><td class="sym">\(\rho\)</td><td class="unit">Ω·m</td><td>\(\rho = 1/\sigma\)</td><td>Thuộc tính của vật liệu (không phụ thuộc hình dạng).</td></tr>
+          <tr><td>Độ dẫn điện<span class="en">conductivity</span></td><td class="sym">\(\sigma\)</td><td class="unit">S/m</td><td>\(\sigma = J/E\)</td><td>Vật liệu dẫn điện tốt đến đâu; ở mô, phụ thuộc mạnh vào tần số.</td></tr>
+        </tbody>
+        <caption>Phân biệt dễ nhầm: <b>điện trở</b> (Ω) thuộc về một vật, <b>điện trở suất</b> (Ω·m) thuộc về vật liệu. Chữ ρ cũng được dùng cho khối lượng riêng (kg/m³) trong công thức SAR ở phần Đo liều.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part tint" id="lich-su">
+  <div class="wrap">
+    <h2>Con người đã phát hiện ra điện như thế nào</h2>
+    <p class="prose">Mốc màu đỏ là các phát hiện gắn với sinh học, mốc màu xanh là vật lý thuần túy. Hai dòng này đan xen ngay từ đầu: tranh cãi về "điện động vật" của Galvani chính là thứ dẫn Volta đến chiếc pin đầu tiên.</p>
+
+    <ol class="timeline">
+      <li><span class="yr">~600 TCN</span><div><h4>Thales xứ Miletus và hổ phách</h4><p>Người Hy Lạp cổ ghi nhận hổ phách cọ xát hút được các vật nhẹ. Từ "electron" trong tiếng Hy Lạp nghĩa là hổ phách; đó là gốc của từ "electricity".</p></div></li>
+      <li><span class="yr">1600</span><div><h4>William Gilbert, <i>De Magnete</i></h4><p>Gilbert phân biệt lực hút "kiểu hổ phách" với lực từ, chế tạo dụng cụ versorium để phát hiện vật nhiễm điện, và dùng từ Latin <i>electricus</i>.</p></div></li>
+      <li><span class="yr">1729</span><div><h4>Stephen Gray: dẫn điện</h4><p>Gray chứng minh "điện" có thể truyền dọc sợi chỉ ẩm đi xa hàng trăm feet, và phân biệt vật dẫn với vật cách điện.</p></div></li>
+      <li><span class="yr">1733</span><div><h4>Charles du Fay: hai loại điện</h4><p>Du Fay nhận ra có hai loại "điện" (ông gọi là vitreous và resinous): cùng loại thì đẩy, khác loại thì hút.</p></div></li>
+      <li><span class="yr">1745</span><div><h4>Chai Leyden</h4><p>Ewald von Kleist (1745) và Pieter van Musschenbroek ở Leiden (1746) độc lập tạo ra chai Leyden, tụ điện đầu tiên, có thể tích trữ điện và gây giật mạnh.</p></div></li>
+      <li><span class="yr">1747</span><div><h4>Benjamin Franklin: dương và âm</h4><p>Franklin đề xuất mô hình "một chất lỏng điện", đặt tên điện tích dương và âm, và ý tưởng điện tích được bảo toàn. Thí nghiệm diều (1752) cho thấy sét là hiện tượng điện.</p></div></li>
+      <li><span class="yr">1785</span><div><h4>Charles-Augustin de Coulomb: định luật bình phương nghịch đảo</h4><p>Dùng cân xoắn (torsion balance), Coulomb đo lực giữa hai quả cầu nhiễm điện và cho thấy lực tỉ lệ nghịch với bình phương khoảng cách.</p></div></li>
+      <li class="bio"><span class="yr">1791</span><div><h4>Luigi Galvani: "điện động vật"</h4><p>Sau nhiều năm thí nghiệm, Galvani công bố rằng chân ếch co giật khi dây thần kinh và cơ được nối bằng kim loại, và cho rằng mô sống tự sinh ra điện (<i>animal electricity</i>). Đây là khởi đầu của điện sinh lý học (electrophysiology).</p></div></li>
+      <li><span class="yr">1800</span><div><h4>Alessandro Volta: pin Volta</h4><p>Volta phản bác: dòng điện đến từ sự tiếp xúc của hai kim loại khác nhau, ếch chỉ là "máy đo". Để chứng minh, ông chồng các đĩa kẽm, đồng và vải tẩm nước muối thành pin Volta (voltaic pile), nguồn dòng điện liên tục đầu tiên. Về sau, cả hai đều đúng một phần.</p></div></li>
+      <li><span class="yr">1827</span><div><h4>Georg Ohm</h4><p>Ohm công bố quan hệ tỉ lệ giữa dòng điện và hiệu điện thế trong mạch, ngày nay là định luật Ohm.</p></div></li>
+      <li><span class="yr">1834</span><div><h4>Michael Faraday: ion và đường sức</h4><p>Nghiên cứu điện phân, Faraday (cùng William Whewell) đặt ra các từ ion, anode, cathode, electrode. Ông cũng hình dung lực điện và lực từ bằng các "đường sức" lấp đầy không gian, tiền thân của khái niệm trường.</p></div></li>
+      <li class="bio"><span class="yr">~1840</span><div><h4>Matteucci và du Bois-Reymond</h4><p>Carlo Matteucci đo được dòng điện từ cơ bị tổn thương. Emil du Bois-Reymond phát hiện "dao động âm" (negative variation) khi dây thần kinh hoạt động, chính là thứ ngày nay gọi là điện thế hoạt động (action potential).</p></div></li>
+      <li class="bio"><span class="yr">1850</span><div><h4>Hermann von Helmholtz: tốc độ xung thần kinh</h4><p>Đo trên dây thần kinh ếch, Helmholtz thấy xung thần kinh chỉ đi khoảng vài chục m/s (cỡ 25–40 m/s), chậm hơn nhiều so với điều người ta từng nghĩ. Tín hiệu thần kinh hóa ra không phải dòng điện chạy trong dây dẫn đơn thuần.</p></div></li>
+      <li><span class="yr">1897</span><div><h4>J. J. Thomson: electron</h4><p>Thí nghiệm tia âm cực cho thấy tồn tại một hạt mang điện âm nhỏ hơn nguyên tử nhiều lần: electron.</p></div></li>
+      <li><span class="yr">1909</span><div><h4>Robert Millikan: điện tích nguyên tố</h4><p>Thí nghiệm giọt dầu (công bố 1909–1913) đo được điện tích của electron và xác nhận điện tích là lượng tử.</p></div></li>
+    </ol>
+
+    <div class="figrow">
+      <figure class="fig">
+        <img src="lib/figures/coulomb-can-xoan.svg" alt="Sơ đồ cân xoắn Coulomb: sợi dây treo một thanh ngang có quả cầu nhỏ ở đầu, quả cầu cố định đặt gần đó, thang chia độ quanh ống thủy tinh." loading="lazy">
+        <figcaption><b>Cân xoắn của Coulomb (1785).</b> Lực điện làm thanh ngang quay, xoắn sợi dây treo. Góc xoắn tỉ lệ với lực. Sơ đồ vẽ lại, giản lược. Tham khảo: <a href="https://en.wikipedia.org/wiki/Coulomb%27s_law" target="_blank" rel="noopener">Coulomb's law (Wikipedia)</a>.</figcaption>
+      </figure>
+      <figure class="fig">
+        <img src="lib/figures/pin-volta.svg" alt="Sơ đồ pin Volta: các cặp đĩa kẽm và đồng xen kẽ với lớp vải tẩm nước muối, chồng thành cột, có dây nối ở hai đầu." loading="lazy">
+        <figcaption><b>Pin Volta (1800).</b> Mỗi cặp kẽm–vải muối–đồng cho khoảng 0,7–1 V; chồng nhiều cặp nối tiếp để tăng hiệu điện thế. Sơ đồ vẽ lại, giản lược. Tham khảo: <a href="https://en.wikipedia.org/wiki/Voltaic_pile" target="_blank" rel="noopener">Voltaic pile (Wikipedia)</a>.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>J. Malmivuo, R. Plonsey, <i>Bioelectromagnetism: Principles and Applications of Bioelectric and Biomagnetic Fields</i>, Oxford University Press, 1995. Bản đọc trực tuyến: <a href="http://www.bem.fi/book/" target="_blank" rel="noopener">bem.fi/book</a> (chương 1 có lịch sử chi tiết).</li>
+      <li>D. J. Griffiths, <i>Introduction to Electrodynamics</i>, chương 2 (tĩnh điện).</li>
+      <li><a href="https://en.wikipedia.org/wiki/Luigi_Galvani" target="_blank" rel="noopener">Luigi Galvani</a> và <a href="https://en.wikipedia.org/wiki/Hermann_von_Helmholtz" target="_blank" rel="noopener">Hermann von Helmholtz</a> trên Wikipedia.</li>
+      <li>Độ dẫn điện của mô trong demo dòng điện: giá trị gần đúng ở tần số thấp, theo cơ sở dữ liệu <a href="https://itis.swiss/virtual-population/tissue-properties/database/" target="_blank" rel="noopener">IT'IS Foundation</a> và Gabriel et al. (1996). Sẽ trình bày chi tiết ở phần 4.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Quay lại</small><b>Sinh điện từ</b></a>
+      <a class="next" href="2-tu.html"><small>Phần 2</small><b>Từ</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

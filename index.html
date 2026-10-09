@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Academia | My N. Nguyen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common/site.css">
+<style>
+:root {
+  --sky: #7bcde8;
+  --sea: #3787c4;
+  --ink: #1B1920;
+  --paper: #FBFCFD;
+  --mist: #EEF6FA;
+  --line: #DCE6EC;
+  --muted: #59606B;
+  --font-ui: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-px: "Pixelify Sans", "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body { font-family: var(--font-ui); background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: clamp(40px, 7vw, 80px) clamp(16px, 5vw, 64px) 40px; }
+
+header { margin-bottom: 32px; }
+h1 { font-family: var(--font-px); font-weight: 600; font-size: clamp(30px, 4.4vw, 46px); line-height: 1.15; margin: 0 0 12px; color: var(--ink); display: flex; align-items: center; }
+h1 .dot { display: inline-block; flex: none; width: 16px; height: 16px; background: var(--sea); box-shadow: 4px 4px 0 var(--sky); margin-right: 18px; }
+.lead { margin: 0; max-width: 60ch; color: var(--muted); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; list-style: none; padding: 0; margin: 0; }
+.card {
+  display: flex; flex-direction: column; height: 100%;
+  background: #fff; color: var(--ink); text-decoration: none;
+  border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--sky);
+  padding: 20px 20px 18px;
+  transition: transform .15s, box-shadow .15s;
+}
+.card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--sea); }
+.card:focus-visible { outline: 3px solid var(--sea); outline-offset: 4px; }
+.card h3 { margin: 0 0 6px; font-family: var(--font-px); font-size: 21px; font-weight: 600; line-height: 1.2; }
+.card h3 .ext { font-family: var(--font-ui); font-size: 15px; font-weight: 600; color: var(--muted); margin-left: 6px; }
+.shelf + .shelf { margin-top: 56px; }
+.shelf-title { font-family: var(--font-px); font-weight: 600; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.2; margin: 0 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+.card-body { display: flex; align-items: flex-start; gap: 16px; flex: 1; }
+.icon { display: block; flex: none; }
+.card-text { flex: 1; min-width: 0; }
+.card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; padding: 0; list-style: none; }
+.tags li { font-size: 12.5px; padding: 1px 9px; background: var(--mist); border: 1px solid var(--line); color: var(--ink); }
+
+.note { margin-top: 36px; padding: 14px 16px; border: 2px dashed #9DB3C2; color: var(--muted); font-size: 13px; max-width: 70ch; }
+.note code { font: 12.5px ui-monospace, Menlo, Consolas, monospace; background: var(--mist); padding: 1px 5px; }
+
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="index.html" class="active" aria-current="page">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+<div class="wrap">
+  <header>
+    <h1>MY ACADEMIA</h1>
+  </header>
+
+  <div id="shelves"></div>
+  <noscript><p>Cần bật JavaScript để hiển thị danh sách.
+    Bài viết: <a href="intro-bem/index.html">Bioelectromagnetics</a>, <a href="intro-transformer/index.html">Transformer &amp; genAI</a>, <a href="med-atlas/index.html">Atlas ảnh y khoa</a>, <a href="linh-tinh/index.html">Linh tinh</a>.</p></noscript>
+</div>
+
+<script>
+/* =====================================================
+   DANH SÁCH THEO MỤC (my-acdm: bài viết học thuật)
+   Mỗi mục (section) có tiêu đề và danh sách thẻ. Thêm thẻ mới: tạo thư mục con (có index.html),
+   rồi thêm một phần tử vào "items" của mục phù hợp. Link bắt đầu bằng http(s) được đánh dấu ↗ (trang bên ngoài).
+   icon: lưới pixel (số hàng/cột tùy ý), mỗi ký tự là một ô: "." = trống, các ký tự khác tra trong iconColors.
+   ===================================================== */
+const SECTIONS = [
+  {
+    title: "",                      // để trống: không hiện tiêu đề nhóm
+    items: [
+      {
+        name: "Sinh điện từ",
+        href: "intro-bem/index.html",
+        desc: "Điện, từ, các phương trình Maxwell, điện môi của mô, ...",
+        tags: ["Basics", "Bioelectromagnetics"],
+        // pixel art: tia sét
+        iconColors: { o: "#1d1d21", y: "#f2c230", w: "#fff3c9" },
+        icon: [
+          ".....oooooo",
+          "....oyyyyo.",
+          "...oyyyyo..",
+          "..oywyyo...",
+          ".oyyyyooooo",
+          "oyyyyyyyyo.",
+          "oooooyyyo..",
+          "....oyyo...",
+          "...oyyo....",
+          "..oyyo.....",
+          ".oyo.......",
+          ".oo........",
+        ],
+      },
+      {
+        name: "Transformer & genAI",
+        href: "intro-transformer/index.html",
+        desc: "Transformer và AI tạo sinh: attention, mô hình sinh, mô hình đa phương thức, LLM, VLM, RAG, ...",
+        tags: ["Basics", "Transformer", "genAI", "LLM"],
+        // pixel art: ngôi sao lấp lánh
+        iconColors: { o: "#1d1d21", s: "#3787c4", k: "#7bcde8", y: "#f2c230" },
+        icon: [
+          ".....o.....y",
+          "....oso...yy",
+          "....oso.....",
+          "...ossso....",
+          ".oosskssoo..",
+          "ossssksssso.",
+          ".oosskssoo..",
+          "...ossso....",
+          "....oso.....",
+          "....oso.....",
+          ".....o......",
+        ],
+      },
+      {
+        name: "Atlas ảnh y khoa",
+        href: "med-atlas/index.html",
+        desc: "Tra cứu cấu trúc giải phẫu trên ảnh y khoa (VD: MRI não)",
+        tags: ["Atlas", "Medical images", "Anatomy"],
+        // pixel art: bộ não nhìn nghiêng
+        iconColors: { o: "#1d1d21", k: "#7bcde8", s: "#3787c4" },
+        icon: [
+          "...oooooo...",
+          "..oksskksoo.",
+          ".okkkskkkkko",
+          "oskkkksskkko",
+          "okssskkkksko",
+          "okkkkssskkko",
+          "oskkkkkkssko",
+          ".okksskkkko.",
+          "..oooookkoo.",
+          "......okko..",
+          "......ooo...",
+        ],
+      },
+      {
+        name: "Linh tinh",
+        href: "linh-tinh/index.html",
+        desc: "Các minh họa tương tác độc lập cho người đọc phổ thông: màn hình và đôi mắt, cơ thể khi về già, ...",
+        tags: ["Interactive", "Health", "Everyday science"],
+        // pixel art: con xúc xắc
+        iconColors: { o: "#1d1d21", w: "#ffffff", s: "#3787c4" },
+        icon: [
+          "ooooooooooo",
+          "owwwwwwwwwo",
+          "owsswwwsswo",
+          "owsswwwsswo",
+          "owwwwwwwwwo",
+          "owwwwsswwwo",
+          "owwwwsswwwo",
+          "owwwwwwwwwo",
+          "owsswwwsswo",
+          "owsswwwsswo",
+          "owwwwwwwwwo",
+          "ooooooooooo",
+        ],
+      },
+    ],
+  },
+];
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+function iconSVG(tool) {
+  const svg = document.createElementNS(SVG_NS, "svg");
+  const W = Math.max(...tool.icon.map(r => r.length)), H = tool.icon.length, CELL = 6;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W * CELL); svg.setAttribute("height", H * CELL);
+  svg.setAttribute("class", "icon");
+  svg.setAttribute("shape-rendering", "crispEdges");
+  svg.setAttribute("aria-hidden", "true");
+  tool.icon.forEach((row, y) => [...row].forEach((ch, x) => {
+    const fill = tool.iconColors[ch];
+    if (!fill) return;
+    const r = document.createElementNS(SVG_NS, "rect");
+    r.setAttribute("x", x); r.setAttribute("y", y); r.setAttribute("width", 1); r.setAttribute("height", 1); r.setAttribute("fill", fill);
+    svg.appendChild(r);
+  }));
+  return svg;
+}
+
+const shelves = document.getElementById("shelves");
+SECTIONS.forEach((sec, si) => {
+  const section = document.createElement("section");
+  section.className = "shelf"; if (sec.title) section.setAttribute("aria-labelledby", "shelf-" + si);
+  const grid = document.createElement("ul"); grid.className = "grid";
+  if (sec.title) {                       // nhóm không có tiêu đề thì chỉ hiện lưới thẻ
+    const h = document.createElement("h2"); h.className = "shelf-title"; h.id = "shelf-" + si; h.textContent = sec.title;
+    section.appendChild(h);
+  } else section.setAttribute("aria-label", "Danh sách bài viết");
+  section.appendChild(grid); shelves.appendChild(section);
+  sec.items.forEach(tool => {
+    const external = /^https?:/.test(tool.href);
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.className = "card"; a.href = tool.href;
+    a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("aria-label", tool.name + (external ? " (trang bên ngoài, mở trong tab mới)" : " (mở trong tab mới)"));
+    const t3 = document.createElement("h3"); t3.textContent = tool.name;
+    if (external) { const x = document.createElement("span"); x.className = "ext"; x.textContent = "↗"; x.setAttribute("aria-hidden", "true"); t3.appendChild(x); }
+    const body = document.createElement("div"); body.className = "card-body";
+    const text = document.createElement("div"); text.className = "card-text";
+    const p = document.createElement("p"); p.textContent = tool.desc;
+    const tags = document.createElement("ul"); tags.className = "tags";
+    (tool.tags || []).forEach(tg => { const tl = document.createElement("li"); tl.textContent = tg; tags.appendChild(tl); });
+    text.append(t3, p);   // cột phải: tiêu đề + mô tả
+    if (tool.icon) body.appendChild(iconSVG(tool));
+    body.appendChild(text);
+    a.append(body, tags);   // trái: icon, phải: tiêu đề + mô tả; dưới cùng: tag chiếm trọn bề ngang
+    li.appendChild(a); grid.appendChild(li);
+  });
+});
+</script>
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+<script src="common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

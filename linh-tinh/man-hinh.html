@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Màn hình và đôi mắt | Linh tinh | My N. Nguyen</title>
+<meta name="description" content="Minh họa tương tác: độ sáng và nhấp nháy của màn hình LCD, OLED ảnh hưởng thế nào tới mắt, sự tập trung và giấc ngủ.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/lt.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (linh-tinh/man-hinh.html)
+  - Demo: lib/demos/screen.js (data-demo="screen"); số liệu ở OMEGA, LMAX, ROOM, SAFE_HZ, FOLLOW_LO/HI đầu file đó.
+  - Đoán loại màn hình: detectPanel(); cảm biến ánh sáng: detectLight() trong cùng file.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Thuật ngữ: mục #thuat-ngu; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); style chung: lib/lt.css; tiện ích: lib/lt.js
+  =====================================================================
+-->
+</head>
+<body data-no-toc>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Linh tinh</a> / Màn hình và đôi mắt</p>
+  <h1><span class="dot"></span>Màn hình và đôi mắt</h1>
+</header>
+
+<section class="part" id="thu">
+  <div class="wrap">
+    <div class="demo plain" id="demoScreen" data-demo="screen">
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Màn hình OLED thường nhấp nháy</b> rất nhanh để giảm độ sáng, và nhấp nháy mạnh hơn khi để tối. Đa số người không cảm thấy gì; một số người dễ nhức đầu, mỏi mắt.</li>
+        <li><b>Mỏi mắt</b> chủ yếu do nhìn lâu, ít chớp mắt và màn hình chói hơn xung quanh. Cứ 20 phút, nhìn xa 20 giây.</li>
+        <li><b>Buổi tối</b>, ánh sáng làm cơ thể tiết ít melatonin, nên buồn ngủ muộn hơn. Đèn phòng mờ, màn hình tối, và cất điện thoại trước giờ ngủ đều giúp ích.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>LCD / OLED</td><td>LCD có đèn nền phía sau sáng liên tục. OLED: mỗi điểm ảnh tự phát sáng, thường giảm sáng bằng cách bật tắt rất nhanh.</td></tr>
+          <tr><td>Tốc độ nhấp nháy (Hz)</td><td>Số lần đèn bật tắt mỗi giây. Khác với "tần số quét" 60/120 Hz (số lần màn hình đổi hình).</td></tr>
+          <tr><td>Tế bào nhạy sáng (ipRGC)</td><td>Tế bào trong mắt không dùng để nhìn hình, mà báo cho não biết trời sáng hay tối.</td></tr>
+          <tr><td>Melatonin</td><td>Hormone tiết ra khi trời tối, giúp buồn ngủ.</td></tr>
+          <tr><td>Lux (melanopic)</td><td>Lượng ánh sáng tới mắt, tính theo mức tác động lên đồng hồ sinh học.</td></tr>
+          <tr><td>IEEE 1789</td><td>Tiêu chuẩn khuyến nghị mức nhấp nháy an toàn của nguồn sáng.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở khoa học</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Ánh sáng tới mắt:</b> độ chói màn hình × góc màn hình chiếm trong tầm nhìn (điện thoại 6,5 inch ở 30 cm). Khuyến nghị buổi tối ≤ 10 lux melanopic theo Brown et al. (2022).</li>
+        <li><b>Ánh sáng buổi tối và giấc ngủ:</b> đọc trên thiết bị phát sáng 4 giờ trước khi ngủ làm lâu ngủ hơn gần 10 phút, melatonin giảm hơn một nửa, đồng hồ sinh học lùi khoảng 1,5 giờ (Chang et al., 2015).</li>
+        <li><b>Nhấp nháy và vùng thị giác:</b> mắt không thấy nhấp nháy nhanh hơn khoảng 60–90 lần/giây, nhưng tế bào ở vùng thị giác vẫn bắt nhịp được nhấp nháy nhanh hơn ngưỡng đó (Williams et al., 2004). Trong demo, các chấm tới vùng thị giác đi thành từng đợt theo nhịp nhấp nháy, nhịp nhạt dần trên 90 lần/giây và đều hẳn từ khoảng 160 lần/giây (mốc này là ước lượng). Mức nhấp nháy thấy được theo IEEE 1789-2015. Nhấp nháy chậm gây đau đầu nhiều hơn (Wilkins et al., 1989).</li>
+        <li><b>Nhấp nháy và đồng hồ sinh học:</b> tế bào nhạy sáng (ipRGC) phản ứng chậm, cộng dồn ánh sáng trong nhiều giây (Do &amp; Yau, 2010), nên chỉ chịu ảnh hưởng của độ sáng trung bình. Vì vậy trong demo, các chấm tới đồng hồ sinh học không đổi khi bạn đổi tốc độ nhấp nháy, chỉ đổi theo độ sáng và ánh sáng phòng.</li>
+        <li><b>Mỏi mắt:</b> chủ yếu do giảm chớp mắt, nhìn gần lâu và độ chói chênh lệch (Sheppard &amp; Wolffsohn, 2018).</li>
+        <li><b>An toàn:</b> ánh sáng chớp 3–30 lần/giây có thể gây co giật ở người động kinh nhạy cảm ánh sáng (Fisher et al., 2005), nên demo hỏi trước khi nhấp nháy thật trong khoảng này.</li>
+        <li><b>Loại màn hình, ánh sáng phòng:</b> demo đoán loại màn hình từ mẫu máy (iPhone, Pixel, Galaxy) và đọc cảm biến ánh sáng nếu trình duyệt cho phép. Không có cảm biến thì đoán theo giờ: từ 6 tới 21 giờ là phòng sáng đèn, còn lại là phòng mờ tối. Phép đoán có thể sai; bạn có thể chọn lại. Trình duyệt không cho trang web đọc độ sáng thật của màn hình, nên độ sáng mặc định là 30%.</li>
+        <li>Các ô mỏi mắt, kém tập trung là thang ước lượng định tính, không phải phép đo.</li>
+      </ul>
+    </div>
+    <ol class="refs">
+      <li>T. M. Brown et al., <i>PLoS Biology</i> 20(3):e3001571, 2022. <a href="https://doi.org/10.1371/journal.pbio.3001571" target="_blank" rel="noopener">doi</a></li>
+      <li>A.-M. Chang et al., <i>PNAS</i> 112(4):1232–1237, 2015. <a href="https://doi.org/10.1073/pnas.1418490112" target="_blank" rel="noopener">doi</a></li>
+      <li>IEEE Std 1789-2015; tóm tắt: <a href="https://www.energy.gov/eere/ssl/articles/flicker-understanding-new-ieee-recommended-practice" target="_blank" rel="noopener">U.S. DOE</a></li>
+      <li>A. J. Wilkins et al., <i>Lighting Research &amp; Technology</i> 21(1):11–18, 1989.</li>
+      <li>A. L. Sheppard, J. S. Wolffsohn, <i>BMJ Open Ophthalmology</i> 3:e000146, 2018.</li>
+      <li>R. S. Fisher et al., <i>Epilepsia</i> 46(9):1426–1441, 2005.</li>
+      <li>P. E. Williams et al., "Entrainment to video displays in primary visual cortex of macaque and humans", <i>Journal of Neuroscience</i> 24(38):8278–8288, 2004. <a href="https://doi.org/10.1523/JNEUROSCI.2716-04.2004" target="_blank" rel="noopener">doi</a></li>
+      <li>M. T. H. Do, K.-W. Yau, "Intrinsically photosensitive retinal ganglion cells", <i>Physiological Reviews</i> 90(4):1547–1581, 2010. <a href="https://doi.org/10.1152/physrev.00013.2010" target="_blank" rel="noopener">doi</a></li>
+    </ol>
+    <p class="disclaimer">Chỉ nhằm phổ biến kiến thức, không thay thế tư vấn y khoa.</p>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Quay lại</small><b>Linh tinh</b></a>
+      <a class="next" href="lao-hoa.html"><small>Trang tiếp</small><b>Cơ thể khi về già</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/lt.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Từ | Sinh điện từ | My N. Nguyen</title>
+<meta name="description" content="Từ trường của dòng điện, lực Lorentz, hình dạng từ trường quanh nam châm và Trái Đất: minh họa tương tác cho nhập môn điện từ sinh học.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/2-tu.html, giai đoạn 2: TỪ)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới
+      demoWires   : từ trường của các dây dẫn thẳng (mặt cắt)
+      demoLorentz : hạt mang điện chuyển động trong từ trường đều
+      demoMagnets : nam châm thẳng, chữ U, Trái Đất + la bàn
+  - Bảng độ lớn từ trường: section #do-lon (cột "thanh" tính bằng CSS --w)
+  - Hình vẽ lại: lib/figures/orsted-1820.svg, lib/figures/quy-tac-nam-tay-phai.svg
+  =====================================================================
+-->
+<style>
+  .magbar { position: relative; height: 14px; min-width: 220px; background: var(--mist); border: 1px solid var(--line); }
+  .magbar i { position: absolute; left: 0; top: 0; bottom: 0; width: var(--w); background: var(--sea); }
+  .magbar.bio i { background: var(--pos); }
+</style>
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Sinh điện từ</a> / Phần 2</p>
+  <h1><span class="dot"></span>Từ</h1>
+  <p class="lead">Điện tích đứng yên tạo ra điện trường; điện tích chuyển động tạo thêm từ trường. Mô sống gần như "trong suốt" với từ trường, nên từ trường đi xuyên qua cơ thể gần như nguyên vẹn, và từ trường cực yếu của tim và não cũng đo được từ bên ngoài.</p>
+</header>
+
+<!-- ================= 2.1 TỪ TRƯỜNG CỦA DÒNG ĐIỆN ================= -->
+<section class="part" id="dong-dien">
+  <div class="wrap">
+    <h2>Từ trường của dòng điện</h2>
+    <div class="prose">
+      <p>Năm 1820, Ørsted thấy kim la bàn bị lệch khi đặt gần một dây có dòng điện. Đó là bằng chứng đầu tiên cho thấy điện và từ liên quan với nhau: <span class="term">dòng điện</span> tạo ra <span class="term">từ trường</span> <span class="en">(magnetic field)</span> \(\vec B\), đơn vị <span class="term">tesla</span> (T).</p>
+      <p>Từ trường do một đoạn dây nhỏ mang dòng điện tạo ra được mô tả bởi <span class="term">định luật Biot–Savart</span> <span class="en">(Biot–Savart law)</span>. Cộng (tích phân) đóng góp của mọi đoạn dây cho ta từ trường tổng.</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ d\vec B = \frac{\mu_0}{4\pi}\,\frac{I\,d\vec l \times \hat r}{r^2}, \qquad \mu_0 \approx 4\pi \times 10^{-7}\ \mathrm{T\,m/A} \approx 1{,}257 \times 10^{-6}\ \mathrm{T\,m/A} \]</div>
+      <p class="where"><b>I</b>: dòng điện (A); <b>dl</b>: đoạn dây (m), hướng theo dòng điện; <b>r</b>: khoảng cách từ đoạn dây đến điểm xét (m); <b>µ₀</b>: hằng số từ <span class="en">(vacuum permeability)</span>.</p>
+    </div>
+
+    <div class="formula">
+      <div class="eq">\[ \underbrace{B = \frac{\mu_0 I}{2\pi r}}_{\text{dây thẳng dài}} \qquad \underbrace{B = \frac{\mu_0 I}{2R}}_{\text{tâm vòng dây bán kính } R} \qquad \underbrace{B = \mu_0 n I}_{\text{trong ống dây, } n \text{ vòng/m}} \]</div>
+      <p class="where">Chiều của B theo <b>quy tắc nắm tay phải</b> <span class="en">(right-hand rule)</span>: ngón cái chỉ chiều dòng điện, bốn ngón còn lại cong theo chiều đường sức từ.</p>
+    </div>
+
+    <!-- DEMO 1 -->
+    <div class="demo" id="demoWires" data-demo="wires">
+        <div class="demo-title"><h4>Dây dẫn và từ trường</h4><span>Mặt cắt vuông góc với các dây. ⊙ dòng điện đi ra, ⊗ đi vào</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="prose">
+      <p>Đường sức từ luôn là những đường <span class="term">khép kín</span>: chúng không có điểm bắt đầu hay kết thúc như đường sức điện. Đó là vì không tồn tại "điện tích từ" đứng riêng lẻ (<span class="term">đơn cực từ</span>, <span class="en">magnetic monopole</span>). Ý này sẽ trở thành định luật Gauss cho từ trường ở phần Maxwell.</p>
+      <p>Trên demo, các đường sức được vẽ sao cho giữa hai đường liền kề luôn có cùng một lượng từ thông. Vì vậy chỗ đường sức dày là chỗ B mạnh: bên trong ống dây, các đường gần như song song và cách đều, tức là từ trường gần như đều.</p>
+    </div>
+
+    <div class="figrow">
+      <figure class="fig">
+        <img src="lib/figures/quy-tac-nam-tay-phai.svg" alt="Sơ đồ quy tắc nắm tay phải: dây dẫn thẳng đứng có dòng điện hướng lên, các vòng tròn đường sức từ quay ngược chiều kim đồng hồ khi nhìn từ trên xuống." loading="lazy">
+        <figcaption><b>Quy tắc nắm tay phải.</b> Dòng điện đi lên thì đường sức từ quay ngược chiều kim đồng hồ khi nhìn từ trên xuống. Sơ đồ tự vẽ.</figcaption>
+      </figure>
+      <figure class="fig">
+        <img src="lib/figures/orsted-1820.svg" alt="Sơ đồ thí nghiệm Ørsted: dây dẫn căng phía trên kim la bàn, khi có dòng điện thì kim la bàn lệch khỏi hướng Bắc." loading="lazy">
+        <figcaption><b>Thí nghiệm Ørsted (1820).</b> Dây dẫn đặt song song với kim la bàn (hướng Bắc–Nam). Khi đóng mạch, kim quay lệch sang ngang. Sơ đồ vẽ lại, giản lược. Tham khảo: <a href="https://en.wikipedia.org/wiki/Hans_Christian_%C3%98rsted" target="_blank" rel="noopener">Hans Christian Ørsted (Wikipedia)</a>.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2.2 LỰC LORENTZ ================= -->
+<section class="part tint" id="lorentz">
+  <div class="wrap">
+    <h2>Lực Lorentz</h2>
+    <div class="prose">
+      <p>Từ trường không tác dụng lực lên điện tích đứng yên. Nó chỉ tác dụng lên điện tích <i>đang chuyển động</i>, và lực luôn vuông góc với cả vận tốc lẫn B. Tổng lực điện và lực từ lên một hạt mang điện gọi là <span class="term">lực Lorentz</span> <span class="en">(Lorentz force)</span>:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \vec F = q\left(\vec E + \vec v \times \vec B\right), \qquad r = \frac{m v_\perp}{|q| B}, \qquad f_c = \frac{|q| B}{2\pi m} \]</div>
+      <p class="where"><b>v</b>: vận tốc (m/s); <b>r</b>: bán kính quỹ đạo tròn, còn gọi là bán kính Larmor hay bán kính cyclotron (m); <b>f<sub>c</sub></b>: tần số cyclotron (Hz), không phụ thuộc vận tốc. Vì lực từ luôn vuông góc với vận tốc nên nó không sinh công: hạt đổi hướng nhưng không đổi tốc độ.</p>
+    </div>
+
+    <!-- DEMO 2 -->
+    <div class="demo" id="demoLorentz" data-demo="lorentz">
+        <div class="demo-title"><h4>Hạt mang điện trong từ trường đều</h4><span>Chọn hạt, chỉnh vận tốc và từ trường</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="callout"><b>Liên hệ sinh học: máu là chất lỏng dẫn điện chuyển động.</b> Khi máu chảy với vận tốc v qua một mạch có đường kính d nằm trong từ trường B, lực Lorentz đẩy ion dương và âm về hai phía thành mạch, tạo ra hiệu điện thế \(U \approx B v d\). Đây là nguyên lý của <span class="term">máy đo lưu lượng điện từ</span> <span class="en">(electromagnetic flowmeter)</span>. Trong máy MRI 1,5 T, máu ở động mạch chủ (d ≈ 2,5 cm, v ≈ 0,5 m/s) tạo ra khoảng 19 mV, lớn hơn chính tín hiệu ECG (cỡ 1 mV). Hiệu ứng từ thủy động <span class="en">(magnetohydrodynamic effect)</span> này làm méo điện tâm đồ của bệnh nhân trong máy MRI.</div>
+  </div>
+</section>
+
+<!-- ================= 2.3 HÌNH DẠNG TỪ TRƯỜNG ================= -->
+<section class="part" id="hinh-dang">
+  <div class="wrap">
+    <h2>Hình dạng từ trường</h2>
+    <div class="prose">
+      <p>Nam châm vĩnh cửu có từ trường vì trong vật liệu có vô số "dòng điện nguyên tử" (chủ yếu từ <span class="term">spin</span> của electron) cùng hướng với nhau. Đầu đường sức đi ra gọi là <span class="term">cực Bắc</span> (N), đầu đường sức đi vào gọi là <span class="term">cực Nam</span> (S). Bên trong nam châm, đường sức đi từ S sang N, nên chúng vẫn khép kín.</p>
+      <p>Kim la bàn là một nam châm nhỏ quay tự do: đầu N của kim luôn chỉ theo chiều của B tại chỗ nó đứng.</p>
+    </div>
+
+    <!-- DEMO 3 -->
+    <div class="demo" id="demoMagnets" data-demo="magnets">
+        <div class="demo-title"><h4>Nam châm, Trái Đất và la bàn</h4><span>Kéo rê la bàn để dò theo đường sức</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <h3>Từ trường Trái Đất</h3>
+    <div class="prose">
+      <p>Gần đúng bậc nhất, Trái Đất giống một nam châm thẳng đặt lệch khoảng 10° so với trục quay. Từ trường này sinh ra bởi dòng chảy của sắt lỏng dẫn điện trong lõi ngoài (cơ chế <span class="term">dynamo địa từ</span>, <span class="en">geodynamo</span>).</p>
+      <ul>
+        <li>Cực từ nằm gần cực Bắc địa lý thực chất là <b>cực S</b> của "nam châm Trái Đất", vì nó hút đầu N của kim la bàn.</li>
+        <li>Độ lớn ở mặt đất khoảng <b>25–65 µT</b>: yếu nhất gần xích đạo (đặc biệt vùng dị thường Nam Đại Tây Dương), mạnh nhất gần hai cực. Ở Việt Nam và Nhật Bản cỡ 40–50 µT.</li>
+        <li><span class="term">Độ nghiêng từ</span> <span class="en">(inclination, dip)</span> là góc giữa B và mặt phẳng ngang: gần 0° ở xích đạo từ, gần 90° ở cực từ. Theo mô hình lưỡng cực: \(\tan I = 2\tan\lambda\), với λ là vĩ độ từ.</li>
+        <li>Nhiều loài (chim di cư, rùa biển, cá hồi) và cả vi khuẩn hướng từ <span class="en">(magnetotactic bacteria)</span> cảm nhận được từ trường này để định hướng (<span class="term">cảm thụ từ</span>, <span class="en">magnetoreception</span>).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2.4 ĐỘ LỚN & ĐƠN VỊ ================= -->
+<section class="part tint" id="do-lon">
+  <div class="wrap">
+    <h2>Độ lớn &amp; đơn vị</h2>
+    <div class="prose">
+      <p>Có hai đại lượng hay bị nhầm. <span class="term">Mật độ từ thông</span> <span class="en">(magnetic flux density)</span> \(\vec B\), đơn vị tesla, là thứ tác dụng lực lên điện tích; trong đời thường và trong trang này, "từ trường" thường là nói B. <span class="term">Cường độ từ trường</span> <span class="en">(magnetic field strength)</span> \(\vec H\), đơn vị A/m, chỉ phụ thuộc dòng điện tự do, không tính phần do vật liệu bị từ hóa.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \vec B = \mu_0\left(\vec H + \vec M\right) = \mu_0 \mu_r \vec H, \qquad 1\ \mathrm{T} = 10^4\ \mathrm{G}, \qquad 1\ \mu\mathrm{T} \leftrightarrow H \approx 0{,}796\ \mathrm{A/m} \ \text{(trong không khí)} \]</div>
+      <p class="where"><b>M</b>: độ từ hóa (A/m); <b>µ<sub>r</sub></b>: độ từ thẩm tương đối. Mô sống chủ yếu là nước, có độ cảm từ <span class="en">(magnetic susceptibility)</span> χ ≈ −9 × 10⁻⁶ (nghịch từ rất yếu), nên µ<sub>r</sub> ≈ 1: <b>từ trường đi qua cơ thể gần như không đổi</b>. Đây là khác biệt lớn so với điện trường, vốn bị mô dẫn điện làm suy giảm mạnh.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nguồn</th><th>B (cỡ)</th><th>Thang log, từ 1 fT đến 10 T</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Não người<span class="en">MEG, magnetoencephalography</span></td><td class="unit">10 fT – 1 pT</td><td><div class="magbar bio" style="--w:12%"><i></i></div></td><td>Cần cảm biến SQUID hoặc OPM, phòng chắn từ.</td></tr>
+          <tr><td>Tim người<span class="en">MCG, magnetocardiography</span></td><td class="unit">10 – 100 pT</td><td><div class="magbar bio" style="--w:29%"><i></i></div></td><td>Đỉnh phức bộ QRS cỡ 50 pT.</td></tr>
+          <tr><td>Thiết bị điện gia dụng (cách 30 cm)<span class="en">ELF, 50/60 Hz</span></td><td class="unit">0,01 – 1 µT</td><td><div class="magbar" style="--w:50%"><i></i></div></td><td>Giảm rất nhanh theo khoảng cách.</td></tr>
+          <tr><td>Trái Đất<span class="en">geomagnetic field</span></td><td class="unit">25 – 65 µT</td><td><div class="magbar" style="--w:67%"><i></i></div></td><td>Gần như tĩnh (DC).</td></tr>
+          <tr><td>Nam châm dán tủ lạnh</td><td class="unit">≈ 5 mT</td><td><div class="magbar" style="--w:79%"><i></i></div></td><td>Sát bề mặt.</td></tr>
+          <tr><td>Nam châm neodymium nhỏ</td><td class="unit">0,1 – 0,5 T</td><td><div class="magbar" style="--w:90%"><i></i></div></td><td>Sát bề mặt.</td></tr>
+          <tr><td>Máy MRI lâm sàng<span class="en">magnetic resonance imaging</span></td><td class="unit">1,5 – 3 T</td><td><div class="magbar bio" style="--w:95%"><i></i></div></td><td>Máy nghiên cứu: 7 T trở lên.</td></tr>
+        </tbody>
+        <caption>Thanh màu đỏ: nguồn hoặc ứng dụng gắn với cơ thể người. Từ não người đến máy MRI chênh nhau khoảng 10¹⁴ lần. Các giá trị là bậc độ lớn, thay đổi theo điều kiện đo.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Con người đã phát hiện ra từ như thế nào</h2>
+    <ol class="timeline">
+      <li><span class="yr">~1088</span><div><h4>Kim chỉ nam ở Trung Hoa</h4><p>Thẩm Quát (Shen Kuo) mô tả kim từ dùng để chỉ hướng và ghi nhận độ lệch giữa hướng kim chỉ và hướng Bắc thật (độ từ thiên, declination).</p></div></li>
+      <li><span class="yr">1269</span><div><h4>Petrus Peregrinus</h4><p>Trong <i>Epistola de magnete</i>, ông mô tả hai cực của nam châm, cách xác định cực, và việc bẻ đôi nam châm vẫn cho hai nam châm có đủ hai cực.</p></div></li>
+      <li><span class="yr">1600</span><div><h4>William Gilbert: Trái Đất là một nam châm</h4><p>Dùng một quả cầu nam châm nhỏ (terrella), Gilbert cho thấy kim la bàn chỉ hướng vì bản thân Trái Đất là một nam châm khổng lồ.</p></div></li>
+      <li><span class="yr">1820</span><div><h4>Ørsted, Ampère, Biot và Savart</h4><p>Tháng 4/1820, Hans Christian Ørsted thấy dòng điện làm lệch kim la bàn. Chỉ trong vài tháng, André-Marie Ampère đo lực giữa hai dây dẫn có dòng điện, còn Jean-Baptiste Biot và Félix Savart tìm ra quy luật B tỉ lệ nghịch với khoảng cách quanh dây thẳng.</p></div></li>
+      <li><span class="yr">1832</span><div><h4>Carl Friedrich Gauss: đo từ trường Trái Đất</h4><p>Gauss lần đầu đo được độ lớn tuyệt đối của từ trường Trái Đất, và cùng Wilhelm Weber lập mạng lưới trạm quan trắc địa từ. Đơn vị gauss (G) mang tên ông.</p></div></li>
+      <li><span class="yr">1895</span><div><h4>Hendrik Lorentz</h4><p>Lorentz viết biểu thức đầy đủ cho lực tác dụng lên một điện tích chuyển động trong điện trường và từ trường, ngày nay gọi là lực Lorentz.</p></div></li>
+      <li class="bio"><span class="yr">1963</span><div><h4>Baule và McFee: từ tâm đồ đầu tiên</h4><p>Dùng hai triệu vòng dây quấn quanh lõi ferrite, Gerhard Baule và Richard McFee ghi được từ trường của tim người: magnetocardiogram (MCG) đầu tiên.</p></div></li>
+      <li class="bio"><span class="yr">1968</span><div><h4>David Cohen: từ não đồ</h4><p>Cohen đo được từ trường của nhịp alpha của não (1968), rồi dùng cảm biến SQUID trong phòng chắn từ ở MIT để ghi MCG (1970) và MEG (1972) rõ nét hơn nhiều.</p></div></li>
+      <li class="bio"><span class="yr">1975</span><div><h4>Richard Blakemore: vi khuẩn hướng từ</h4><p>Blakemore phát hiện các vi khuẩn bơi theo đường sức từ Trái Đất nhờ chuỗi tinh thể magnetite trong tế bào, bằng chứng rõ ràng về cảm thụ từ ở sinh vật.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>J. Malmivuo, R. Plonsey, <i>Bioelectromagnetism</i>, 1995, chương 1 (lịch sử) và chương 12, 20 (MEG, MCG). <a href="http://www.bem.fi/book/" target="_blank" rel="noopener">bem.fi/book</a>.</li>
+      <li>D. J. Griffiths, <i>Introduction to Electrodynamics</i>, chương 5 (tĩnh từ) và chương 6 (từ trường trong vật chất).</li>
+      <li>NOAA, <a href="https://www.ncei.noaa.gov/products/world-magnetic-model" target="_blank" rel="noopener">World Magnetic Model</a>: mô hình từ trường Trái Đất chính thức.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Magnetotactic_bacteria" target="_blank" rel="noopener">Magnetotactic bacteria</a> và <a href="https://en.wikipedia.org/wiki/Magnetoencephalography" target="_blank" rel="noopener">Magnetoencephalography</a> trên Wikipedia.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="1-dien.html"><small>Phần 1</small><b>Điện</b></a>
+      <a class="next" href="3-maxwell.html"><small>Phần 3</small><b>Các phương trình Maxwell</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 400" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Quy tắc nắm tay phải (sơ đồ)</title>
+  <!-- Sơ đồ tự vẽ. My Academic / Sinh điện từ. -->
+  <rect width="440" height="400" fill="#FBFCFD"/>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#3787c4"/></marker>
+    <marker id="ai" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1B1920"/></marker>
+  </defs>
+  <!-- nửa sau của các vòng đường sức (bị dây che) -->
+  <g fill="none" stroke="#3787c4" stroke-width="2" opacity=".45">
+    <path d="M140 110 A80 22 0 0 1 300 110"/>
+    <path d="M110 200 A110 30 0 0 1 330 200"/>
+    <path d="M140 290 A80 22 0 0 1 300 290"/>
+  </g>
+  <!-- dây dẫn -->
+  <rect x="212" y="40" width="16" height="320" fill="#C97A40" stroke="#1B1920" stroke-width="2"/>
+  <path d="M220 330 V60" stroke="#1B1920" stroke-width="3" marker-end="url(#ai)"/>
+  <!-- nửa trước các vòng, có mũi tên: ngược chiều kim đồng hồ khi nhìn từ trên -->
+  <g fill="none" stroke="#3787c4" stroke-width="2.6">
+    <path d="M140 110 A80 22 0 0 0 300 110" marker-end="url(#ah)"/>
+    <path d="M110 200 A110 30 0 0 0 330 200" marker-end="url(#ah)"/>
+    <path d="M140 290 A80 22 0 0 0 300 290" marker-end="url(#ah)"/>
+  </g>
+  <text x="236" y="34" font-weight="700">I</text>
+  <text x="340" y="204" fill="#3787c4" font-weight="700">B</text>
+  <text x="20" y="372">Ngón cái: chiều dòng điện I.</text>
+  <text x="20" y="390">Bốn ngón còn lại: chiều đường sức từ B.</text>
+</svg>

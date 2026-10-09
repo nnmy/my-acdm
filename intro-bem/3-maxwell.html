@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Các phương trình Maxwell | Sinh điện từ | My N. Nguyen</title>
+<meta name="description" content="Bốn phương trình Maxwell qua bốn thí nghiệm tương tác, và sóng điện từ: nhập môn điện từ sinh học bằng tiếng Việt.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/3-maxwell.html, giai đoạn 3: MAXWELL)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới
+      demoGaussE  : thông lượng điện qua mặt cầu Gauss (tích phân số 3D)
+      demoGaussB  : thông lượng từ qua đường cong kín (mô hình 2D, dây dẫn)
+      demoFaraday : nam châm chuyển động qua cuộn dây, Φ(t) và EMF(t)
+      demoAmpere  : tụ điện đang nạp, dòng dịch chuyển
+      demoWave    : sóng điện từ, bước sóng, năng lượng photon, vào mô
+  - Hình vẽ: lib/figures/pho-dien-tu.svg (phổ điện từ)
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Sinh điện từ</a> / Phần 3</p>
+  <h1><span class="dot"></span>Các phương trình Maxwell</h1>
+  <p class="lead">Bốn phương trình gói gọn toàn bộ điện học và từ học cổ điển: điện tích tạo điện trường, từ trường không có điểm đầu, từ trường biến thiên sinh ra điện trường, và dòng điện cùng điện trường biến thiên sinh ra từ trường. Hai điều cuối kết hợp lại cho ra sóng điện từ.</p>
+</header>
+
+<!-- ================= TỔNG QUAN ================= -->
+<section class="part" id="tong-quan">
+  <div class="wrap">
+    <h2>Tổng quan</h2>
+    <div class="prose">
+      <p>Mỗi phương trình có hai dạng tương đương. <span class="term">Dạng tích phân</span> <span class="en">(integral form)</span> nói về một mặt kín hay một đường cong kín, dễ hình dung hơn. <span class="term">Dạng vi phân</span> <span class="en">(differential form)</span> nói về từng điểm trong không gian, dùng trong tính toán số (ví dụ FDTD ở phần 5). Hai toán tử cần biết: <span class="term">divergence</span> \(\nabla\cdot\) đo mức "tỏa ra" của một trường tại một điểm, <span class="term">curl</span> \(\nabla\times\) đo mức "xoáy" của nó.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tên</th><th>Dạng tích phân</th><th>Dạng vi phân</th><th>Nói bằng lời</th></tr></thead>
+        <tbody>
+          <tr><td>Định luật Gauss<span class="en">Gauss's law</span></td><td>\(\displaystyle\oint_S \vec E\cdot d\vec A = \frac{Q_{\text{trong}}}{\varepsilon_0}\)</td><td>\(\nabla\cdot\vec E = \dfrac{\rho}{\varepsilon_0}\)</td><td>Điện tích là nguồn của điện trường. Thông lượng điện qua mặt kín tỉ lệ với điện tích bên trong.</td></tr>
+          <tr><td>Gauss cho từ trường<span class="en">Gauss's law for magnetism</span></td><td>\(\displaystyle\oint_S \vec B\cdot d\vec A = 0\)</td><td>\(\nabla\cdot\vec B = 0\)</td><td>Không có đơn cực từ. Đường sức từ khép kín: bao nhiêu đi vào mặt kín thì bấy nhiêu đi ra.</td></tr>
+          <tr><td>Định luật Faraday<span class="en">Faraday's law of induction</span></td><td>\(\displaystyle\oint_C \vec E\cdot d\vec l = -\frac{d\Phi_B}{dt}\)</td><td>\(\nabla\times\vec E = -\dfrac{\partial\vec B}{\partial t}\)</td><td>Từ trường biến thiên sinh ra điện trường xoáy (suất điện động cảm ứng).</td></tr>
+          <tr><td>Ampère–Maxwell<span class="en">Ampère–Maxwell law</span></td><td>\(\displaystyle\oint_C \vec B\cdot d\vec l = \mu_0\!\left(I + \varepsilon_0\frac{d\Phi_E}{dt}\right)\)</td><td>\(\nabla\times\vec B = \mu_0\vec J + \mu_0\varepsilon_0\dfrac{\partial\vec E}{\partial t}\)</td><td>Dòng điện và điện trường biến thiên đều sinh ra từ trường xoáy.</td></tr>
+        </tbody>
+        <caption>Trong vật chất (như mô sống), người ta hay viết với \(\vec D = \varepsilon\vec E\) và \(\vec H = \vec B/\mu\); phần 4 sẽ dùng \(\varepsilon\) và \(\sigma\) của mô. Φ<sub>B</sub>, Φ<sub>E</sub>: thông lượng từ và thông lượng điện qua mặt giới hạn bởi đường cong C.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GAUSS ĐIỆN ================= -->
+<section class="part tint" id="gauss-e">
+  <div class="wrap">
+    <h2>Định luật Gauss</h2>
+    <div class="prose">
+      <p><span class="term">Thông lượng điện</span> <span class="en">(electric flux)</span> qua một mặt là "lượng điện trường xuyên qua" mặt đó: \(\Phi_E = \oint \vec E\cdot d\vec A\), trong đó \(d\vec A\) hướng ra ngoài. Định luật Gauss nói thông lượng qua <i>bất kỳ</i> mặt kín nào cũng chỉ phụ thuộc vào tổng điện tích bên trong, bất kể hình dạng mặt hay các điện tích ở bên ngoài.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \Phi_E = \oint_S \vec E\cdot d\vec A = \frac{Q_{\text{trong}}}{\varepsilon_0} \]</div>
+      <p class="where"><b>Φ<sub>E</sub></b>: thông lượng điện (N·m²/C, tức V·m); <b>Q<sub>trong</sub></b>: tổng điện tích bên trong mặt kín (C); <b>ε₀ ≈ 8,854 × 10⁻¹² F/m</b>.</p>
+    </div>
+
+    <div class="demo" id="demoGaussE" data-demo="gauss-e">
+        <div class="demo-title"><h4>Mặt Gauss</h4><span>Kéo điện tích hoặc kéo mặt Gauss (vòng tròn xanh)</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+    <div class="prose">
+      <p>Thử đặt mặt Gauss sao cho một điện tích nằm ngoài nhưng ở rất gần: một phía của mặt có nhiều thông lượng đi vào, phía kia có nhiều đi ra, và hai phần triệt tiêu đúng bằng nhau. Trong mô sống, định luật này giải thích vì sao điện tích dư chỉ tích tụ ở các mặt phân cách (như hai mặt của màng tế bào), còn bên trong một vùng dẫn điện đồng nhất thì trung hòa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GAUSS TỪ ================= -->
+<section class="part" id="gauss-b">
+  <div class="wrap">
+    <h2>Định luật Gauss cho từ trường</h2>
+    <div class="prose">
+      <p>Không ai từng tìm thấy một <span class="term">đơn cực từ</span> <span class="en">(magnetic monopole)</span>. Vì thế thông lượng từ qua mọi mặt kín luôn bằng 0: mỗi đường sức đi vào thì phải đi ra. Bẻ đôi một nam châm, ta được hai nam châm nhỏ, mỗi cái đều có đủ N và S.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \oint_S \vec B\cdot d\vec A = 0, \qquad \Phi_B = \int_S \vec B\cdot d\vec A \ \ \text{(đơn vị weber, Wb = T·m²)} \]</div>
+    </div>
+
+    <div class="demo" id="demoGaussB" data-demo="gauss-b">
+        <div class="demo-title"><h4>Thông lượng từ qua đường cong kín</h4><span>Mô hình 2D: dây dẫn dài vuông góc màn hình</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+  </div>
+</section>
+
+<!-- ================= FARADAY ================= -->
+<section class="part tint" id="faraday">
+  <div class="wrap">
+    <h2>Định luật cảm ứng Faraday</h2>
+    <div class="prose">
+      <p>Năm 1831, Faraday phát hiện rằng khi từ thông qua một vòng dây thay đổi, trong vòng dây xuất hiện một <span class="term">suất điện động cảm ứng</span> <span class="en">(induced electromotive force, EMF)</span>. Điều quan trọng không phải là từ trường mạnh hay yếu, mà là nó <i>thay đổi nhanh đến đâu</i>. Dấu trừ là <span class="term">định luật Lenz</span> <span class="en">(Lenz's law)</span>: dòng điện cảm ứng luôn sinh ra từ trường chống lại sự thay đổi đã tạo ra nó.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \mathcal{E} = -N\,\frac{d\Phi_B}{dt}, \qquad \Phi_B^{\text{(lưỡng cực trên trục)}} = \frac{\mu_0\, m\, a^2}{2\left(a^2 + x^2\right)^{3/2}} \]</div>
+      <p class="where"><b>ℰ</b>: suất điện động (V); <b>N</b>: số vòng dây; <b>m</b>: mômen từ của nam châm (A·m², ở đây 1 A·m², cỡ một viên nam châm neodymium 1 cm³); <b>a</b>: bán kính cuộn dây (2 cm); <b>x</b>: khoảng cách từ nam châm đến tâm cuộn dây.</p>
+    </div>
+
+    <div class="demo" id="demoFaraday" data-demo="faraday">
+        <div class="demo-title"><h4>Nam châm và cuộn dây</h4><span>Kéo nam châm qua lại, hoặc bật chế độ tự dao động</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+
+    <div class="callout"><b>Liên hệ sinh học: kích thích từ xuyên sọ (TMS).</b> Một cuộn dây đặt trên da đầu cho xung dòng điện vài nghìn ampere trong khoảng 0,1 ms. Từ trường (cỡ 1–2 T) đi qua hộp sọ gần như không bị cản, và tốc độ thay đổi rất lớn (cỡ 10⁴ T/s) cảm ứng trong vỏ não một điện trường cỡ 100 V/m, đủ để kích hoạt tế bào thần kinh mà không cần điện cực chạm vào não. Cùng cơ chế này, cuộn gradient của máy MRI khi chuyển mạch nhanh có thể gây kích thích thần kinh ngoại biên (cảm giác giật nhẹ). Phần 5 sẽ tính điện trường cảm ứng trong mô.</div>
+  </div>
+</section>
+
+<!-- ================= AMPÈRE–MAXWELL ================= -->
+<section class="part" id="ampere">
+  <div class="wrap">
+    <h2>Định luật Ampère–Maxwell</h2>
+    <div class="prose">
+      <p>Ampère tìm ra rằng tích phân của B dọc một đường cong kín tỉ lệ với dòng điện xuyên qua nó. Maxwell nhận thấy định luật này mâu thuẫn khi áp dụng cho tụ điện đang nạp: dòng điện chạy trong dây, nhưng không có dòng điện nào đi qua khoảng trống giữa hai bản. Ông thêm vào một số hạng mới, <span class="term">dòng điện dịch chuyển</span> <span class="en">(displacement current)</span>, tỉ lệ với tốc độ thay đổi của điện trường. Chính số hạng này cho phép sóng điện từ tồn tại.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \oint_C \vec B\cdot d\vec l = \mu_0\left(I_{\text{trong}} + I_d\right), \qquad I_d = \varepsilon_0\,\frac{d\Phi_E}{dt} = \varepsilon_0 A\,\frac{dE}{dt} \]</div>
+      <p class="where">Với tụ phẳng bản tròn bán kính 5 cm, khe 2 mm (C ≈ 34,8 pF) nạp qua điện trở R: \(I(t) = \frac{U}{R}e^{-t/RC}\). Giữa hai bản, \(I_d\) luôn đúng bằng \(I\) trong dây.</p>
+    </div>
+
+    <div class="demo" id="demoAmpere" data-demo="ampere">
+        <div class="demo-title"><h4>Tụ điện đang nạp</h4><span>Kéo vòng Ampère dọc trục, chỉnh bán kính của nó</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+  </div>
+</section>
+
+<!-- ================= SÓNG ĐIỆN TỪ ================= -->
+<section class="part tint" id="song">
+  <div class="wrap">
+    <h2>Sóng điện từ</h2>
+    <div class="prose">
+      <p>Faraday nói: B thay đổi sinh ra E. Ampère–Maxwell nói: E thay đổi sinh ra B. Hai quá trình này nuôi nhau và lan ra không gian thành <span class="term">sóng điện từ</span> <span class="en">(electromagnetic wave)</span>, với E và B vuông góc nhau và vuông góc với hướng lan truyền. Maxwell tính được vận tốc của nó từ hai hằng số điện và từ, và thấy nó trùng với vận tốc ánh sáng: ánh sáng là sóng điện từ.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ c = \frac{1}{\sqrt{\mu_0\varepsilon_0}} \approx 3{,}00 \times 10^8\ \mathrm{m/s}, \qquad \lambda = \frac{v}{f}, \qquad v = \frac{c}{\sqrt{\varepsilon_r}}, \qquad |\vec E| = c\,|\vec B|, \qquad E_{\text{photon}} = hf \]</div>
+      <p class="where"><b>f</b>: tần số (Hz); <b>λ</b>: bước sóng (m); <b>ε<sub>r</sub></b>: hằng số điện môi tương đối của môi trường; <b>h ≈ 6,626 × 10⁻³⁴ J·s</b> (hằng số Planck); 1 eV ≈ 1,602 × 10⁻¹⁹ J.</p>
+    </div>
+
+    <div class="demo" id="demoWave" data-demo="wave">
+        <div class="demo-title"><h4>Sóng điện từ đi vào mô</h4><span>Chỉnh tần số; chọn môi trường ở nửa phải</span></div>
+        <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+      </div>
+    <div class="prose">
+      <p>Hai điều cần nhớ cho các phần sau. Thứ nhất, εᵣ của mô <i>thay đổi theo tần số</i> (giá trị trong demo chỉ gần đúng quanh 1 GHz); đó là nội dung của phần 4. Thứ hai, mô dẫn điện nên sóng bị <i>hấp thụ</i> khi đi vào, biến thành nhiệt; demo này bỏ qua hấp thụ và sóng phản xạ. Phần 5 sẽ tính lượng năng lượng bị hấp thụ (SAR).</p>
+    </div>
+    <figure class="fig">
+      <img src="lib/figures/pho-dien-tu.svg" alt="Phổ điện từ theo thang logarit tần số từ 1 Hz đến 10²⁰ Hz, chia thành các dải ELF, sóng radio, vi sóng, hồng ngoại, ánh sáng nhìn thấy, tử ngoại, tia X, gamma; đánh dấu ranh giới bức xạ ion hóa và các ví dụ ứng dụng y sinh." loading="lazy">
+      <figcaption><b>Phổ điện từ và tác động sinh học chính.</b> Dưới khoảng 100 kHz, tác động chính là kích thích thần kinh–cơ do dòng điện cảm ứng; từ khoảng 100 kHz đến 300 GHz là đốt nóng mô. Từ tử ngoại xa trở lên, photon đủ năng lượng để ion hóa phân tử. Các ranh giới chỉ là gần đúng. Sơ đồ tự vẽ, ranh giới kích thích/đốt nóng theo hướng dẫn <a href="https://www.icnirp.org/" target="_blank" rel="noopener">ICNIRP</a>.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1831</span><div><h4>Michael Faraday: cảm ứng điện từ</h4><p>Faraday thấy dòng điện xuất hiện trong một cuộn dây khi đóng hoặc ngắt mạch cuộn dây bên cạnh, và khi đẩy nam châm ra vào cuộn dây. Chỉ có sự <i>thay đổi</i> mới sinh ra dòng điện.</p></div></li>
+      <li><span class="yr">1834</span><div><h4>Heinrich Lenz</h4><p>Lenz phát biểu quy tắc về chiều của dòng cảm ứng: nó luôn chống lại nguyên nhân sinh ra nó.</p></div></li>
+      <li><span class="yr">1865</span><div><h4>James Clerk Maxwell: lý thuyết động lực học của trường điện từ</h4><p>Sau bài báo 1861–1862 (thêm dòng điện dịch chuyển), Maxwell công bố hệ phương trình hoàn chỉnh năm 1865, tính ra vận tốc sóng điện từ và kết luận ánh sáng là một sóng điện từ.</p></div></li>
+      <li><span class="yr">1884</span><div><h4>Oliver Heaviside: bốn phương trình</h4><p>Bản gốc của Maxwell có hai mươi phương trình với nhiều ẩn. Heaviside (và độc lập là Hertz) viết lại bằng ngôn ngữ vector thành bốn phương trình gọn như ngày nay.</p></div></li>
+      <li><span class="yr">1887</span><div><h4>Heinrich Hertz: tạo và thu sóng điện từ</h4><p>Dùng một bộ phát tia lửa điện và một vòng dây thu có khe hở, Hertz tạo ra và phát hiện sóng điện từ, đo bước sóng và cho thấy chúng phản xạ, khúc xạ giống ánh sáng.</p></div></li>
+      <li class="bio"><span class="yr">1891</span><div><h4>Arsène d'Arsonval: dòng cao tần và nhiệt</h4><p>D'Arsonval thấy dòng điện xoay chiều tần số cao (trên khoảng 10 kHz) đi qua cơ thể không gây co cơ hay đau mà chỉ làm nóng mô. Đây là cơ sở của liệu pháp nhiệt sâu (diathermy) và của sự phân biệt "kích thích" và "đốt nóng" ngày nay. Năm 1896, ông còn mô tả hiện tượng thấy chớp sáng khi đặt đầu trong từ trường xoay chiều mạnh (magnetophosphene).</p></div></li>
+      <li class="bio"><span class="yr">1985</span><div><h4>Anthony Barker: TMS</h4><p>Nhóm của Barker ở Sheffield (Anh) lần đầu dùng xung từ trường từ một cuộn dây đặt trên đầu để kích thích vỏ não vận động, làm co cơ bàn tay: kích thích từ xuyên sọ không xâm lấn, một ứng dụng trực tiếp của định luật Faraday.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>D. J. Griffiths, <i>Introduction to Electrodynamics</i>, chương 7 (điện động lực học) và chương 9 (sóng điện từ).</li>
+      <li>J. Malmivuo, R. Plonsey, <i>Bioelectromagnetism</i>, 1995, chương 22–23 (kích thích từ). <a href="http://www.bem.fi/book/" target="_blank" rel="noopener">bem.fi/book</a>.</li>
+      <li>ICNIRP, <a href="https://www.icnirp.org/" target="_blank" rel="noopener">icnirp.org</a>: hướng dẫn giới hạn phơi nhiễm trường điện từ (sẽ dùng ở phần 5).</li>
+      <li><a href="https://en.wikipedia.org/wiki/Maxwell%27s_equations" target="_blank" rel="noopener">Maxwell's equations</a> và <a href="https://en.wikipedia.org/wiki/Transcranial_magnetic_stimulation" target="_blank" rel="noopener">Transcranial magnetic stimulation</a> trên Wikipedia.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-tu.html"><small>Phần 2</small><b>Từ</b></a>
+      <a class="next" href="4-dien-moi.html"><small>Phần 4</small><b>Tính chất điện môi của mô</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

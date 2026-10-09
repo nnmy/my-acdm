@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 470" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Cân xoắn Coulomb (sơ đồ giản lược)</title>
+  <!-- Vẽ lại, giản lược, tham khảo hình trong bài báo của Coulomb (1785) và
+       https://en.wikipedia.org/wiki/Coulomb%27s_law . My Academic / Sinh điện từ. -->
+  <rect width="510" height="470" fill="#FBFCFD"/>
+  <g transform="translate(70,0)">
+  <!-- đầu xoắn -->
+  <rect x="190" y="34" width="60" height="22" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+  <g stroke="#1B1920" stroke-width="1.2">
+    <line x1="196" y1="34" x2="196" y2="41"/><line x1="204" y1="34" x2="204" y2="39"/><line x1="212" y1="34" x2="212" y2="41"/>
+    <line x1="220" y1="34" x2="220" y2="39"/><line x1="228" y1="34" x2="228" y2="41"/><line x1="236" y1="34" x2="236" y2="39"/><line x1="244" y1="34" x2="244" y2="41"/>
+  </g>
+  <rect x="214" y="22" width="12" height="12" fill="#1B1920"/>
+  <!-- ống thủy tinh hẹp -->
+  <rect x="204" y="56" width="32" height="200" fill="#EEF6FA" stroke="#1B1920" stroke-width="2"/>
+  <!-- hộp thủy tinh -->
+  <rect x="60" y="256" width="320" height="170" fill="#EEF6FA" stroke="#1B1920" stroke-width="2"/>
+  <rect x="50" y="250" width="340" height="8" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+  <rect x="50" y="426" width="340" height="10" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+  <!-- thang chia độ quanh hộp -->
+  <rect x="60" y="352" width="320" height="12" fill="#fff" stroke="#1B1920" stroke-width="1.5"/>
+  <g stroke="#1B1920" stroke-width="1">
+    <path d="M70 352v6M80 352v4M90 352v6M100 352v4M110 352v6M120 352v4M130 352v6M140 352v4M150 352v6M160 352v4M170 352v6M180 352v4M190 352v6M200 352v4M210 352v6M220 352v8M230 352v6M240 352v4M250 352v6M260 352v4M270 352v6M280 352v4M290 352v6M300 352v4M310 352v6M320 352v4M330 352v6M340 352v4M350 352v6M360 352v4M370 352v6"/>
+  </g>
+  <!-- sợi dây xoắn -->
+  <line x1="220" y1="56" x2="220" y2="330" stroke="#3787c4" stroke-width="2"/>
+  <!-- thanh ngang (đòn cách điện) -->
+  <line x1="104" y1="330" x2="330" y2="330" stroke="#1B1920" stroke-width="3"/>
+  <!-- đối trọng -->
+  <rect x="326" y="316" width="10" height="28" fill="#59606B" stroke="#1B1920" stroke-width="1.5"/>
+  <!-- quả cầu cố định + cán cách điện -->
+  <line x1="138" y1="258" x2="138" y2="312" stroke="#1B1920" stroke-width="3"/>
+  <circle cx="138" cy="318" r="10" fill="#f2c230" stroke="#1B1920" stroke-width="2"/>
+  <!-- quả cầu di động -->
+  <circle cx="100" cy="330" r="9" fill="#f2c230" stroke="#1B1920" stroke-width="2"/>
+  <!-- lực đẩy -->
+  <g fill="#d8312a" stroke="#d8312a" stroke-width="2.4" stroke-linecap="round">
+    <line x1="88" y1="330" x2="72" y2="330"/><path d="M64 330l9-4.5v9z" stroke-width="1"/>
+  </g>
+  <!-- nhãn -->
+  <g stroke="#59606B" stroke-width="1" fill="none">
+    <path d="M250 44h40"/><path d="M220 150h70"/><path d="M336 316l30-40"/><path d="M300 364v40"/>
+    <path d="M-12 296H112l16 14"/><path d="M-12 352H96l4-12"/>
+  </g>
+  <text x="294" y="48">Đầu xoắn có chia độ</text>
+  <text x="294" y="64" fill="#59606B" font-size="12">(torsion head)</text>
+  <text x="294" y="148">Sợi dây kim loại mảnh</text>
+  <text x="294" y="164" fill="#59606B" font-size="12">bị xoắn khi thanh quay</text>
+  <text x="330" y="270" font-size="12.5">Đối trọng</text>
+  <text x="252" y="420" font-size="12.5">Thang chia độ góc</text>
+  </g>
+  <text x="8" y="292" font-size="12.5">Quả cầu</text>
+  <text x="8" y="308" font-size="12.5">cố định</text>
+  <text x="8" y="348" font-size="12.5">Quả cầu</text>
+  <text x="8" y="364" font-size="12.5">di động</text>
+  <text x="20" y="460" fill="#59606B" font-size="12">Hai quả cầu cùng dấu đẩy nhau; góc quay tỉ lệ với lực.</text>
+</svg>

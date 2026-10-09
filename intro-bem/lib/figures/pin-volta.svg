@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 470" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Pin Volta (sơ đồ giản lược)</title>
+  <!-- Vẽ lại, giản lược, tham khảo https://en.wikipedia.org/wiki/Voltaic_pile . My Academic / Sinh điện từ. -->
+  <rect width="440" height="470" fill="#FBFCFD"/>
+  <!-- đế gỗ -->
+  <rect x="70" y="404" width="230" height="20" fill="#C9A47A" stroke="#1B1920" stroke-width="2"/>
+  <rect x="70" y="40" width="230" height="14" fill="#C9A47A" stroke="#1B1920" stroke-width="2"/>
+  <!-- thanh thủy tinh -->
+  <rect x="96" y="54" width="8" height="350" fill="#EEF6FA" stroke="#1B1920" stroke-width="1.5"/>
+  <rect x="266" y="54" width="8" height="350" fill="#EEF6FA" stroke="#1B1920" stroke-width="1.5"/>
+  <!-- chồng đĩa, từ dưới lên: Cu | vải | Zn, lặp lại 6 ngăn. Zn của ngăn dưới chạm Cu của ngăn trên. -->
+  <g stroke="#1B1920" stroke-width="1.6">
+    <rect x="115" y="384" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="372" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="354" width="140" height="18" rx="3" fill="#A9B0B8"/>
+    <rect x="115" y="336" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="324" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="306" width="140" height="18" rx="3" fill="#A9B0B8"/>
+    <rect x="115" y="288" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="276" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="258" width="140" height="18" rx="3" fill="#A9B0B8"/>
+    <rect x="115" y="240" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="228" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="210" width="140" height="18" rx="3" fill="#A9B0B8"/>
+    <rect x="115" y="192" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="180" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="162" width="140" height="18" rx="3" fill="#A9B0B8"/>
+    <rect x="115" y="144" width="140" height="18" rx="3" fill="#C97A40"/>
+    <rect x="117" y="132" width="136" height="12" rx="2" fill="#EDE5CB"/>
+    <rect x="115" y="114" width="140" height="18" rx="3" fill="#A9B0B8"/>
+  </g>
+  <!-- dây nối -->
+  <g fill="none" stroke="#1B1920" stroke-width="2.5">
+    <path d="M255 123h70v-28h40"/>
+    <path d="M255 393h70v-30h40"/>
+  </g>
+  <circle cx="370" cy="95" r="6" fill="#3787c4" stroke="#1B1920" stroke-width="2"/>
+  <circle cx="370" cy="363" r="6" fill="#d8312a" stroke="#1B1920" stroke-width="2"/>
+  <text x="382" y="100" font-size="18" font-weight="700" fill="#3787c4">−</text>
+  <text x="382" y="368" font-size="18" font-weight="700" fill="#d8312a">+</text>
+  <!-- ngoặc: một ngăn pin -->
+  <path d="M84 354h-8v48h8" fill="none" stroke="#1B1920" stroke-width="1.5"/>
+  <text x="8" y="378" font-size="12">1 cặp</text>
+  <text x="8" y="393" font-size="12" fill="#59606B">≈ 0,7–1 V</text>
+  <!-- chú giải -->
+  <g font-size="12.5">
+    <rect x="20" y="438" width="16" height="12" fill="#C97A40" stroke="#1B1920"/><text x="42" y="449">Đồng (Cu)</text>
+    <rect x="128" y="438" width="16" height="12" fill="#A9B0B8" stroke="#1B1920"/><text x="150" y="449">Kẽm (Zn)</text>
+    <rect x="232" y="438" width="16" height="12" fill="#EDE5CB" stroke="#1B1920"/><text x="254" y="449">Vải tẩm nước muối</text>
+  </g>
+  <text x="20" y="28" fill="#59606B" font-size="12">Cực âm ở phía kẽm, cực dương ở phía đồng.</text>
+</svg>

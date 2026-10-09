@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đo liều | Sinh điện từ | My N. Nguyen</title>
+<meta name="description" content="Điện trường cảm ứng, mật độ dòng, SAR, SA; mô phỏng FDTD và FEM trong trình duyệt; giới hạn ICNIRP.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/5-do-lieu.html, giai đoạn 5: ĐO LIỀU)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      induced.js  : điện trường cảm ứng trong đĩa mô, so với giới hạn ICNIRP 2010
+      sar-heat.js : SAR, SA và tăng nhiệt độ (có / không có tưới máu)
+      fdtd.js     : mô phỏng FDTD 2D (lưới Yee) sóng phẳng chiếu vào mô
+      fem.js      : mô phỏng FEM 2D (phần tử tam giác) dòng điện tDCS trong đầu
+  - Bảng ICNIRP: section #icnirp.
+  - Hình vẽ: lib/figures/luoi-yee.svg
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Sinh điện từ</a> / Phần 5</p>
+  <h1><span class="dot"></span>Đo liều</h1>
+  <p class="lead">Đo liều điện từ <span class="en">(electromagnetic dosimetry)</span> xác định liều lượng mà mô thực sự nhận được, tức là trả lời câu hỏi: khi cơ thể ở trong một trường điện từ bên ngoài, trường <i>bên trong</i> mô lớn bao nhiêu, và mô hấp thụ bao nhiêu năng lượng? Ở tần số thấp, đại lượng quan trọng là điện trường cảm ứng (vì nó kích thích thần kinh); ở tần số cao là SAR (vì nó làm nóng mô). Không đo được trực tiếp bên trong người, nên ta dùng mô phỏng số: FDTD và FEM.</p>
+</header>
+
+<!-- ================= 5.1 ĐIỆN TRƯỜNG CẢM ỨNG ================= -->
+<section class="part" id="cam-ung">
+  <div class="wrap">
+    <h2>Điện trường cảm ứng và mật độ dòng</h2>
+    <div class="prose">
+      <p>Ở tần số thấp (dưới khoảng 100 kHz), từ trường bên ngoài đi xuyên qua cơ thể gần như nguyên vẹn. Theo định luật Faraday, từ trường biến thiên sinh ra trong mô một <span class="term">điện trường cảm ứng</span> <span class="en">(induced electric field)</span> \(E_i\), và từ đó một <span class="term">mật độ dòng cảm ứng</span> <span class="en">(induced current density)</span> \(J = \sigma E_i\). Nếu E<sub>i</sub> đủ lớn, nó kích thích dây thần kinh và cơ; ở mức thấp hơn, nó gây hiện tượng chớp sáng ở võng mạc (magnetophosphene). Hướng dẫn ICNIRP 2010 giới hạn chính E<sub>i</sub> (trước 2010 là J).</p>
+      <p>Mô hình đơn giản nhất: một đĩa mô dẫn điện đồng nhất bán kính R, đặt vuông góc với từ trường đều biên độ B, tần số f. Áp dụng định luật Faraday cho đường tròn bán kính r bên trong đĩa:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ E_i(r)\cdot 2\pi r = \omega B\cdot\pi r^2 \;\Rightarrow\; E_i(r) = \pi f B r, \qquad J(r) = \sigma\,\pi f B r \]</div>
+      <p class="where"><b>E<sub>i</sub></b>: điện trường cảm ứng (V/m), tăng tuyến tính từ tâm ra mép; <b>B</b>: mật độ từ thông (T); <b>f</b>: tần số (Hz); <b>σ</b>: độ dẫn điện của mô (S/m). E<sub>i</sub> không phụ thuộc σ (trong mô hình đĩa đồng nhất), nhưng J thì có. Các trị số đều là trị hiệu dụng (rms) nếu B là trị hiệu dụng.</p>
+    </div>
+    <div class="demo" id="demoInduced" data-demo="induced">
+      <div class="demo-title"><h4>Điện trường cảm ứng trong đĩa mô</h4><span>Chọn nguồn từ trường, tần số và kích thước</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Mô hình đĩa đồng nhất cho giá trị lớn nhất ở mép đĩa. Trong cơ thể thật, dòng điện dồn vào các mô dẫn điện tốt và vòng qua các mô dẫn kém, nên E<sub>i</sub> cục bộ có thể khác vài lần. Đó là lý do các hướng dẫn chuyển từ "giới hạn cơ bản" (bên trong mô) sang "mức tham chiếu" (đo được bên ngoài) bằng mô phỏng số trên mô hình người chi tiết.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5.2 SAR & SA ================= -->
+<section class="part tint" id="sar">
+  <div class="wrap">
+    <h2>SAR và SA</h2>
+    <div class="prose">
+      <p>Từ khoảng 100 kHz trở lên, tác động chính là làm nóng mô. Công suất điện từ bị hấp thụ trên mỗi kilogam mô gọi là <span class="term">tỉ lệ hấp thụ riêng</span> <span class="en">(specific absorption rate, SAR)</span>, đơn vị W/kg. Lấy tích phân SAR theo thời gian ta được <span class="term">năng lượng hấp thụ riêng</span> <span class="en">(specific absorption, SA)</span>, đơn vị J/kg, dùng cho các xung ngắn (ví dụ radar), nơi tổng năng lượng trong một xung quan trọng hơn công suất trung bình.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \mathrm{SAR} = \frac{\sigma\,|E_{\text{rms}}|^2}{\rho} = c\,\frac{dT}{dt}\bigg|_{t=0}, \qquad \mathrm{SA} = \int \mathrm{SAR}\,dt, \qquad \underbrace{\rho c\frac{dT}{dt} = \rho\,\mathrm{SAR} - w_b c_b (T - T_b)}_{\text{phương trình nhiệt sinh học Pennes, bỏ qua dẫn nhiệt}} \]</div>
+      <p class="where"><b>σ</b>: độ dẫn điện của mô ở tần số đang xét (S/m); <b>E<sub>rms</sub></b>: điện trường hiệu dụng trong mô (V/m); <b>ρ</b>: khối lượng riêng của mô (kg/m³, khác với điện trở suất ρ ở phần 1); <b>c</b>: nhiệt dung riêng (J/(kg·K)); <b>w<sub>b</sub></b>: lưu lượng máu tưới (kg/(m³·s)); <b>c<sub>b</sub></b>: nhiệt dung riêng của máu. Máu mang nhiệt đi nên nhiệt độ không tăng mãi mà tiến tới một mức ổn định.</p>
+    </div>
+    <div class="demo" id="demoSar" data-demo="sar-heat">
+      <div class="demo-title"><h4>SAR, SA và nhiệt độ</h4><span>Chọn mô, tần số, cường độ trường trong mô và thời gian</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="callout"><b>Một vài con số để so sánh.</b> Chuyển hóa cơ bản của người trưởng thành lúc nghỉ khoảng 1 W/kg. Giới hạn SAR toàn thân cho công chúng của ICNIRP là 0,08 W/kg, nhỏ hơn 50 lần so với mức 4 W/kg, mức có thể làm thân nhiệt tăng khoảng 1 °C. Máy MRI ở chế độ thường được phép tạo SAR toàn thân tới 2 W/kg (tiêu chuẩn IEC 60601-2-33), vì bệnh nhân được theo dõi và thời gian chụp có hạn.</div>
+  </div>
+</section>
+
+<!-- ================= 5.3 FDTD ================= -->
+<section class="part" id="fdtd">
+  <div class="wrap">
+    <h2>FDTD: sai phân hữu hạn miền thời gian</h2>
+    <div class="prose">
+      <p><span class="term">Phương pháp sai phân hữu hạn miền thời gian</span> <span class="en">(finite-difference time-domain, FDTD)</span> giải trực tiếp hai phương trình curl của Maxwell (phần 3). Không gian được chia thành lưới ô vuông (hoặc khối lập phương) cạnh Δx; thời gian chia thành bước Δt. Thủ thuật của Kane Yee (1966) là đặt E và H lệch nhau nửa ô và nửa bước thời gian, để mỗi đạo hàm được tính bằng sai phân trung tâm. Sau đó, chỉ cần lặp: cập nhật H từ E, rồi cập nhật E từ H, hàng nghìn lần.</p>
+      <p>FDTD rất hợp với mô hình người dạng voxel (lấy từ ảnh MRI hay CT): mỗi voxel chỉ cần một bộ (εᵣ, σ). Đổi lại, mặt cong bị xấp xỉ thành bậc thang, và ô lưới phải nhỏ hơn khoảng 1/10 bước sóng trong mô.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ E_z^{n+1} = C_a E_z^{n} + C_b\!\left(\frac{H_y^{n+\frac12}(i+\tfrac12) - H_y^{n+\frac12}(i-\tfrac12)}{\Delta x} - \frac{H_x^{n+\frac12}(j+\tfrac12) - H_x^{n+\frac12}(j-\tfrac12)}{\Delta x}\right), \quad C_a = \frac{1 - \frac{\sigma\Delta t}{2\varepsilon}}{1 + \frac{\sigma\Delta t}{2\varepsilon}},\ C_b = \frac{\Delta t/\varepsilon}{1 + \frac{\sigma\Delta t}{2\varepsilon}} \]</div>
+      <div class="eq">\[ \Delta t \le \frac{\Delta x}{c\sqrt{2}} \ \ \text{(điều kiện ổn định Courant, 2D)}, \qquad \Delta x \lesssim \frac{\lambda_{\text{mô}}}{10} \]</div>
+      <p class="where">Phương trình cho H<sub>x</sub>, H<sub>y</sub> có dạng tương tự với µ₀. Ở biên miền tính toán, cần một lớp hấp thụ (ở đây là lớp tổn hao khớp trở kháng, một dạng đơn giản của PML) để sóng đi ra không bị phản xạ ngược lại.</p>
+    </div>
+    <figure class="fig" style="max-width:620px">
+      <img src="lib/figures/luoi-yee.svg" alt="Sơ đồ lưới Yee hai chiều: Ez ở các nút lưới, Hx ở trung điểm các cạnh dọc, Hy ở trung điểm các cạnh ngang." loading="lazy">
+      <figcaption><b>Lưới Yee 2D (phân cực TM<sub>z</sub>).</b> E<sub>z</sub> (đỏ) nằm ở nút; H<sub>x</sub> và H<sub>y</sub> (xanh) nằm lệch nửa ô, mỗi thành phần H được bao quanh bởi các E<sub>z</sub> cần để tính curl của nó. Sơ đồ tự vẽ theo Yee (1966).</figcaption>
+    </figure>
+    <div class="demo" id="demoFdtd" data-demo="fdtd">
+      <div class="demo-title"><h4>Mô phỏng FDTD: sóng phẳng chiếu vào mô</h4><span>Lưới 1 mm, chạy ngay trong trình duyệt</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Hãy để ý hai điều mà demo độ xuyên sâu ở phần 4 bỏ qua. Thứ nhất, sóng phản xạ một phần ở mỗi mặt phân cách, tạo sóng đứng (các dải sáng tối) ở phía trước mô và bên trong lớp mỡ. Thứ hai, với lớp mỡ có bề dày cỡ 1/4 bước sóng trong mỡ, năng lượng truyền vào cơ có thể tăng hoặc giảm đáng kể: kích thước cơ thể và cấu trúc lớp quyết định SAR, không chỉ riêng tính chất từng mô.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5.4 FEM ================= -->
+<section class="part tint" id="fem">
+  <div class="wrap">
+    <h2>FEM: phương pháp phần tử hữu hạn</h2>
+    <div class="prose">
+      <p><span class="term">Phương pháp phần tử hữu hạn</span> <span class="en">(finite element method, FEM)</span> chia vùng tính toán thành các phần tử nhỏ (tam giác trong 2D, tứ diện trong 3D) có thể to nhỏ khác nhau và bám theo mặt cong của mô. Trong mỗi phần tử, nghiệm được xấp xỉ bằng một đa thức đơn giản (ở đây là hàm tuyến tính). Bài toán được viết lại dưới <span class="term">dạng yếu</span> <span class="en">(weak form)</span>, dẫn tới một hệ phương trình tuyến tính lớn nhưng thưa \(K\mathbf{V} = \mathbf{b}\).</p>
+      <p>FEM đặc biệt mạnh cho các bài toán tần số thấp và gần tĩnh: kích thích dòng một chiều qua sọ (tDCS), TMS, EEG/MEG, cấy ghép điện cực. Ví dụ dưới đây giải phương trình \(\nabla\cdot(\sigma\nabla V) = 0\) trên mặt cắt đầu gồm bốn lớp: da đầu, xương sọ, dịch não tủy và não.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \nabla\cdot(\sigma\nabla V) = 0 \;\Rightarrow\; \int_\Omega \sigma\,\nabla V\cdot\nabla v\,d\Omega = 0\ \ \forall v, \qquad K_{ij}^{(e)} = \frac{\sigma_e}{4A_e}\left(b_i b_j + c_i c_j\right) \]</div>
+      <p class="where"><b>V</b>: điện thế; <b>v</b>: hàm thử; <b>K<sup>(e)</sup></b>: ma trận độ cứng của phần tử tam giác e, diện tích A<sub>e</sub>, với b, c tính từ tọa độ ba đỉnh. Hệ được giải bằng phương pháp gradient liên hợp (conjugate gradient).</p>
+    </div>
+    <div class="demo" id="demoFem" data-demo="fem">
+      <div class="demo-title"><h4>Mô phỏng FEM: dòng điện tDCS trong đầu</h4><span>Lưới tam giác bám theo các lớp mô</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <h3>So sánh FDTD và FEM</h3>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tiêu chí</th><th>FDTD</th><th>FEM</th></tr></thead>
+        <tbody>
+          <tr><td>Lưới</td><td>Ô vuông / lập phương đều; mặt cong thành bậc thang.</td><td>Tam giác / tứ diện không đều, bám theo mặt cong; dày ở chỗ cần chi tiết.</td></tr>
+          <tr><td>Miền giải</td><td>Miền thời gian; một lần chạy với xung cho kết quả ở nhiều tần số.</td><td>Thường là miền tần số hoặc bài toán tĩnh; mỗi tần số giải một lần.</td></tr>
+          <tr><td>Phép tính</td><td>Lặp tường minh, không cần giải hệ phương trình; dễ song song trên GPU.</td><td>Giải hệ tuyến tính thưa lớn (bộ giải lặp hoặc trực tiếp).</td></tr>
+          <tr><td>Bộ nhớ</td><td>Tỉ lệ với số ô; rất lớn khi cần ô nhỏ ở mọi nơi.</td><td>Chỉ tăng ở nơi lưới mịn.</td></tr>
+          <tr><td>Thế mạnh trong đo liều</td><td>SAR ở tần số RF và vi sóng trên mô hình voxel người (điện thoại, MRI, 5G).</td><td>Tần số thấp và gần tĩnh: tDCS, TMS, EEG/MEG, cấy ghép, mô có hình học phức tạp.</td></tr>
+          <tr><td>Hạn chế</td><td>Sai số bậc thang ở mặt cong; Δx bị giới hạn bởi bước sóng nhỏ nhất.</td><td>Tạo lưới 3D chất lượng tốt cho cơ thể người rất tốn công.</td></tr>
+          <tr><td>Phần mềm ví dụ</td><td>Sim4Life, XFdtd, CST (một phần), openEMS, Meep.</td><td>COMSOL, SimNIBS, ROAST, FEniCS.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5.5 ICNIRP ================= -->
+<section class="part" id="icnirp">
+  <div class="wrap">
+    <h2>Giới hạn phơi nhiễm ICNIRP</h2>
+    <div class="prose">
+      <p>Ủy ban quốc tế về bảo vệ bức xạ không ion hóa <span class="en">(ICNIRP)</span> đặt giới hạn ở hai tầng. <span class="term">Giới hạn cơ bản</span> <span class="en">(basic restrictions)</span> áp dụng cho đại lượng bên trong cơ thể, gắn trực tiếp với tác động sinh học (E<sub>i</sub>, SAR, SA), nhưng không đo được trực tiếp. <span class="term">Mức tham chiếu</span> <span class="en">(reference levels)</span> là các đại lượng bên ngoài đo được (E, B, mật độ công suất), suy ra từ giới hạn cơ bản bằng mô phỏng đo liều với biên an toàn. Tuân thủ mức tham chiếu thì chắc chắn tuân thủ giới hạn cơ bản; vượt mức tham chiếu thì cần đánh giá kỹ hơn, chưa chắc đã vượt giới hạn cơ bản. Giới hạn cho công chúng thường thấp hơn cho người lao động 5 lần.</p>
+    </div>
+    <h3>Tần số thấp: ICNIRP 2010 (ở 50 Hz)</h3>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Loại</th><th>Đại lượng</th><th>Người lao động</th><th>Công chúng</th></tr></thead>
+        <tbody>
+          <tr><td>Giới hạn cơ bản</td><td>E<sub>i</sub> trong mô thần kinh trung ương ở đầu (não, võng mạc)</td><td>0,1 V/m</td><td>0,02 V/m</td></tr>
+          <tr><td>Giới hạn cơ bản</td><td>E<sub>i</sub> trong mọi mô của đầu và thân</td><td>0,8 V/m</td><td>0,4 V/m</td></tr>
+          <tr><td>Mức tham chiếu</td><td>Mật độ từ thông B</td><td>1000 µT</td><td>200 µT</td></tr>
+          <tr><td>Mức tham chiếu</td><td>Điện trường bên ngoài E</td><td>10 kV/m</td><td>5 kV/m</td></tr>
+        </tbody>
+        <caption>ICNIRP (2010), <i>Health Physics</i> 99(6):818–836. Giới hạn cơ bản thay đổi theo tần số; demo điện trường cảm ứng ở trên dùng đầy đủ các khoảng tần số từ 10 Hz đến 10 MHz.</caption>
+      </table>
+    </div>
+    <h3>Tần số cao: ICNIRP 2020 (100 kHz – 300 GHz)</h3>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Loại</th><th>Đại lượng</th><th>Dải tần</th><th>Người lao động</th><th>Công chúng</th></tr></thead>
+        <tbody>
+          <tr><td>Giới hạn cơ bản</td><td>SAR trung bình toàn thân (trung bình 30 phút)</td><td>100 kHz – 300 GHz</td><td>0,4 W/kg</td><td>0,08 W/kg</td></tr>
+          <tr><td>Giới hạn cơ bản</td><td>SAR cục bộ đầu và thân (trung bình 10 g, 6 phút)</td><td>100 kHz – 6 GHz</td><td>10 W/kg</td><td>2 W/kg</td></tr>
+          <tr><td>Giới hạn cơ bản</td><td>SAR cục bộ tay chân (10 g, 6 phút)</td><td>100 kHz – 6 GHz</td><td>20 W/kg</td><td>4 W/kg</td></tr>
+          <tr><td>Giới hạn cơ bản</td><td>Mật độ công suất hấp thụ S<sub>ab</sub> (trên 4 cm²)</td><td>6 – 300 GHz</td><td>100 W/m²</td><td>20 W/m²</td></tr>
+          <tr><td>Mức tham chiếu</td><td>Mật độ công suất sóng tới, toàn thân</td><td>2 – 300 GHz</td><td>50 W/m²</td><td>10 W/m²</td></tr>
+        </tbody>
+        <caption>ICNIRP (2020), <i>Health Physics</i> 118(5):483–524. Trên 6 GHz, độ xuyên sâu chỉ còn vài mm nên giới hạn chuyển từ SAR sang mật độ công suất hấp thụ ở bề mặt. Hướng dẫn 2020 còn có giới hạn SA cho phơi nhiễm ngắn dưới 6 phút; xem bản gốc để biết chi tiết.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part tint" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1960</span><div><h4>Ray Clough: "phần tử hữu hạn"</h4><p>Ý tưởng chia vùng thành các mảnh nhỏ có từ Courant (1943) và các kỹ sư hàng không thập niên 1950; Clough đặt tên "finite element method" năm 1960. Phương pháp được đưa vào điện từ học từ cuối thập niên 1960.</p></div></li>
+      <li><span class="yr">1966</span><div><h4>Kane Yee: lưới lệch</h4><p>Yee công bố thuật toán giải phương trình Maxwell bằng lưới E, H lệch nhau nửa ô, nền tảng của mọi phần mềm FDTD ngày nay. Allen Taflove đặt tên "FDTD" năm 1980.</p></div></li>
+      <li class="bio"><span class="yr">1966</span><div><h4>Tiêu chuẩn an toàn đầu tiên</h4><p>Tiêu chuẩn Mỹ USASI C95.1 (1966) giới hạn mật độ công suất vi sóng ở 10 mW/cm², dựa trên giả định tăng nhiệt, sau những lo ngại về sức khỏe của người vận hành radar.</p></div></li>
+      <li class="bio"><span class="yr">1988</span><div><h4>FDTD trên mô hình người</h4><p>Dennis Sullivan, Om Gandhi và Allen Taflove dùng FDTD tính SAR trong mô hình người gồm hàng chục nghìn ô, mở đầu cho đo liều tính toán <span class="en">(computational dosimetry)</span> trên mô hình giải phẫu.</p></div></li>
+      <li class="bio"><span class="yr">1998</span><div><h4>ICNIRP 1998</h4><p>ICNIRP (thành lập năm 1992) ban hành hướng dẫn cho 0–300 GHz với SAR toàn thân 0,08 W/kg cho công chúng, được nhiều nước áp dụng. Bản cập nhật cho tần số thấp ra năm 2010, cho RF năm 2020.</p></div></li>
+      <li class="bio"><span class="yr">2010</span><div><h4>Gia đình ảo (Virtual Family)</h4><p>Quỹ IT'IS và FDA giới thiệu các mô hình người chi tiết (hơn 80 loại mô, độ phân giải dưới 1 mm) dựng từ ảnh MRI, nay là chuẩn cho mô phỏng SAR của MRI và thiết bị không dây.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>ICNIRP, "Guidelines for limiting exposure to time-varying electric and magnetic fields (1 Hz – 100 kHz)", <i>Health Physics</i> 99 (2010) 818–836; "Guidelines for limiting exposure to electromagnetic fields (100 kHz to 300 GHz)", <i>Health Physics</i> 118 (2020) 483–524. <a href="https://www.icnirp.org/en/publications/index.html" target="_blank" rel="noopener">icnirp.org</a>.</li>
+      <li>K. S. Yee, "Numerical solution of initial boundary value problems involving Maxwell's equations in isotropic media", <i>IEEE Trans. Antennas Propag.</i> 14 (1966) 302–307.</li>
+      <li>A. Taflove, S. C. Hagness, <i>Computational Electrodynamics: The Finite-Difference Time-Domain Method</i>, Artech House.</li>
+      <li>H. H. Pennes, "Analysis of tissue and arterial blood temperatures in the resting human forearm", <i>J. Appl. Physiol.</i> 1 (1948) 93–122.</li>
+      <li>A. Thielscher, A. Antunes, G. B. Saturnino, "Field modeling for transcranial magnetic stimulation: a useful tool to understand the physiological effects of TMS?", IEEE EMBC 2015 (SimNIBS); giá trị độ dẫn điện mặc định dùng trong demo FEM.</li>
+      <li>IT'IS Foundation, <a href="https://itis.swiss/virtual-population/tissue-properties/database/" target="_blank" rel="noopener">Tissue Properties Database</a> (khối lượng riêng, nhiệt dung, lưu lượng máu).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-dien-moi.html"><small>Phần 4</small><b>Tính chất điện môi của mô</b></a>
+      <a class="next" href="index.html"><small>Hết</small><b>Trang chủ Sinh điện từ</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
