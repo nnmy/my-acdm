@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MRI não | Atlas hình ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Tra cứu tên và chức năng các cấu trúc não trên ảnh MRI T1 và T2 kèm phân vùng giải phẫu, chạy hoàn toàn trên trình duyệt.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="stylesheet" href="lib/fonts/fonts.css">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/atlas.css?v=20261009b">
+<!--
+  =====================================================================
+  HOW TO EDIT  (med-atlas/1-brain-mri.html, MRI NÃO)
+  - Nội dung từng cấu trúc (tên, đặc điểm, chức năng, lâm sàng, màu):
+      lib/data/brain-mri/labels.json   (sửa trực tiếp, không cần chạy lại gì)
+  - Ảnh và nhãn: lib/data/brain-mri/*.u8.gz + meta.json, tạo bằng tools/prepare_brain_mri.py (chạy một lần).
+  - Trình xem: lib/atlas.js (dùng chung cho các cơ quan); giao diện: lib/atlas.css.
+  - Sau khi sửa atlas.css/atlas.js/compare.css/compare.js: đổi chuỗi ?v=... (ở link CSS, thẻ script và
+    trong đoạn nạp compare) để trình duyệt không dùng bản cũ đã lưu.
+  - Các id trong khung .viewer (cv-t1, cv-t2, slice, segMode, find, info, ...) được atlas.js dùng; giữ nguyên khi sửa.
+  - Bố cục: cột trái = ảnh + bảng điều khiển; cột phải = khung thông tin (thu gọn được).
+    Trên điện thoại, bảng điều khiển nổi ở đáy màn hình, thu gọn được.
+  - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server, Live Server);
+    GitHub Pages chạy bình thường. Không dùng dịch vụ ngoài (font cục bộ trong lib/fonts/).
+  - Navbar, footer: ../common (site.css, site.js)
+  - Hàng nút trên trình xem (.vw-tabs, data-view): "MRI não người khoẻ" hiện trình xem atlas (#viewer);
+    mỗi nút bệnh (data-view = id ca trong lib/data/brain-disease/) hiện trình xem bệnh trong #dzHost,
+    nạp lib/compare.js + lib/compare.css ở lần bấm đầu. Ghim trong trình xem bệnh vào chung danh sách Ghim.
+    Thêm/bớt bệnh: sửa các nút data-view và lib/data/brain-disease/cases.json. Dữ liệu: README-brain-disease.md
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap wide page-head">
+  <p class="crumb"><a href="index.html">Atlas hình ảnh y khoa</a> / MRI não</p>
+  <h1><span class="dot"></span>MRI não</h1>
+</header>
+
+<section class="wrap wide" aria-label="Trình xem MRI">
+  <div class="vw-tabs" role="group" aria-label="Chọn ảnh">
+    <button class="btn" type="button" data-view="healthy" aria-pressed="true" aria-label="MRI não người khoẻ"><span class="vw-long">MRI não người khoẻ</span><span class="vw-short" hidden>Người khoẻ</span></button>
+    <button class="btn" type="button" data-view="alzheimer-1" aria-pressed="false" aria-label="Bệnh Alzheimer"><span class="vw-long">Bệnh </span>Alzheimer</button>
+    <button class="btn" type="button" data-view="stroke-1" aria-pressed="false" aria-label="Đột quỵ nhồi máu">Đột quỵ<span class="vw-long"> nhồi máu</span></button>
+  </div>
+  <div class="viewer" id="viewer">
+    <div class="left">
+      <div class="stage" id="stage">
+        <div class="films">
+          <div class="film">
+            <canvas id="cv-t1" tabindex="0" aria-label="Ảnh T1. Phím mũi tên di chuyển điểm trỏ, Enter để khóa, Page Up và Page Down đổi lát cắt, Esc bỏ khóa."></canvas>
+            <span class="tag" aria-hidden="true">T1</span>
+          </div>
+          <div class="film">
+            <canvas id="cv-t2" tabindex="0" aria-label="Ảnh T2. Phím mũi tên di chuyển điểm trỏ, Enter để khóa, Page Up và Page Down đổi lát cắt, Esc bỏ khóa."></canvas>
+            <span class="tag" aria-hidden="true">T2</span>
+          </div>
+          <div class="loader" id="loader"><div>Đang chuẩn bị…</div></div>
+        </div>
+        <div class="readout-strip" id="readout" aria-live="polite"></div>
+      </div>
+
+      <div class="controls" id="controls">
+        <div class="ctl-head"><span>Điều khiển</span><button class="iconbtn" type="button" id="ctlMin" aria-controls="ctlBody"></button></div>
+        <div class="ctl-body" id="ctlBody">
+          <div class="ctl">
+            <span class="lab" id="lbOrient">Hướng cắt</span>
+            <div class="seg-btns" role="group" aria-labelledby="lbOrient">
+              <button class="btn" type="button" data-orient="ax" aria-pressed="true">Axial</button>
+              <button class="btn" type="button" data-orient="cor" aria-pressed="false">Coronal</button>
+              <button class="btn" type="button" data-orient="sag" aria-pressed="false">Sagittal</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <label class="lab" for="slice">Lát cắt</label>
+            <div class="inline"><input type="range" id="slice" min="0" max="100" value="50"><output id="sliceOut" for="slice"></output></div>
+          </div>
+          <div class="ctl">
+            <label class="lab" for="segMode">Phân vùng</label>
+            <div class="inline">
+              <select id="segMode" class="inp sm">
+                <option value="off">Tắt</option>
+                <option value="edge">Viền</option>
+                <option value="fill">Tô màu</option>
+              </select>
+              <span class="inline grow" id="opacityRow"><label for="opacity" class="sublab">Độ đậm</label><input type="range" id="opacity" min="10" max="100" step="5" value="55"><output id="opacityOut" for="opacity"></output></span>
+            </div>
+          </div>
+          <div class="ctl">
+            <label class="lab" for="find">Tìm cấu trúc</label>
+            <div class="combo">
+              <input id="find" class="inp" type="text" role="combobox" aria-expanded="false" aria-controls="findList" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Gõ hoặc chọn cấu trúc…">
+              <button class="combo-arrow" type="button" tabindex="-1" aria-label="Mở danh sách cấu trúc"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+              <ul class="combo-list" id="findList" role="listbox" aria-label="Cấu trúc" hidden></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="infocol" aria-label="Thông tin cấu trúc">
+      <div class="info-inner">
+        <div class="info-bar"><span class="info-title" id="infoName"></span><button class="iconbtn" type="button" id="infoMin" aria-controls="info"></button></div>
+        <div class="info" id="info" aria-live="polite"></div>
+      </div>
+    </aside>
+  </div>
+  <div id="dzHost" hidden></div>
+</section>
+
+<section class="part" id="ghim" style="margin-top:44px">
+  <div class="wrap wide">
+    <div class="nb-head">
+      <h2>Ghim <span id="nbCount" style="color:var(--sea)">0</span></h2>
+      <div class="btnrow"><button class="btn primary" type="button" id="btnPdf" disabled>Xuất PDF</button></div>
+    </div>
+    <p class="hint-s" style="margin-top:6px">Bấm nút <b>Xuất PDF</b> để lưu những gì bạn đã ghim vào một file PDF.</p>
+    <p class="nb-empty" id="nbEmpty">Chưa ghim mục nào. Nhấp vào một vị trí trên ảnh để khóa, rồi bấm <b>Ghim</b> trong khung thông tin.</p>
+    <p class="nb-warn" id="nbWarn" hidden>Trình duyệt đang chặn bộ nhớ cục bộ (ví dụ chế độ ẩn danh), nên danh sách ghim sẽ mất khi đóng trang. Hãy xuất PDF trước khi rời trang.</p>
+    <ul class="nb-list" id="nbList"></ul>
+  </div>
+</section>
+
+<section class="part" id="du-lieu">
+  <div class="wrap">
+    <h2>Về dữ liệu</h2>
+    <div class="prose">
+      <p>Ảnh là template <span class="term">MNI ICBM152 2009c</span> (nonlinear symmetric): ảnh trung bình của nhiều người trưởng thành, độ phân giải 1 mm, T1 và T2 cùng một lưới voxel nên mỗi điểm khớp nhau trên hai chuỗi xung. Phân vùng là atlas <span class="term">CerebrA</span> (51 cấu trúc mỗi bán cầu); chất trắng đại não và dịch não tủy ngoài não thất được bổ sung từ bản đồ xác suất mô của ICBM. Con số T1, T2 tại một điểm là cường độ tính theo phần trăm so với chất trắng trên cùng chuỗi xung.</p>
+    </div>
+    <div class="callout">Tài liệu học tập, không dùng để chẩn đoán hay điều trị.</div>
+    <h3>Nguồn</h3>
+    <ol class="refs">
+      <li>Fonov VS và cs. <a href="https://doi.org/10.1016/S1053-8119(09)70884-5" target="_blank" rel="noopener">Unbiased nonlinear average age-appropriate brain templates from birth to adulthood</a>. NeuroImage 2009;47:S102.</li>
+      <li>Fonov V và cs. <a href="https://doi.org/10.1016/j.neuroimage.2010.07.033" target="_blank" rel="noopener">Unbiased average age-appropriate atlases for pediatric studies</a>. NeuroImage 2011;54(1):313-327.</li>
+      <li>Manera AL và cs. <a href="https://doi.org/10.1038/s41597-020-0557-9" target="_blank" rel="noopener">CerebrA, registration and manual label correction of Mindboggle-101 atlas for MNI-ICBM152 template</a>. Scientific Data 2020;7.</li>
+      <li>Klein A, Tourville J. <a href="https://doi.org/10.3389/fnins.2012.00171" target="_blank" rel="noopener">101 labeled brain images and a consistent human cortical labeling protocol</a>. Frontiers in Neuroscience 2012;6:171.</li>
+      <li>Dữ liệu gốc: <a href="https://nist.mni.mcgill.ca/?p=904" target="_blank" rel="noopener">ICBM 152 Nonlinear atlases 2009</a> (McGill) và <a href="https://gin.g-node.org/anamanera/CerebrA" target="_blank" rel="noopener">CerebrA</a> (G-Node GIN, CC0 1.0).</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<div class="tip" id="atlasTip" hidden role="tooltip"></div>
+<div id="printSheet"></div>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/atlas.js?v=20261009b"></script>
+<script>
+  ATLAS.start({
+    data: 'lib/data/brain-mri/', organ: 'brain-mri', title: 'MRI não', mods: ['t1', 't2'],
+    printHeader: "My N. Nguyen's Library",      // dòng đầu mỗi trang PDF
+    printTitle: 'Ghi chú ảnh MRI não',          // tiêu đề trong PDF
+    printFile: 'ghichu_mri_nao',                // tên file mặc định: ghichu_mri_nao yyyymmdd_HHMMSS.pdf
+  });
+</script>
+<script>
+  // Hàng nút chọn ảnh: một trình xem tại một thời điểm.
+  //   healthy = trình xem atlas (#viewer); id ca (lib/data/brain-disease/<id>) = trình xem bệnh (#dzHost).
+  // lib/compare.js + lib/compare.css chỉ được nạp khi bấm nút một bệnh lần đầu.
+  (() => {
+    const viewer = document.getElementById('viewer'), host = document.getElementById('dzHost');
+    const tabs = [...document.querySelectorAll('[data-view]')];
+    let ready = null, tok = 0;
+    const load = () => ready || (ready = new Promise((ok, bad) => {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'lib/compare.css?v=20261009b'; document.head.appendChild(css);
+      const js = document.createElement('script'); js.src = 'lib/compare.js?v=20261009b'; js.onload = ok; js.onerror = () => bad(new Error('Không tải được lib/compare.js'));
+      document.body.appendChild(js);
+    }));
+    let started = false;
+    async function show(view) {
+      const t = ++tok;
+      tabs.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+      const healthy = view === 'healthy';
+      viewer.hidden = !healthy; host.hidden = healthy;
+      if (healthy) return;
+      try {
+        await load();
+        if (t !== tok) return;
+        if (!started) {
+          started = true;
+          await CMP.start({ host, data: 'lib/data/brain-disease/', labels: 'lib/data/brain-mri/labels.json', caseId: view,
+            hideCases: true, onPin: n => ATLAS.addNote(n) });
+        } else { CMP.redraw(); await CMP.open(view); }
+      } catch (e) { console.error(e); host.textContent = 'Không mở được trình xem bệnh: ' + e.message; }
+    }
+    tabs.forEach(b => b.addEventListener('click', () => { if (b.getAttribute('aria-pressed') !== 'true') show(b.dataset.view); }));
+  })();
+</script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

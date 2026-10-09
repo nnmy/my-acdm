@@ -1,0 +1,1082 @@
+{
+ "_edit": "Nội dung các cấu trúc. structures: mỗi cấu trúc một mục (gộp phải/trái); lateral: true nếu chức năng hai bên khác nhau (khi đó tên hiển thị kèm Left/Right, hai bên là hai vùng riêng); nếu không, hai bên được gộp làm một vùng. labels: số nhãn trong seg.u8.gz -> cấu trúc + bên (R/L). groups: nhóm (en, vi). ipa: phiên âm IPA của tên tiếng Anh (side_ipa ghép thêm cho vùng lệch bên).",
+ "groups": {
+  "frontal": {
+   "en": "Frontal lobe",
+   "vi": "Thùy trán"
+  },
+  "parietal": {
+   "en": "Parietal lobe",
+   "vi": "Thùy đỉnh"
+  },
+  "temporal": {
+   "en": "Temporal lobe",
+   "vi": "Thùy thái dương"
+  },
+  "occipital": {
+   "en": "Occipital lobe",
+   "vi": "Thùy chẩm"
+  },
+  "cingulate": {
+   "en": "Cingulate gyrus",
+   "vi": "Hồi đai (hệ viền)"
+  },
+  "insula": {
+   "en": "Insula",
+   "vi": "Thùy đảo"
+  },
+  "mtl": {
+   "en": "Medial temporal lobe",
+   "vi": "Thùy thái dương trong (hệ viền)"
+  },
+  "basal": {
+   "en": "Basal nuclei",
+   "vi": "Nhân nền"
+  },
+  "dien": {
+   "en": "Diencephalon",
+   "vi": "Gian não"
+  },
+  "stem": {
+   "en": "Brainstem",
+   "vi": "Thân não"
+  },
+  "cereb": {
+   "en": "Cerebellum",
+   "vi": "Tiểu não"
+  },
+  "csf": {
+   "en": "CSF spaces",
+   "vi": "Dịch não tủy"
+  },
+  "wm": {
+   "en": "White matter",
+   "vi": "Chất trắng"
+  },
+  "other": {
+   "en": "Other",
+   "vi": "Khác"
+  }
+ },
+ "structures": {
+  "caudal-anterior-cingulate": {
+   "vi": "Phần đuôi hồi đai trước",
+   "en": "Caudal anterior cingulate",
+   "group": "cingulate",
+   "color": "#7e6eed",
+   "desc": "Đoạn sau của hồi đai trước, ôm phía trên gối và đầu thân thể chai, nằm ở mặt trong bán cầu.",
+   "func": "Theo dõi xung đột và sai sót khi thực hiện nhiệm vụ, điều chỉnh mức độ chú ý và nỗ lực, tham gia kiểm soát vận động và xử lý khía cạnh cảm xúc của đau.",
+   "clin": "Tổn thương hồi đai trước hai bên có thể gây mất động lực, giảm vận động và lời nói tự phát; nặng nhất là bất động không nói (akinetic mutism).",
+   "ipa": "ˈkɔːdəl ænˈtɪriər ˈsɪŋɡjələt"
+  },
+  "isthmus-cingulate": {
+   "vi": "Eo hồi đai",
+   "en": "Isthmus cingulate",
+   "group": "cingulate",
+   "color": "#3ada1b",
+   "desc": "Đoạn hẹp của hồi đai ở phía sau-dưới, uốn quanh lồi (splenium) thể chai để nối với hồi cạnh hải mã; gần vỏ sau lồi thể chai (retrosplenial).",
+   "func": "Kết nối hồi đai với hệ hải mã; tham gia trí nhớ tình tiết, định hướng không gian và mạng mặc định.",
+   "clin": "Giảm chuyển hóa và teo sớm ở vùng đai sau-eo hồi đai là dấu hiệu gợi ý bệnh Alzheimer trên PET và MRI.",
+   "ipa": "ˈɪsməs ˈsɪŋɡjələt"
+  },
+  "posterior-cingulate-dkt": {
+   "vi": "Phần sau hồi đai (theo atlas DKT)",
+   "en": "Posterior cingulate (DKT)",
+   "group": "cingulate",
+   "color": "#e63787",
+   "desc": "Trong atlas DKT, nhãn này nằm ở đoạn giữa hồi đai, phía trên thân thể chai, giữa phần đuôi hồi đai trước và eo hồi đai; phần lớn tương ứng vỏ đai giữa.",
+   "func": "Tham gia kiểm soát vận động và định hướng cơ thể, xử lý đau, chú ý; phần sau góp vào mạng mặc định và trí nhớ.",
+   "clin": "Thay đổi chức năng vùng đai giữa-sau gặp trong đau mạn tính, trầm cảm và giai đoạn sớm bệnh Alzheimer.",
+   "ipa": "pɑːˈstɪriər ˈsɪŋɡjələt"
+  },
+  "rostral-anterior-cingulate": {
+   "vi": "Phần mỏ hồi đai trước",
+   "en": "Rostral anterior cingulate",
+   "group": "cingulate",
+   "color": "#6ecded",
+   "desc": "Phần trước nhất của hồi đai, ôm quanh gối thể chai.",
+   "func": "Điều hòa cảm xúc, đánh giá ý nghĩa cảm xúc của kích thích, điều chỉnh phản ứng thần kinh tự chủ (nhịp tim, huyết áp).",
+   "clin": "Hoạt động bất thường của vùng hồi đai trước, kể cả vùng dưới gối kế cận, liên quan đến trầm cảm; vùng dưới gối là một đích kích thích não sâu thử nghiệm.",
+   "ipa": "ˈrɑːstrəl ænˈtɪriər ˈsɪŋɡjələt"
+  },
+  "caudal-middle-frontal": {
+   "vi": "Phần đuôi hồi trán giữa",
+   "en": "Caudal middle frontal",
+   "group": "frontal",
+   "color": "#dad21b",
+   "desc": "Phần sau của hồi trán giữa, nằm ngay trước hồi trước trung tâm, giữa rãnh trán trên và rãnh trán dưới.",
+   "func": "Chứa vùng vận động mắt trán (frontal eye field) điều khiển cử động mắt nhanh có chủ ý; tham gia chú ý không gian và trí nhớ làm việc.",
+   "clin": "Tổn thương cấp một bên thường làm hai mắt lệch về phía bên tổn thương (do bên còn lại đẩy mắt sang).",
+   "ipa": "ˈkɔːdəl ˈmɪdəl ˈfrʌntəl"
+  },
+  "lateral-orbitofrontal-cortex": {
+   "vi": "Vỏ ổ mắt ngoài",
+   "en": "Lateral orbitofrontal cortex",
+   "group": "frontal",
+   "color": "#ac37e6",
+   "desc": "Phần ngoài của mặt dưới thùy trán, nằm ngay trên trần ổ mắt.",
+   "func": "Đánh giá phần thưởng và hình phạt, điều chỉnh hành vi khi kết quả thay đổi, ức chế phản ứng không phù hợp; nhận cả thông tin khứu giác và vị giác.",
+   "clin": "Tổn thương gây hành vi bốc đồng, mất ức chế, khó thích nghi khi quy tắc thay đổi. Mặt dưới thùy trán dễ bị dập não trong chấn thương do va vào sàn sọ trước.",
+   "ipa": "ˈlætərəl ˌɔːrbɪtoʊˈfrʌntəl ˈkɔːrtɛks"
+  },
+  "medial-orbitofrontal-cortex": {
+   "vi": "Vỏ ổ mắt trong",
+   "en": "Medial orbitofrontal cortex",
+   "group": "frontal",
+   "color": "#6eed9e",
+   "desc": "Phần trong của mặt dưới thùy trán, gồm hồi thẳng (gyrus rectus) dọc đường giữa và phần lân cận.",
+   "func": "Mã hóa giá trị chủ quan của phần thưởng, điều hòa cảm xúc, ra quyết định trong bối cảnh xã hội; thuộc mạng mặc định.",
+   "clin": "Tổn thương (chấn thương, vỡ phình động mạch thông trước, u màng não rãnh khứu) gây thay đổi nhân cách, ra quyết định kém, thờ ơ hoặc mất ức chế.",
+   "ipa": "ˈmiːdiəl ˌɔːrbɪtoʊˈfrʌntəl ˈkɔːrtɛks"
+  },
+  "paracentral-lobule": {
+   "vi": "Tiểu thùy cạnh trung tâm",
+   "en": "Paracentral lobule",
+   "group": "frontal",
+   "color": "#da2b1b",
+   "desc": "Vùng ở mặt trong bán cầu, nơi hồi trước và sau trung tâm vắt qua bờ trên bán cầu. Nằm trên đường ranh giới trán-đỉnh.",
+   "func": "Vận động và cảm giác của chi dưới bên đối diện; tham gia kiểm soát tự chủ việc đi tiểu.",
+   "clin": "Tắc động mạch não trước gây yếu và giảm cảm giác chân đối bên nhiều hơn tay; tổn thương hai bên có thể gây tiểu không tự chủ.",
+   "ipa": "ˌpærəˈsɛntrəl ˈlɑːbjuːl"
+  },
+  "pars-opercularis": {
+   "vi": "Phần nắp hồi trán dưới",
+   "en": "Pars opercularis",
+   "group": "frontal",
+   "color": "#375be6",
+   "desc": "Phần sau của hồi trán dưới, che phía trước thùy đảo (vùng Brodmann 44).",
+   "func": "Bên trái (thường là bán cầu ưu thế): một phần vùng Broca, lập trình vận động lời nói và xử lý ngữ pháp. Bên phải: ức chế phản ứng, ngữ điệu lời nói.",
+   "clin": "Tổn thương bên trái gây mất ngôn ngữ Broca: nói ngập ngừng, ít từ, sai ngữ pháp, nhưng hiểu tương đối tốt.",
+   "lateral": true,
+   "ipa": "pɑːrz oʊˌpɜːrkjəˈlærɪs"
+  },
+  "pars-orbitalis": {
+   "vi": "Phần ổ mắt hồi trán dưới",
+   "en": "Pars orbitalis",
+   "group": "frontal",
+   "color": "#aded6e",
+   "desc": "Phần trước-dưới của hồi trán dưới, nối với mặt ổ mắt (vùng Brodmann 47).",
+   "func": "Xử lý ngữ nghĩa, chọn lựa và truy xuất nghĩa từ; tham gia xử lý cảm xúc và ngữ điệu.",
+   "clin": "Tổn thương bên trái góp phần gây rối loạn ngôn ngữ thể vận động và khó tìm từ.",
+   "lateral": true,
+   "ipa": "pɑːrz ˌɔːrbɪˈtælɪs"
+  },
+  "pars-triangularis": {
+   "vi": "Phần tam giác hồi trán dưới",
+   "en": "Pars triangularis",
+   "group": "frontal",
+   "color": "#da1bb2",
+   "desc": "Phần giữa của hồi trán dưới, hình tam giác, giữa nhánh lên và nhánh ngang của rãnh bên (vùng Brodmann 45).",
+   "func": "Bên trái: phần còn lại của vùng Broca, truy xuất từ và xử lý ngữ nghĩa-ngữ pháp khi nói và hiểu câu.",
+   "clin": "Tổn thương bên trái, cùng phần nắp, gây mất ngôn ngữ Broca.",
+   "lateral": true,
+   "ipa": "pɑːrz traɪˌæŋɡjəˈlærɪs"
+  },
+  "precentral-gyrus": {
+   "vi": "Hồi trước trung tâm",
+   "en": "Precentral gyrus",
+   "group": "frontal",
+   "color": "#37e6d8",
+   "desc": "Hồi ngay trước rãnh trung tâm, mặt ngoài thùy trán; vỏ vận động sơ cấp (M1, vùng Brodmann 4).",
+   "func": "Phát lệnh vận động chủ động cho nửa người bên đối diện qua bó tháp (bó vỏ-tủy, vỏ-hành); sắp xếp theo bản đồ cơ thể.",
+   "clin": "Tổn thương gây liệt nửa người đối bên kiểu trung ương. Vị trí trên hồi cho biết vùng yếu (mặt-tay ở mặt ngoài, chân ở mặt trong).",
+   "ipa": "priːˈsɛntrəl ˈdʒaɪrəs"
+  },
+  "rostral-middle-frontal": {
+   "vi": "Phần mỏ hồi trán giữa",
+   "en": "Rostral middle frontal",
+   "group": "frontal",
+   "color": "#edbe6e",
+   "desc": "Phần trước của hồi trán giữa, tương ứng phần lớn vỏ trước trán lưng-ngoài (DLPFC).",
+   "func": "Chức năng điều hành: trí nhớ làm việc, lập kế hoạch, chuyển đổi chiến lược, kiểm soát nhận thức.",
+   "clin": "Tổn thương gây rối loạn chức năng điều hành: khó lập kế hoạch, lặp lại hành vi. Vùng trán lưng-ngoài trái là đích kích thích từ xuyên sọ (rTMS) điều trị trầm cảm.",
+   "ipa": "ˈrɑːstrəl ˈmɪdəl ˈfrʌntəl"
+  },
+  "superior-frontal-gyrus": {
+   "vi": "Hồi trán trên",
+   "en": "Superior frontal gyrus",
+   "group": "frontal",
+   "color": "#5b1bda",
+   "desc": "Hồi trên cùng của thùy trán, chạy dọc bờ trên bán cầu, gồm cả phần mặt trong. Phần sau chứa vùng vận động bổ sung (SMA).",
+   "func": "Phần trước: trí nhớ làm việc và tự nhận thức. Vùng vận động bổ sung: lập kế hoạch và khởi động vận động, phối hợp hai tay, khởi phát lời nói.",
+   "clin": "Tổn thương vùng vận động bổ sung gây giảm vận động tự phát, có thể gây hội chứng bàn tay xa lạ; bên trái có thể gây mất ngôn ngữ vận động xuyên vỏ.",
+   "ipa": "suːˈpɪriər ˈfrʌntəl ˈdʒaɪrəs"
+  },
+  "cuneus": {
+   "vi": "Hồi chêm",
+   "en": "Cuneus",
+   "group": "occipital",
+   "color": "#37e63f",
+   "desc": "Vùng hình nêm ở mặt trong thùy chẩm, nằm giữa rãnh đỉnh-chẩm (phía trên) và rãnh cựa (phía dưới).",
+   "func": "Xử lý thị giác cho góc phần tư dưới của thị trường bên đối diện; góp phần vào thị giác sơ cấp và liên hợp.",
+   "clin": "Tổn thương gây bán manh góc phần tư dưới cùng bên ở cả hai mắt, phía đối diện với tổn thương.",
+   "ipa": "ˈkjuːniəs"
+  },
+  "lateral-occipital-cortex": {
+   "vi": "Hồi chẩm ngoài",
+   "en": "Lateral occipital cortex",
+   "group": "occipital",
+   "color": "#ed6e8d",
+   "desc": "Vỏ ở mặt ngoài thùy chẩm, phía sau thùy đỉnh và thái dương.",
+   "func": "Nhận dạng hình dạng vật thể (phức hợp chẩm ngoài); vùng ranh giới chẩm-thái dương xử lý chuyển động thị giác (vùng MT/V5).",
+   "clin": "Tổn thương có thể gây mất nhận biết vật thể bằng thị giác; tổn thương vùng chuyển động hai bên rất hiếm gặp, gây mất cảm nhận chuyển động (akinetopsia).",
+   "ipa": "ˈlætərəl ɑːkˈsɪpɪtəl ˈkɔːrtɛks"
+  },
+  "lingual-gyrus": {
+   "vi": "Hồi lưỡi",
+   "en": "Lingual gyrus",
+   "group": "occipital",
+   "color": "#1b82da",
+   "desc": "Hồi ở mặt trong-dưới thùy chẩm, nằm dưới rãnh cựa, kéo dài ra trước thành hồi cạnh hải mã.",
+   "func": "Xử lý thị giác cho góc phần tư trên của thị trường đối bên; tham gia xử lý màu sắc, chữ viết và trí nhớ hình ảnh.",
+   "clin": "Tổn thương gây bán manh góc phần tư trên đối bên. Tổn thương vùng lưỡi-thoi có thể gây mất nhận biết màu sắc (achromatopsia).",
+   "ipa": "ˈlɪŋɡwəl ˈdʒaɪrəs"
+  },
+  "pericalcarine-cortex": {
+   "vi": "Vỏ quanh rãnh cựa",
+   "en": "Pericalcarine cortex",
+   "group": "occipital",
+   "color": "#c9e637",
+   "desc": "Vỏ ở hai bờ rãnh cựa, mặt trong thùy chẩm; đây là vỏ thị giác sơ cấp (V1, vùng Brodmann 17).",
+   "func": "Nhận tín hiệu thị giác từ thể gối ngoài qua tia thị; bản đồ võng mạc chính xác: thị trường đối bên, hoàng điểm ở cực chẩm.",
+   "clin": "Tổn thương một bên gây bán manh đồng danh đối bên, có thể chừa hoàng điểm khi tắc động mạch não sau. Tổn thương hai bên gây mù vỏ.",
+   "ipa": "ˌpɛriˈkælkəraɪn ˈkɔːrtɛks"
+  },
+  "entorhinal-cortex": {
+   "vi": "Vỏ khứu (vỏ entorhinal)",
+   "en": "Entorhinal cortex",
+   "group": "mtl",
+   "color": "#dd6eed",
+   "desc": "Phần trước của hồi cạnh hải mã, ở mặt trong thùy thái dương, ngay dưới hạnh nhân và đầu hải mã.",
+   "func": "Cổng vào chính của hải mã: chuyển thông tin từ vỏ não liên hợp vào hải mã và ngược lại; chứa tế bào lưới (grid cells) giúp định vị trong không gian.",
+   "clin": "Là một trong những vùng đầu tiên xuất hiện đám rối sợi thần kinh trong bệnh Alzheimer, liên quan sớm với suy giảm trí nhớ.",
+   "ipa": "ˌɛntəˈraɪnəl ˈkɔːrtɛks"
+  },
+  "parahippocampal-gyrus": {
+   "vi": "Hồi cạnh hải mã",
+   "en": "Parahippocampal gyrus",
+   "group": "mtl",
+   "color": "#1bda8a",
+   "desc": "Hồi ở mặt trong-dưới thùy thái dương, ngay dưới và cạnh hải mã; phần trước là vỏ khứu (nhãn riêng).",
+   "func": "Ghi nhớ khung cảnh và địa điểm (vùng địa điểm cạnh hải mã), trí nhớ ngữ cảnh; chuyển thông tin thị giác-không gian vào hải mã.",
+   "clin": "Tổn thương có thể gây mất định hướng địa hình: không nhận ra nơi quen thuộc, lạc đường.",
+   "ipa": "ˌpærəˌhɪpəˈkæmpəl ˈdʒaɪrəs"
+  },
+  "hippocampus": {
+   "vi": "Hải mã",
+   "en": "Hippocampus",
+   "group": "mtl",
+   "color": "#e66a37",
+   "desc": "Cấu trúc cong ở mặt trong thùy thái dương, nằm ở sàn sừng thái dương não thất bên; gồm đầu, thân và đuôi.",
+   "func": "Hình thành trí nhớ mới về sự kiện (trí nhớ tình tiết), chuyển trí nhớ ngắn hạn thành dài hạn, định hướng không gian.",
+   "clin": "Teo hải mã là dấu hiệu MRI quan trọng của bệnh Alzheimer. Xơ hóa hải mã (teo, tăng tín hiệu T2) là nguyên nhân hay gặp của động kinh thùy thái dương.",
+   "ipa": "ˌhɪpəˈkæmpəs"
+  },
+  "amygdala": {
+   "vi": "Hạnh nhân",
+   "en": "Amygdala",
+   "group": "mtl",
+   "color": "#6e6eed",
+   "desc": "Khối nhân hình quả hạnh ở mặt trong thùy thái dương, ngay trước đầu hải mã và đầu sừng thái dương.",
+   "func": "Xử lý cảm xúc, đặc biệt sợ hãi; gắn ý nghĩa cảm xúc cho kích thích; tăng cường ghi nhớ các sự kiện có cảm xúc mạnh.",
+   "clin": "Tổn thương hai bên có thể gây giảm sợ hãi và hội chứng Klüver-Bucy. Hạnh nhân cũng là nơi khởi phát một số cơn động kinh thùy thái dương.",
+   "ipa": "əˈmɪɡdələ"
+  },
+  "fusiform-gyrus": {
+   "vi": "Hồi thoi",
+   "en": "Fusiform gyrus",
+   "group": "temporal",
+   "color": "#53da1b",
+   "desc": "Hồi dài ở mặt dưới thùy thái dương và chẩm, nằm giữa hồi thái dương dưới (bên ngoài) và hồi cạnh hải mã, hồi lưỡi (bên trong).",
+   "func": "Nhận diện khuôn mặt (vùng mặt, nổi trội bên phải), nhận dạng hình ảnh chữ viết (bên trái), nhận diện vật thể và màu sắc.",
+   "clin": "Tổn thương bên phải hoặc hai bên có thể gây mất nhận diện khuôn mặt (prosopagnosia); bên trái có thể gây mất đọc đơn thuần (đọc không được nhưng vẫn viết được).",
+   "lateral": true,
+   "ipa": "ˈfjuːzɪfɔːrm ˈdʒaɪrəs"
+  },
+  "inferior-temporal-gyrus": {
+   "vi": "Hồi thái dương dưới",
+   "en": "Inferior temporal gyrus",
+   "group": "temporal",
+   "color": "#e6379d",
+   "desc": "Hồi ở bờ dưới-ngoài của thùy thái dương, dưới rãnh thái dương dưới.",
+   "func": "Thuộc dòng thị giác bụng (\"cái gì\"): nhận dạng vật thể, hình dạng; tham gia trí nhớ ngữ nghĩa.",
+   "clin": "Tổn thương có thể gây khó nhận biết vật thể bằng mắt (agnosia thị giác). Teo vùng thái dương dưới gặp trong sa sút trí tuệ ngữ nghĩa.",
+   "ipa": "ɪnˈfɪriər ˈtɛmpərəl ˈdʒaɪrəs"
+  },
+  "middle-temporal-gyrus": {
+   "vi": "Hồi thái dương giữa",
+   "en": "Middle temporal gyrus",
+   "group": "temporal",
+   "color": "#6edded",
+   "desc": "Hồi ở giữa mặt ngoài thùy thái dương, nằm giữa rãnh thái dương trên và rãnh thái dương dưới.",
+   "func": "Xử lý ngữ nghĩa và hiểu nghĩa từ (nổi trội bên trái), nhận thức xã hội; phần sau tham gia xử lý chuyển động thị giác.",
+   "clin": "Tổn thương bên trái góp phần gây mất ngôn ngữ kiểu khó hiểu nghĩa từ và khó gọi tên.",
+   "lateral": true,
+   "ipa": "ˈmɪdəl ˈtɛmpərəl ˈdʒaɪrəs"
+  },
+  "superior-temporal-gyrus": {
+   "vi": "Hồi thái dương trên",
+   "en": "Superior temporal gyrus",
+   "group": "temporal",
+   "color": "#daba1b",
+   "desc": "Hồi trên cùng của mặt ngoài thùy thái dương, ngay dưới rãnh bên (Sylvius). Mặt trên của hồi chứa hồi thái dương ngang (nhãn riêng).",
+   "func": "Vỏ thính giác liên hợp; phần sau bên trái là vùng Wernicke để hiểu lời nói; rãnh thái dương trên tham gia nhận thức xã hội và nhận biết giọng nói.",
+   "clin": "Tổn thương phần sau bên trái gây mất ngôn ngữ Wernicke: nói trôi chảy nhưng sai từ, vô nghĩa, hiểu kém.",
+   "lateral": true,
+   "ipa": "suːˈpɪriər ˈtɛmpərəl ˈdʒaɪrəs"
+  },
+  "transverse-temporal-gyrus": {
+   "vi": "Hồi thái dương ngang (Heschl)",
+   "en": "Transverse temporal gyrus",
+   "group": "temporal",
+   "color": "#9637e6",
+   "desc": "Hồi nhỏ chạy chéo trên mặt trên thùy thái dương, ẩn trong rãnh bên; vỏ thính giác sơ cấp (A1, vùng Brodmann 41, 42).",
+   "func": "Nhận âm thanh đầu tiên ở vỏ não, sắp xếp theo tần số (bản đồ âm sắc); nhận tín hiệu từ thể gối trong của cả hai tai.",
+   "clin": "Do mỗi bên nhận tín hiệu từ cả hai tai, tổn thương một bên ít khi gây điếc; tổn thương hai bên có thể gây điếc vỏ.",
+   "ipa": "trænzˈvɜːrs ˈtɛmpərəl ˈdʒaɪrəs"
+  },
+  "inferior-parietal-lobule": {
+   "vi": "Tiểu thùy đỉnh dưới",
+   "en": "Inferior parietal lobule",
+   "group": "parietal",
+   "color": "#6eed8e",
+   "desc": "Phần dưới-sau thùy đỉnh ở mặt ngoài, dưới rãnh trong đỉnh. Trong atlas DKT, nhãn này chủ yếu là hồi góc và vùng phía sau; hồi trên viền được tách thành nhãn riêng.",
+   "func": "Bên trái: đọc, viết, tính toán, xử lý ngữ nghĩa. Bên phải: chú ý không gian và nhận biết bản thân trong không gian. Là nút quan trọng của mạng mặc định.",
+   "clin": "Tổn thương hồi góc trái có thể gây hội chứng Gerstmann (mất tính toán, mất viết, không nhận biết ngón tay, nhầm phải-trái). Tổn thương bên phải gây hội chứng lãng quên nửa người bên trái.",
+   "lateral": true,
+   "ipa": "ɪnˈfɪriər pəˈraɪətəl ˈlɑːbjuːl"
+  },
+  "postcentral-gyrus": {
+   "vi": "Hồi sau trung tâm",
+   "en": "Postcentral gyrus",
+   "group": "parietal",
+   "color": "#da1b23",
+   "desc": "Hồi ngay sau rãnh trung tâm, mặt ngoài thùy đỉnh; vỏ cảm giác thân thể sơ cấp (S1, vùng Brodmann 3, 1, 2).",
+   "func": "Nhận cảm giác chạm, áp lực, rung, tư thế khớp, đau và nhiệt từ nửa người bên đối diện; sắp xếp theo bản đồ cơ thể (homunculus).",
+   "clin": "Tổn thương gây giảm cảm giác nửa người đối bên, đặc biệt cảm giác tinh: nhận biết đồ vật bằng tay, phân biệt hai điểm.",
+   "ipa": "poʊstˈsɛntrəl ˈdʒaɪrəs"
+  },
+  "precuneus": {
+   "vi": "Tiền chêm",
+   "en": "Precuneus",
+   "group": "parietal",
+   "color": "#3772e6",
+   "desc": "Vùng ở mặt trong thùy đỉnh, trước hồi chêm, sau tiểu thùy cạnh trung tâm, trên eo hồi đai.",
+   "func": "Hình dung trong tâm trí, trí nhớ tự truyện, ý thức về bản thân, chuyển hướng chú ý trong không gian; là trung tâm của mạng mặc định.",
+   "clin": "Giảm chuyển hóa và teo tiền chêm xuất hiện sớm trong bệnh Alzheimer, đặc biệt dạng khởi phát sớm.",
+   "ipa": "priːˈkjuːniəs"
+  },
+  "superior-parietal-lobule": {
+   "vi": "Tiểu thùy đỉnh trên",
+   "en": "Superior parietal lobule",
+   "group": "parietal",
+   "color": "#bded6e",
+   "desc": "Phần trên của thùy đỉnh ở mặt ngoài, phía trên rãnh trong đỉnh, sau hồi sau trung tâm.",
+   "func": "Tích hợp cảm giác và thị giác để định vị cơ thể trong không gian, hướng dẫn với tay và cầm nắm bằng mắt, chuyển hướng chú ý.",
+   "clin": "Tổn thương có thể gây thất điều thị giác (với tay sai mục tiêu nhìn thấy); tổn thương đỉnh-chẩm hai bên gây hội chứng Bálint.",
+   "ipa": "suːˈpɪriər pəˈraɪətəl ˈlɑːbjuːl"
+  },
+  "supramarginal-gyrus": {
+   "vi": "Hồi trên viền",
+   "en": "Supramarginal gyrus",
+   "group": "parietal",
+   "color": "#da1bca",
+   "desc": "Hồi thuộc tiểu thùy đỉnh dưới, uốn quanh đầu tận phía sau của rãnh bên (Sylvius).",
+   "func": "Bên trái: xử lý âm vị, trí nhớ làm việc bằng lời, lập kế hoạch động tác (praxis). Cảm giác thân thể liên hợp; bên phải tham gia đồng cảm.",
+   "clin": "Tổn thương bên trái có thể gây mất ngôn ngữ dẫn truyền (khó nhắc lại) và mất dùng động tác ý tưởng-vận động.",
+   "lateral": true,
+   "ipa": "ˌsuːprəˈmɑːrdʒɪnəl ˈdʒaɪrəs"
+  },
+  "insula": {
+   "vi": "Thùy đảo",
+   "en": "Insula",
+   "group": "insula",
+   "color": "#37e6c2",
+   "desc": "Thùy vỏ não nằm sâu trong rãnh bên, bị các phần nắp của thùy trán, đỉnh và thái dương che phủ.",
+   "func": "Cảm nhận trạng thái bên trong cơ thể (nhịp tim, đói, đau), vị giác, cảm xúc và nhận thức về cảm xúc, điều hòa tự chủ; tham gia lập trình vận ngôn.",
+   "clin": "Trên CT, mất ranh giới dải vỏ đảo là dấu hiệu sớm của nhồi máu động mạch não giữa. Tổn thương có thể gây rối loạn vận ngôn, rối loạn nhịp tim.",
+   "ipa": "ˈɪnsələ"
+  },
+  "brainstem": {
+   "vi": "Thân não",
+   "en": "Brainstem",
+   "group": "stem",
+   "color": "#edad6e",
+   "desc": "Gồm trung não, cầu não và hành não, nối gian não với tủy sống.",
+   "func": "Chứa nhân của dây thần kinh sọ III đến XII, các bó vận động và cảm giác đi qua, trung tâm hô hấp và tim mạch, hệ lưới duy trì sự tỉnh táo.",
+   "clin": "Tổn thương gây hội chứng bắt chéo đặc trưng: liệt dây thần kinh sọ cùng bên và liệt nửa người đối bên; tổn thương rộng có thể gây hôn mê hoặc ngừng thở.",
+   "ipa": "ˈbreɪnstɛm"
+  },
+  "third-ventricle": {
+   "vi": "Não thất ba",
+   "en": "Third ventricle",
+   "group": "csf",
+   "color": "#4f8fe8",
+   "desc": "Khe hẹp ở đường giữa, giữa hai đồi thị; thông lên hai não thất bên qua lỗ gian não thất (Monro) và xuống não thất bốn qua cống não.",
+   "func": "Dẫn dịch não tủy; thành và sàn tiếp giáp vùng dưới đồi.",
+   "clin": "Nang keo ở trần não thất ba có thể bít lỗ Monro gây não úng thủy cấp. Giãn não thất ba gặp trong tắc cống não.",
+   "ipa": "θɜːrd ˈvɛntrɪkəl"
+  },
+  "fourth-ventricle": {
+   "vi": "Não thất bốn",
+   "en": "Fourth ventricle",
+   "group": "csf",
+   "color": "#2e6fd6",
+   "desc": "Khoang hình mái lều nằm giữa cầu não-hành não (phía trước) và tiểu não (phía sau); thông với khoang dưới nhện qua lỗ giữa (Magendie) và hai lỗ bên (Luschka).",
+   "func": "Dẫn dịch não tủy từ cống não ra khoang dưới nhện quanh não và tủy sống.",
+   "clin": "Các khối u hố sau (u nguyên bào tủy, u màng não thất, u sao bào lông) có thể chèn ép não thất bốn gây não úng thủy.",
+   "ipa": "fɔːrθ ˈvɛntrɪkəl"
+  },
+  "lateral-ventricle": {
+   "vi": "Não thất bên",
+   "en": "Lateral ventricle",
+   "group": "csf",
+   "color": "#7ab0ff",
+   "desc": "Hai khoang chứa dịch não tủy lớn nhất, mỗi bán cầu một khoang: sừng trán, thân, ngã ba (atrium), sừng chẩm; sừng thái dương là nhãn riêng.",
+   "func": "Chứa đám rối mạch mạc sản xuất phần lớn dịch não tủy; dịch đi qua lỗ Monro xuống não thất ba.",
+   "clin": "Giãn não thất bên gặp trong não úng thủy hoặc teo não. Xuất huyết não thất là biến chứng hay gặp ở trẻ sinh non.",
+   "ipa": "ˈlætərəl ˈvɛntrɪkəl"
+  },
+  "inferior-lateral-ventricle-temporal-horn": {
+   "vi": "Sừng thái dương não thất bên",
+   "en": "Inferior lateral ventricle (temporal horn)",
+   "group": "csf",
+   "color": "#1e4fa8",
+   "desc": "Phần não thất bên đi vào thùy thái dương; sàn của nó là hải mã.",
+   "func": "Một phần hệ thống dẫn dịch não tủy.",
+   "clin": "Giãn sừng thái dương là dấu hiệu sớm của não úng thủy, và cũng gặp khi hải mã bị teo (ví dụ bệnh Alzheimer).",
+   "ipa": "ɪnˈfɪriər ˈlætərəl ˈvɛntrɪkəl (ˈtɛmpərəl hɔːrn)"
+  },
+  "optic-chiasm-and-tracts": {
+   "vi": "Giao thoa thị giác và dải thị",
+   "en": "Optic chiasm and tracts",
+   "group": "dien",
+   "color": "#dfe637",
+   "desc": "Giao thoa thị giác nằm trên tuyến yên, trước cuống tuyến yên; CerebrA gộp cả dải thị đi từ giao thoa ra sau quanh cuống đại não.",
+   "func": "Tại giao thoa, sợi từ nửa võng mạc phía mũi bắt chéo sang bên kia; dải thị mang thông tin của thị trường đối bên về thể gối ngoài.",
+   "clin": "U tuyến yên chèn ép giao thoa từ dưới gây bán manh hai thái dương. Tổn thương dải thị gây bán manh đồng danh đối bên.",
+   "ipa": "ˈɑːptɪk ˈkaɪæzəm ənd trækts"
+  },
+  "thalamus": {
+   "vi": "Đồi thị",
+   "en": "Thalamus",
+   "group": "dien",
+   "color": "#cd6eed",
+   "desc": "Khối chất xám hình trứng ở hai bên não thất ba, phía trong bao trong; gồm nhiều nhóm nhân.",
+   "func": "Trạm chuyển tiếp hầu hết thông tin cảm giác (trừ khứu giác) và vận động lên vỏ não; điều hòa sự tỉnh táo, chú ý và tham gia trí nhớ.",
+   "clin": "Nhồi máu hoặc xuất huyết đồi thị gây mất cảm giác nửa người đối bên; sau đó có thể xuất hiện đau trung ương (hội chứng Déjerine-Roussy).",
+   "ipa": "ˈθæləməs"
+  },
+  "ventral-diencephalon": {
+   "vi": "Gian não bụng",
+   "en": "Ventral diencephalon",
+   "group": "dien",
+   "color": "#1bda72",
+   "desc": "Nhãn gộp vùng dưới đồi thị, gồm vùng dưới đồi, nhân dưới đồi, phần trên chất đen, nhân đỏ, thể gối và các bó sợi lân cận.",
+   "func": "Vùng dưới đồi điều hòa nội tiết (qua tuyến yên), thân nhiệt, ăn uống, nhịp thức-ngủ; nhân dưới đồi và chất đen tham gia vòng hạch nền điều hòa vận động.",
+   "clin": "Nhân dưới đồi là đích kích thích não sâu phổ biến trong Parkinson. Tổn thương vùng dưới đồi gây rối loạn nội tiết, thân nhiệt, giấc ngủ.",
+   "ipa": "ˈvɛntrəl ˌdaɪɛnˈsɛfəlɑːn"
+  },
+  "cerebellar-cortex": {
+   "vi": "Vỏ tiểu não",
+   "en": "Cerebellar cortex",
+   "group": "cereb",
+   "color": "#e65437",
+   "desc": "Lớp chất xám xếp thành các lá mỏng song song phủ bên ngoài hai bán cầu tiểu não, trong hố sọ sau.",
+   "func": "Phối hợp và tinh chỉnh vận động, giữ thăng bằng và trương lực cơ, học vận động; phần bán cầu ngoài tham gia nhận thức và ngôn ngữ.",
+   "clin": "Tổn thương bán cầu tiểu não gây thất điều chi cùng bên: đo tầm sai, run khi cử động hướng đích, mất phối hợp động tác luân phiên.",
+   "ipa": "ˌsɛrəˈbɛlər ˈkɔːrtɛks"
+  },
+  "cerebellar-white-matter": {
+   "vi": "Chất trắng tiểu não",
+   "en": "Cerebellar white matter",
+   "group": "cereb",
+   "color": "#6e7eed",
+   "desc": "Lõi chất trắng của bán cầu tiểu não, phân nhánh thành hình \"cây sống\" (arbor vitae); bên trong có các nhân tiểu não, lớn nhất là nhân răng.",
+   "func": "Dẫn truyền tín hiệu vào vỏ tiểu não và từ vỏ về các nhân tiểu não; nhân răng là đầu ra chính, đi qua cuống tiểu não trên lên đồi thị và vỏ vận động.",
+   "clin": "Tổn thương gây thất điều cùng bên. Nhân răng có thể tăng tín hiệu trong một số bệnh chuyển hóa và nhiễm độc.",
+   "ipa": "ˌsɛrəˈbɛlər waɪt ˈmætər"
+  },
+  "vermis-lobules-i-v": {
+   "vi": "Thùy giun, tiểu thùy I-V",
+   "en": "Vermis lobules I-V",
+   "group": "cereb",
+   "color": "#6bda1b",
+   "desc": "Phần thùy giun (đường giữa tiểu não) thuộc thùy trước, phía trên-trước, giáp mái não thất bốn.",
+   "func": "Điều hòa vận động thân mình và các chi gần: tư thế, dáng đứng và dáng đi.",
+   "clin": "Thoái hóa thùy giun trước (ví dụ do rượu) gây thất điều dáng đi, đứng dạng chân rộng, trong khi tay ít bị ảnh hưởng.",
+   "ipa": "ˈvɜːrmɪs ˈlɑːbjuːlz"
+  },
+  "vermis-lobules-vi-vii": {
+   "vi": "Thùy giun, tiểu thùy VI-VII",
+   "en": "Vermis lobules VI-VII",
+   "group": "cereb",
+   "color": "#e637b4",
+   "desc": "Phần giữa của thùy giun, phía sau rãnh nguyên phát (gồm đỉnh, lá và củ).",
+   "func": "Điều hòa vận động mắt (cử động mắt nhanh, độ chính xác của mắt); phần VII tham gia chức năng nhận thức và cảm xúc.",
+   "clin": "Tổn thương gây rối loạn vận động mắt (mắt nhìn quá hoặc chưa tới mục tiêu); có liên quan với hội chứng nhận thức-cảm xúc tiểu não.",
+   "ipa": "ˈvɜːrmɪs ˈlɑːbjuːlz"
+  },
+  "vermis-lobules-viii-x": {
+   "vi": "Thùy giun, tiểu thùy VIII-X",
+   "en": "Vermis lobules VIII-X",
+   "group": "cereb",
+   "color": "#6eeded",
+   "desc": "Phần sau-dưới của thùy giun (tháp, lưỡi gà, nốt), giáp phía sau não thất bốn.",
+   "func": "Tiểu thùy nốt (X) cùng nhung tiểu não tạo thùy nhung-nốt, kết nối với hệ tiền đình để giữ thăng bằng và điều chỉnh vận động mắt.",
+   "clin": "Tổn thương gây mất thăng bằng thân mình và rung giật nhãn cầu. U nguyên bào tủy ở trẻ em thường xuất phát từ vùng thùy giun - mái não thất bốn.",
+   "ipa": "ˈvɜːrmɪs ˈlɑːbjuːlz"
+  },
+  "caudate-nucleus": {
+   "vi": "Nhân đuôi",
+   "en": "Caudate nucleus",
+   "group": "basal",
+   "color": "#daa21b",
+   "desc": "Nhân hình chữ C ôm theo thành ngoài não thất bên: đầu to lồi vào sừng trán, thân chạy dọc thân não thất, đuôi vào thùy thái dương.",
+   "func": "Thuộc thể vân, trong vòng hạch nền-vỏ não: học tập dựa trên phần thưởng, hành vi có mục tiêu, kiểm soát vận động mắt và nhận thức.",
+   "clin": "Teo đầu nhân đuôi làm sừng trán não thất bên giãn tròn, là dấu hiệu đặc trưng của bệnh Huntington.",
+   "ipa": "ˈkɔːdeɪt ˈnuːkliəs"
+  },
+  "putamen": {
+   "vi": "Nhân bèo sẫm",
+   "en": "Putamen",
+   "group": "basal",
+   "color": "#8037e6",
+   "desc": "Phần ngoài của nhân đậu, nằm giữa bao trong (phía trong) và bao ngoài, thùy đảo (phía ngoài).",
+   "func": "Thuộc thể vân vận động: nhận tín hiệu từ vỏ vận động và dopamine từ chất đen, điều hòa vận động và hình thành thói quen.",
+   "clin": "Vị trí hay gặp nhất của xuất huyết não do tăng huyết áp. Trong bệnh Parkinson, nhân bèo bị thiếu dopamine do chất đen thoái hóa.",
+   "ipa": "pjuːˈteɪmən"
+  },
+  "globus-pallidus": {
+   "vi": "Cầu nhạt",
+   "en": "Globus pallidus",
+   "group": "basal",
+   "color": "#6eed7d",
+   "desc": "Phần trong của nhân đậu, nằm giữa nhân bèo (phía ngoài) và bao trong (phía trong).",
+   "func": "Đầu ra chính của hạch nền (phần trong), gửi tín hiệu ức chế tới đồi thị để điều chỉnh vận động.",
+   "clin": "Là đích kích thích não sâu trong Parkinson và loạn trương lực. Tổn thương hai bên đối xứng gặp trong ngộ độc khí CO.",
+   "ipa": "ˈɡloʊbəs ˈpælɪdəs"
+  },
+  "nucleus-accumbens": {
+   "vi": "Nhân accumbens",
+   "en": "Nucleus accumbens",
+   "group": "basal",
+   "color": "#da1b3b",
+   "desc": "Vùng thể vân bụng, nơi đầu nhân đuôi và nhân bèo nối với nhau ở phía dưới-trước, dưới nhánh trước bao trong.",
+   "func": "Trung tâm của hệ thống phần thưởng: nhận dopamine từ vùng mái bụng, tạo động lực, cảm giác khoái cảm và củng cố hành vi.",
+   "clin": "Liên quan chặt với nghiện chất và trầm cảm; là đích kích thích não sâu thử nghiệm cho trầm cảm kháng trị và rối loạn ám ảnh cưỡng chế.",
+   "ipa": "ˈnuːkliəs əˈkʌmbənz"
+  },
+  "basal-forebrain": {
+   "vi": "Não trước nền",
+   "en": "Basal forebrain",
+   "group": "basal",
+   "color": "#3788e6",
+   "desc": "Vùng chất xám ở mặt dưới não, dưới thể vân và trước vùng dưới đồi; gồm nhân nền Meynert, nhân vách và dải chéo Broca.",
+   "func": "Nguồn acetylcholine chính cho vỏ não và hải mã, hỗ trợ chú ý, học tập và trí nhớ.",
+   "clin": "Thoái hóa sớm các nơ-ron cholinergic ở đây trong bệnh Alzheimer là cơ sở cho việc dùng thuốc ức chế cholinesterase.",
+   "ipa": "ˈbeɪsəl ˈfɔːrbreɪn"
+  },
+  "wm": {
+   "vi": "Chất trắng đại não",
+   "en": "Cerebral white matter",
+   "group": "wm",
+   "color": "#e8e2cf",
+   "desc": "Phần lõi bán cầu đại não nằm dưới vỏ não. Atlas không tách riêng các bó, nên nhãn này gồm cả thể chai, bao trong, bao ngoài, tia thị và các bó liên hợp.",
+   "func": "Dẫn truyền tín hiệu: bó liên hợp nối các vùng vỏ cùng bán cầu, bó mép (thể chai) nối hai bán cầu, bó chiếu nối vỏ não với đồi thị, thân não và tủy sống.",
+   "clin": "Tổn thương chất trắng do bệnh mạch máu nhỏ, xơ cứng rải rác hay chấn thương sợi trục lan tỏa thường thấy rõ nhất là các ổ tăng tín hiệu trên T2/FLAIR.",
+   "nofill": true,
+   "ipa": "səˈriːbrəl waɪt ˈmætər"
+  },
+  "extcsf": {
+   "vi": "Dịch não tủy ngoài não thất",
+   "en": "Extraventricular CSF",
+   "group": "csf",
+   "color": "#9cc3ff",
+   "desc": "Dịch não tủy trong khoang dưới nhện: các rãnh vỏ não, khe liên bán cầu, các bể dịch đáy não. Nhãn bổ sung từ bản đồ xác suất dịch não tủy của ICBM.",
+   "func": "Đệm cơ học cho não, lưu thông và hấp thu dịch não tủy, dọn chất thải chuyển hóa.",
+   "clin": "Rãnh và bể dịch rộng ra khi não teo. Máu trong khoang dưới nhện (xuất huyết dưới nhện) thường do vỡ phình mạch.",
+   "ipa": "ˌɛkstrəvɛnˈtrɪkjələr ˌsiːɛsˈɛf"
+  },
+  "unk": {
+   "vi": "Chưa phân loại",
+   "en": "Unclassified",
+   "group": "other",
+   "color": "#888888",
+   "desc": "Voxel nằm trong não nhưng atlas không gán nhãn và không đủ gần nhãn nào để suy ra.",
+   "func": "",
+   "clin": "",
+   "nofill": true,
+   "ipa": "ʌnˈklæsɪfaɪd"
+  },
+  "extra": {
+   "vi": "Ngoài nhu mô não",
+   "en": "Extracerebral tissue",
+   "group": "other",
+   "color": "#6b5a52",
+   "desc": "Da đầu, mỡ dưới da, xương sọ, màng não, cơ, mắt và mô mềm vùng mặt-cổ. Atlas não không phân loại chi tiết vùng này.",
+   "func": "",
+   "clin": "",
+   "nofill": true,
+   "ipa": "ˌɛkstrəsəˈriːbrəl ˈtɪʃuː"
+  }
+ },
+ "labels": {
+  "1": {
+   "s": "rostral-middle-frontal",
+   "side": "R"
+  },
+  "2": {
+   "s": "vermis-lobules-vi-vii",
+   "side": "R"
+  },
+  "3": {
+   "s": "inferior-temporal-gyrus",
+   "side": "R"
+  },
+  "4": {
+   "s": "nucleus-accumbens",
+   "side": "R"
+  },
+  "5": {
+   "s": "inferior-lateral-ventricle-temporal-horn",
+   "side": "R"
+  },
+  "6": {
+   "s": "pericalcarine-cortex",
+   "side": "R"
+  },
+  "7": {
+   "s": "lateral-orbitofrontal-cortex",
+   "side": "R"
+  },
+  "8": {
+   "s": "rostral-anterior-cingulate",
+   "side": "R"
+  },
+  "9": {
+   "s": "superior-parietal-lobule",
+   "side": "R"
+  },
+  "10": {
+   "s": "inferior-parietal-lobule",
+   "side": "R"
+  },
+  "11": {
+   "s": "brainstem",
+   "side": "R"
+  },
+  "12": {
+   "s": "lingual-gyrus",
+   "side": "R"
+  },
+  "13": {
+   "s": "postcentral-gyrus",
+   "side": "R"
+  },
+  "14": {
+   "s": "transverse-temporal-gyrus",
+   "side": "R"
+  },
+  "15": {
+   "s": "medial-orbitofrontal-cortex",
+   "side": "R"
+  },
+  "16": {
+   "s": "paracentral-lobule",
+   "side": "R"
+  },
+  "17": {
+   "s": "optic-chiasm-and-tracts",
+   "side": "R"
+  },
+  "18": {
+   "s": "parahippocampal-gyrus",
+   "side": "R"
+  },
+  "19": {
+   "s": "amygdala",
+   "side": "R"
+  },
+  "20": {
+   "s": "vermis-lobules-viii-x",
+   "side": "R"
+  },
+  "21": {
+   "s": "putamen",
+   "side": "R"
+  },
+  "22": {
+   "s": "pars-triangularis",
+   "side": "R"
+  },
+  "23": {
+   "s": "insula",
+   "side": "R"
+  },
+  "24": {
+   "s": "fusiform-gyrus",
+   "side": "R"
+  },
+  "25": {
+   "s": "basal-forebrain",
+   "side": "R"
+  },
+  "26": {
+   "s": "ventral-diencephalon",
+   "side": "R"
+  },
+  "27": {
+   "s": "globus-pallidus",
+   "side": "R"
+  },
+  "28": {
+   "s": "middle-temporal-gyrus",
+   "side": "R"
+  },
+  "29": {
+   "s": "third-ventricle",
+   "side": "R"
+  },
+  "30": {
+   "s": "caudal-anterior-cingulate",
+   "side": "R"
+  },
+  "31": {
+   "s": "precuneus",
+   "side": "R"
+  },
+  "32": {
+   "s": "pars-opercularis",
+   "side": "R"
+  },
+  "33": {
+   "s": "isthmus-cingulate",
+   "side": "R"
+  },
+  "34": {
+   "s": "lateral-occipital-cortex",
+   "side": "R"
+  },
+  "35": {
+   "s": "precentral-gyrus",
+   "side": "R"
+  },
+  "36": {
+   "s": "entorhinal-cortex",
+   "side": "R"
+  },
+  "37": {
+   "s": "fourth-ventricle",
+   "side": "R"
+  },
+  "38": {
+   "s": "superior-frontal-gyrus",
+   "side": "R"
+  },
+  "39": {
+   "s": "cerebellar-white-matter",
+   "side": "R"
+  },
+  "40": {
+   "s": "thalamus",
+   "side": "R"
+  },
+  "41": {
+   "s": "lateral-ventricle",
+   "side": "R"
+  },
+  "42": {
+   "s": "caudal-middle-frontal",
+   "side": "R"
+  },
+  "43": {
+   "s": "cuneus",
+   "side": "R"
+  },
+  "44": {
+   "s": "pars-orbitalis",
+   "side": "R"
+  },
+  "45": {
+   "s": "superior-temporal-gyrus",
+   "side": "R"
+  },
+  "46": {
+   "s": "cerebellar-cortex",
+   "side": "R"
+  },
+  "47": {
+   "s": "posterior-cingulate-dkt",
+   "side": "R"
+  },
+  "48": {
+   "s": "hippocampus",
+   "side": "R"
+  },
+  "49": {
+   "s": "caudate-nucleus",
+   "side": "R"
+  },
+  "50": {
+   "s": "vermis-lobules-i-v",
+   "side": "R"
+  },
+  "51": {
+   "s": "supramarginal-gyrus",
+   "side": "R"
+  },
+  "52": {
+   "s": "rostral-middle-frontal",
+   "side": "L"
+  },
+  "53": {
+   "s": "vermis-lobules-vi-vii",
+   "side": "L"
+  },
+  "54": {
+   "s": "inferior-temporal-gyrus",
+   "side": "L"
+  },
+  "55": {
+   "s": "nucleus-accumbens",
+   "side": "L"
+  },
+  "56": {
+   "s": "inferior-lateral-ventricle-temporal-horn",
+   "side": "L"
+  },
+  "57": {
+   "s": "pericalcarine-cortex",
+   "side": "L"
+  },
+  "58": {
+   "s": "lateral-orbitofrontal-cortex",
+   "side": "L"
+  },
+  "59": {
+   "s": "rostral-anterior-cingulate",
+   "side": "L"
+  },
+  "60": {
+   "s": "superior-parietal-lobule",
+   "side": "L"
+  },
+  "61": {
+   "s": "inferior-parietal-lobule",
+   "side": "L"
+  },
+  "62": {
+   "s": "brainstem",
+   "side": "L"
+  },
+  "63": {
+   "s": "lingual-gyrus",
+   "side": "L"
+  },
+  "64": {
+   "s": "postcentral-gyrus",
+   "side": "L"
+  },
+  "65": {
+   "s": "transverse-temporal-gyrus",
+   "side": "L"
+  },
+  "66": {
+   "s": "medial-orbitofrontal-cortex",
+   "side": "L"
+  },
+  "67": {
+   "s": "paracentral-lobule",
+   "side": "L"
+  },
+  "68": {
+   "s": "optic-chiasm-and-tracts",
+   "side": "L"
+  },
+  "69": {
+   "s": "parahippocampal-gyrus",
+   "side": "L"
+  },
+  "70": {
+   "s": "amygdala",
+   "side": "L"
+  },
+  "71": {
+   "s": "vermis-lobules-viii-x",
+   "side": "L"
+  },
+  "72": {
+   "s": "putamen",
+   "side": "L"
+  },
+  "73": {
+   "s": "pars-triangularis",
+   "side": "L"
+  },
+  "74": {
+   "s": "insula",
+   "side": "L"
+  },
+  "75": {
+   "s": "fusiform-gyrus",
+   "side": "L"
+  },
+  "76": {
+   "s": "basal-forebrain",
+   "side": "L"
+  },
+  "77": {
+   "s": "ventral-diencephalon",
+   "side": "L"
+  },
+  "78": {
+   "s": "globus-pallidus",
+   "side": "L"
+  },
+  "79": {
+   "s": "middle-temporal-gyrus",
+   "side": "L"
+  },
+  "80": {
+   "s": "third-ventricle",
+   "side": "L"
+  },
+  "81": {
+   "s": "caudal-anterior-cingulate",
+   "side": "L"
+  },
+  "82": {
+   "s": "precuneus",
+   "side": "L"
+  },
+  "83": {
+   "s": "pars-opercularis",
+   "side": "L"
+  },
+  "84": {
+   "s": "isthmus-cingulate",
+   "side": "L"
+  },
+  "85": {
+   "s": "lateral-occipital-cortex",
+   "side": "L"
+  },
+  "86": {
+   "s": "precentral-gyrus",
+   "side": "L"
+  },
+  "87": {
+   "s": "entorhinal-cortex",
+   "side": "L"
+  },
+  "88": {
+   "s": "fourth-ventricle",
+   "side": "L"
+  },
+  "89": {
+   "s": "superior-frontal-gyrus",
+   "side": "L"
+  },
+  "90": {
+   "s": "cerebellar-white-matter",
+   "side": "L"
+  },
+  "91": {
+   "s": "thalamus",
+   "side": "L"
+  },
+  "92": {
+   "s": "lateral-ventricle",
+   "side": "L"
+  },
+  "93": {
+   "s": "caudal-middle-frontal",
+   "side": "L"
+  },
+  "94": {
+   "s": "cuneus",
+   "side": "L"
+  },
+  "95": {
+   "s": "pars-orbitalis",
+   "side": "L"
+  },
+  "96": {
+   "s": "superior-temporal-gyrus",
+   "side": "L"
+  },
+  "97": {
+   "s": "cerebellar-cortex",
+   "side": "L"
+  },
+  "98": {
+   "s": "posterior-cingulate-dkt",
+   "side": "L"
+  },
+  "99": {
+   "s": "hippocampus",
+   "side": "L"
+  },
+  "100": {
+   "s": "caudate-nucleus",
+   "side": "L"
+  },
+  "101": {
+   "s": "vermis-lobules-i-v",
+   "side": "L"
+  },
+  "102": {
+   "s": "supramarginal-gyrus",
+   "side": "L"
+  },
+  "103": {
+   "s": "wm",
+   "side": "R"
+  },
+  "104": {
+   "s": "wm",
+   "side": "L"
+  },
+  "105": {
+   "s": "extcsf",
+   "side": ""
+  },
+  "106": {
+   "s": "unk",
+   "side": ""
+  },
+  "107": {
+   "s": "extra",
+   "side": ""
+  }
+ },
+ "sources_links": [
+  [
+   "Fonov et al. 2009, NeuroImage 47:S102",
+   "https://doi.org/10.1016/S1053-8119(09)70884-5"
+  ],
+  [
+   "Fonov et al. 2011, NeuroImage 54(1):313-327",
+   "https://doi.org/10.1016/j.neuroimage.2010.07.033"
+  ],
+  [
+   "Manera et al. 2020, Scientific Data 7",
+   "https://doi.org/10.1038/s41597-020-0557-9"
+  ],
+  [
+   "Klein & Tourville 2012, Frontiers in Neuroscience 6:171",
+   "https://doi.org/10.3389/fnins.2012.00171"
+  ]
+ ],
+ "sources": [
+  "Fonov VS, Evans AC, McKinstry RC, Almli CR, Collins DL. Unbiased nonlinear average age-appropriate brain templates from birth to adulthood. NeuroImage 2009;47:S102. doi:10.1016/S1053-8119(09)70884-5",
+  "Fonov V, Evans AC, Botteron K, Almli CR, McKinstry RC, Collins DL. Unbiased average age-appropriate atlases for pediatric studies. NeuroImage 2011;54(1):313-327.",
+  "Manera AL, Dadar M, Fonov V, Collins DL. CerebrA, registration and manual label correction of Mindboggle-101 atlas for MNI-ICBM152 template. Scientific Data 2020;7. doi:10.1038/s41597-020-0557-9",
+  "Klein A, Tourville J. 101 labeled brain images and a consistent human cortical labeling protocol. Frontiers in Neuroscience 2012;6:171."
+ ],
+ "side_ipa": {
+  "R": "raɪt",
+  "L": "lɛft"
+ }
+}
