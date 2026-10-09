@@ -42,3 +42,7 @@
 #catBtn.charging svg .bg { fill: var(--site-sky); }
 .site-foot .foot-row { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 10px; color: var(--site-muted); font-size: 14px; }
 .site-foot .foot-row a { color: var(--site-muted); }
+/* ---------- minigame titan (common/site.js): dòng hướng dẫn dưới nút Play khi đang chơi ---------- */
+.site-foot .titan-hint { position: absolute; left: 50%; top: calc(140px - 24px + 16px); transform: translateX(-50%); z-index: 3;
+  white-space: nowrap; pointer-events: none; font: 600 12.5px/1.3 var(--site-body); color: var(--site-muted); }
+.site-foot .titan-hint[hidden] { display: none; }

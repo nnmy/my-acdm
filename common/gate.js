@@ -1,10 +1,14 @@
 /* =====================================================================
-   Cổng mở khóa cho các trang nội dung (intro-bem, intro-transformer, med-atlas, linh-tinh).
-   Nạp ĐỒNG BỘ trong <head> của mỗi trang, ngay sau <meta charset>:
+   Cổng mở khóa cho my-acdm. Mọi trang đều nạp file này ĐỒNG BỘ trong <head>, ngay sau <meta charset>:
        <style>html.gate-locked body{visibility:hidden!important}</style>
-       <script src="../common/gate.js"></script>
-   và thẻ <html> có sẵn class="gate-locked" (trang bị ẩn cho tới khi mã được xác nhận;
-   tắt JavaScript cũng không xem được).
+       <script src="../common/gate.js"></script>        (đường dẫn tương đối tới common/)
+   và thẻ <html> có sẵn class="gate-locked".
+
+   HAI NHÓM NỘI DUNG
+   - Mặc định: phải nhập đúng mã mới xem được (mọi trang, kể cả trang chủ index.html).
+   - Công khai: các thư mục trong PUBLIC bên dưới (tính từ thư mục gốc my-acdm), ai vào cũng xem được.
+     Chuyển một mục sang công khai / khóa lại: chỉ cần sửa PUBLIC, không phải sửa các trang.
+   Trang mới: nhớ chép 3 dòng trên (và class trên <html>) vào trang, nếu không trang đó sẽ không bị khóa.
 
    Cách lưu mã: KHÔNG có mã gốc ở đâu cả, chỉ có bản băm PBKDF2-SHA256 (muối riêng, 200 000 vòng).
    Mã người dùng nhập được chuẩn hoá (bỏ dấu, bỏ khoảng trắng, chữ thường), băm cùng cách,
@@ -34,7 +38,15 @@
     'c9996ac3ba26a4d3325242e21d048bcfac325e460f12e0a5e352daa8cfc44210',
   ]);
 
+  const PUBLIC = ['linh-tinh'];           // thư mục công khai (cấp đầu tiên dưới thư mục gốc my-acdm)
+
   const root = document.documentElement;
+  // thư mục gốc của site = thư mục cha của common/ (lấy từ chính đường dẫn file này)
+  const me = document.currentScript && document.currentScript.src;
+  const base = me ? new URL('../', me).pathname : '/';
+  const rel = location.pathname.startsWith(base) ? location.pathname.slice(base.length) : location.pathname.replace(/^\//, '');
+  const isPublic = PUBLIC.includes(decodeURIComponent(rel.split('/')[0]));
+  if (isPublic) { root.classList.remove('gate-locked'); return; }
   root.classList.add('gate-locked');
   // dự phòng nếu trang thiếu thẻ <style> tĩnh
   const st = document.createElement('style');

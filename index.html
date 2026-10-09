@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="gate-locked">
 <head>
 <meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="common/gate.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Academia | My N. Nguyen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,6 +61,7 @@ h1 .dot { display: inline-block; flex: none; width: 16px; height: 16px; backgrou
 </style>
 </head>
 <body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
 <nav class="site-nav" aria-label="Site">
   <a class="site-mark" href="index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
   <ul>
@@ -232,7 +235,7 @@ SECTIONS.forEach((sec, si) => {
 <footer class="site-foot">
   <div class="cat-lane">
     <canvas id="catCanvas" aria-hidden="true"></canvas>
-    <button id="catBtn" aria-label="Cho hai con gà đá nhau" title="Cho hai con gà đá nhau">
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
     </button>
     <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
