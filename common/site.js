@@ -24,7 +24,7 @@
    Vẽ kiểu pixel art nét sketch như minigame con gà của my-library: mỗi bộ phận chỉ còn đường viền, có màu, không tô
    (riêng chiếc lá được tô màu). Canvas (#catCanvas) cao dần lên phía trên footer (đè lên nội dung,
    không nhận chuột) khi titan lớn.
-   Điện thoại không có phím mũi tên nên chỉ xem titan đi, không chơi được.
+   Màn hình cảm ứng: hàng nút ◀ ▶ ▼ ▲ hiện dưới thanh ngang thay cho phím mũi tên (xem TOUCH, .titan-pad trong site.css).
    EDIT: màu trong COL, các thông số trong phần "settings".
    ===================================================================== */
 (() => {
@@ -247,12 +247,12 @@ function upRelease(t) {
   T.heavyJump = T.hT >= HEAVY * window.innerHeight;
 }
 function takeOff() {                                                 // có cánh, giữ ↑ đủ lâu: chuyển sang bay
-  T.charge = null; T.flying = true; T.air = true; T.upHeld = true; T.vy = 0;
+  T.charge = null; T.flying = true; T.air = true; T.upHeld = true; T.vy = 0; syncPad();
   T.heavyJump = T.hT >= HEAVY * window.innerHeight;
   setHeight(needHeight());
 }
 function land(t) {
-  T.flying = false; T.upHeld = false;
+  T.flying = false; T.upHeld = false; syncPad();
   if (T.heavyJump) {
     broken = { x: T.x, half: T.h * 0.2 + 10, t0: t };                 // thanh ngang gãy ngay dưới chân
     mode = 'over'; leaf = null; wob = null; keys.left = keys.right = false; T.charge = null; T.fallV = 0;
@@ -285,8 +285,43 @@ function eat() {
 /* ---------------- nút Play + phím ---------------- */
 const icon = btn.querySelector('path');
 const hint = document.createElement('div');
-hint.className = 'titan-hint'; hint.hidden = true; hint.textContent = 'Press ← ↑ → to eat the food';
+hint.className = 'titan-hint'; hint.hidden = true;
 lane.appendChild(hint);
+
+/* Màn hình cảm ứng (điện thoại, máy tính bảng): hàng nút điều khiển dưới thanh ngang, thay cho phím mũi tên.
+   ◀ ▶ bên trái, ▼ ▲ bên phải, các nút cách nhau rộng để khỏi bấm nhầm. Nhấn giữ = giữ phím.
+   (◀ ▶ kèm U+FE0E để iPhone không đổi thành emoji.) */
+const TOUCH = window.matchMedia('(hover: none) and (pointer: coarse)');
+const pad = document.createElement('div');
+pad.className = 'titan-pad';
+pad.innerHTML = `<div class="grp"><button type="button" data-k="left" aria-label="Chạy sang trái">◀︎</button><button type="button" data-k="right" aria-label="Chạy sang phải">▶︎</button></div>
+<div class="grp"><button type="button" data-k="down" aria-label="Hạ thấp (khi đang bay)">▼</button><button type="button" data-k="up" aria-label="Giữ để lấy đà nhảy, giữ lâu để bay khi đã có cánh">▲</button></div>`;
+lane.insertBefore(pad, canvas.nextSibling);
+const padBtn = k => pad.querySelector(`[data-k="${k}"]`);
+pad.querySelectorAll('button').forEach(b => {
+  const k = b.dataset.k;
+  let held = false;
+  const on = e => {
+    e.preventDefault(); if (b.disabled || held) return;
+    held = true; b.classList.add('on'); b.setPointerCapture && b.setPointerCapture(e.pointerId);
+    if (k === 'up') upDown(performance.now() / 1000); else keys[k] = true;
+  };
+  const off = () => {
+    if (!held) return; held = false; b.classList.remove('on');
+    if (k === 'up') upRelease(performance.now() / 1000); else keys[k] = false;
+  };
+  b.addEventListener('pointerdown', on);
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(ev => b.addEventListener(ev, off));
+  b.addEventListener('contextmenu', e => e.preventDefault());
+});
+function syncPad() {
+  const touch = TOUCH.matches;
+  pad.hidden = !touch;
+  hint.textContent = touch ? 'Use the buttons below to eat the food' : 'Press ← ↑ → to eat the food';
+  ['left', 'right', 'up'].forEach(k => { padBtn(k).disabled = mode !== 'play'; });
+  padBtn('down').disabled = !(mode === 'play' && T.flying);
+}
+TOUCH.addEventListener && TOUCH.addEventListener('change', syncPad);
 function setButton() {
   if (icon) icon.setAttribute('d', 'M9.6 7.4 17 12l-7.4 4.6z');
   const busy = mode === 'play';                                      // lá còn đó: nút Play không bấm được
@@ -298,6 +333,7 @@ function setButton() {
   if (busy && T.wings) { const l2 = 'Đang chơi: giữ ↑ thật lâu để bay, ← → ↓ để lượn, thả ↑ để hạ cánh'; btn.setAttribute('aria-label', l2); btn.title = l2; }
   btn.setAttribute('aria-label', lab); btn.title = lab;
   hint.hidden = !busy;
+  syncPad();
 }
 btn.addEventListener('click', e => {
   e.preventDefault();

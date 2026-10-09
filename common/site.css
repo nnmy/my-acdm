@@ -46,3 +46,12 @@
 .site-foot .titan-hint { position: absolute; left: 50%; top: calc(140px - 24px + 16px); transform: translateX(-50%); z-index: 3;
   white-space: nowrap; pointer-events: none; font: 600 12.5px/1.3 var(--site-body); color: var(--site-muted); }
 .site-foot .titan-hint[hidden] { display: none; }
+/* hàng nút điều khiển cho màn hình cảm ứng (chỉ hiện khi không có chuột): dưới thanh ngang, chừa chỗ cho dòng hướng dẫn */
+.site-foot .titan-pad { display: flex; justify-content: space-between; gap: 24px; margin: 24px 0 2px; position: relative; z-index: 3; }
+.site-foot .titan-pad[hidden] { display: none; }
+.site-foot .titan-pad .grp { display: flex; gap: 22px; }
+.site-foot .titan-pad button { width: 52px; height: 46px; padding: 0; border: 2px solid var(--site-ink); background: #fff; color: var(--site-ink);
+  font: 700 18px/1 var(--site-body); cursor: pointer; touch-action: none; -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; box-shadow: 3px 3px 0 var(--site-sky); }
+.site-foot .titan-pad button.on { background: var(--site-sky); transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--site-sky); }
+.site-foot .titan-pad button:disabled { opacity: .35; box-shadow: none; cursor: default; }
