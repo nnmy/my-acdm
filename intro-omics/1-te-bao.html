@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tế bào, DNA và gene | Omics | My N. Nguyen</title>
+<meta name="description" content="Cấu trúc tế bào, bào quan, tế bào nhân sơ và nhân thực, các loại tế bào ở người; lịch sử phát hiện tế bào, gene và DNA; giới hạn của kính hiển vi.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/omics.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-omics/1-te-bao.html, phần 1: TẾ BÀO, DNA VÀ GENE)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      cell.js          : tế bào động vật / thực vật / vi khuẩn, bấm từng bào quan
+      scale.js         : thang kích thước log, giới hạn phân giải Abbe
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Biểu hiện gene và omics</a> / Phần 1</p>
+  <h1><span class="dot"></span>Tế bào, DNA và gene</h1>
+  <p class="lead">Trước khi phân tích hàng triệu số đo biểu hiện gene, cần biết chúng đến từ đâu. Phần này giới thiệu tế bào và những gì bên trong nó, các loại tế bào chính của cơ thể người, và câu chuyện ba thế kỷ con người tìm ra tế bào, gene và DNA, cùng những dụng cụ đã giúp ta "nhìn" được chúng.</p>
+</header>
+
+<section class="part" id="te-bao">
+  <div class="wrap">
+    <h2>Tế bào: đơn vị của sự sống</h2>
+    <div class="prose">
+      <p>Mọi sinh vật đều được tạo nên từ <span class="term">tế bào</span> <span class="en">(cell)</span>: vi khuẩn chỉ có một tế bào, cơ thể người có khoảng 37 nghìn tỉ. Mỗi tế bào là một túi nhỏ bao bởi <span class="term">màng tế bào</span>, bên trong chứa nước, protein, RNA, và bộ "sách hướng dẫn" của nó: DNA.</p>
+      <p>Có hai kiểu tổ chức lớn. <span class="term">Tế bào nhân sơ</span> <span class="en">(prokaryote)</span>, như vi khuẩn, nhỏ (cỡ 1–2 µm), DNA nằm tự do trong tế bào chất. <span class="term">Tế bào nhân thực</span> <span class="en">(eukaryote)</span>, như tế bào người, nấm, thực vật, lớn hơn khoảng 10 lần về chiều dài, có <span class="term">nhân</span> bao bởi màng chứa DNA và nhiều <span class="term">bào quan</span> <span class="en">(organelle)</span> chuyên trách từng việc, giống các phân xưởng trong một nhà máy.</p>
+    </div>
+    <div class="demo" id="demoCell" data-demo="cell">
+      <div class="demo-title"><h4>Bên trong một tế bào</h4><span>Bấm vào một bào quan để xem nó làm gì</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Cơ thể người có khoảng 200 loại tế bào theo cách phân loại kinh điển, và các bản đồ tế bào đơn hiện đại còn tách ra hàng trăm phân nhóm nhỏ hơn. Dù rất khác nhau về hình dạng và chức năng, gần như mọi tế bào có nhân trong một cơ thể đều mang cùng một bộ DNA. Chúng khác nhau vì <i>dùng</i> những gene khác nhau: đó là chủ đề của <a href="2-dna-protein.html#dieu-hoa">phần 2</a> và lý do tồn tại của cả ngành phân tích biểu hiện gene.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Loại tế bào</th><th>Kích thước điển hình</th><th>Đặc điểm</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Hồng cầu</td><td>~7,5 µm</td><td>Đĩa lõm hai mặt, chứa hemoglobin chở oxy; tế bào trưởng thành không có nhân.</td><td>Chiếm khoảng 84% số tế bào của cơ thể người (nhưng chỉ một phần nhỏ khối lượng).</td></tr>
+          <tr><td>Tế bào thần kinh (nơ-ron)</td><td>thân ~10–100 µm, sợi trục dài tới ~1 m</td><td>Truyền tín hiệu điện và hóa học.</td><td>Não người có khoảng 86 tỉ nơ-ron.</td></tr>
+          <tr><td>Tế bào cơ vân</td><td>đường kính ~10–100 µm, dài tới nhiều cm</td><td>Sợi dài, nhiều nhân, chứa sợi co rút actin–myosin.</td><td></td></tr>
+          <tr><td>Tế bào biểu mô</td><td>~10–20 µm</td><td>Xếp thành lớp lót da, ruột, phổi, tuyến.</td><td>Phần lớn ung thư bắt nguồn từ biểu mô.</td></tr>
+          <tr><td>Tế bào miễn dịch (T, B, NK, đại thực bào…)</td><td>~7–20 µm</td><td>Nhận diện và tiêu diệt mầm bệnh, tế bào lạ.</td><td>Là đối tượng quen thuộc của giải trình tự RNA tế bào đơn (<a href="4-phan-tich.html#don-bao">phần 4</a>).</td></tr>
+          <tr><td>Tế bào gốc</td><td>~10 µm</td><td>Tự làm mới và biệt hóa thành loại tế bào khác.</td><td>Nền tảng của y học tái tạo.</td></tr>
+        </tbody>
+        <caption>Kích thước làm tròn; nguồn: Milo & Phillips, <i>Cell Biology by the Numbers</i>; Sender et al., <i>PLoS Biol.</i> 2016 (thành phần tế bào); Azevedo et al., <i>J. Comp. Neurol.</i> 2009 (số nơ-ron).</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="quan-sat">
+  <div class="wrap">
+    <h2>Nhìn thấy tế bào và DNA</h2>
+    <div class="prose">
+      <p>Tế bào quá nhỏ để thấy bằng mắt thường (khoảng 0,1 mm), nên lịch sử sinh học tế bào gắn liền với lịch sử dụng cụ quang học. Năm 1665, Robert Hooke nhìn lát bần qua kính hiển vi tự chế và gọi các ô nhỏ là "cell". Vài năm sau, Antonie van Leeuwenhoek mài được thấu kính tốt hơn và lần đầu thấy vi khuẩn, tinh trùng, hồng cầu. Thế kỷ 19, thuốc nhuộm tổng hợp giúp nhìn rõ nhân và các sợi bắt màu trong nhân lúc tế bào phân chia: <span class="term">nhiễm sắc thể</span> <span class="en">(chromosome, "thể bắt màu")</span>.</p>
+      <p>Nhưng kính hiển vi quang học có một giới hạn không thể vượt bằng cách phóng to: ánh sáng là sóng, nên hai điểm gần nhau hơn khoảng nửa bước sóng sẽ nhòe thành một (Ernst Abbe, 1873). Muốn thấy chi tiết nhỏ hơn, phải dùng "ánh sáng" có bước sóng ngắn hơn: chùm electron trong kính hiển vi điện tử (1931), hoặc tia X.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ d = \frac{\lambda}{2\,\mathrm{NA}} \approx \frac{550\ \text{nm}}{2 \times 1{,}4} \approx 200\ \text{nm} \]</div>
+      <p class="where"><b>d</b>: khoảng cách nhỏ nhất còn phân biệt được; <b>λ</b>: bước sóng ánh sáng; <b>NA</b> <span class="en">(numerical aperture)</span>: khẩu độ số của vật kính, cho biết vật kính "hứng" được chùm sáng rộng đến đâu (tối đa khoảng 1,4–1,5 với vật kính ngâm dầu). Kỹ thuật hiển vi siêu phân giải (giải Nobel Hóa học 2014) vượt được giới hạn này bằng cách bật tắt từng phân tử phát quang, đạt cỡ 20 nm.</p>
+    </div>
+    <div class="demo" id="demoScale" data-demo="scale">
+      <div class="demo-title"><h4>Thang kích thước và giới hạn của kính hiển vi</h4><span>Từ nguyên tử tới tế bào trứng, trên một trục log</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>DNA chỉ rộng khoảng 2 nm, nên cấu trúc của nó không được "nhìn" mà được suy ra: năm 1952, Rosalind Franklin và Raymond Gosling chụp ảnh nhiễu xạ tia X của sợi DNA (ảnh nổi tiếng "Photo 51"), hình chữ X trên ảnh là dấu hiệu của một chuỗi xoắn. Ngày nay, kính hiển vi điện tử lạnh <span class="en">(cryo-EM)</span> cho thấy protein và phức hợp DNA ở độ phân giải gần nguyên tử, và giải trình tự (<a href="3-omics.html#giai-trinh-tu">phần 3</a>) cho phép "đọc" DNA mà không cần nhìn thấy nó.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="gene-dna">
+  <div class="wrap">
+    <h2>Từ quy luật di truyền đến chuỗi xoắn kép</h2>
+    <div class="prose">
+      <p>Khái niệm gene ra đời trước khi ai biết nó làm bằng gì. Gregor Mendel lai đậu Hà Lan và năm 1865 chỉ ra rằng tính trạng được truyền qua các "nhân tố" rời rạc, mỗi cá thể nhận một bản từ cha và một từ mẹ. Năm 1869, Friedrich Miescher tách được từ nhân tế bào bạch cầu một chất giàu phốt pho mà ông gọi là "nuclein", tức DNA, nhưng không ai nghĩ nó mang thông tin di truyền: DNA chỉ có 4 loại đơn vị, nhìn quá đơn giản so với protein có 20 loại.</p>
+      <p>Đầu thế kỷ 20, Sutton và Boveri nhận ra nhân tố Mendel nằm trên nhiễm sắc thể, và nhóm của Thomas Hunt Morgan dùng ruồi giấm để lập bản đồ vị trí các gene. Câu hỏi "gene làm bằng gì" được trả lời qua ba thí nghiệm: Griffith (1928) thấy vi khuẩn chết vẫn "biến đổi" được vi khuẩn sống; Avery, MacLeod và McCarty (1944) chứng minh chất gây biến đổi đó là DNA; Hershey và Chase (1952) cho thấy virus chỉ bơm DNA, không bơm protein, vào vi khuẩn. Erwin Chargaff đo được trong DNA lượng A luôn bằng T, lượng G luôn bằng C. Ghép các mảnh này với ảnh tia X của Franklin, năm 1953 James Watson và Francis Crick đề xuất mô hình chuỗi xoắn kép.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{A} \leftrightarrow \text{T}, \qquad \text{G} \leftrightarrow \text{C}, \qquad 3{,}1 \times 10^9\ \text{cặp base} \times 0{,}34\ \text{nm} \approx 1\ \text{m}\ \ (\times 2\ \text{bộ trong mỗi tế bào} \approx 2\ \text{m}) \]</div>
+      <p class="where"><b>A, T, G, C</b>: bốn loại base (adenine, thymine, guanine, cytosine); <b>↔</b>: "bắt cặp với". Phép nhân ở giữa: số cặp base × chiều dài mỗi cặp dọc sợi (0,34 nm) = chiều dài DNA nếu kéo thẳng ra. Hai mạch DNA chạy ngược chiều nhau và bắt cặp bổ sung: biết một mạch là suy ra mạch kia, đó cũng là cách DNA tự nhân đôi. Bộ gene người có khoảng 3,1 tỉ cặp base, trong đó chỉ khoảng 1–2% mã hóa cho khoảng 20 000 gene protein; phần còn lại gồm vùng điều hòa, gene RNA, trình tự lặp lại và nhiều vùng chưa rõ chức năng. Gần 2 m DNA được gói gọn trong một nhân rộng chừng 6 µm nhờ cuộn quanh các protein histone.</p>
+    </div>
+    <div class="prose">
+      <p>Một <span class="term">gene</span>, theo nghĩa hiện đại, là một đoạn DNA được "đọc" để tạo ra một sản phẩm có chức năng, thường là protein. <a href="2-dna-protein.html#hoc-thuyet">Phần 2</a> kể quá trình đọc đó.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1665</span><div><h4>Hooke đặt tên "tế bào"</h4><p>Robert Hooke mô tả các ô nhỏ trong lát bần trong cuốn <i>Micrographia</i>.</p></div></li>
+      <li><span class="yr">1676</span><div><h4>Leeuwenhoek thấy vi khuẩn</h4><p>Antonie van Leeuwenhoek báo cáo những "động vật nhỏ" trong nước, những quan sát đầu tiên về vi sinh vật.</p></div></li>
+      <li><span class="yr">1839</span><div><h4>Thuyết tế bào</h4><p>Schleiden (1838) và Schwann (1839): mọi thực vật và động vật đều gồm tế bào. Năm 1855 Virchow bổ sung: mọi tế bào sinh ra từ tế bào.</p></div></li>
+      <li class="bio"><span class="yr">1865</span><div><h4>Mendel</h4><p>Gregor Mendel công bố quy luật di truyền từ thí nghiệm lai đậu Hà Lan; công trình bị lãng quên tới năm 1900.</p></div></li>
+      <li class="bio"><span class="yr">1869</span><div><h4>Miescher tách DNA</h4><p>Friedrich Miescher tách "nuclein" từ nhân bạch cầu trong mủ băng gạc.</p></div></li>
+      <li><span class="yr">1882</span><div><h4>Nhiễm sắc thể</h4><p>Walther Flemming nhuộm màu và mô tả chi tiết sự phân chia nhiễm sắc thể khi tế bào phân bào.</p></div></li>
+      <li class="bio"><span class="yr">1915</span><div><h4>Gene nằm trên nhiễm sắc thể</h4><p>Nhóm của Morgan tổng kết bằng chứng từ ruồi giấm: gene xếp thành hàng trên nhiễm sắc thể.</p></div></li>
+      <li><span class="yr">1931</span><div><h4>Kính hiển vi điện tử</h4><p>Ernst Ruska và Max Knoll chế tạo kính hiển vi điện tử đầu tiên.</p></div></li>
+      <li class="bio"><span class="yr">1944</span><div><h4>DNA là vật chất di truyền</h4><p>Avery, MacLeod và McCarty chứng minh DNA là "nguyên lý biến đổi" của vi khuẩn phế cầu.</p></div></li>
+      <li class="bio"><span class="yr">1953</span><div><h4>Chuỗi xoắn kép</h4><p>Watson và Crick công bố mô hình xoắn kép, dựa trên dữ liệu tia X của Franklin và Wilkins; Watson, Crick và Wilkins nhận giải Nobel năm 1962 (Franklin mất năm 1958).</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>B. Alberts et al., <i>Molecular Biology of the Cell</i>, 6th ed., Garland Science, 2014.</li>
+      <li>R. Milo, R. Phillips, <i>Cell Biology by the Numbers</i>, Garland Science, 2015 (bionumbers.hms.harvard.edu).</li>
+      <li>R. Sender, S. Fuchs, R. Milo, "Revised estimates for the number of human and bacteria cells in the body", <i>PLoS Biol.</i> 14 (2016) e1002533.</li>
+      <li>O. T. Avery, C. M. MacLeod, M. McCarty, "Studies on the chemical nature of the substance inducing transformation of pneumococcal types", <i>J. Exp. Med.</i> 79 (1944) 137–158.</li>
+      <li>J. D. Watson, F. H. C. Crick, "Molecular structure of nucleic acids", <i>Nature</i> 171 (1953) 737–738; R. E. Franklin, R. G. Gosling, <i>Nature</i> 171 (1953) 740–741.</li>
+      <li>S. Mukherjee, <i>The Gene: An Intimate History</i>, Scribner, 2016 (đọc thêm về lịch sử).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Trang chủ</small><b>Biểu hiện gene và omics</b></a>
+      <a class="next" href="2-dna-protein.html"><small>Phần 2</small><b>Từ DNA đến protein</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/omics.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

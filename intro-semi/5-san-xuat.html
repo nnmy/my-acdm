@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Từ thiết kế đến con chip | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Quy trình sản xuất chip: thiết kế, quang khắc, ăn mòn, cấy ion, lắng đọng, đóng gói; các công ty chủ chốt trong chuỗi cung ứng bán dẫn toàn cầu; Việt Nam trong chuỗi bán dẫn.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/5-san-xuat.html, phần 5: TỪ THIẾT KẾ ĐẾN CON CHIP)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      fab-flow.js      : mặt cắt phiến Si qua từng bước chế tạo, kèm thiết bị và công ty
+      supply-chain.js  : bản đồ chuỗi cung ứng; dữ liệu công ty trong mảng STAGES
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Phần 5</p>
+  <h1><span class="dot"></span>Từ thiết kế đến con chip</h1>
+  <p class="lead">Một con chip đi qua tay hàng chục công ty ở nhiều quốc gia trước khi tới chiếc điện thoại của bạn. Phần này theo chân nó: từ phần mềm thiết kế, qua phòng sạch với những cỗ máy quang khắc giá hàng trăm triệu USD, tới khâu đóng gói, và giới thiệu những công ty giữ các mắt xích quan trọng nhất.</p>
+</header>
+
+<section class="part" id="vong-doi">
+  <div class="wrap">
+    <h2>Vòng đời của một con chip</h2>
+    <div class="prose">
+      <p>Một con chip đi qua ba chặng lớn. <span class="term">Thiết kế</span>: từ đặc tả chức năng, kỹ sư viết mô tả mạch bằng ngôn ngữ phần cứng, phần mềm EDA tổng hợp thành hàng tỉ transistor, sắp xếp vị trí, đi dây, rồi kiểm tra đi kiểm tra lại. Khi mọi thứ xong, bộ dữ liệu hình học của tất cả các lớp được gửi đi sản xuất, gọi là <span class="term">tape-out</span>. <span class="term">Chế tạo</span> <span class="en">(front-end)</span>: trong phòng sạch, phiến Si đi qua hàng trăm tới hơn nghìn bước để tạo transistor, rồi hơn mười tầng dây đồng nối chúng; một phiến tiên tiến mất khoảng ba tháng hoặc hơn để đi hết dây chuyền. <span class="term">Hoàn thiện</span> <span class="en">(back-end)</span>: thử điện từng chip trên phiến, cắt rời, đóng vỏ, thử lần cuối.</p>
+      <p>Không khí trong phòng sạch chứa ít bụi hơn không khí ngoài trời hàng triệu lần, vì một hạt bụi cỡ 100 nm đã đủ làm hư một chip. Tỉ lệ chip tốt trên mỗi phiến, gọi là <span class="term">hiệu suất thu hồi</span> <span class="en">(yield)</span>, là con số quyết định lời lỗ của nhà máy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="che-tao">
+  <div class="wrap">
+    <h2>Các bước chế tạo</h2>
+    <div class="prose">
+      <p>Phần lớn các bước chế tạo là biến thể của một vòng lặp: phủ một lớp vật liệu, in hình mạch lên bằng <span class="term">quang khắc</span> <span class="en">(photolithography)</span>, rồi ăn mòn hoặc pha tạp đúng những chỗ đã in, và bóc lớp cản quang để làm lớp tiếp theo. Demo dưới đây đi qua vòng lặp đó với một transistor đơn giản.</p>
+    </div>
+    <div class="demo" id="demoFab" data-demo="fab-flow">
+      <div class="demo-title"><h4>Chế tạo một transistor, từng bước</h4><span>Mặt cắt phiến Si qua 12 bước rút gọn</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Quang khắc quyết định chi tiết nhỏ nhất có thể in được. Giống như một chiếc máy chiếu, độ phân giải bị giới hạn bởi bước sóng ánh sáng và độ mở của thấu kính:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{CD} = k_1\,\frac{\lambda}{\text{NA}} \qquad\quad \text{DUV ngâm nước: } \frac{0{,}3 \times 193\ \text{nm}}{1{,}35} \approx 43\ \text{nm}; \qquad \text{EUV: } \frac{0{,}3 \times 13{,}5\ \text{nm}}{0{,}33} \approx 12\ \text{nm} \]</div>
+      <p class="where"><b>CD</b>: kích thước tới hạn (chi tiết nhỏ nhất); <b>λ</b>: bước sóng; <b>NA</b>: khẩu độ số của hệ thấu kính; <b>k<sub>1</sub></b>: hệ số phụ thuộc quy trình, về lý thuyết không nhỏ hơn 0,25. Máy EUV "High-NA" mới có NA = 0,55. Muốn in nhỏ hơn giới hạn của một lần chiếu, người ta chia hình ra in nhiều lần (multiple patterning), tốn thêm thời gian và tiền.</p>
+    </div>
+    <div class="prose">
+      <p>Ánh sáng EUV 13,5 nm bị gần như mọi vật liệu hấp thụ, kể cả không khí và thủy tinh. Máy EUV vì vậy chạy trong chân không, dùng gương nhiều lớp thay cho thấu kính, và tạo ánh sáng bằng cách bắn laser vào những giọt thiếc nóng chảy hàng chục nghìn lần mỗi giây. Đó là một trong những cỗ máy phức tạp nhất con người từng chế tạo, và hiện chỉ một công ty làm được.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="nganh">
+  <div class="wrap">
+    <h2>Ngành công nghiệp: ai làm gì?</h2>
+    <div class="prose">
+      <p>Cho tới thập niên 1980, một hãng chip thường tự làm mọi thứ, từ thiết kế tới sản xuất. Năm 1987, Morris Chang thành lập TSMC với một mô hình mới: chỉ gia công chip cho khách hàng, không tự thiết kế sản phẩm cạnh tranh với họ. Mô hình <span class="term">foundry</span> này cho phép hàng loạt công ty <span class="term">fabless</span> (chỉ thiết kế) ra đời và lớn mạnh; theo TrendForce, ba hãng fabless có doanh thu lớn nhất quý 2/2026 là Nvidia, Broadcom và AMD. Ngày nay chuỗi cung ứng chip trải qua hàng chục quốc gia, nhưng nhiều khâu lại tập trung vào một vài công ty.</p>
+    </div>
+    <div class="demo" id="demoChain" data-demo="supply-chain">
+      <div class="demo-title"><h4>Bản đồ chuỗi cung ứng chip</h4><span>Bấm vào một khâu để xem vai trò và các công ty chủ chốt</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Mức độ tập trung thể hiện rõ nhất ở khâu gia công. Theo TrendForce, quý 2/2026 TSMC đạt doanh thu gần 40,2 tỉ USD, chiếm 72,5% doanh thu của mười nhà gia công lớn nhất; Samsung đứng thứ hai với 5,9%, SMIC thứ ba với 5,4%. Bản đồ ở trên chỉ nêu tối đa ba công ty dẫn đầu ở mỗi khâu. Ở khâu thiết bị, ASML là nhà cung cấp máy quang khắc EUV duy nhất. Sự tập trung này biến chip thành vấn đề địa chính trị: Mỹ hạn chế xuất khẩu thiết bị và chip tiên tiến sang Trung Quốc từ 2022, Hà Lan và Nhật Bản cũng siết xuất khẩu thiết bị; Mỹ (CHIPS and Science Act, 2022), Liên minh châu Âu (European Chips Act, 2023) và nhiều nước khác chi những khoản trợ cấp lớn để kéo nhà máy về nước mình.</p>
+    </div>
+    <h3>Việt Nam trong chuỗi bán dẫn</h3>
+    <div class="prose">
+      <p>Việt Nam hiện tham gia chủ yếu ở hai đầu của chuỗi. Ở khâu hoàn thiện, nhà máy lắp ráp và kiểm tra của Intel tại TP. Hồ Chí Minh hoạt động từ năm 2010, Amkor khánh thành nhà máy đóng gói tại Bắc Ninh năm 2023, Hana Micron đầu tư ở Bắc Giang. Ở khâu thiết kế, có các trung tâm thiết kế của doanh nghiệp nước ngoài và các doanh nghiệp trong nước như FPT, Viettel. Tháng 9/2024, Chính phủ ban hành chiến lược phát triển công nghiệp bán dẫn đến năm 2030, tầm nhìn 2050, đặt trọng tâm vào đào tạo nhân lực. Thông tin trong mục này cần được cập nhật định kỳ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>TrendForce, "Global Foundry Revenue Approaches US$53.49 Billion in 2Q26 as SMIC Narrows Market Share Gap with Samsung", thông cáo ngày 09/09/2026; "Top 10 Global Fabless IC Design Houses Post 73% YoY Revenue Growth in 2Q26", thông cáo ngày 11/09/2026 (trendforce.com).</li>
+      <li>Semiconductor Industry Association, Boston Consulting Group, <i>Strengthening the Global Semiconductor Supply Chain in an Uncertain Era</i>, 2021.</li>
+      <li>C. Miller, <i>Chip War: The Fight for the World's Most Critical Technology</i>, Scribner, 2022.</li>
+      <li>M. Quirk, J. Serda, <i>Semiconductor Manufacturing Technology</i>, Prentice Hall, 2001.</li>
+      <li>C. A. Mack, <i>Fundamental Principles of Optical Lithography</i>, Wiley, 2007.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-transistor.html"><small>Phần 4</small><b>Transistor và chip</b></a>
+      <a class="next" href="index.html"><small>Hết</small><b>Trang chủ Bán dẫn</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

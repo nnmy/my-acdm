@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diode và ánh sáng | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Tiếp giáp p–n, vùng nghèo, thế tiếp xúc, phương trình diode; vùng cấm thẳng và xiên; LED, photodiode, pin mặt trời, giới hạn Shockley–Queisser.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/3-diode.html, phần 3: DIODE VÀ ÁNH SÁNG)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      pn-junction.js   : giản đồ vùng, vùng nghèo, điện trường, đặc tuyến I–V
+      led.js           : màu LED theo vùng cấm
+      solar.js         : đặc tuyến pin mặt trời, điểm công suất cực đại
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Phần 3</p>
+  <h1><span class="dot"></span>Diode và ánh sáng</h1>
+  <p class="lead">Ghép một vùng loại p với một vùng loại n, ta được linh kiện bán dẫn quan trọng nhất: tiếp giáp p–n. Nó cho dòng điện đi một chiều (diode), biến điện thành ánh sáng (LED) và ánh sáng thành điện (pin mặt trời, cảm biến ảnh).</p>
+</header>
+
+<section class="part" id="tiep-giap">
+  <div class="wrap">
+    <h2>Tiếp giáp p–n</h2>
+    <div class="prose">
+      <p>Đặt một vùng loại p sát một vùng loại n trong cùng một tinh thể. Bên n thừa electron, bên p thừa lỗ trống, nên chúng khuếch tán sang nhau và tái hợp gần mặt tiếp giáp. Những gì còn lại ở đó là các ion cố định: ion P⁺ bên n, ion B⁻ bên p. Dải hẹp này gần như không còn hạt tải tự do, gọi là <span class="term">vùng nghèo</span> <span class="en">(depletion region)</span>. Điện tích của các ion tạo ra điện trường đẩy ngược hạt tải về phía cũ; khi dòng khuếch tán và dòng trôi cân bằng, giữa hai bên tồn tại một hiệu điện thế gọi là <span class="term">thế tiếp xúc</span> <span class="en">(built-in potential)</span> V<sub>bi</sub>, khoảng 0,6–0,9 V với Si.</p>
+      <p>Đặt điện áp ngoài V (cực dương nối bên p): <span class="term">phân cực thuận</span> (V &gt; 0) làm bức tường thế thấp đi, hạt tải tràn qua và dòng tăng theo hàm mũ. <span class="term">Phân cực ngược</span> (V &lt; 0) làm bức tường cao thêm và vùng nghèo rộng ra, chỉ còn dòng rất nhỏ của hạt tải thiểu số. Đó là <span class="term">diode</span>: van một chiều cho dòng điện.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ V_{bi} = \frac{kT}{q}\ln\frac{N_A N_D}{n_i^2}, \qquad W = \sqrt{\frac{2\varepsilon_s\,(V_{bi} - V)}{q}\left(\frac{1}{N_A} + \frac{1}{N_D}\right)}, \qquad I = I_0\left(e^{qV/kT} - 1\right) \]</div>
+      <p class="where"><b>V<sub>bi</sub></b>: thế tiếp xúc (V; "bi" là <i>built-in</i>); <b>kT/q</b>: "điện áp nhiệt", năng lượng rung lắc nhiệt đổi sang volt; <b>ln</b>: logarit tự nhiên (phép ngược của hàm mũ); <b>N<sub>A</sub>, N<sub>D</sub>, n<sub>i</sub></b>: nồng độ pha tạp bên p, bên n và nồng độ nội tại (xem <a href="2-ban-dan.html#pha-tap">phần 2</a>); <b>V</b>: điện áp đặt vào (bên p so với bên n); <b>I</b>: dòng qua diode; <b>W</b>: bề rộng vùng nghèo (cỡ 0,1–1 µm); <b>ε<sub>s</sub></b> = 11,7 ε₀: hằng số điện môi của Si; <b>I<sub>0</sub></b>: dòng bão hòa ngược, rất nhỏ (cỡ pA – fA với diode Si nhỏ). Phương trình cuối là <span class="term">phương trình diode Shockley</span>; kT/q ≈ 25,9 mV ở 300 K, nên cứ tăng V thêm khoảng 60 mV thì e<sup>qV/kT</sup>, tức dòng thuận, tăng 10 lần. Khi V âm, e<sup>qV/kT</sup> gần bằng 0 và I ≈ −I<sub>0</sub>: chỉ còn một dòng ngược bé xíu.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hình trên cùng là <b>giản đồ vùng năng lượng</b> dọc theo tinh thể, bên p ở trái, bên n ở phải: hai vùng dẫn và hóa trị bị "uốn" thành một con dốc ở giữa, chính là bức tường thế V<sub>bi</sub>; dải tô màu là vùng nghèo. Hai đồ thị giữa vẽ điện tích của các ion cố định (dương bên n, âm bên p) và điện trường mà chúng tạo ra, mạnh nhất ngay tại mặt tiếp giáp. Đồ thị dưới cùng là đặc tuyến I–V của diode. Kéo <b>Điện áp V</b> sang dương: con dốc thấp đi, vùng nghèo hẹp lại, dòng vọt lên. Kéo sang âm: dốc cao thêm, vùng nghèo rộng ra, dòng gần như bằng 0.</div>
+    <div class="demo" id="demoPn" data-demo="pn-junction">
+      <div class="demo-title"><h4>Tiếp giáp p–n</h4><span>Kéo điện áp để phân cực thuận hoặc ngược</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Diode có mặt khắp nơi: chỉnh lưu trong cục sạc, bảo vệ mạch khỏi cắm ngược cực, tách sóng. Nhưng quan trọng hơn, tiếp giáp p–n là viên gạch của gần như mọi linh kiện khác: transistor, LED, pin mặt trời, cảm biến ảnh trong điện thoại đều là các biến thể của nó.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="anh-sang">
+  <div class="wrap">
+    <h2>Bán dẫn và ánh sáng</h2>
+    <div class="prose">
+      <p>Photon có năng lượng lớn hơn E<sub>g</sub> có thể đẩy một electron từ vùng hóa trị lên vùng dẫn, tạo một cặp electron–lỗ trống: bán dẫn <i>hấp thụ</i> ánh sáng. Ngược lại, khi electron ở vùng dẫn rơi xuống lấp một lỗ trống, nó có thể <i>phát</i> ra một photon có năng lượng xấp xỉ E<sub>g</sub>. Cả hai chiều đều là chuyện electron nhảy mức ở <a href="1-vat-chat.html#muc-nang-luong">phần 1</a>, chỉ khác là bây giờ nhảy giữa hai vùng.</p>
+      <p>Tuy vậy không phải bán dẫn nào cũng phát sáng tốt. Ở vật liệu có <span class="term">vùng cấm thẳng</span> <span class="en">(direct band gap)</span> như GaAs, GaN, electron rơi thẳng xuống và phát photon dễ dàng. Ở vật liệu <span class="term">vùng cấm xiên</span> <span class="en">(indirect)</span> như Si, Ge, electron phải đồng thời trao động lượng cho mạng tinh thể, nên chủ yếu tái hợp ra nhiệt. Vì vậy LED và laser làm từ hợp chất nhóm III–V, còn Si thống trị mạch điện tử và pin mặt trời.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \lambda\,(\text{nm}) \approx \frac{1240}{E_g\,(\text{eV})} \]</div>
+      <p class="where">Bước sóng của LED theo độ rộng vùng cấm (<a href="1-vat-chat.html#muc-nang-luong">công thức photon ở phần 1</a>). Đổi thành phần hợp kim (ví dụ tỉ lệ In trong InGaN) là chỉnh được E<sub>g</sub>, tức là chỉnh được màu.</p>
+    </div>
+    <div class="demo" id="demoLed" data-demo="led">
+      <div class="demo-title"><h4>Màu của LED theo vùng cấm</h4><span>Chọn vật liệu hoặc kéo độ rộng vùng cấm</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p><span class="term">Photodiode</span> là tiếp giáp p–n phân cực ngược: ánh sáng tạo cặp electron–lỗ trống trong vùng nghèo, điện trường tách chúng ra và tạo dòng tỉ lệ với cường độ sáng. Cảm biến ảnh trong máy ảnh và điện thoại là một mảng hàng chục triệu photodiode Si như vậy, mỗi điểm ảnh một cái.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="pin-mat-troi">
+  <div class="wrap">
+    <h2>Pin mặt trời</h2>
+    <div class="prose">
+      <p>Pin mặt trời là một photodiode diện tích lớn làm việc ở chế độ phát điện. Ánh sáng tạo cặp electron–lỗ trống; điện trường của vùng nghèo đẩy electron về bên n, lỗ trống về bên p, tạo ra dòng quang điện I<sub>L</sub> chạy qua tải bên ngoài. Đặc tuyến của pin chính là đặc tuyến diode bị dịch xuống một khoảng I<sub>L</sub>.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ I = I_L - I_0\left(e^{qV/kT} - 1\right), \qquad V_{oc} = \frac{kT}{q}\ln\!\left(\frac{I_L}{I_0} + 1\right), \qquad \text{FF} = \frac{P_{\max}}{I_{sc}V_{oc}}, \qquad \eta = \frac{P_{\max}}{P_{\text{nắng}}} \]</div>
+      <p class="where"><b>I<sub>L</sub></b>: dòng quang điện do ánh sáng tạo ra; <b>I<sub>sc</sub></b> ≈ I<sub>L</sub>: dòng ngắn mạch (sc: <i>short circuit</i>, nối tắt hai cực); <b>V<sub>oc</sub></b>: điện áp hở mạch (oc: <i>open circuit</i>, không nối tải); <b>P<sub>max</sub></b>: công suất lớn nhất pin cho được, tại một điểm làm việc tối ưu trên đặc tuyến; <b>FF</b>: hệ số lấp đầy, cho biết đặc tuyến "vuông" đến đâu (pin tốt: 0,8 trở lên); <b>P<sub>nắng</sub></b>: công suất ánh sáng chiếu lên pin; <b>η</b> (eta): hiệu suất. Nắng chuẩn để so sánh là 1000 W/m² ở 25 °C.</p>
+    </div>
+    <div class="demo" id="demoSolar" data-demo="solar">
+      <div class="demo-title"><h4>Pin mặt trời: đặc tuyến và công suất</h4><span>Đổi cường độ nắng, nhiệt độ và điện trở nối tiếp</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Có một giới hạn cơ bản: photon có năng lượng nhỏ hơn E<sub>g</sub> đi xuyên qua mà không bị hấp thụ, còn photon năng lượng lớn hơn thì phần dư biến thành nhiệt. Shockley và Queisser (1961) đặt nền móng cho cách tính hiệu suất tối đa này; tính lại với phổ mặt trời chuẩn (AM1.5) cho giới hạn khoảng 33% với pin một tiếp giáp, đạt được khi E<sub>g</sub> khoảng 1,3–1,4 eV. Si (1,12 eV) gần mức tối ưu; pin Si thương mại hiện đạt khoảng 20–24%. Pin nhiều tầng (mỗi tầng một E<sub>g</sub>) vượt được giới hạn này nhưng mắc, chủ yếu dùng cho vệ tinh.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Các ký hiệu ít gặp trên trang này. Ký hiệu về nồng độ hạt tải (n, p, N<sub>A</sub>, N<sub>D</sub>) xem thêm ở <a href="2-ban-dan.html#ky-hieu">phụ lục của phần 2</a>.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(V_{bi}\)</td><td>V b i, built-in voltage</td><td>Thế tiếp xúc: "bức tường" điện áp tự hình thành giữa hai bên p và n.</td></tr>
+          <tr><td class="sym">\(\dfrac{kT}{q}\)</td><td>k T over q, thermal voltage</td><td>Điện áp nhiệt, ≈ 26 mV ở nhiệt độ phòng.</td></tr>
+          <tr><td class="sym">\(\ln\)</td><td>natural log</td><td>Logarit tự nhiên, phép ngược của e<sup>x</sup>.</td></tr>
+          <tr><td class="sym">\(e^{qV/kT}\)</td><td>e to the q V over k T</td><td>Hàm mũ tăng: dòng thuận tăng gấp 10 khi V tăng khoảng 60 mV.</td></tr>
+          <tr><td class="sym">\(\varepsilon_s\), \(\varepsilon_0\)</td><td>epsilon s, epsilon nought</td><td>Hằng số điện môi của Si và của chân không.</td></tr>
+          <tr><td class="sym">\(I_0\), \(I_L\), \(I_{sc}\)</td><td>I nought, I L, I s c</td><td>Dòng bão hòa ngược, dòng quang điện, dòng ngắn mạch.</td></tr>
+          <tr><td class="sym">\(V_{oc}\)</td><td>V o c, open-circuit voltage</td><td>Điện áp giữa hai cực pin khi không nối tải.</td></tr>
+          <tr><td class="sym">\(P_{\max}\)</td><td>P max</td><td>Công suất lớn nhất pin có thể cho.</td></tr>
+          <tr><td class="sym">\(\eta\)</td><td>eta</td><td>Hiệu suất: phần trăm năng lượng ánh sáng biến thành điện.</td></tr>
+          <tr><td class="sym">\(\lambda\)</td><td>lambda</td><td>Bước sóng ánh sáng.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>W. Shockley, "The theory of p-n junctions in semiconductors and p-n junction transistors", <i>Bell Syst. Tech. J.</i> 28 (1949) 435–489.</li>
+      <li>D. M. Chapin, C. S. Fuller, G. L. Pearson, "A new silicon p-n junction photocell for converting solar radiation into electrical power", <i>J. Appl. Phys.</i> 25 (1954) 676–677.</li>
+      <li>W. Shockley, H. J. Queisser, "Detailed balance limit of efficiency of p-n junction solar cells", <i>J. Appl. Phys.</i> 32 (1961) 510–519.</li>
+      <li>E. F. Schubert, <i>Light-Emitting Diodes</i>, 2nd ed., Cambridge University Press, 2006.</li>
+      <li>S. M. Sze, K. K. Ng, <i>Physics of Semiconductor Devices</i>, 3rd ed., Wiley, 2007.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-ban-dan.html"><small>Phần 2</small><b>Bán dẫn: electron, lỗ trống, pha tạp</b></a>
+      <a class="next" href="4-transistor.html"><small>Phần 4</small><b>Transistor và chip</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

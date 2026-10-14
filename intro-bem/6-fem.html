@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FEM | Bioelectromagnetics | My N. Nguyen</title>
+<meta name="description" content="Phương pháp phần tử hữu hạn (FEM): dạng yếu, hàm nón, lắp ráp ma trận thưa, phần tử cạnh; ứng dụng trong Bioelectromagnetics: tDCS, TMS, EEG/MEG, DBS, an toàn MRI, xung điện; kiểm chứng và độ bất định.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/bem.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-bem/6-fem.html, giai đoạn 6: PHƯƠNG PHÁP PHẦN TỬ HỮU HẠN)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      fem-1d.js       : FEM 1D, hàm nón, nghiệm so với nghiệm chính xác, đồ thị hội tụ
+      fem-assembly.js : lắp ráp ma trận độ cứng, tính thưa, đánh số nút và băng thông
+      eeg-forward.js  : bài toán thuận EEG, lưỡng cực trong đầu 4 lớp so với đồng nhất
+      dbs.js          : kích thích não sâu, mô hình đối xứng trục, VTA và hàm kích hoạt
+  - Phần 5 (5-do-lieu.html, mục #fem) đã giới thiệu FEM qua demo tDCS (fem.js); trang này đi sâu hơn.
+  - Hình vẽ: lib/figures/quy-trinh-fem.svg
+  - Khung <div class="guide"> trước mỗi demo: hướng dẫn đọc demo cho người mới.
+  - Phụ lục ký hiệu: <section id="ky-hieu"> gần cuối trang.
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bioelectromagnetics</a> / Phần 6</p>
+  <h1><span class="dot"></span>FEM</h1>
+  <p class="lead"><a href="5-do-lieu.html#fem">Phần 5</a> đã dùng phương pháp phần tử hữu hạn <span class="en">(finite element method, FEM)</span> như một chiếc hộp đen để tính dòng tDCS trong đầu. Phần này mở chiếc hộp đó ra, từng bước một và không đòi hỏi bạn giỏi giải tích: FEM chia một vật thể phức tạp thành nhiều mảnh nhỏ ra sao, vì sao cách làm đó biến một phương trình khó thành một hệ phương trình bình thường mà máy tính giải được, nó được dùng ra sao trong kích thích não, ghi điện não, cấy ghép, an toàn MRI, và khi nào có thể tin kết quả của nó.</p>
+</header>
+
+<!-- ================= 6.0 CHIA ĐỂ TRỊ ================= -->
+<section class="part" id="chia-de-tri">
+  <div class="wrap">
+    <h2>FEM là gì: chia để trị</h2>
+    <div class="prose">
+      <p>Giả sử ta muốn biết điện thế V tại <i>mọi</i> điểm bên trong một cái đầu khi có dòng điện chạy qua hai điện cực trên da. Vật lý cho ta phương trình mà V phải thỏa mãn, nhưng với một hình dạng cong queo gồm da, xương, dịch não tủy, chất xám, chất trắng, không ai viết được nghiệm thành một công thức gọn gàng. Hơn nữa, "mọi điểm" nghĩa là vô số điểm: vô số ẩn số.</p>
+      <p>Ý tưởng của FEM rất đời thường: <b>chia để trị</b> <span class="en">(divide and conquer)</span>. Cắt vật thể thành nhiều mảnh nhỏ có hình dạng đơn giản (đoạn thẳng trong 1D, tam giác trong 2D, tứ diện trong 3D), gọi là <span class="term">phần tử</span> <span class="en">(element)</span>. Các góc của phần tử gọi là <span class="term">nút</span> <span class="en">(node)</span>. Toàn bộ các phần tử ghép lại gọi là <span class="term">lưới</span> <span class="en">(mesh)</span>. Ta chỉ đi tìm giá trị của V tại các nút; ở giữa hai nút, ta <i>giả định</i> V thay đổi theo một kiểu rất đơn giản, thường là theo đường thẳng. Vậy là vô số ẩn số trở thành một số hữu hạn ẩn số, bằng số nút: từ đó mà có chữ "hữu hạn".</p>
+    </div>
+
+    <h3>Ví dụ: nhiệt độ dọc một thanh kim loại</h3>
+    <div class="prose">
+      <p>Hãy hình dung một thanh kim loại nóng ở một đầu, nguội ở đầu kia, và nhiệt độ dọc thanh là một đường cong T(x) nào đó mà ta chưa biết. Cách làm của FEM: đặt năm điểm (nút) dọc thanh, chia thanh thành bốn đoạn (phần tử), và giả định trên mỗi đoạn nhiệt độ thay đổi theo đường thẳng. Đường cong thật được thay bằng một đường gấp khúc bốn đoạn. Giờ chỉ còn năm con số cần tìm: nhiệt độ ở năm nút. Muốn chính xác hơn, ta có hai lựa chọn: thêm nút (đoạn ngắn hơn, đường gấp khúc ôm sát đường cong hơn), hoặc dùng đường cong bậc hai thay cho đường thẳng trên mỗi đoạn (phần tử bậc cao). Các nút cũng không cần cách đều: chỗ nào nhiệt độ thay đổi nhanh thì đặt nút dày, chỗ nào thay đổi chậm thì đặt thưa, đỡ tốn công.</p>
+      <p>Mọi bài toán FEM, kể cả mô hình đầu người với vài triệu tứ diện, đều chỉ là phiên bản lớn của ví dụ này: <b>biết giá trị ở các nút là biết nghiệm ở khắp nơi</b>, vì giữa các nút ta đã quy ước sẵn cách nội suy.</p>
+    </div>
+
+    <h3>Quy trình năm bước</h3>
+    <div class="prose">
+      <p>Một phép tính FEM nào cũng đi qua năm bước, dù là tính độ bền của một bánh răng hay điện trường trong não:</p>
+      <ol>
+        <li><b>Chuẩn bị mô hình</b> <span class="en">(pre-processing)</span>: dựng hình học (ở đây là từ ảnh MRI), gán tính chất vật liệu (σ của từng mô), đặt điều kiện biên (điện cực ở đâu, dòng bao nhiêu), rồi chia lưới. Đây thường là bước tốn công nhất.</li>
+        <li><b>Viết phương trình cho từng phần tử</b>: biến phương trình vật lý thành vài con số cho mỗi mảnh nhỏ (mục <a href="#y-tuong">Từ phương trình đến hệ tuyến tính</a>).</li>
+        <li><b>Lắp ráp</b> <span class="en">(assembly)</span>: ghép phương trình của các mảnh thành một hệ lớn cho cả vật thể (mục <a href="#lap-rap">Phần tử, lắp ráp và bộ giải</a>).</li>
+        <li><b>Giải</b> hệ phương trình tuyến tính, thường có hàng triệu ẩn. Đây là phần "nghiền số" mà máy tính làm.</li>
+        <li><b>Hậu xử lý</b> <span class="en">(post-processing)</span>: từ V ở các nút, tính ra điện trường E, mật độ dòng J, SAR, rồi vẽ thành bản đồ màu.</li>
+      </ol>
+      <p>Và một bước thứ sáu không thể bỏ: <b>lặp lại và kiểm tra</b>. Chia lưới mịn hơn xem kết quả có còn thay đổi không, so với nghiệm chính xác nếu có, so với số đo nếu có. Dân mô phỏng có câu "rác vào thì rác ra" <span class="en">(garbage in, garbage out)</span>: máy luôn cho ra một bức hình đẹp, kể cả khi đầu vào sai. Mục <a href="#tin-cay">Khi nào tin được mô phỏng?</a> sẽ quay lại chuyện này.</p>
+    </div>
+
+    <div class="callout"><b>Một hình ảnh trực quan cho cả trang: mạng điện trở.</b> Với bài toán dòng điện, mỗi phần tử cư xử giống như vài điện trở nhỏ nối giữa các nút của nó. Cả lưới FEM vì vậy giống một mạng điện trở khổng lồ, và "giải FEM" chính là áp dụng định luật Kirchhoff (tổng dòng vào mỗi nút bằng 0) cho mạng đó. Nếu bạn từng giải một mạch điện có vài nút bằng phương pháp điện thế nút ở trung học, bạn đã làm một bài toán FEM tí hon. Trong cơ học, mỗi phần tử giống một chiếc lò xo và hệ phương trình có dạng lực = độ cứng × độ dịch chuyển; đó là lý do ma trận của FEM vẫn được gọi là <span class="term">ma trận độ cứng</span> <span class="en">(stiffness matrix)</span>, kể cả khi ta tính điện.</div>
+  </div>
+</section>
+
+<!-- ================= 6.1 Ý TƯỞNG ================= -->
+<section class="part tint" id="y-tuong">
+  <div class="wrap">
+    <h2>Từ phương trình đến hệ tuyến tính</h2>
+    <div class="prose">
+      <p>Mục này đi qua ba công thức. Bạn không cần biến đổi chúng; chỉ cần đọc được mỗi công thức đang <i>nói gì</i>. Mỗi ký hiệu đều được giải thích ngay bên dưới, và bảng <a href="#ky-hieu">Phụ lục ký hiệu</a> ở cuối trang gom tất cả lại kèm cách đọc tiếng Anh.</p>
+    </div>
+
+    <h3>Bước 1. Phương trình vật lý: dạng mạnh</h3>
+    <div class="prose">
+      <p>Hầu hết bài toán đo liều tần số thấp quy về cùng một ý: <b>điện tích không tự sinh ra hay mất đi</b>, nên tại mỗi điểm, dòng chảy ra phải bằng dòng được bơm vào ở đó (bảo toàn điện tích, xem <a href="1-dien.html#dien-the">phần 1</a> và <a href="3-maxwell.html#tong-quan">phần 3</a>). Dòng điện lại chảy từ chỗ điện thế cao về chỗ thấp, mạnh hay yếu tùy độ dẫn điện σ: \(\mathbf{J} = -\sigma\nabla V\) (định luật Ohm). Ghép hai ý đó và thêm thông tin ở biên, ta có <span class="term">dạng mạnh</span> <span class="en">(strong form)</span>:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ -\nabla\cdot(\sigma\nabla V) = f \ \ \text{trong } \Omega, \qquad V = V_D \ \text{trên } \Gamma_D, \qquad \sigma\frac{\partial V}{\partial n} = g \ \text{trên } \Gamma_N \]</div>
+      <p class="where">Đọc từ trong ra ngoài. <b>∇V</b> ("grad V"): mũi tên chỉ hướng V tăng nhanh nhất, dài bằng độ dốc của V. <b>σ∇V</b>: nhân với độ dẫn điện, được (âm) dòng điện. <b>∇·(…)</b> ("div"): lượng dòng "tỏa ra" khỏi một điểm. Vậy vế trái là <i>dòng chảy ra khỏi mỗi điểm</i>, và phương trình đầu nói: dòng chảy ra = <b>f</b>, nguồn dòng tại đó (A/m³, ví dụ do nơ-ron hoạt động; nơi không có nguồn thì f = 0). <b>Ω</b> (omega hoa): vùng tính toán, ví dụ cả cái đầu. Biên của Ω được chia làm hai phần. <b>Γ<sub>D</sub></b> (gamma D): phần biên mà ta <i>biết điện thế</i> V<sub>D</sub> (điện cực nối nguồn áp, đất). <b>Γ<sub>N</sub></b>: phần biên mà ta <i>biết dòng đi vào</i> <b>g</b> (A/m²). <b>∂V/∂n</b>: độ dốc của V theo hướng <b>n</b> vuông góc với mặt biên, chỉ ra ngoài; nhân với σ là dòng xuyên qua biên. Trên da tiếp xúc không khí thì g = 0 vì dòng không thoát ra ngoài được.</p>
+    </div>
+    <div class="prose">
+      <p>Tên của hai loại điều kiện biên đến từ hai nhà toán học: điều kiện cho trước giá trị V là điều kiện <span class="term">Dirichlet</span>, điều kiện cho trước dòng (độ dốc) là điều kiện <span class="term">Neumann</span>. Theo ngôn ngữ của kỹ sư cơ khí, đó là "giữ chặt một đầu" và "đặt một lực vào đầu kia".</p>
+    </div>
+
+    <h3>Bước 2. Kiểm tra "trung bình" thay vì từng điểm: dạng yếu</h3>
+    <div class="prose">
+      <p>Dạng mạnh đòi hỏi phương trình đúng tại <i>từng điểm</i>, và nó chứa hai lần lấy độ dốc (∇ bên trong, ∇· bên ngoài). Nhưng ở mặt phân cách giữa hai mô, σ nhảy bậc, đường V bị gãy khúc, và độ dốc của độ dốc không còn xác định. Đường gấp khúc mà ta định dùng để xấp xỉ V cũng gặp đúng vấn đề đó ở mỗi nút.</p>
+      <p>Mẹo của FEM là "nới lỏng" yêu cầu: thay vì đòi cân bằng tại từng điểm, ta chỉ đòi cân bằng <i>tính trung bình có trọng số</i>, với rất nhiều cách đặt trọng số khác nhau. Mỗi cách đặt trọng số là một <span class="term">hàm thử</span> <span class="en">(test function)</span> v (bằng 0 trên Γ<sub>D</sub>). Nhân hai vế với v, cộng dồn (tích phân) trên cả Ω, rồi dùng một phép biến đổi gọi là <span class="term">tích phân từng phần</span> <span class="en">(integration by parts)</span> để chuyển một lần lấy độ dốc từ V sang v. Kết quả là <span class="term">dạng yếu</span> <span class="en">(weak form)</span>, chỉ còn độ dốc bậc nhất, nên đường gấp khúc dùng được:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \int_\Omega \sigma\,\nabla V\cdot\nabla v\;d\Omega \;=\; \int_\Omega f\,v\;d\Omega \;+\; \int_{\Gamma_N} g\,v\;d\Gamma \qquad \text{với mọi } v \]</div>
+      <p class="where"><b>∫<sub>Ω</sub> … dΩ</b>: chia Ω thành vô số ô thể tích tí hon dΩ, tính biểu thức trong mỗi ô rồi cộng tất cả lại. <b>∫<sub>Γ<sub>N</sub></sub> … dΓ</b>: tương tự nhưng cộng trên các mảnh tí hon dΓ của mặt biên Γ<sub>N</sub>. <b>∇V·∇v</b>: <b>tích vô hướng</b> của hai mũi tên độ dốc, lớn khi chúng cùng hướng, bằng 0 khi vuông góc. Nói bằng lời: "năng lượng tương tác" giữa V và hàm thử v ở vế trái phải khớp với "lượng nguồn mà v nhìn thấy" ở vế phải, <i>với mọi</i> hàm thử v. Nếu đúng với mọi v thì V cũng thỏa dạng mạnh ở những chỗ dạng mạnh có nghĩa.</p>
+    </div>
+
+    <h3>Bước 3. Xấp xỉ bằng hàm nón: hệ phương trình tuyến tính</h3>
+    <div class="prose">
+      <p>Giờ ta đưa lưới vào. Gắn với mỗi nút j một <span class="term">hàm cơ sở</span> <span class="en">(basis function)</span> φ<sub>j</sub> có hình chiếc nón (trong 1D là hình mái lều): bằng 1 đúng tại nút j, giảm tuyến tính về 0 ở các nút lân cận, và bằng 0 ở mọi nơi khác. Đường gấp khúc của ví dụ thanh kim loại chính là tổng của các mái lều, mỗi cái được kéo cao lên đúng bằng giá trị V<sub>j</sub> ở nút của nó. Demo ngay dưới đây vẽ các hàm nón này.</p>
+      <p>Thay xấp xỉ đó vào dạng yếu, và lần lượt chọn hàm thử v là từng hàm nón φ<sub>i</sub> (cách chọn này mang tên <span class="term">phương pháp Galerkin</span>). Mỗi lựa chọn i cho đúng một phương trình. N nút cho N phương trình với N ẩn V<sub>1</sub>, …, V<sub>N</sub>:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ V \approx \sum_{j} V_j\,\varphi_j(\mathbf{x}),\quad v = \varphi_i \;\Longrightarrow\; \sum_j \underbrace{\int_\Omega \sigma\,\nabla\varphi_i\cdot\nabla\varphi_j\,d\Omega}_{K_{ij}}\;V_j = \underbrace{\int_\Omega f\varphi_i\,d\Omega + \int_{\Gamma_N} g\varphi_i\,d\Gamma}_{b_i} \;\Longleftrightarrow\; K\mathbf{V} = \mathbf{b} \]</div>
+      <p class="where"><b>x</b>: vị trí một điểm trong không gian; <b>Σ<sub>j</sub></b>: cộng qua mọi nút j; <b>φ<sub>j</sub>(x)</b>: hàm nón của nút j; <b>V<sub>j</sub></b>: điện thế tại nút j, là ẩn số cần tìm. Dấu ngoặc nhọn nằm dưới (<b>underbrace</b>) chỉ là cách đặt tên: cả cụm tích phân phía trên nó được gọi là <b>K<sub>ij</sub></b> (một con số, đo mức "nối" giữa nút i và nút j, giống độ dẫn của điện trở nối hai nút trong mạng điện trở) và <b>b<sub>i</sub></b> (lượng dòng bơm vào nút i). <b>⟹</b>: "dẫn tới"; <b>⟺</b>: "tương đương với". Cuối cùng, cả N phương trình viết gọn thành <b>K V = b</b>: <b>K</b> là bảng N × N số K<sub>ij</sub> (ma trận độ cứng), <b>V</b> là cột N ẩn, <b>b</b> là cột N số ở vế phải. Đây là hệ phương trình bậc nhất, cùng loại với hệ hai phương trình hai ẩn ở trung học, chỉ lớn hơn nhiều.</p>
+    </div>
+    <div class="prose">
+      <p>Ba hệ quả đáng nhớ:</p>
+      <ul>
+        <li><b>Điều kiện "dòng qua biên" (Neumann) tự có mặt</b> trong dạng yếu (số hạng chứa g), nên gọi là điều kiện <span class="term">tự nhiên</span> <span class="en">(natural)</span>: mặt da cách điện (g = 0) không cần làm gì cả. Điều kiện "điện thế cho trước" (Dirichlet) thì phải áp đặt riêng, bằng cách gán thẳng giá trị cho các nút trên điện cực, nên gọi là điều kiện <span class="term">thiết yếu</span> <span class="en">(essential)</span>. Thiếu nó, K không giải được: giống một mạch điện không có chân nối đất, điện thế chỉ xác định sai khác một hằng số.</li>
+        <li><b>K gần như toàn số 0.</b> Hàm nón φ<sub>i</sub> chỉ khác 0 trên vài phần tử quanh nút i, nên K<sub>ij</sub> chỉ khác 0 khi nút i và nút j cùng thuộc một phần tử, tức là "hàng xóm" của nhau. Ma trận như vậy gọi là <span class="term">thưa</span> <span class="en">(sparse)</span>, và đây là lý do FEM chạy được với hàng triệu ẩn.</li>
+        <li><b>FEM tìm cách phân bố dòng "tiết kiệm" nhất.</b> Dạng yếu tương đương với việc tìm V làm nhỏ nhất đại lượng \(\tfrac12\int\sigma|\nabla V|^2 d\Omega\), tức một nửa công suất tỏa nhiệt Joule. Trong tự nhiên, dòng điện tự phân bố sao cho tổn hao ít nhất (nguyên lý Thomson); FEM tìm phân bố tốt nhất <i>trong số các đường gấp khúc</i> mà lưới cho phép.</li>
+      </ul>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Đây là ví dụ "thanh kim loại" ở trên, chạy thật. Chọn <b>Điện thế qua lớp mô</b>: một lát cắt 3 cm qua da, mỡ, cơ, với 1 V ở mặt da và 0 V ở đáy. Đồ thị vẽ cả nghiệm chính xác lẫn nghiệm FEM (đường gấp khúc nối các nút); bật <b>Hiện các hàm nón</b> để thấy các "mái lều" φ<sub>j</sub> mà đường gấp khúc được ghép từ đó. Ô đồ thị giữa vẽ điện trường (độ dốc của V): nghiệm FEM thành hình bậc thang. Kéo thanh <b>Số phần tử</b> để thêm nút và xem đường gấp khúc ôm sát nghiệm thật hơn. Ô đồ thị cuối vẽ sai số theo kích thước phần tử h trên thang log: đường dốc hơn nghĩa là sai số giảm nhanh hơn khi chia lưới mịn. Bật <b>Lưới bám mặt phân cách</b> để đặt nút đúng vào ranh giới da–mỡ và mỡ–cơ: sai số tụt hẳn. Nút <b>Nhiệt do SAR</b> giải phương trình nhiệt sinh học (xem <a href="5-do-lieu.html#sar">phần 5</a>) bằng đúng phương pháp đó.</div>
+    <div class="demo" id="demoFem1d" data-demo="fem-1d">
+      <div class="demo-title"><h4>FEM một chiều: hàm nón, nghiệm và sai số</h4><span>Chọn bài toán, số phần tử và cách chia lưới</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Demo cho thấy hai quy luật chi phối mọi mô phỏng FEM thật. <b>Quy luật thứ nhất:</b> với nghiệm trơn và phần tử tuyến tính, sai số của điện thế giảm theo \(h^2\) (h là kích thước phần tử; chia đôi h thì sai số giảm 4 lần), nhưng sai số của các đại lượng tính từ độ dốc của V (điện trường E, mật độ dòng J, SAR) chỉ giảm theo \(h\) (chia đôi h, sai số giảm 2 lần). Lý do: đường gấp khúc thì độ dốc là hằng số trên mỗi đoạn và nhảy bậc ở mỗi nút, nên E "bậc thang" hơn V nhiều. Giá trị E "lớn nhất" vì vậy thường rơi vào một phần tử méo nào đó, và các phần mềm đo liều hay báo cáo <b>phân vị 99%</b> hoặc 99,9% (mức mà 99% thể tích mô nằm dưới) thay cho giá trị cực đại. <b>Quy luật thứ hai:</b> khi mặt phân cách giữa các mô không trùng với cạnh phần tử, sai số giảm chậm và thất thường. Đó là lý do lưới phải <i>bám</i> theo mặt mô, và cũng là ưu thế cốt lõi của FEM so với lưới ô vuông của <a href="5-do-lieu.html#fdtd">FDTD</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6.2 PHẦN TỬ, LẮP RÁP, BỘ GIẢI ================= -->
+<section class="part" id="lap-rap">
+  <div class="wrap">
+    <h2>Phần tử, lắp ráp và bộ giải</h2>
+
+    <h3>Ma trận của một phần tử</h3>
+    <div class="prose">
+      <p>Tích phân K<sub>ij</sub> trên cả vùng được tách thành tổng các tích phân trên từng phần tử, vì trong mỗi phần tử chỉ có vài hàm nón khác 0. Với phần tử tuyến tính và σ không đổi trong phần tử, mỗi tích phân này tính được bằng một công thức đóng, chỉ cần tọa độ các đỉnh. Kết quả là một bảng số nhỏ cho mỗi phần tử, gọi là <span class="term">ma trận phần tử</span> <span class="en">(element matrix)</span> K<sup>(e)</sup>: 2 × 2 cho đoạn thẳng, 3 × 3 cho tam giác, 4 × 4 cho tứ diện.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{1D: } K^{(e)} = \frac{\sigma_e}{h}\begin{pmatrix}1 & -1\\ -1 & 1\end{pmatrix}, \qquad \text{tam giác: } K^{(e)}_{ij} = \frac{\sigma_e}{4A_e}\left(b_ib_j + c_ic_j\right), \qquad \text{tứ diện: } K^{(e)}_{ij} = V_e\,\nabla\lambda_i^{\mathsf T}\,\boldsymbol{\sigma}_e\,\nabla\lambda_j \]</div>
+      <p class="where">Chỉ số trên <b>(e)</b> nghĩa là "của phần tử e", không phải lũy thừa. <b>σ<sub>e</sub></b>: độ dẫn điện của phần tử e; <b>h</b>: chiều dài phần tử 1D. <b>Tam giác</b> có ba đỉnh đánh số 1, 2, 3 với tọa độ (x<sub>1</sub>, y<sub>1</sub>), (x<sub>2</sub>, y<sub>2</sub>), (x<sub>3</sub>, y<sub>3</sub>); <b>A<sub>e</sub></b>: diện tích tam giác; <b>b<sub>i</sub> = y<sub>j</sub> − y<sub>k</sub></b> và <b>c<sub>i</sub> = x<sub>k</sub> − x<sub>j</sub></b>, với (i, j, k) lần lượt là (1, 2, 3), (2, 3, 1), (3, 1, 2) ("hoán vị vòng": xoay vòng các chỉ số). Về hình học, (b<sub>i</sub>, c<sub>i</sub>) là một mũi tên vuông góc với cạnh đối diện đỉnh i. <b>Tứ diện</b>: <b>V<sub>e</sub></b> là thể tích (chữ V ở đây không phải điện thế); <b>λ<sub>i</sub></b> là <b>tọa độ trọng tâm</b> <span class="en">(barycentric coordinate)</span>: tại một điểm bên trong, λ<sub>i</sub> cho biết điểm đó "gần" đỉnh i bao nhiêu (bằng 1 tại đỉnh i, bằng 0 trên mặt đối diện), và nó chính là hàm nón của đỉnh i bên trong phần tử; <b>∇λ<sub>i</sub></b> là độ dốc của nó, một mũi tên không đổi trong phần tử; chữ <b>T</b> nhỏ (<b>chuyển vị</b>, <span class="en">transpose</span>) chỉ là cách viết để nhân hai mũi tên qua một ma trận; <b>σ<sub>e</sub></b> in đậm là <b>tensor độ dẫn</b>: một bảng 3 × 3 cho phép độ dẫn điện khác nhau theo từng hướng (với mô đẳng hướng, nó chỉ là σ nhân ma trận đơn vị).</p>
+    </div>
+    <div class="prose">
+      <p>Ma trận 1D có một ý nghĩa rất quen: nó đúng là phương trình của <b>một điện trở</b> có độ dẫn G = σ<sub>e</sub>/h (trên mỗi m² tiết diện) nối hai nút. Dòng từ nút 1 sang nút 2 là G(V<sub>1</sub> − V<sub>2</sub>), nên hàng thứ nhất đọc là G·V<sub>1</sub> − G·V<sub>2</sub>, hàng thứ hai là −G·V<sub>1</sub> + G·V<sub>2</sub>. Công thức tam giác và tứ diện là phiên bản 2D, 3D của cùng ý đó. Trong 3D, phần tử phổ biến nhất là tứ diện 4 nút. Mô <span class="term">dị hướng</span> <span class="en">(anisotropic)</span> như chất trắng (dẫn điện dọc bó sợi tốt hơn ngang nhiều lần) chỉ cần thay số σ bằng một tensor σ lấy từ ảnh khuếch tán DTI; công thức gần như không đổi.</p>
+    </div>
+
+    <h3>Lắp ráp: ghép các mảnh lại</h3>
+    <div class="prose">
+      <p><span class="term">Lắp ráp</span> <span class="en">(assembly)</span> là một vòng lặp qua các phần tử: tính ma trận nhỏ của phần tử, rồi <i>cộng</i> từng số của nó vào đúng hàng, đúng cột của ma trận lớn K theo số hiệu nút. Nút nào thuộc nhiều phần tử thì nhận đóng góp từ tất cả các phần tử đó. Ví dụ đơn giản nhất: một thanh chia ba đoạn giống nhau (bốn nút 1–2–3–4), mỗi đoạn là một ma trận 2 × 2 như trên. Ba khối nhỏ chồng lên nhau ở các nút chung 2 và 3:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ K = G\begin{pmatrix}1 & -1 & 0 & 0\\ -1 & 1{+}1 & -1 & 0\\ 0 & -1 & 1{+}1 & -1\\ 0 & 0 & -1 & 1\end{pmatrix} = G\begin{pmatrix}1 & -1 & 0 & 0\\ -1 & 2 & -1 & 0\\ 0 & -1 & 2 & -1\\ 0 & 0 & -1 & 1\end{pmatrix} \]</div>
+      <p class="where">Hàng 2 đọc là: G(−V<sub>1</sub> + 2V<sub>2</sub> − V<sub>3</sub>) = 0, tức dòng từ nút 2 sang nút 1 cộng dòng từ nút 2 sang nút 3 bằng 0: định luật Kirchhoff tại nút 2. Các ô ở góc (hàng 1 cột 4, …) bằng 0 vì nút 1 và nút 4 không chung phần tử nào. Đặt V<sub>1</sub> = 1 V, V<sub>4</sub> = 0 (Dirichlet), giải hai phương trình giữa ra V<sub>2</sub> = 2/3 V, V<sub>3</sub> = 1/3 V: điện thế giảm đều như mong đợi.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Bên trái là một lưới tam giác nhỏ trên mặt cắt hai lớp (vòng trong là não, vòng ngoài là xương sọ), có 25 nút được đánh số. Bên phải là ma trận K, mỗi ô vuông là một số K<sub>ij</sub>: ô có màu là số khác 0 (một màu cho số dương, một màu cho số âm), ô trắng là số 0. <b>Bấm một tam giác</b>: thấy ma trận 3 × 3 của nó và 9 ô mà nó cộng vào K. <b>Bấm một ô của ma trận</b>: thấy những tam giác nào đóng góp vào ô đó (luôn là các tam giác chứa cả nút i lẫn nút j). Bấm <b>▶ Lắp ráp từng phần tử</b> để xem K được "lấp đầy" dần. Ba nút <b>Theo vòng / Ngẫu nhiên / RCM</b> đổi cách đánh số nút: nghiệm không đổi, nhưng các ô khác 0 dồn về gần đường chéo hay rải khắp ma trận.</div>
+    <div class="demo" id="demoFemAsm" data-demo="fem-assembly">
+      <div class="demo-title"><h4>Lắp ráp ma trận độ cứng và tính thưa</h4><span>Bấm vào một tam giác hoặc một ô của ma trận</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Ngay với 25 nút, ma trận đã có hơn 70% ô bằng 0. Trong mô hình đầu 3D thật với khoảng một triệu nút, mỗi hàng chỉ có chừng 15 số khác 0: chỉ lưu các số khác 0 thì ma trận chiếm vài trăm MB, trong khi lưu đầy đủ một bảng triệu × triệu sẽ cần khoảng 8 TB. Cách đánh số nút không đổi nghiệm, nhưng đổi hình dạng ma trận. Thuật toán Cuthill–McKee ngược <span class="en">(reverse Cuthill–McKee, RCM)</span> đánh số sao cho các nút hàng xóm có số hiệu gần nhau, nhờ đó các số khác 0 gom về một dải hẹp quanh đường chéo (dải này hẹp hay rộng gọi là <span class="term">băng thông</span>, <span class="en">bandwidth</span>), giúp bộ giải trực tiếp chạy nhanh và tốn ít bộ nhớ hơn.</p>
+    </div>
+
+    <h3>Điều kiện biên cho điện cực</h3>
+    <div class="prose">
+      <p>Cách đơn giản nhất là coi điện cực như một mặt có điện thế cho trước (Dirichlet), như <a href="5-do-lieu.html#fem">demo tDCS ở phần 5</a>. Thực tế, giữa kim loại và mô (hoặc da) có một lớp gel, muối hay mô xơ với trở kháng tiếp xúc riêng, và dòng không phân bố đều mà dồn về mép điện cực. <span class="term">Mô hình điện cực đầy đủ</span> <span class="en">(complete electrode model, CEM)</span> xử lý điều này bằng một điều kiện biên kiểu <span class="term">Robin</span> (pha trộn giữa "cho điện thế" và "cho dòng") cộng với ràng buộc tổng dòng, và là chuẩn mực trong chụp cắt lớp trở kháng điện (EIT):</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ V + z_\ell\,\sigma\frac{\partial V}{\partial n} = U_\ell \ \text{ trên điện cực } e_\ell, \qquad \int_{e_\ell}\sigma\frac{\partial V}{\partial n}\,dS = I_\ell, \qquad \sigma\frac{\partial V}{\partial n} = 0 \ \text{ ngoài các điện cực} \]</div>
+      <p class="where"><b>ℓ</b> (chữ l viết tay): số thứ tự của điện cực, ℓ = 1, 2, …; <b>e<sub>ℓ</sub></b>: mặt tiếp xúc của điện cực ℓ; <b>z<sub>ℓ</sub></b>: trở kháng tiếp xúc của điện cực ℓ (Ω·m²); <b>U<sub>ℓ</sub></b>: điện thế của bản thân điện cực kim loại (chưa biết, máy tính tìm ra); <b>σ ∂V/∂n</b>: mật độ dòng đi qua mặt tiếp xúc; <b>∫<sub>e<sub>ℓ</sub></sub> … dS</b>: cộng dòng trên cả mặt điện cực; <b>I<sub>ℓ</sub></b>: tổng dòng bơm vào qua điện cực (biết trước khi nguồn là nguồn dòng, như trong tDCS và DBS hiện đại). Phương trình đầu nói: điện thế của mô ngay dưới điện cực thấp hơn điện thế kim loại một lượng bằng (dòng × trở kháng tiếp xúc), giống định luật Ohm cho lớp gel.</p>
+    </div>
+
+    <h3>Giải hệ K·V = b</h3>
+    <div class="prose">
+      <p>Sau khi áp đặt điều kiện Dirichlet, K có hai tính chất tốt: <b>đối xứng</b> (K<sub>ij</sub> = K<sub>ji</sub>, vì dòng từ i sang j "nhìn" giống dòng từ j sang i) và <b>xác định dương</b> (về mặt vật lý: mọi cách phân bố điện thế không đồng đều đều làm tỏa nhiệt dương). Có hai họ bộ giải:</p>
+      <ul>
+        <li><span class="term">Bộ giải trực tiếp</span> <span class="en">(direct solver)</span>: phiên bản thông minh của phép khử ẩn số ở trung học, gọi là phân rã <span class="term">Cholesky</span> hoặc <span class="term">LU</span> thưa (ví dụ phần mềm PARDISO, MUMPS). Cho nghiệm chính xác tới sai số làm tròn, và tái sử dụng được khi chỉ đổi vế phải b, nhưng tốn nhiều bộ nhớ khi lưới lớn. <a href="#dbs">Demo DBS</a> bên dưới dùng Cholesky dải.</li>
+        <li><span class="term">Bộ giải lặp</span> <span class="en">(iterative solver)</span>: bắt đầu từ một đoán và sửa dần. Điển hình là <span class="term">gradient liên hợp</span> <span class="en">(conjugate gradient, CG)</span>: hình dung nghiệm là đáy một thung lũng năng lượng, CG đi xuống dốc theo những hướng được chọn khéo để không phải quay lại hướng cũ. Nó chỉ cần nhân K với một cột số, rất tiết kiệm bộ nhớ. Đi kèm là một <span class="term">tiền điều kiện</span> <span class="en">(preconditioner)</span>, một phép "biến đổi lại bài toán" để thung lũng tròn trịa hơn, dễ đi xuống hơn. Với tiền điều kiện <span class="term">đa lưới đại số</span> <span class="en">(algebraic multigrid, AMG)</span>, giải trên các lưới thô trước rồi tinh chỉnh dần, số vòng lặp gần như không tăng theo kích thước lưới, nên mô hình đầu vài triệu phần tử giải trong vài chục giây trên máy tính cá nhân.</li>
+      </ul>
+      <p>Một chú ý thực tế: tỉ số σ giữa dịch não tủy và xương sọ có thể tới vài trăm lần. Khi đó thung lũng năng lượng rất "hẹp và dài", máy tính dễ đi lạc và tích lũy sai số làm tròn; người ta gọi hệ như vậy là <span class="term">kém điều kiện</span> <span class="en">(ill-conditioned)</span>. Vì vậy tiền điều kiện tốt không phải là tùy chọn.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6.3 CÁC CHẾ ĐỘ ĐIỆN TỪ ================= -->
+<section class="part tint" id="che-do">
+  <div class="wrap">
+    <h2>FEM cho các chế độ điện từ</h2>
+    <div class="prose">
+      <p><a href="3-maxwell.html">Phương trình Maxwell</a> đầy đủ hiếm khi cần giải nguyên vẹn. Ở <a href="4-dien-moi.html#dai-luong">phần 4</a> ta đã thấy hai con số quyết định. Thứ nhất là tỉ số ωε/σ: dòng dịch chuyển (do mô "tích điện" như tụ điện) lớn đến đâu so với dòng dẫn (do ion chạy). Thứ hai là tỉ số giữa kích thước cơ thể và bước sóng trong mô: nếu cơ thể nhỏ hơn bước sóng rất nhiều, trường thay đổi "cùng lúc" ở mọi nơi và ta không cần lo chuyện sóng lan truyền. Tùy hai tỉ số này, cùng một chương trình FEM giải một trong bốn dạng phương trình, từ đơn giản đến phức tạp.</p>
+      <p><b>Đọc cột thứ hai của bảng.</b> Như ở <a href="4-dien-moi.html#dai-luong">phần 4</a>, <b>j</b> là đơn vị ảo (\(j^2 = -1\)) đánh dấu phần dao động lệch 90° so với điện trường, và <b>ω = 2πf</b> là tần số góc. Vì vậy \(\sigma + j\omega\varepsilon\) gộp dòng dẫn và dòng dịch chuyển làm một "độ dẫn phức". Dòng thứ ba và thứ tư có thêm <b>∇×</b> (curl, độ "xoáy" của trường, xem <a href="3-maxwell.html#tong-quan">phần 3</a>) vì ở đó điện trường sinh ra do cảm ứng từ, mà trường cảm ứng thì chạy vòng.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Chế độ</th><th>Phương trình FEM giải</th><th>Điều kiện áp dụng</th><th>Ví dụ trong Bioelectromagnetics</th></tr></thead>
+        <tbody>
+          <tr><td>Dòng dừng <span class="en">(stationary current)</span></td><td>\(\nabla\cdot(\sigma\nabla V) = \nabla\cdot\mathbf{J}_p\)</td><td>Tần số rất thấp; bỏ qua dòng dịch chuyển và cảm ứng. Đây là phương trình của mục <a href="#y-tuong">Từ phương trình đến hệ tuyến tính</a>.</td><td>tDCS, bài toán thuận EEG, DBS (gần đúng), EIT một tần số.</td></tr>
+          <tr><td>Gần tĩnh điện <span class="en">(electro-quasistatic)</span></td><td>\(\nabla\cdot\big((\sigma + j\omega\varepsilon)\nabla V\big) = 0\)</td><td>ωε không bỏ qua được so với σ, nhưng cơ thể vẫn nhỏ hơn nhiều so với bước sóng. Chỉ cần thay σ bằng σ + jωε.</td><td>tACS, DBS có tính điện dung, trường điều trị khối u (TTFields, khoảng 200 kHz), EIT đa tần số.</td></tr>
+          <tr><td>Gần tĩnh từ <span class="en">(magneto-quasistatic)</span></td><td>\(\mathbf{E} = -j\omega\mathbf{A}_0 - \nabla\varphi,\ \ \nabla\cdot(\sigma\nabla\varphi) = -j\omega\,\nabla\cdot(\sigma\mathbf{A}_0)\)</td><td>Nguồn là cuộn dây; dòng cảm ứng trong mô quá yếu để làm thay đổi từ trường.</td><td>TMS, chuyển mạch gradient MRI, phơi nhiễm tần số thấp (<a href="5-do-lieu.html#cam-ung">phần 5</a>).</td></tr>
+          <tr><td>Toàn sóng <span class="en">(full-wave)</span></td><td>\(\nabla\times\big(\mu_r^{-1}\nabla\times\mathbf{E}\big) - k_0^2\,\varepsilon_{rc}\mathbf{E} = -j\omega\mu_0\mathbf{J}_s\)</td><td>Kích thước vật thể cỡ một phần mười bước sóng trở lên: phải tính cả sóng lan truyền và phản xạ.</td><td>Cuộn RF của MRI (64–300 MHz), nóng lên của dây cấy ghép, tăng thân nhiệt, ăng-ten đeo trên người.</td></tr>
+        </tbody>
+        <caption>Quy ước e<sup>jωt</sup> (mọi đại lượng dao động hình sin với tần số f). <b>V, φ</b>: điện thế; <b>J<sub>p</sub></b>: dòng nguồn (do nơ-ron); <b>ε</b>: hằng số điện môi của mô; <b>A<sub>0</sub></b>: <b>thế vector</b> do cuộn dây tạo ra như thể không có cơ thể, tính bằng định luật Biot–Savart (<a href="2-tu.html#dong-dien">phần 2</a>); từ trường chính là độ xoáy của nó, B = ∇×A; <b>µ<sub>r</sub><sup>−1</sup></b>: nghịch đảo (1/µ<sub>r</sub>) của độ từ thẩm tương đối, với mô ≈ 1; <b>ε<sub>rc</sub> = ε<sub>r</sub> − jσ/(ωε<sub>0</sub>)</b>: hằng số điện môi phức; <b>k<sub>0</sub> = ω/c</b>: số sóng trong chân không (2π chia bước sóng); <b>J<sub>s</sub></b>: dòng trong nguồn phát (cuộn RF, ăng-ten); <b>µ<sub>0</sub></b>: hằng số từ. Ba dòng đầu chỉ có một ẩn vô hướng (một con số) mỗi nút; dòng cuối có ẩn vector (một mũi tên).</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Ở chế độ gần tĩnh từ, có một chi tiết đẹp. Từ trường của cuộn TMS thay đổi nhanh, và theo <a href="3-maxwell.html#faraday">định luật Faraday</a> nó tạo ra một điện trường "sơ cấp" −jωA<sub>0</sub>, như thể không có cơ thể. Khi trường đó đẩy dòng tới mặt phân cách giữa hai mô có σ khác nhau, điện tích dồn lại ở mặt phân cách (giống xe dồn ở chỗ đường hẹp lại) và tạo thêm một điện trường "thứ cấp" −∇φ. Kết quả: dòng không thể xuyên qua mặt da ra không khí, và trường trong não khác hẳn trường của cuộn dây trong không khí. FEM chỉ cần giải phần φ, với đúng phương trình vô hướng như tDCS, vế phải lấy từ A<sub>0</sub>.</p>
+    </div>
+
+    <h3>Phần tử cạnh cho bài toán toàn sóng</h3>
+    <div class="prose">
+      <p>Với bài toán toàn sóng, ẩn số là cả mũi tên E (ba thành phần E<sub>x</sub>, E<sub>y</sub>, E<sub>z</sub>). Thoạt nhìn, chỉ cần giải mỗi thành phần bằng một bộ hàm nón như trên. Cách đó thất bại vì hai lý do. Thứ nhất, hàm nón ép <i>cả ba</i> thành phần của E liên tục qua mặt phân cách, trong khi vật lý chỉ đòi hỏi phần <i>song song</i> với mặt phân cách (thành phần tiếp tuyến) liên tục; phần <i>vuông góc</i> (thành phần pháp tuyến) phải nhảy theo tỉ số hằng số điện môi của hai mô (<a href="3-maxwell.html">phần 3</a>). Thứ hai, nghiệm số xuất hiện các <span class="term">mode giả</span> <span class="en">(spurious modes)</span>: những dao động không có thật, sinh ra chỉ vì cách rời rạc hóa. Lời giải là <span class="term">phần tử cạnh</span> <span class="en">(edge element, Nédélec element)</span>: ẩn số không đặt ở nút mà đặt trên <i>cạnh</i> của tứ diện, và mỗi ẩn số là "hiệu điện thế dọc theo cạnh đó". Hàm cơ sở cạnh chỉ ép liên tục phần tiếp tuyến, đúng như định luật Faraday dạng tích phân yêu cầu.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \mathbf{E} \approx \sum_{\text{cạnh } m} e_m\,\mathbf{W}_m(\mathbf{x}), \qquad \mathbf{W}_{m} = \lambda_i\nabla\lambda_j - \lambda_j\nabla\lambda_i \ \ (\text{cạnh } m \text{ nối nút } i, j), \qquad e_m = \int_{\text{cạnh } m}\mathbf{E}\cdot d\boldsymbol{\ell} \]</div>
+      <p class="where"><b>m</b>: số thứ tự của cạnh; <b>W<sub>m</sub></b>: hàm cơ sở cạnh <span class="en">(Whitney edge function)</span> bậc thấp nhất, một trường mũi tên nhỏ chạy dọc theo cạnh m và "xoáy" quanh nó, tạo từ tọa độ trọng tâm λ<sub>i</sub>, λ<sub>j</sub> của hai đầu cạnh (xem <a href="#lap-rap">mục lắp ráp</a>); <b>e<sub>m</sub></b>: ẩn số mới, bằng tích phân của E dọc cạnh m, tức hiệu điện thế giữa hai đầu cạnh; <b>dℓ</b>: một bước ngắn dọc cạnh. Một mô hình toàn sóng còn cần biên hấp thụ ở mép vùng tính (lớp PML, như <a href="5-do-lieu.html#fdtd">FDTD ở phần 5</a>) để sóng đi ra không dội lại, và phần tử phải nhỏ hơn khoảng λ/10 (λ: bước sóng trong mô). Ở máy MRI 3 T (128 MHz), bước sóng trong cơ chỉ còn khoảng 25 cm, nên phần tử phải nhỏ hơn khoảng 2,5 cm; trên thực tế, để mô tả đúng các lớp mô mỏng và dây cấy ghép, người ta dùng phần tử cỡ vài mm, thậm chí nhỏ hơn quanh dây.</p>
+    </div>
+    <h3>FEM, phần tử biên và FDTD</h3>
+    <div class="prose">
+      <p>Một lưu ý về tên gọi: trong module này "BEM" là viết tắt của <i>bioelectromagnetics</i>, nhưng trong tính toán số, BEM thường chỉ <span class="term">phương pháp phần tử biên</span> <span class="en">(boundary element method)</span>, đối thủ trực tiếp của FEM trong EEG/MEG. Phần tử biên chỉ chia lưới các mặt phân cách (không chia thể tích), với giả định mỗi khoang đồng nhất và đẳng hướng.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tiêu chí</th><th>FEM</th><th>Phần tử biên</th><th>FDTD</th></tr></thead>
+        <tbody>
+          <tr><td>Chia lưới</td><td>Toàn bộ thể tích (tứ diện).</td><td>Chỉ các mặt phân cách (tam giác).</td><td>Toàn bộ thể tích (voxel).</td></tr>
+          <tr><td>Ma trận</td><td>Thưa, rất lớn.</td><td>Đầy, nhỏ hơn nhiều; cần thuật toán nhanh (FMM) khi lưới mịn.</td><td>Không cần giải hệ; lặp tường minh theo thời gian.</td></tr>
+          <tr><td>Mô dị hướng, không đồng nhất trong một khoang</td><td>Tự nhiên (tensor σ ở từng phần tử).</td><td>Không (mỗi khoang phải đồng nhất, đẳng hướng).</td><td>Được, nhưng dị hướng phức tạp hơn.</td></tr>
+          <tr><td>Hình học phức tạp (lỗ sọ, khe rãnh não, dịch não tủy mỏng)</td><td>Tốt, nếu lưới đủ chất lượng.</td><td>Khó khi các mặt gần chạm nhau.</td><td>Bị bậc thang hóa.</td></tr>
+          <tr><td>Dùng nhiều cho</td><td>tDCS, TMS, DBS, EEG chi tiết, cấy ghép.</td><td>EEG/MEG 3–4 lớp, TMS tốc độ cao.</td><td>SAR ở tần số RF, vi sóng.</td></tr>
+          <tr><td>Phần mềm ví dụ</td><td>SimNIBS, ROAST, DUNEuro, COMSOL, FEniCS.</td><td>MNE-Python, OpenMEEG, BEM-FMM.</td><td>Sim4Life, XFdtd, openEMS.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6.4 ỨNG DỤNG ================= -->
+<section class="part" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong Bioelectromagnetics</h2>
+    <div class="prose">
+      <p>Hầu hết các ứng dụng dưới đây đi theo đúng <a href="#chia-de-tri">quy trình năm bước</a> ở đầu trang, bắt đầu từ ảnh cộng hưởng từ của từng người và kết thúc bằng bản đồ điện trường trong não người đó. Bước tốn công nhất thường không phải là giải hệ phương trình mà là phân vùng mô và tạo lưới tứ diện chất lượng tốt.</p>
+    </div>
+    <figure class="fig">
+      <img src="lib/figures/quy-trinh-fem.svg" alt="Sơ đồ năm bước: ảnh MRI, phân vùng các lớp mô, chia lưới tứ diện, gán độ dẫn điện và giải hệ phương trình thưa, hậu xử lý ra điện trường; mũi tên quay lại từ bước cuối về bước đầu thể hiện kiểm chứng bằng số đo." loading="lazy">
+      <figcaption><b>Quy trình mô phỏng FEM cá nhân hóa.</b> Các bộ công cụ như SimNIBS hay ROAST tự động hóa gần như toàn bộ chuỗi này từ ảnh T1, T2. Sơ đồ tự vẽ.</figcaption>
+    </figure>
+    <h3>Kích thích điện qua sọ: tDCS, tACS, TTFields</h3>
+    <div class="prose">
+      <p>Dòng 1–2 mA qua hai miếng điện cực trên da đầu chỉ tạo ra trong não trường cỡ vài phần mười V/m; phần lớn dòng chạy tắt qua da đầu và dịch não tủy (<a href="5-do-lieu.html#fem">demo ở phần 5</a>). Các đo đạc bằng điện cực nội sọ ở bệnh nhân động kinh đã xác nhận bậc độ lớn này và cho thấy mô hình FEM cá nhân hóa dự đoán khá tốt sự phân bố trường. Từ đó, FEM được dùng theo chiều ngược lại: <i>tối ưu</i> vị trí và dòng của nhiều điện cực nhỏ (tDCS mật độ cao) để trường tập trung vào một vùng đích, và điều chỉnh liều cho từng người vì cùng một dòng có thể cho trường khác nhau đáng kể giữa hai người. Trường điều trị khối u <span class="en">(tumor treating fields, TTFields)</span> dùng tần số khoảng 200 kHz cho u nguyên bào thần kinh đệm; ở tần số này phải dùng mô hình gần tĩnh điện có cả ε, và FEM giúp chọn cách dán điện cực để trường trong khối u đạt khoảng 1–3 V/cm.</p>
+    </div>
+
+    <h3>Kích thích từ qua sọ (TMS)</h3>
+    <div class="prose">
+      <p>Cuộn dây hình số 8 phóng một xung dòng vài kA trong khoảng 0,1 ms, tạo trường điện cảm ứng cỡ 100 V/m ở vỏ não, đủ để kích hoạt nơ-ron. Mô phỏng FEM gần tĩnh từ cho thấy trường tập trung ở đỉnh các nếp cuộn não <span class="en">(gyral crown)</span> nằm gần cuộn dây, và thay đổi rõ theo hướng của cuộn so với rãnh não. Ngày nay, nhiều hệ thống định vị thần kinh <span class="en">(neuronavigation)</span> hiển thị trực tiếp trường E tính bằng FEM (hoặc phần tử biên) thay vì chỉ một điểm chiếu dưới tâm cuộn dây.</p>
+    </div>
+
+    <h3>Bài toán thuận của EEG và MEG</h3>
+    <div class="prose">
+      <p>EEG ghi điện thế trên da đầu do hàng chục nghìn nơ-ron tháp hoạt động đồng bộ. Nhìn từ xa, nhóm nơ-ron này giống một cặp nguồn dòng rất gần nhau: một điểm bơm dòng ra, một điểm hút dòng vào, gọi là <span class="term">lưỡng cực dòng</span> <span class="en">(current dipole)</span>. Câu hỏi bác sĩ quan tâm là <i>ngược</i>: từ tín hiệu ở các điện cực, nguồn nằm ở đâu trong não (<span class="term">bài toán ngược</span>, <span class="en">inverse problem</span>). Muốn trả lời, trước hết phải biết câu hỏi <i>xuôi</i>: một lưỡng cực ở mỗi vị trí, mỗi hướng tạo ra tín hiệu gì ở mỗi điện cực. Đó là <span class="term">bài toán thuận</span> <span class="en">(forward problem)</span>, và kết quả là một bảng tra gọi là <span class="term">ma trận trường dẫn</span> <span class="en">(lead field matrix)</span> L.</p>
+      <p>Một mẹo giúp tiết kiệm rất nhiều: <span class="term">nguyên lý tương hỗ</span> <span class="en">(reciprocity)</span> của Helmholtz. Thay vì giải một lần cho mỗi vị trí lưỡng cực (hàng chục nghìn lần), ta chỉ cần giải một lần cho mỗi điện cực: coi điện cực đó là nơi bơm dòng vào đầu, tính điện trường E sinh ra ở khắp não, và trường đó cho biết điện cực "nghe" được nguồn ở mỗi vị trí rõ đến đâu. Giống như nếu đứng ở A nói được tới B to cỡ nào, thì đứng ở B nói về A cũng to cỡ đó.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \nabla\cdot(\sigma\nabla V) = \nabla\cdot\mathbf{J}_p, \qquad \mathbf{J}_p = \mathbf{q}\,\delta(\mathbf{x} - \mathbf{x}_0), \qquad \mathbf{V}_{\text{điện cực}} = L\,\mathbf{q}, \qquad L_{k,\cdot}(\mathbf{x}_0) = -\,\mathbf{E}^{(k)}(\mathbf{x}_0)\big/ I \]</div>
+      <p class="where"><b>J<sub>p</sub></b>: dòng nguồn "nguyên phát" do nơ-ron tạo ra; <b>q</b>: <b>mômen lưỡng cực</b> (A·m), mũi tên có độ lớn bằng dòng × khoảng cách giữa hai cực và hướng từ cực hút sang cực bơm, cỡ 10 nA·m cho một nguồn đo được bằng EEG; <b>x<sub>0</sub></b>: vị trí nguồn; <b>δ(x − x<sub>0</sub>)</b>: <b>hàm delta Dirac</b>, một "cái gai" vô cùng hẹp và cao nằm đúng tại x<sub>0</sub>, bằng 0 ở mọi chỗ khác, dùng để nói "nguồn tập trung hoàn toàn tại một điểm"; <b>V<sub>điện cực</sub></b>: cột điện thế đo được ở các điện cực; <b>L q</b>: nhân bảng L với mũi tên q, nghĩa là tín hiệu tỉ lệ thuận với độ mạnh của nguồn; <b>L<sub>k,·</sub></b>: hàng thứ k của L (dấu chấm thay cho "mọi cột"), ứng với điện cực k; <b>E<sup>(k)</sup></b>: điện trường khi bơm dòng <b>I</b> vào điện cực k và lấy ra ở điện cực tham chiếu (chỉ số trên (k) là "thuộc điện cực k"). Vì nguồn là một điểm, vế phải không trơn tru, nên các phần mềm cần cách xử lý riêng (phương pháp trừ, tích phân từng phần, hay phân bố dòng về các nút lân cận như trong demo).</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hình tròn nhiều lớp là mặt cắt đầu (não, dịch não tủy, xương sọ, da đầu). Mũi tên nhỏ trong não là lưỡng cực dòng; kéo nó đi khắp nơi hoặc xoay hướng. Màu là điện thế V (đỏ là dương, màu còn lại là âm). Đồ thị bên dưới là thứ EEG "thấy": điện thế trên da đầu đi vòng quanh đầu theo góc, 0° là đỉnh đầu. Bấm <b>Đồng nhất</b> để giả vờ cả đầu chỉ là một khối dẫn điện đều, rồi bấm lại <b>Mô hình 4 lớp</b>: với xương sọ dẫn điện kém, tín hiệu trên da đầu yếu đi và nhòe rộng ra. Kéo thanh <b>σ của xương sọ</b> để thấy hiệu ứng nhòe đó mạnh lên hay yếu đi. So sánh <b>Hướng xuyên tâm</b> (mũi tên chỉ thẳng ra da đầu) với <b>Hướng tiếp tuyến</b> (song song với da đầu): hai kiểu cho hình mẫu điện thế trên da rất khác nhau.</div>
+    <div class="demo" id="demoEeg" data-demo="eeg-forward">
+      <div class="demo-title"><h4>Bài toán thuận EEG: lưỡng cực trong đầu</h4><span>Kéo lưỡng cực; so sánh mô hình 4 lớp với mô hình đồng nhất</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Xương sọ là nhân vật chính của EEG: nó làm tín hiệu yếu đi và nhòe ra, và độ dẫn điện của nó lại là thông số kém chắc chắn nhất (các nghiên cứu cho tỉ số σ não : σ sọ từ khoảng 1:20 tới 1:80). Các hướng dẫn hiện nay khuyến nghị mô hình phải có dịch não tủy, phân biệt chất xám với chất trắng, và nếu có thể thì dùng σ dị hướng cho chất trắng: những điều FEM làm được còn phần tử biên thì không. MEG đo từ trường thay vì điện thế nên ít nhạy với xương sọ hơn (từ trường đi qua mô gần như nguyên vẹn, xem <a href="2-tu.html#do-lon">phần 2</a>), đó là lý do mô hình phần tử biên một lớp thường đủ cho MEG.</p>
+    </div>
+
+    <h3 id="dbs">Kích thích não sâu (DBS)</h3>
+    <div class="prose">
+      <p>Trong DBS, một điện cực mảnh có bốn tiếp điểm kim loại được cấy vào nhân dưới đồi <span class="en">(subthalamic nucleus)</span> hay nhân cầu nhạt trong để điều trị Parkinson, run, loạn trương lực. Câu hỏi lâm sàng là: với tiếp điểm và biên độ này, vùng mô nào bị kích hoạt? Mô hình chuẩn gồm hai bước. <b>Bước một</b>, FEM tính điện thế quanh điện cực, có tính đến lớp mô xơ bao quanh hình thành vài tuần sau cấy ghép. <b>Bước hai</b>, "thả" các sợi trục giả lập vào trường đó. Một sợi trục có myelin chỉ "lộ ra" ở các <span class="term">nút Ranvier</span> cách đều nhau, giống các trạm dọc một đường ray. Sợi bị kích hoạt khi điện thế bên ngoài thay đổi <i>không đều</i> giữa các trạm liên tiếp, đo bằng <span class="term">hàm kích hoạt</span> <span class="en">(activating function)</span>: độ "cong" của đường điện thế dọc sợi trục (Rattay, 1986). Tập hợp các sợi trục bị kích hoạt cho <span class="term">thể tích mô được kích hoạt</span> <span class="en">(volume of tissue activated, VTA)</span>. Cách đơn giản hơn, cũng được dùng nhiều, là lấy ngưỡng trực tiếp trên độ lớn điện trường |E|.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ f_n = \frac{V_{n-1} - 2V_n + V_{n+1}}{\Delta z^2} \;\approx\; \frac{\partial^2 V}{\partial z^2}, \qquad \text{trọng số đối xứng trục: } K_{ij} = \int 2\pi r\,\sigma\,\nabla\varphi_i\cdot\nabla\varphi_j\;dr\,dz \]</div>
+      <p class="where"><b>V<sub>n</sub></b>: điện thế bên ngoài màng tại nút Ranvier thứ n (V<sub>n−1</sub>, V<sub>n+1</sub>: hai nút hai bên); <b>Δz</b>: khoảng cách giữa hai nút Ranvier (cỡ 0,5 mm với sợi trục đường kính vài µm); <b>f<sub>n</sub></b>: hàm kích hoạt tại nút n. Tử số so sánh nút giữa với trung bình hai nút bên cạnh: nếu ba điểm thẳng hàng thì bằng 0 (không kích hoạt), nếu nút giữa "trũng" hơn hai bên thì dương. <b>f<sub>n</sub> &gt; 0</b>: màng tại nút đó bị khử cực, tức bị đẩy về phía phát xung. <b>∂²V/∂z²</b>: <b>đạo hàm bậc hai</b> của V dọc sợi trục (trục z), độ cong của đường V; công thức bên trái là cách tính gần đúng nó từ ba điểm. Vế phải: vì điện cực là hình trụ, bài toán giống nhau ở mọi góc quay quanh trục, nên chỉ cần giải trên một nửa mặt phẳng với <b>r</b> (khoảng cách tới trục điện cực) và <b>z</b> (vị trí dọc trục); mỗi ô trên mặt phẳng thực chất là một vòng xuyến có chu vi 2πr, nên tích phân có thêm trọng số <b>2πr</b>.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hình là mặt cắt dọc qua điện cực: thân điện cực (màu xám) cắm từ trên xuống, đầu điện cực ở phía dưới. Bài toán thật chỉ được giải trên một nửa mặt cắt (bán kính r, độ cao z), nửa kia được vẽ đối xứng cho dễ nhìn. Bốn dải kim loại C0–C3 là các tiếp điểm; tiếp điểm đang kích thích có màu xanh đậm. Màu nền là độ lớn điện trường |E| theo thang log (mỗi bậc màu gấp nhiều lần). Đường viền đen bao quanh vùng có |E| vượt <b>Ngưỡng kích hoạt</b>, tức "VTA" theo cách đơn giản. Nét đứt xám là ranh giới lớp bao xơ quanh điện cực; nét đứt xanh là một sợi trục chạy song song với điện cực, cách trục một khoảng chỉnh được. Đồ thị bên dưới vẽ hàm kích hoạt f<sub>n</sub> tại từng nút Ranvier dọc sợi trục đó: cột đỏ là khử cực (có thể phát xung), cột xanh là ưu phân cực. So sánh <b>Điều khiển điện áp</b> với <b>Điều khiển dòng</b> khi giảm <b>σ của lớp bao xơ</b>: với nguồn áp, lớp xơ dẫn điện kém làm trở kháng tăng, dòng giảm và VTA co lại; với nguồn dòng, máy tự tăng điện áp để giữ dòng nên VTA ít thay đổi hơn. Đó là một lý do các máy DBS đời mới chuyển sang điều khiển dòng.</div>
+    <div class="demo" id="demoDbs" data-demo="dbs">
+      <div class="demo-title"><h4>Kích thích não sâu (DBS): trường quanh điện cực</h4><span>Mô hình đối xứng trục, giải trực tiếp bằng Cholesky dải</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Hàm kích hoạt có cả vùng dương (khử cực) ngay cạnh tiếp điểm và hai vùng âm (ưu phân cực, màng bị đẩy xa ngưỡng phát xung) hai bên. Với biên độ quá lớn, vùng ưu phân cực có thể chặn xung thần kinh lan truyền: một trong những lý do kích thích cực âm hiệu quả hơn cực dương. Các điện cực định hướng mới có tiếp điểm chia nhỏ theo góc; khi đó mất tính đối xứng trục và phải giải bài toán 3D đầy đủ. Các gói như Lead-DBS và OSS-DBS kết hợp FEM với ảnh định vị điện cực sau mổ của từng bệnh nhân.</p>
+    </div>
+
+    <h3>An toàn MRI cho bệnh nhân có cấy ghép</h3>
+    <div class="prose">
+      <p>Dây dẫn dài của máy tạo nhịp hay DBS hoạt động như một ăng-ten trong trường RF của máy MRI, tập trung SAR ở đầu dây và có thể làm nóng mô vài độ. Đánh giá an toàn là một bài toán <span class="term">đa vật lý</span> <span class="en">(multiphysics)</span>: giải toàn sóng để tìm E quanh dây (FEM hoặc <a href="5-do-lieu.html#fdtd">FDTD</a> trên mô hình người), rồi giải phương trình nhiệt sinh học Pennes, có cả dẫn nhiệt, trên cùng lưới FEM. Quy trình chuẩn hóa trong tiêu chuẩn ISO/TS 10974 chia bài toán thành mô hình hóa trường trong cơ thể và "hàm truyền" của dây cấy ghép, đo hoặc mô phỏng riêng.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \rho c\,\frac{\partial T}{\partial t} = \nabla\cdot(k\nabla T) + \rho\,\mathrm{SAR} - w_b c_b\,(T - T_b) \]</div>
+      <p class="where">Đọc như một bảng cân đối nhiệt cho mỗi mẩu mô. Vế trái: nhiệt độ <b>T</b> tăng nhanh đến đâu (<b>∂T/∂t</b>), nhân với khối lượng riêng <b>ρ</b> (kg/m³) và nhiệt dung riêng <b>c</b> (J/(kg·K)). Vế phải có ba khoản: <b>∇·(k∇T)</b> là nhiệt chảy đến từ các vùng nóng hơn xung quanh (dẫn nhiệt, giống hệt cách dòng điện chảy trong phương trình điện, với <b>k</b>: hệ số dẫn nhiệt (W/(m·K)) thay cho σ); <b>ρ·SAR</b> là nhiệt do trường điện từ đốt nóng; <b>w<sub>b</sub>c<sub>b</sub>(T − T<sub>b</sub>)</b> là nhiệt bị máu mang đi, với <b>w<sub>b</sub></b>: lưu lượng máu tưới (kg/(m³·s)), <b>c<sub>b</sub></b>: nhiệt dung riêng của máu, <b>T<sub>b</sub></b>: nhiệt độ máu đến (≈ 37 °C). So với <a href="5-do-lieu.html#sar">phương trình Pennes ở phần 5</a>, đây có thêm số hạng dẫn nhiệt. Dạng yếu của nó dùng đúng ma trận độ cứng như bài toán điện (thay σ bằng k), cộng thêm một ma trận cho số hạng máu và đạo hàm theo thời gian; <a href="#y-tuong">demo FEM 1D</a> ở đầu trang (nút "Nhiệt do SAR") giải đúng phương trình này ở trạng thái ổn định.</p>
+    </div>
+
+    <h3>Khi độ dẫn điện phụ thuộc vào trường: xung điện và đốt nhiệt</h3>
+    <div class="prose">
+      <p>Trong <span class="term">kỹ thuật xung điện</span> <span class="en">(electroporation)</span>, các xung ngắn cỡ vài trăm V/cm đến vài kV/cm mở lỗ trên màng tế bào, để đưa thuốc vào (hóa trị điện) hoặc phá hủy khối u không dùng nhiệt (IRE). Màng thủng làm σ của mô tăng nhiều lần, nên σ phụ thuộc chính E: bài toán trở thành phi tuyến, giải bằng cách lặp (giải, cập nhật σ(E), giải lại). Trong <span class="term">đốt bằng sóng cao tần</span> <span class="en">(radiofrequency ablation)</span>, σ tăng khoảng 2% mỗi độ C, nên phải giải điện và nhiệt xen kẽ theo thời gian. Cả hai đều cho thấy sức mạnh của FEM: thêm một hiện tượng vật lý chỉ là thêm một phương trình trên cùng lưới.</p>
+    </div>
+
+    <h3>Tim và chụp cắt lớp trở kháng</h3>
+    <div class="prose">
+      <p>Trong điện sinh lý học tim, <span class="term">mô hình hai miền</span> <span class="en">(bidomain model)</span> mô tả điện thế trong và ngoài tế bào cơ tim bằng hai phương trình đạo hàm riêng ghép với mô hình kênh ion; FEM được dùng để mô phỏng sóng kích thích, cú sốc khử rung và điện tâm đồ. <span class="term">Chụp cắt lớp trở kháng điện</span> <span class="en">(electrical impedance tomography, EIT)</span> bơm dòng nhỏ qua vòng điện cực quanh ngực để theo dõi thông khí phổi tại giường bệnh; thuật toán tái tạo ảnh lặp lại hàng trăm lần một bài toán thuận FEM với mô hình điện cực đầy đủ.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Ứng dụng</th><th>Chế độ</th><th>Nguồn, điều kiện biên</th><th>Đại lượng quan tâm</th><th>Công cụ ví dụ</th></tr></thead>
+        <tbody>
+          <tr><td>tDCS, tACS</td><td>Dòng dừng / gần tĩnh điện</td><td>Điện cực trên da (Dirichlet hoặc CEM)</td><td>E trong vỏ não, độ tập trung</td><td>SimNIBS, ROAST</td></tr>
+          <tr><td>TTFields</td><td>Gần tĩnh điện, ~200 kHz</td><td>Miếng dán điện cực trên da</td><td>E trong khối u</td><td>SimNIBS, COMSOL</td></tr>
+          <tr><td>TMS</td><td>Gần tĩnh từ</td><td>Thế véc-tơ A<sub>0</sub> của cuộn dây</td><td>E ở vỏ não</td><td>SimNIBS, BEM-FMM</td></tr>
+          <tr><td>EEG/MEG</td><td>Dòng dừng</td><td>Lưỡng cực dòng; da cách điện</td><td>Ma trận trường dẫn</td><td>DUNEuro, FieldTrip, Brainstorm</td></tr>
+          <tr><td>DBS</td><td>Dòng dừng / gần tĩnh điện</td><td>Tiếp điểm điện cực, đất ở xa</td><td>VTA, hàm kích hoạt</td><td>Lead-DBS, OSS-DBS</td></tr>
+          <tr><td>Cấy ghép trong MRI</td><td>Toàn sóng + nhiệt</td><td>Cuộn RF, dây dẫn cấy ghép</td><td>SAR cục bộ, tăng nhiệt độ</td><td>Sim4Life, COMSOL</td></tr>
+          <tr><td>Xung điện, đốt nhiệt</td><td>Dòng dừng phi tuyến + nhiệt</td><td>Kim điện cực</td><td>Vùng E vượt ngưỡng, vùng hoại tử</td><td>COMSOL, FEniCS</td></tr>
+          <tr><td>EIT</td><td>Gần tĩnh điện</td><td>Vòng điện cực, CEM</td><td>Bản đồ σ (bài toán ngược)</td><td>EIDORS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6.5 ĐỘ TIN CẬY ================= -->
+<section class="part tint" id="tin-cay">
+  <div class="wrap">
+    <h2>Khi nào tin được mô phỏng?</h2>
+    <div class="prose">
+      <p>Một bản đồ trường E nhiều màu nhìn rất thuyết phục, kể cả khi nó sai. Cộng đồng mô phỏng y sinh phân biệt hai câu hỏi. <span class="term">Thẩm định</span> <span class="en">(verification)</span>: chương trình có giải đúng phương trình không? Kiểm tra bằng nghiệm giải tích (hình cầu nhiều lớp với lưỡng cực, có công thức đóng) và bằng nghiên cứu hội tụ lưới như <a href="#y-tuong">demo 1D</a>: chia lưới mịn dần cho tới khi kết quả gần như không đổi nữa. <span class="term">Kiểm chứng</span> <span class="en">(validation)</span>: phương trình và thông số có mô tả đúng cơ thể không? Kiểm tra bằng số đo: điện cực nội sọ, đo từ trường do dòng tạo ra bên trong máy MRI (MRCDI, MREIT), hoặc đáp ứng sinh lý (ngưỡng vận động trong TMS). Với thiết bị y tế, tiêu chuẩn ASME V&amp;V 40 và hướng dẫn của FDA (2023) yêu cầu mức độ tin cậy của mô hình tương xứng với rủi ro của quyết định dựa trên nó.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nguồn sai số</th><th>Ảnh hưởng điển hình</th><th>Cách giảm</th></tr></thead>
+        <tbody>
+          <tr><td>Rời rạc hóa (lưới thô, phần tử méo)</td><td>Thường nhỏ nếu lưới tốt; đỉnh trường cục bộ nhạy nhất.</td><td>Nghiên cứu hội tụ lưới; kiểm tra chất lượng phần tử; báo cáo phân vị thay vì cực đại.</td></tr>
+          <tr><td>Hình học, phân vùng mô</td><td>Lớn: bề dày dịch não tủy và xương sọ, lỗ trên sọ, vị trí điện cực.</td><td>Ảnh T1 và T2; kiểm tra phân vùng bằng mắt; mô hình cá nhân thay vì mô hình chuẩn.</td></tr>
+          <tr><td>Độ dẫn điện của mô</td><td>Lớn: σ sọ, σ da khác nhau giữa các nghiên cứu nhiều lần.</td><td>Phân tích độ bất định (ví dụ khai triển đa thức hỗn loạn); hiệu chỉnh bằng số đo.</td></tr>
+          <tr><td>Dị hướng (chất trắng, cơ)</td><td>Trung bình; quan trọng cho nguồn và đích sâu.</td><td>Tensor σ từ ảnh DTI.</td></tr>
+          <tr><td>Mô hình điện cực, tiếp xúc</td><td>Lớn gần điện cực, nhỏ ở xa.</td><td>Mô hình điện cực đầy đủ (CEM); mô hình hóa gel, lớp bao xơ.</td></tr>
+          <tr><td>Giả định vật lý (bỏ ε, bỏ cảm ứng, σ tuyến tính)</td><td>Phụ thuộc tần số và cường độ.</td><td>Kiểm tra các tỉ số ωε/σ, kích thước/bước sóng; thêm phi tuyến khi cần.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Đọc một bài báo có mô phỏng FEM, hãy hỏi:</b> mô hình lấy từ ảnh của chính đối tượng hay một đầu chuẩn? Có những mô nào, σ lấy từ đâu, có dị hướng không? Lưới có bao nhiêu phần tử, đã kiểm tra hội tụ chưa? Điện cực mô hình hóa ra sao? "Trường lớn nhất" là cực đại hay phân vị? Có so sánh với số đo nào không? Một mô hình trả lời được những câu này thường đáng tin hơn một mô hình có hình đẹp.</div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Mọi ký hiệu dùng trong các công thức của trang, gom lại một chỗ. Cột giữa là cách đọc trong tài liệu tiếng Anh, cột cuối là ý nghĩa nói đơn giản; giải thích đầy đủ nằm ngay dưới mỗi công thức.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(\nabla V\)</td><td>grad V, del V</td><td>Gradient: mũi tên chỉ hướng V tăng nhanh nhất, dài bằng độ dốc.</td></tr>
+          <tr><td class="sym">\(\nabla\cdot\mathbf{J}\)</td><td>divergence of J, del dot J</td><td>Lượng dòng "tỏa ra" khỏi một điểm. Bằng 0: vào bao nhiêu, ra bấy nhiêu.</td></tr>
+          <tr><td class="sym">\(\nabla\times\mathbf{E}\)</td><td>curl of E, del cross E</td><td>Độ "xoáy" của trường, như nước xoáy quanh một chỗ.</td></tr>
+          <tr><td class="sym">\(\Omega\)</td><td>capital omega</td><td>Vùng tính toán, ví dụ cả cái đầu.</td></tr>
+          <tr><td class="sym">\(\Gamma_D\), \(\Gamma_N\)</td><td>gamma D, gamma N</td><td>Hai phần của biên: phần biết điện thế (Dirichlet) và phần biết dòng đi vào (Neumann).</td></tr>
+          <tr><td class="sym">\(\dfrac{\partial V}{\partial n}\)</td><td>partial V by partial n, normal derivative</td><td>Độ dốc của V theo hướng vuông góc với mặt biên, chỉ ra ngoài.</td></tr>
+          <tr><td class="sym">\(\int_\Omega \ldots\,d\Omega\)</td><td>integral over omega</td><td>Chia vùng thành vô số ô tí hon, tính trong mỗi ô rồi cộng lại.</td></tr>
+          <tr><td class="sym">\(\mathbf{a}\cdot\mathbf{b}\)</td><td>a dot b</td><td>Tích vô hướng: lớn khi hai mũi tên cùng hướng, bằng 0 khi vuông góc.</td></tr>
+          <tr><td class="sym">\(\varphi_j\)</td><td>phi j</td><td>Hàm cơ sở hình nón (mái lều) của nút j: bằng 1 tại nút j, bằng 0 tại các nút khác.</td></tr>
+          <tr><td class="sym">\(\sum_j\)</td><td>sum over j</td><td>Cộng qua mọi nút j.</td></tr>
+          <tr><td class="sym">\(K\mathbf{V} = \mathbf{b}\)</td><td>K V equals b</td><td>Hệ phương trình tuyến tính: bảng hệ số K nhân cột ẩn V bằng cột vế phải b.</td></tr>
+          <tr><td class="sym">\(K_{ij}\), \(K^{(e)}\)</td><td>K i j, K superscript e</td><td>Một ô của ma trận độ cứng; ma trận nhỏ của riêng phần tử e (chỉ số trên không phải lũy thừa).</td></tr>
+          <tr><td class="sym">\(\underbrace{\ldots}_{K_{ij}}\)</td><td>underbrace</td><td>Ngoặc nhọn bên dưới: đặt tên cho cả cụm phía trên.</td></tr>
+          <tr><td class="sym">\(\Longrightarrow\), \(\Longleftrightarrow\)</td><td>implies, if and only if</td><td>Dẫn tới; tương đương với.</td></tr>
+          <tr><td class="sym">\(\begin{pmatrix}\cdot&\cdot\\\cdot&\cdot\end{pmatrix}\)</td><td>matrix</td><td>Ma trận: bảng số xếp theo hàng và cột.</td></tr>
+          <tr><td class="sym">\(\lambda_i\)</td><td>lambda i, barycentric coordinate</td><td>Tọa độ trọng tâm: điểm "gần" đỉnh i bao nhiêu (1 tại đỉnh i, 0 ở mặt đối diện).</td></tr>
+          <tr><td class="sym">\(x^{\mathsf T}\)</td><td>x transpose</td><td>Chuyển vị: lật cột thành hàng, để nhân hai vector qua một ma trận.</td></tr>
+          <tr><td class="sym">\(\boldsymbol{\sigma}\) (in đậm)</td><td>sigma tensor</td><td>Tensor độ dẫn: bảng 3 × 3 cho phép độ dẫn khác nhau theo từng hướng (mô dị hướng).</td></tr>
+          <tr><td class="sym">\(h\)</td><td>h</td><td>Kích thước phần tử. "Sai số ∝ h²": chia đôi h thì sai số giảm 4 lần.</td></tr>
+          <tr><td class="sym">\(j\), \(\omega\)</td><td>j, omega</td><td>Đơn vị ảo (j² = −1) đánh dấu phần lệch pha 90°; tần số góc ω = 2πf.</td></tr>
+          <tr><td class="sym">\(\mathbf{A}_0\)</td><td>A nought, vector potential</td><td>Thế vector của cuộn dây; từ trường là độ xoáy của nó.</td></tr>
+          <tr><td class="sym">\(\mu_r^{-1}\)</td><td>mu r inverse</td><td>Nghịch đảo 1/µᵣ của độ từ thẩm tương đối.</td></tr>
+          <tr><td class="sym">\(k_0\)</td><td>k nought, free-space wavenumber</td><td>Số sóng trong chân không, ω/c = 2π/bước sóng.</td></tr>
+          <tr><td class="sym">\(\mathbf{W}_m\), \(e_m\)</td><td>W m, e m</td><td>Hàm cơ sở cạnh Whitney và ẩn số trên cạnh m (hiệu điện thế dọc cạnh).</td></tr>
+          <tr><td class="sym">\(d\boldsymbol{\ell}\), \(\ell\)</td><td>d ell, ell</td><td>Bước ngắn dọc một đường; ℓ cũng dùng làm số thứ tự điện cực.</td></tr>
+          <tr><td class="sym">\(\delta(\mathbf{x}-\mathbf{x}_0)\)</td><td>Dirac delta</td><td>Hàm delta Dirac: "cái gai" vô cùng hẹp tại x₀; mô tả nguồn tập trung tại một điểm.</td></tr>
+          <tr><td class="sym">\(L_{k,\cdot}\)</td><td>L k dot, row k of L</td><td>Hàng thứ k của ma trận trường dẫn L (dấu chấm: mọi cột).</td></tr>
+          <tr><td class="sym">\(\dfrac{\partial^2 V}{\partial z^2}\)</td><td>second partial derivative of V with respect to z</td><td>Đạo hàm bậc hai: độ cong của đường V dọc trục z.</td></tr>
+          <tr><td class="sym">\(\Delta z\)</td><td>delta z</td><td>Khoảng cách giữa hai nút Ranvier liên tiếp.</td></tr>
+          <tr><td class="sym">\(\dfrac{\partial T}{\partial t}\)</td><td>partial T by partial t</td><td>Nhiệt độ tăng nhanh đến đâu tại một điểm cố định.</td></tr>
+          <tr><td class="sym">\(\propto\)</td><td>proportional to</td><td>Tỉ lệ với.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part tint" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1943</span><div><h4>Richard Courant: hàm tuyến tính trên tam giác</h4><p>Trong một bài giảng về phương pháp biến phân, Courant xấp xỉ nghiệm bài toán xoắn bằng hàm tuyến tính trên lưới tam giác, chính là ý tưởng của hàm nón ngày nay, nhưng ít được chú ý vì chưa có máy tính.</p></div></li>
+      <li><span class="yr">1956</span><div><h4>Phương pháp độ cứng cho máy bay</h4><p>Turner, Clough, Martin và Topp (Boeing) chia cánh máy bay thành các tấm tam giác và lắp ráp ma trận độ cứng, đúng như bước <a href="#lap-rap">lắp ráp</a> ở trên.</p></div></li>
+      <li><span class="yr">1960</span><div><h4>Ray Clough đặt tên "phần tử hữu hạn"</h4><p>Trong bài báo <i>The Finite Element Method in Plane Stress Analysis</i>, Clough lần đầu dùng tên gọi này. Trong thập niên 1960, phương pháp lan sang tính ứng suất, truyền nhiệt, dòng chảy.</p></div></li>
+      <li><span class="yr">1965</span><div><h4>Từ kết cấu sang bài toán trường</h4><p>Zienkiewicz và Cheung chỉ ra rằng cùng phương pháp giải được mọi phương trình dạng Poisson (dẫn nhiệt, thấm, điện thế), mở đường cho FEM trong điện từ học. Silvester áp dụng FEM cho ống dẫn sóng năm 1969.</p></div></li>
+      <li><span class="yr">1970</span><div><h4>Phần mềm thương mại ra đời</h4><p>John Swanson phát hành ANSYS (<i>Analysis Systems</i>); nhiều phần mềm FEM lớn khác (ABAQUS, ADINA, NASTRAN) cũng có gốc từ thập niên 1960–1970. Cuốn sách giáo khoa kinh điển của Zienkiewicz (bản đầu 1967) giúp phương pháp trở thành môn học chuẩn của ngành kỹ thuật.</p></div></li>
+      <li><span class="yr">1980</span><div><h4>Phần tử cạnh Nédélec</h4><p>Jean-Claude Nédélec công bố họ phần tử đặt ẩn số trên cạnh, giải quyết vấn đề mode giả và làm FEM trở thành công cụ chuẩn cho bài toán toàn sóng.</p></div></li>
+      <li class="bio"><span class="yr">1986</span><div><h4>Hàm kích hoạt</h4><p>Frank Rattay chỉ ra rằng đáp ứng của sợi trục với kích thích từ bên ngoài được quyết định bởi đạo hàm bậc hai của điện thế dọc sợi trục, cầu nối giữa trường tính bằng FEM và sinh lý thần kinh.</p></div></li>
+      <li class="bio"><span class="yr">1991</span><div><h4>FEM cho EEG</h4><p>Yan, Nunez và Hart công bố một trong những mô hình FEM đầu tiên của đầu người để tính điện thế da đầu do lưỡng cực, cho thấy ảnh hưởng của hình dạng thật so với mô hình hình cầu.</p></div></li>
+      <li class="bio"><span class="yr">2005</span><div><h4>VTA trong DBS</h4><p>Nhóm của Cameron McIntyre kết hợp FEM với mô hình sợi trục để tính thể tích mô được kích hoạt, chỉ ra vai trò của lớp bao xơ và điện dung điện cực; năm 2007 họ đưa phương pháp vào mô hình riêng cho từng bệnh nhân.</p></div></li>
+      <li class="bio"><span class="yr">2013</span><div><h4>Quy trình tự động: SimNIBS</h4><p>Windhoff, Opitz và Thielscher công bố quy trình tự động từ ảnh MRI tới lưới tứ diện và trường E cho tDCS, TMS; phần mềm mã nguồn mở SimNIBS đưa mô phỏng cá nhân hóa tới các phòng thí nghiệm không chuyên về số.</p></div></li>
+      <li class="bio"><span class="yr">2017</span><div><h4>Kiểm chứng trong não người</h4><p>Huang và cộng sự đo trường điện trong não bệnh nhân động kinh có điện cực nội sọ trong lúc kích thích qua sọ, và so sánh trực tiếp với mô hình FEM của từng người: bằng chứng thực nghiệm quan trọng cho cả lĩnh vực.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>J. Murad, <a href="https://www.engineered-mind.com/fem/the-finite-element-method-beginners-guide/">The Finite Element Method (FEM) – A Beginner's Guide</a>, Engineered Mind (2022): nhập môn FEM không cần nhiều toán; trang này mượn cách trình bày "chia để trị", ví dụ thanh kim loại và quy trình năm bước.</li>
+      <li>O. C. Zienkiewicz, R. L. Taylor, J. Z. Zhu, <i>The Finite Element Method: Its Basis and Fundamentals</i>, 7th ed., Butterworth-Heinemann, 2013.</li>
+      <li>J.-M. Jin, <i>The Finite Element Method in Electromagnetics</i>, 3rd ed., Wiley-IEEE Press, 2014.</li>
+      <li>R. W. Clough, "The finite element method in plane stress analysis", <i>Proc. 2nd ASCE Conference on Electronic Computation</i>, Pittsburgh (1960).</li>
+      <li>R. Courant, "Variational methods for the solution of problems of equilibrium and vibrations", <i>Bull. Amer. Math. Soc.</i> 49 (1943) 1–23.</li>
+      <li>J.-C. Nédélec, "Mixed finite elements in R³", <i>Numer. Math.</i> 35 (1980) 315–341.</li>
+      <li>E. Cuthill, J. McKee, "Reducing the bandwidth of sparse symmetric matrices", <i>Proc. 24th ACM National Conference</i> (1969) 157–172.</li>
+      <li>E. Somersalo, M. Cheney, D. Isaacson, "Existence and uniqueness for electrode models for electric current computed tomography", <i>SIAM J. Appl. Math.</i> 52 (1992) 1023–1040.</li>
+      <li>F. Rattay, "Analysis of models for external stimulation of axons", <i>IEEE Trans. Biomed. Eng.</i> 33 (1986) 974–977.</li>
+      <li>C. R. Butson, C. C. McIntyre, "Tissue and electrode capacitance reduce neural activation volumes during deep brain stimulation", <i>Clin. Neurophysiol.</i> 116 (2005) 2490–2500.</li>
+      <li>M. Windhoff, A. Opitz, A. Thielscher, "Electric field calculations in brain stimulation based on finite elements: an optimized processing pipeline for the generation and usage of accurate individual head models", <i>Hum. Brain Mapp.</i> 34 (2013) 923–935.</li>
+      <li>J. Vorwerk et al., "A guideline for head volume conductor modeling in EEG and MEG", <i>NeuroImage</i> 100 (2014) 590–607.</li>
+      <li>J. P. Dmochowski et al., "Optimized multi-electrode stimulation increases focality and intensity at target", <i>J. Neural Eng.</i> 8 (2011) 046011.</li>
+      <li>Y. Huang et al., "Measurements and models of electric fields in the in vivo human brain during transcranial electric stimulation", <i>eLife</i> 6 (2017) e18834.</li>
+      <li>G. B. Saturnino et al., "A principled approach to conductivity uncertainty analysis in electric field calculations", <i>NeuroImage</i> 188 (2019) 821–834.</li>
+      <li>ASME V&amp;V 40-2018, <i>Assessing Credibility of Computational Modeling through Verification and Validation: Application to Medical Devices</i>; U.S. FDA, <i>Assessing the Credibility of Computational Modeling and Simulation in Medical Device Submissions</i> (2023).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="5-do-lieu.html"><small>Phần 5</small><b>Đo liều</b></a>
+      <a class="next" href="index.html"><small>Hết</small><b>Trang chủ Bioelectromagnetics</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/bem.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

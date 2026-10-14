@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Lưới Yee 2D, phân cực TMz (sơ đồ)</title>
+  <!-- Sơ đồ tự vẽ theo Yee (1966). My Academic / Sinh điện từ. -->
+  <rect width="560" height="400" fill="#FBFCFD"/>
+  <line x1="80" y1="50" x2="80" y2="350" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="80" y1="50" x2="380" y2="50" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="180" y1="50" x2="180" y2="350" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="80" y1="150" x2="380" y2="150" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="280" y1="50" x2="280" y2="350" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="80" y1="250" x2="380" y2="250" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="380" y1="50" x2="380" y2="350" stroke="#DCE6EC" stroke-width="2"/>
+  <line x1="80" y1="350" x2="380" y2="350" stroke="#DCE6EC" stroke-width="2"/>
+  <rect x="180" y="150" width="100" height="100" fill="#EEF6FA" stroke="#1B1920" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="80" cy="50" r="7" fill="#d8312a"/><circle cx="80" cy="50" r="2.2" fill="#fff"/>
+  <path d="M80 86.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M75 108.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M116.0 50 h28" stroke="#3787c4" stroke-width="3"/><path d="M138.0 45 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="80" cy="150" r="7" fill="#d8312a"/><circle cx="80" cy="150" r="2.2" fill="#fff"/>
+  <path d="M80 186.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M75 208.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M116.0 150 h28" stroke="#3787c4" stroke-width="3"/><path d="M138.0 145 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="80" cy="250" r="7" fill="#d8312a"/><circle cx="80" cy="250" r="2.2" fill="#fff"/>
+  <path d="M80 286.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M75 308.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M116.0 250 h28" stroke="#3787c4" stroke-width="3"/><path d="M138.0 245 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="80" cy="350" r="7" fill="#d8312a"/><circle cx="80" cy="350" r="2.2" fill="#fff"/>
+  <path d="M116.0 350 h28" stroke="#3787c4" stroke-width="3"/><path d="M138.0 345 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="180" cy="50" r="7" fill="#d8312a"/><circle cx="180" cy="50" r="2.2" fill="#fff"/>
+  <path d="M180 86.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M175 108.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M216.0 50 h28" stroke="#3787c4" stroke-width="3"/><path d="M238.0 45 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="180" cy="150" r="7" fill="#d8312a"/><circle cx="180" cy="150" r="2.2" fill="#fff"/>
+  <path d="M180 186.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M175 208.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M216.0 150 h28" stroke="#3787c4" stroke-width="3"/><path d="M238.0 145 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="180" cy="250" r="7" fill="#d8312a"/><circle cx="180" cy="250" r="2.2" fill="#fff"/>
+  <path d="M180 286.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M175 308.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M216.0 250 h28" stroke="#3787c4" stroke-width="3"/><path d="M238.0 245 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="180" cy="350" r="7" fill="#d8312a"/><circle cx="180" cy="350" r="2.2" fill="#fff"/>
+  <path d="M216.0 350 h28" stroke="#3787c4" stroke-width="3"/><path d="M238.0 345 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="280" cy="50" r="7" fill="#d8312a"/><circle cx="280" cy="50" r="2.2" fill="#fff"/>
+  <path d="M280 86.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M275 108.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M316.0 50 h28" stroke="#3787c4" stroke-width="3"/><path d="M338.0 45 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="280" cy="150" r="7" fill="#d8312a"/><circle cx="280" cy="150" r="2.2" fill="#fff"/>
+  <path d="M280 186.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M275 208.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M316.0 150 h28" stroke="#3787c4" stroke-width="3"/><path d="M338.0 145 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="280" cy="250" r="7" fill="#d8312a"/><circle cx="280" cy="250" r="2.2" fill="#fff"/>
+  <path d="M280 286.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M275 308.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <path d="M316.0 250 h28" stroke="#3787c4" stroke-width="3"/><path d="M338.0 245 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="280" cy="350" r="7" fill="#d8312a"/><circle cx="280" cy="350" r="2.2" fill="#fff"/>
+  <path d="M316.0 350 h28" stroke="#3787c4" stroke-width="3"/><path d="M338.0 345 l7 5 l-7 5z" fill="#3787c4"/>
+  <circle cx="380" cy="50" r="7" fill="#d8312a"/><circle cx="380" cy="50" r="2.2" fill="#fff"/>
+  <path d="M380 86.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M375 108.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <circle cx="380" cy="150" r="7" fill="#d8312a"/><circle cx="380" cy="150" r="2.2" fill="#fff"/>
+  <path d="M380 186.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M375 208.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <circle cx="380" cy="250" r="7" fill="#d8312a"/><circle cx="380" cy="250" r="2.2" fill="#fff"/>
+  <path d="M380 286.0 v28" stroke="#3787c4" stroke-width="3"/><path d="M375 308.0 l5 7 l5 -7z" fill="#3787c4"/>
+  <circle cx="380" cy="350" r="7" fill="#d8312a"/><circle cx="380" cy="350" r="2.2" fill="#fff"/>
+  <text x="188" y="140" fill="#d8312a" font-weight="700">Ez(i, j)</text>
+  <text x="190" y="204.0" fill="#3787c4" font-weight="700"></text>
+  <text x="200.0" y="172" fill="#3787c4" font-weight="700">Hy(i+½, j)</text>
+  <text x="188" y="204.0" fill="#3787c4" font-weight="700">Hx(i, j+½)</text>
+  <path d="M80 374 h100" stroke="#1B1920"/><path d="M80 368 v12M180 368 v12" stroke="#1B1920"/><text x="130.0" y="394" text-anchor="middle">Δx</text>
+  <circle cx="420" cy="80" r="7" fill="#d8312a"/><text x="436" y="85">Ez: ở nút lưới</text>
+  <path d="M410 115 h20" stroke="#3787c4" stroke-width="3"/><text x="436" y="120">Hx, Hy: lệch</text><text x="436" y="138">nửa ô</text>
+  <text x="410" y="180" fill="#59606B" font-size="12">Thời gian cũng lệch:</text><text x="410" y="198" fill="#59606B" font-size="12">E ở bước n, H ở n+½</text>
+  <text x="410" y="240" fill="#59606B" font-size="12">Ô nét đứt: một ô Yee</text>
+</svg>

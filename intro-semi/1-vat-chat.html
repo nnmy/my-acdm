@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cấu trúc vật chất | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Nguyên tử, proton, neutron, electron; mức năng lượng và ánh sáng; electron hóa trị và liên kết; vùng năng lượng; kim loại, chất cách điện, bán dẫn; lỗ trống.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/1-vat-chat.html, phần 1: CẤU TRÚC VẬT CHẤT)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      atom.js          : mô hình nguyên tử: hạt nhân, các lớp electron, electron hóa trị
+      energy-levels.js : mức năng lượng của hiđrô, electron nhảy mức phát photon
+      bands.js         : mức tách thành vùng; kim loại / bán dẫn / cách điện
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Phần 1</p>
+  <h1><span class="dot"></span>Cấu trúc vật chất</h1>
+  <p class="lead">Trước khi nói về con chip, ta cần nhìn vào bên trong vật chất. Phần này đi từ nguyên tử, qua các mức năng lượng của electron, tới câu hỏi tưởng đơn giản mà phải đến thế kỷ 20 mới trả lời được: vì sao đồng dẫn điện, thủy tinh thì không, còn silic nằm ở giữa?</p>
+</header>
+
+<section class="part" id="nguyen-tu">
+  <div class="wrap">
+    <h2>Nguyên tử: hạt nhân và electron</h2>
+    <div class="prose">
+      <p>Mọi vật chất quanh ta, từ không khí, nước tới con chip, đều được ghép từ <span class="term">nguyên tử</span> <span class="en">(atom)</span>. Mỗi nguyên tử có một <span class="term">hạt nhân</span> <span class="en">(nucleus)</span> rất nhỏ ở giữa, gồm các <span class="term">proton</span> mang điện dương và <span class="term">neutron</span> không mang điện. Quanh hạt nhân là các <span class="term">electron</span> mang điện âm. Nguyên tử trung hòa có số electron bằng số proton.</p>
+      <p>Số proton, gọi là <span class="term">số hiệu nguyên tử</span> Z, quyết định nguyên tố: Z = 1 là hiđrô, Z = 14 là silic, Z = 29 là đồng. Cùng một nguyên tố nhưng khác số neutron gọi là các <span class="term">đồng vị</span> <span class="en">(isotope)</span>; tính chất điện và hóa học của chúng gần như giống nhau, vì những tính chất đó do electron quyết định.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Hạt</th><th>Điện tích</th><th>Khối lượng</th><th>Ở đâu</th></tr></thead>
+        <tbody>
+          <tr><td>Proton</td><td>+e = +1,602 × 10⁻¹⁹ C</td><td>1,673 × 10⁻²⁷ kg (≈ 1836 electron)</td><td>Hạt nhân</td></tr>
+          <tr><td>Neutron</td><td>0</td><td>1,675 × 10⁻²⁷ kg (≈ proton)</td><td>Hạt nhân</td></tr>
+          <tr><td>Electron</td><td>−e</td><td>9,109 × 10⁻³¹ kg</td><td>Quanh hạt nhân</td></tr>
+        </tbody>
+        <caption>Gần như toàn bộ khối lượng nằm ở hạt nhân, còn gần như toàn bộ thể tích là "khoảng trống" nơi electron chuyển động. Nguyên tử rộng cỡ 0,1–0,3 nm; hạt nhân nhỏ hơn từ khoảng 10 000 (nguyên tố nặng) đến 100 000 lần (hiđrô).</caption>
+      </table>
+    </div>
+    <div class="demo" id="demoAtom" data-demo="atom">
+      <div class="demo-title"><h4>Mô hình nguyên tử</h4><span>Chọn một nguyên tố để xem hạt nhân và các lớp electron</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Hình trên là <span class="term">mô hình Bohr</span>: electron chạy trên các quỹ đạo tròn. Thực ra electron không có quỹ đạo xác định mà giống một "đám mây xác suất" quanh hạt nhân (cơ học lượng tử). Nhưng mô hình lớp vỏ vẫn đúng ở điều quan trọng nhất cho môn học này: electron được xếp theo các tầng năng lượng, và các electron ở tầng ngoài cùng quyết định nguyên tử đó cư xử ra sao.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="muc-nang-luong">
+  <div class="wrap">
+    <h2>Mức năng lượng</h2>
+    <div class="prose">
+      <p>Electron trong nguyên tử không được có năng lượng tùy ý mà chỉ nhận một số giá trị rời rạc, gọi là <span class="term">mức năng lượng</span> <span class="en">(energy level)</span>. Ở vi mô, năng lượng thường đo bằng <span class="term">electron-volt</span> (eV): năng lượng một electron thu được khi đi qua hiệu điện thế 1 V. Với nguyên tử hiđrô, các mức có công thức rất gọn:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ E_n = -\frac{13{,}6\ \text{eV}}{n^2},\quad n = 1, 2, 3, \dots \qquad\qquad E_{\text{photon}} = hf = \frac{hc}{\lambda} \;\Rightarrow\; \lambda\,(\text{nm}) \approx \frac{1240}{E\,(\text{eV})} \]</div>
+      <p class="where"><b>n</b>: số lượng tử chính (tầng); dấu âm nghĩa là electron bị hạt nhân giữ lại, cần tốn năng lượng mới tách ra được; <b>1 eV</b> = 1,602 × 10⁻¹⁹ J; <b>E<sub>photon</sub></b> (hay <b>E</b>): năng lượng của photon; <b>h</b> ≈ 6,626 × 10⁻³⁴ J·s: hằng số Planck; <b>f</b>: tần số của ánh sáng (Hz); <b>c</b>: tốc độ ánh sáng; <b>λ</b> (lambda): bước sóng ánh sáng; <b>…</b>: "và cứ thế tiếp tục"; <b>⇒</b>: "suy ra". Công thức cuối là bản "bỏ túi" của hf = hc/λ khi đổi đơn vị: photon 2 eV có bước sóng khoảng 620 nm (màu cam đỏ).</p>
+    </div>
+    <div class="prose">
+      <p>Khi electron nhảy từ mức cao xuống mức thấp, phần năng lượng chênh lệch bay ra dưới dạng một hạt ánh sáng, <span class="term">photon</span>. Muốn nhảy lên, electron phải nhận đúng phần năng lượng đó (hấp thụ photon, hoặc va chạm). Quy tắc này sẽ quay lại ở <a href="3-diode.html#anh-sang">phần 3</a>: LED phát sáng và pin mặt trời hấp thụ ánh sáng đều dựa trên electron nhảy giữa hai mức, chỉ có điều trong tinh thể các "mức" đã trở thành "vùng".</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Các vạch ngang là các mức năng lượng của nguyên tử hiđrô, mức n = 1 ở dưới cùng (electron bị giữ chặt nhất), các mức trên dồn sát nhau dần về 0 eV, nơi electron thoát hẳn ra ngoài. Bấm vào một mức cao hơn để "bơm" electron lên, rồi bấm một mức thấp hơn để nó rơi xuống: một photon bay ra với màu ứng với bước sóng của nó. Dải phổ bên dưới ghi lại các vạch đã phát. Bước nhảy về n = 1 cho tia tử ngoại (năng lượng lớn), về n = 2 cho ánh sáng nhìn thấy, về n = 3 cho hồng ngoại.</div>
+    <div class="demo" id="demoLevels" data-demo="energy-levels">
+      <div class="demo-title"><h4>Mức năng lượng và ánh sáng</h4><span>Bấm vào một mức năng lượng để electron nhảy tới đó</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="hoa-tri">
+  <div class="wrap">
+    <h2>Lớp vỏ, electron hóa trị và liên kết</h2>
+    <div class="prose">
+      <p>Electron lấp các tầng từ trong ra ngoài; tầng thứ n chứa tối đa 2n² electron (2, 8, 18, …), dù với nguyên tố nặng thứ tự lấp có vài ngoại lệ. Các electron ở tầng ngoài cùng gọi là <span class="term">electron hóa trị</span> <span class="en">(valence electrons)</span>. Chúng ở xa hạt nhân nhất, bị giữ lỏng nhất, và là những electron tham gia liên kết với nguyên tử khác. Nguyên tử có xu hướng đạt tầng ngoài "đủ" (thường là 8 electron) bằng cách cho, nhận hoặc góp chung electron.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Kiểu liên kết</th><th>Cách làm</th><th>Ví dụ</th><th>Dẫn điện?</th></tr></thead>
+        <tbody>
+          <tr><td>Ion</td><td>Một nguyên tử cho hẳn electron cho nguyên tử kia; hai ion trái dấu hút nhau.</td><td>Muối ăn NaCl</td><td>Không (ở dạng rắn); có khi tan trong nước</td></tr>
+          <tr><td>Cộng hóa trị</td><td>Hai nguyên tử góp chung từng cặp electron.</td><td>Si, Ge, kim cương, SiO₂</td><td>Kém hoặc không</td></tr>
+          <tr><td>Kim loại</td><td>Electron hóa trị rời khỏi từng nguyên tử, tạo thành "biển electron" chung.</td><td>Cu, Al, Na</td><td>Tốt</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Si có 4 electron hóa trị. Trong tinh thể Si, mỗi nguyên tử góp chung 4 cặp electron với 4 nguyên tử bên cạnh, tạo thành mạng tứ diện giống kim cương: mọi electron hóa trị đều bận liên kết. Đây là điểm xuất phát của cả môn bán dẫn. Nếu tất cả electron đều bị "giữ chỗ" trong liên kết, Si sẽ không dẫn điện; nhưng chỉ cần một ít năng lượng (nhiệt, ánh sáng) hoặc thêm một ít nguyên tử lạ là đủ để giải phóng một số electron.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="vung">
+  <div class="wrap">
+    <h2>Dẫn điện, cách điện và bán dẫn</h2>
+    <div class="prose">
+      <p>Khi hai nguyên tử lại gần nhau, mỗi mức năng lượng của chúng tách thành hai mức sát nhau. Với N nguyên tử, mỗi mức tách thành N mức. Một hạt Si cỡ hạt cát (0,5 mm) đã chứa khoảng 10¹⁸ nguyên tử, nên các mức sát nhau tới mức tạo thành một dải liên tục: <span class="term">vùng năng lượng</span> <span class="en">(energy band)</span>. Giữa hai vùng có thể có một khoảng không có mức nào: <span class="term">vùng cấm</span> <span class="en">(band gap)</span>, độ rộng E<sub>g</sub>.</p>
+      <p>Vùng cao nhất có electron ở nhiệt độ 0 K gọi là <span class="term">vùng hóa trị</span> <span class="en">(valence band)</span>; vùng trống ngay trên nó là <span class="term">vùng dẫn</span> <span class="en">(conduction band)</span>. Một electron chỉ chuyển động (tạo dòng điện) được nếu ngay trên nó có chỗ trống. Từ đó ba loại vật liệu hiện ra: kim loại có vùng chỉ đầy một phần, luôn có chỗ trống sát bên; chất cách điện có vùng hóa trị đầy và vùng cấm rộng (vài eV trở lên); bán dẫn cũng có vùng hóa trị đầy nhưng vùng cấm hẹp (cỡ 1 eV), nên nhiệt độ phòng đã đủ đẩy một ít electron lên vùng dẫn.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Trục dọc là năng lượng của electron. Ở chế độ <b>Từ mức đến vùng</b>, tăng số nguyên tử để thấy mỗi mức đơn lẻ tách thành nhiều mức sát nhau rồi nhòe thành một dải (vùng); kéo các nguyên tử lại gần nhau thì vùng càng rộng. Ở chế độ <b>Dẫn điện hay không?</b>, ba cột so sánh kim loại, bán dẫn và chất cách điện; tăng nhiệt độ và để ý số chấm xanh (electron đã nhảy lên vùng dẫn) ở cột bán dẫn tăng vọt, còn cột cách điện gần như không đổi.</div>
+    <div class="demo" id="demoBands" data-demo="bands">
+      <div class="demo-title"><h4>Từ mức năng lượng đến vùng năng lượng</h4><span>Ghép nhiều nguyên tử; so sánh kim loại, bán dẫn và chất cách điện</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Vật liệu</th><th>Loại</th><th>Vùng cấm E<sub>g</sub> (eV)</th><th>Điện trở suất ở 20 °C (Ω·m)</th></tr></thead>
+        <tbody>
+          <tr><td>Đồng (Cu)</td><td>Kim loại</td><td>không có</td><td>1,7 × 10⁻⁸</td></tr>
+          <tr><td>Germani tinh khiết (Ge)</td><td>Bán dẫn</td><td>0,66</td><td>≈ 0,46</td></tr>
+          <tr><td>Silic tinh khiết (Si)</td><td>Bán dẫn</td><td>1,12</td><td>≈ 2,3 × 10³</td></tr>
+          <tr><td>Gali nitrua (GaN)</td><td>Bán dẫn</td><td>3,4</td><td>thay đổi theo pha tạp</td></tr>
+          <tr><td>Thủy tinh</td><td>Cách điện</td><td>≈ 9 (SiO₂)</td><td>10¹⁰ – 10¹⁴</td></tr>
+          <tr><td>Kim cương</td><td>Cách điện</td><td>5,5</td><td>> 10¹²</td></tr>
+        </tbody>
+        <caption>Điện trở suất của bán dẫn trải rộng nhiều bậc và có thể chỉnh bằng pha tạp (<a href="2-ban-dan.html#pha-tap">phần 2</a>): đó chính là "điều khiển được" mà kim loại và chất cách điện không có. Số liệu làm tròn từ CRC Handbook và Sze & Ng.</caption>
+      </table>
+    </div>
+    <h3>Lỗ trống: một chỗ trống biết chạy</h3>
+    <div class="prose">
+      <p>Khi một electron nhảy khỏi liên kết lên vùng dẫn, nó để lại một chỗ thiếu electron trong vùng hóa trị. Electron ở liên kết bên cạnh có thể nhảy sang lấp chỗ đó, để lại chỗ trống mới ở chỗ cũ của nó. Hãy nghĩ tới một hàng ghế rạp hát chỉ còn một ghế trống: khi từng người dịch sang một ghế về bên trái, ghế trống "đi" về bên phải. Thay vì theo dõi hàng tỉ electron dịch từng chút, ta chỉ cần theo dõi chỗ trống đó, và coi nó như một hạt mang điện dương: <span class="term">lỗ trống</span> <span class="en">(hole)</span>. Trong bán dẫn, dòng điện là tổng dòng của electron trong vùng dẫn và lỗ trống trong vùng hóa trị.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1897</span><div><h4>J. J. Thomson tìm ra electron</h4><p>Đo tỉ số điện tích trên khối lượng của "tia âm cực", chứng minh nó là hạt nhỏ hơn nguyên tử rất nhiều.</p></div></li>
+      <li><span class="yr">1911</span><div><h4>Rutherford: hạt nhân</h4><p>Bắn hạt alpha vào lá vàng mỏng, thấy một số hạt bật ngược lại: điện tích dương và khối lượng tập trung trong một hạt nhân rất nhỏ.</p></div></li>
+      <li><span class="yr">1913</span><div><h4>Mô hình Bohr</h4><p>Niels Bohr cho electron chỉ ở những quỹ đạo có năng lượng xác định, giải thích các vạch phổ của hiđrô.</p></div></li>
+      <li><span class="yr">1919</span><div><h4>Proton</h4><p>Rutherford tách được hạt nhân hiđrô ra từ hạt nhân nitơ và gọi nó là proton.</p></div></li>
+      <li class="bio"><span class="yr">1928</span><div><h4>Electron trong tinh thể</h4><p>Felix Bloch chỉ ra sóng electron trong mạng tinh thể tuần hoàn, mở đường cho lý thuyết vùng năng lượng.</p></div></li>
+      <li class="bio"><span class="yr">1931</span><div><h4>Lý thuyết vùng của bán dẫn</h4><p>Alan Wilson dùng vùng năng lượng để phân biệt kim loại, chất cách điện và bán dẫn. Cùng thời gian, Peierls và Heisenberg đưa ra khái niệm lỗ trống.</p></div></li>
+      <li><span class="yr">1932</span><div><h4>Neutron</h4><p>James Chadwick phát hiện hạt không mang điện trong hạt nhân, giải thích vì sao khối lượng hạt nhân lớn hơn tổng khối lượng proton.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>R. P. Feynman, R. B. Leighton, M. Sands, <i>The Feynman Lectures on Physics</i>, Vol. III (cơ học lượng tử).</li>
+      <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., Wiley, 2005.</li>
+      <li>S. M. Sze, K. K. Ng, <i>Physics of Semiconductor Devices</i>, 3rd ed., Wiley, 2007.</li>
+      <li>J. R. Rumble (ed.), <i>CRC Handbook of Chemistry and Physics</i>, CRC Press (điện trở suất của các nguyên tố).</li>
+      <li>A. H. Wilson, "The theory of electronic semi-conductors", <i>Proc. R. Soc. Lond. A</i> 133 (1931) 458–491.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Trang chủ</small><b>Bán dẫn</b></a>
+      <a class="next" href="2-ban-dan.html"><small>Phần 2</small><b>Bán dẫn: electron, lỗ trống, pha tạp</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

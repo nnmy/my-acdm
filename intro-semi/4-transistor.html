@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transistor và chip | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Tụ MOS, MOSFET, điện áp ngưỡng, đặc tuyến; cổng logic CMOS; định luật Moore, quy tắc Dennard, FinFET, GAA.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/4-transistor.html, phần 4: TRANSISTOR VÀ CHIP)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      mosfet.js        : mặt cắt MOSFET kênh n và đặc tuyến ra
+      cmos.js          : cổng đảo CMOS, đặc tuyến truyền đạt, dòng tiêu thụ
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Phần 4</p>
+  <h1><span class="dot"></span>Transistor và chip</h1>
+  <p class="lead">Một con chip hiện đại là hàng tỉ công tắc tí hon bật tắt hàng tỉ lần mỗi giây. Phần này giải thích công tắc đó, MOSFET, cách ghép hai MOSFET thành cổng logic CMOS, và vì sao người ta đã thu nhỏ được chúng suốt 60 năm.</p>
+</header>
+
+<section class="part" id="mosfet">
+  <div class="wrap">
+    <h2>MOSFET: công tắc điều khiển bằng điện áp</h2>
+    <div class="prose">
+      <p>Transistor phổ biến nhất hiện nay là <span class="term">MOSFET</span> <span class="en">(metal–oxide–semiconductor field-effect transistor)</span>. Trên một đế Si loại p, người ta tạo hai vùng n⁺ gọi là <span class="term">nguồn</span> <span class="en">(source)</span> và <span class="term">máng</span> <span class="en">(drain)</span>. Giữa chúng, phía trên bề mặt là một lớp oxit rất mỏng và một điện cực gọi là <span class="term">cổng</span> <span class="en">(gate)</span>. Cổng, oxit và Si tạo thành một tụ điện: tụ MOS.</p>
+      <p>Khi điện áp cổng bằng 0, giữa nguồn và máng là hai tiếp giáp p–n ngược chiều nhau, không có dòng: transistor tắt. Khi điện áp cổng dương tăng dần, điện trường xuyên qua oxit đẩy lỗ trống ra xa bề mặt, rồi hút electron tới. Vượt qua <span class="term">điện áp ngưỡng</span> <span class="en">(threshold voltage)</span> V<sub>T</sub>, ngay dưới oxit hình thành một lớp electron mỏng, gọi là <span class="term">lớp đảo</span> hay <span class="term">kênh</span>, nối nguồn với máng: transistor dẫn. Cổng gần như không lấy dòng, vì giữa nó và kênh là lớp cách điện.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ I_D = 0 \ \ (V_{GS} < V_T), \qquad I_D = k\Big[(V_{GS}-V_T)V_{DS} - \tfrac{1}{2}V_{DS}^2\Big] \ \ (V_{DS} < V_{GS} - V_T), \qquad I_D = \tfrac{k}{2}(V_{GS}-V_T)^2 \ \ (\text{bão hòa}) \]</div>
+      <p class="where"><b>I<sub>D</sub></b>: dòng máng, chạy từ máng (D, <i>drain</i>) sang nguồn (S, <i>source</i>); <b>V<sub>GS</sub></b>: điện áp giữa cổng (G, <i>gate</i>) và nguồn; <b>V<sub>DS</sub></b>: điện áp giữa máng và nguồn; <b>V<sub>T</sub></b>: điện áp ngưỡng. Hai chữ cái nhỏ sau V luôn đọc là "điện áp giữa cực thứ nhất và cực thứ hai". Ba trường hợp: dưới ngưỡng thì tắt; trên ngưỡng mà V<sub>DS</sub> nhỏ thì transistor giống một điện trở có thể chỉnh bằng cổng (vùng tuyến tính); V<sub>DS</sub> lớn thì dòng gần như không tăng nữa (<span class="term">bão hòa</span>), chỉ phụ thuộc V<sub>GS</sub>. <b>k = μ<sub>n</sub>C<sub>ox</sub>W/L</b>, với <b>μ<sub>n</sub></b>: độ linh động của electron (<a href="2-ban-dan.html#dong-dien">phần 2</a>); <b>C<sub>ox</sub> = ε<sub>ox</sub>/t<sub>ox</sub></b>: điện dung oxit trên đơn vị diện tích, với <b>ε<sub>ox</sub></b>: hằng số điện môi của oxit, <b>t<sub>ox</sub></b>: bề dày oxit (oxit càng mỏng, cổng điều khiển kênh càng mạnh); <b>W, L</b>: bề rộng, chiều dài kênh. Đây là mô hình "kênh dài" dùng để học; transistor vài nanomet hiện nay cần mô hình phức tạp hơn nhiều.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hình trên là mặt cắt transistor: cổng nằm trên lớp oxit mỏng, nguồn và máng là hai vùng n⁺ hai bên. Tăng <b>V<sub>GS</sub></b> vượt V<sub>T</sub>: một lớp electron (kênh) hiện ra dưới oxit, nối nguồn với máng. Đồ thị bên dưới là <b>họ đặc tuyến</b>: mỗi đường là dòng I<sub>D</sub> theo V<sub>DS</sub> ứng với một giá trị V<sub>GS</sub>; nét đứt chia vùng tuyến tính (bên trái, dòng tăng theo V<sub>DS</sub>) và vùng bão hòa (bên phải, dòng gần như đi ngang). Theo lý thuyết, khi bước vào bão hòa, kênh bị "thắt" lại ở phía máng nên tăng V<sub>DS</sub> thêm cũng không đẩy thêm được bao nhiêu dòng.</div>
+    <div class="demo" id="demoMos" data-demo="mosfet">
+      <div class="demo-title"><h4>MOSFET kênh n</h4><span>Điện áp cổng mở kênh; điện áp máng đẩy electron chạy qua</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="cmos">
+  <div class="wrap">
+    <h2>Cổng logic CMOS</h2>
+    <div class="prose">
+      <p>Ghép một MOSFET kênh n (nMOS, dẫn khi cổng ở mức cao) với một MOSFET kênh p (pMOS, dẫn khi cổng ở mức thấp) ta được <span class="term">cổng đảo CMOS</span> <span class="en">(complementary MOS inverter)</span>. Vào 0: pMOS dẫn, nối đầu ra lên nguồn, ra 1. Vào 1: nMOS dẫn, kéo đầu ra xuống đất, ra 0. Ghép thêm transistor nối tiếp và song song theo cùng nguyên tắc, ta có cổng NAND, NOR, rồi từ đó mạch cộng, bộ nhớ, bộ vi xử lý.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ P_{\text{động}} \approx \alpha\,C\,V_{DD}^2\,f \]</div>
+      <p class="where"><b>P<sub>động</sub></b>: công suất "động", tiêu hao khi các cổng đổi trạng thái; <b>α</b> (alpha): tỉ lệ cổng chuyển mạch mỗi chu kỳ; <b>C</b>: điện dung phải nạp, xả; <b>V<sub>DD</sub></b>: điện áp nguồn; <b>f</b>: tần số xung nhịp. CMOS chỉ tốn điện khi chuyển mạch, và công suất tăng theo bình phương điện áp: lý do điện áp nguồn của chip giảm từ 5 V (thập niên 1980) xuống dưới 1 V hiện nay.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Bên trái là cổng đảo: pMOS ở trên nối với nguồn V<sub>DD</sub>, nMOS ở dưới nối đất, hai cổng nối chung vào đầu vào. Kéo <b>Điện áp vào V<sub>in</sub></b> từ 0 lên V<sub>DD</sub>: đầu ra lật từ mức cao xuống mức thấp. Đồ thị bên phải vẽ V<sub>out</sub> theo V<sub>in</sub> (đường gần như hình bậc thang) và vùng vàng là dòng tiêu thụ: dòng chỉ chảy trong khoảnh khắc chuyển mạch, khi cả hai transistor cùng dẫn một chút. Ở hai đầu (vào 0 hoặc vào 1), luôn có một transistor tắt nên gần như không tốn điện.</div>
+    <div class="demo" id="demoCmos" data-demo="cmos">
+      <div class="demo-title"><h4>Cổng đảo CMOS</h4><span>Một pMOS và một nMOS: vào 0 ra 1, vào 1 ra 0</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="thu-nho">
+  <div class="wrap">
+    <h2>Thu nhỏ: Moore, Dennard và giới hạn</h2>
+    <div class="prose">
+      <p>Năm 1965, Gordon Moore nhận thấy số linh kiện trên một chip tăng gấp đôi mỗi năm; năm 1975 ông sửa lại thành khoảng hai năm một lần. "Định luật Moore" không phải định luật vật lý mà là nhịp độ ngành công nghiệp tự đặt ra và giữ được suốt hơn nửa thế kỷ: từ 2 300 transistor của Intel 4004 (1971) tới hơn 200 tỉ transistor trong một gói chip AI hiện nay.</p>
+      <p>Năm 1974, Robert Dennard chỉ ra rằng nếu thu nhỏ mọi kích thước và điện áp theo cùng một tỉ lệ, transistor vừa nhanh hơn vừa tiết kiệm điện hơn, còn mật độ công suất không đổi. Quy tắc này chấm dứt khoảng giữa thập niên 2000: điện áp không giảm được nữa vì dòng rò, tần số xung nhịp dừng ở cỡ vài GHz, và ngành chuyển sang tăng số lõi.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Vấn đề khi thu nhỏ</th><th>Hiện tượng</th><th>Giải pháp công nghiệp</th></tr></thead>
+        <tbody>
+          <tr><td>Oxit cổng quá mỏng</td><td>Electron xuyên hầm lượng tử qua lớp SiO₂ dày 1–2 nm, gây dòng rò lớn.</td><td>Oxit "high-k" (HfO₂) và cổng kim loại, từ thế hệ 45 nm (2007).</td></tr>
+          <tr><td>Cổng mất kiểm soát kênh</td><td>Máng ở quá gần, kéo electron qua kênh ngay cả khi transistor "tắt".</td><td>Kênh dựng đứng thành vây, cổng ôm ba mặt: FinFET (từ 2011).</td></tr>
+          <tr><td>Vây cũng chưa đủ</td><td>Dòng rò và biến động tăng ở các thế hệ 3 nm trở xuống.</td><td>Cổng bao quanh hoàn toàn các tấm Si mỏng xếp chồng: GAA / nanosheet (từ 2022).</td></tr>
+          <tr><td>Dây nối</td><td>Dây đồng càng mảnh, điện trở và độ trễ càng lớn.</td><td>Vật liệu dây mới, cấp nguồn từ mặt sau phiến (backside power).</td></tr>
+        </tbody>
+        <caption>Tên thế hệ ("3 nm", "2 nm") ngày nay là tên thương mại, không còn là kích thước thật của một chi tiết nào trên transistor.</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Khi thu nhỏ chậm lại, hiệu năng tiếp tục tăng nhờ thiết kế chuyên dụng (GPU, chip AI) và nhờ đóng gói: ghép nhiều chip nhỏ <span class="en">(chiplet)</span> và bộ nhớ HBM vào cùng một khối. <a href="5-san-xuat.html">Phần 5</a> kể về cách những con chip đó được sản xuất, và ai sản xuất chúng.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Ký hiệu trong các công thức transistor dùng nhiều chỉ số dưới; bảng này giải thích từng cái.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(I_D\)</td><td>I D, drain current</td><td>Dòng máng: dòng chạy qua transistor.</td></tr>
+          <tr><td class="sym">\(V_{GS}\), \(V_{DS}\)</td><td>V G S, V D S</td><td>Điện áp giữa cổng–nguồn, giữa máng–nguồn.</td></tr>
+          <tr><td class="sym">\(V_T\)</td><td>V T, threshold voltage</td><td>Điện áp ngưỡng: vượt mức này thì kênh hình thành, transistor dẫn.</td></tr>
+          <tr><td class="sym">\(V_{DD}\)</td><td>V D D</td><td>Điện áp nguồn nuôi của chip.</td></tr>
+          <tr><td class="sym">\(C_{ox}\), \(\varepsilon_{ox}\), \(t_{ox}\)</td><td>C o x, epsilon o x, t o x</td><td>Điện dung, hằng số điện môi và bề dày của lớp oxit cổng.</td></tr>
+          <tr><td class="sym">\(\mu_n\)</td><td>mu n</td><td>Độ linh động của electron.</td></tr>
+          <tr><td class="sym">\(\tfrac12\), \(\tfrac{k}{2}\)</td><td>one half, k over two</td><td>Phân số viết nhỏ, chỉ để công thức gọn hơn.</td></tr>
+          <tr><td class="sym">\(\alpha\)</td><td>alpha, activity factor</td><td>Tỉ lệ cổng logic đổi trạng thái trong mỗi chu kỳ xung nhịp.</td></tr>
+          <tr><td class="sym">\(f\)</td><td>f, clock frequency</td><td>Tần số xung nhịp (GHz).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li class="bio"><span class="yr">1947</span><div><h4>Transistor đầu tiên</h4><p>John Bardeen và Walter Brattain (Bell Labs) làm transistor tiếp điểm bằng Ge; Shockley phát triển transistor lưỡng cực tiếp giáp ngay sau đó. Cả ba nhận giải Nobel năm 1956.</p></div></li>
+      <li class="bio"><span class="yr">1958</span><div><h4>Mạch tích hợp</h4><p>Jack Kilby (Texas Instruments) đặt nhiều linh kiện trên một mẩu Ge; năm 1959 Robert Noyce (Fairchild) làm mạch tích hợp phẳng trên Si, dạng được dùng tới ngày nay.</p></div></li>
+      <li><span class="yr">1959</span><div><h4>MOSFET</h4><p>Mohamed Atalla và Dawon Kahng (Bell Labs) chế tạo MOSFET Si đầu tiên, dựa trên kỹ thuật thụ động hóa bề mặt Si bằng SiO₂.</p></div></li>
+      <li><span class="yr">1963</span><div><h4>CMOS</h4><p>Frank Wanlass và Chih-Tang Sah (Fairchild) giới thiệu mạch CMOS; đến thập niên 1980 CMOS trở thành công nghệ chủ đạo nhờ tiêu thụ điện thấp.</p></div></li>
+      <li><span class="yr">1965</span><div><h4>Định luật Moore</h4><p>Gordon Moore dự đoán số linh kiện trên chip tăng theo cấp số nhân.</p></div></li>
+      <li class="bio"><span class="yr">1971</span><div><h4>Bộ vi xử lý đầu tiên</h4><p>Intel 4004 có 2 300 transistor, chạy ở 740 kHz.</p></div></li>
+      <li><span class="yr">1974</span><div><h4>Quy tắc Dennard</h4><p>Robert Dennard (IBM) và cộng sự công bố quy tắc thu nhỏ MOSFET.</p></div></li>
+      <li class="bio"><span class="yr">2011</span><div><h4>FinFET</h4><p>Intel đưa transistor 3 chiều (FinFET) vào sản xuất ở thế hệ 22 nm; các hãng khác theo sau từ 16/14 nm.</p></div></li>
+      <li class="bio"><span class="yr">2022</span><div><h4>Transistor GAA</h4><p>Samsung bắt đầu sản xuất 3 nm với transistor cổng bao quanh; TSMC chuyển sang nanosheet ở thế hệ 2 nm.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>G. E. Moore, "Cramming more components onto integrated circuits", <i>Electronics</i> 38(8) (1965) 114–117.</li>
+      <li>R. H. Dennard et al., "Design of ion-implanted MOSFET's with very small physical dimensions", <i>IEEE J. Solid-State Circuits</i> 9 (1974) 256–268.</li>
+      <li>J. M. Rabaey, A. Chandrakasan, B. Nikolić, <i>Digital Integrated Circuits: A Design Perspective</i>, 2nd ed., Prentice Hall, 2003.</li>
+      <li>S. M. Sze, K. K. Ng, <i>Physics of Semiconductor Devices</i>, 3rd ed., Wiley, 2007.</li>
+      <li>IEEE, <i>International Roadmap for Devices and Systems (IRDS)</i>, các ấn bản hằng năm.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-diode.html"><small>Phần 3</small><b>Diode và ánh sáng</b></a>
+      <a class="next" href="5-san-xuat.html"><small>Phần 5</small><b>Từ thiết kế đến con chip</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

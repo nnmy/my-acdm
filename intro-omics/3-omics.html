@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đo đạc omics | Omics | My N. Nguyen</title>
+<meta name="description" content="Giải trình tự Sanger, NGS, đọc dài; độ phủ Lander–Waterman; genomics, transcriptomics, epigenomics, proteomics, metabolomics; ma trận đếm, CPM, TPM.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/omics.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-omics/3-omics.html, phần 3: ĐO ĐẠC OMICS)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      sequencing.js    : giải trình tự shotgun, độ phủ, Lander–Waterman
+      count-matrix.js  : đoạn đọc → bảng đếm, CPM, TPM
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Biểu hiện gene và omics</a> / Phần 3</p>
+  <h1><span class="dot"></span>Đo đạc omics</h1>
+  <p class="lead">Từ chỗ mất 13 năm và 3 tỉ USD để đọc một bộ gene người, giờ đây một máy giải trình tự đọc hàng chục bộ gene mỗi ngày. Phần này giải thích máy đọc DNA và RNA ra sao, các tầng dữ liệu "omics", và cách hàng triệu đoạn đọc trở thành một bảng số sẵn sàng cho phân tích.</p>
+</header>
+
+<section class="part" id="giai-trinh-tu">
+  <div class="wrap">
+    <h2>Giải trình tự DNA</h2>
+    <div class="prose">
+      <p>Năm 1977, Frederick Sanger công bố phương pháp giải trình tự "kết thúc chuỗi": sao chép DNA với một ít nucleotide biến đổi làm dừng phản ứng ngẫu nhiên, rồi xếp các đoạn theo độ dài để đọc ra trình tự. Phương pháp Sanger đọc chính xác được khoảng 800–1000 base mỗi lần, và là công cụ của Dự án Bộ gene Người (1990–2003), tốn khoảng 3 tỉ USD.</p>
+      <p><span class="term">Giải trình tự thế hệ mới</span> <span class="en">(next-generation sequencing, NGS)</span> từ giữa thập niên 2000 đổi cách tiếp cận: cắt DNA thành hàng trăm triệu tới hàng tỉ đoạn ngắn (vài trăm base), đọc tất cả song song, rồi dùng máy tính ghép lại hoặc so với bộ gene tham chiếu. Chi phí một bộ gene người giảm từ khoảng 100 triệu USD (2001) xuống dưới 1000 USD sau năm 2015, nhanh hơn nhiều so với định luật Moore của chip. Các công nghệ <span class="term">đọc dài</span> (PacBio, Oxford Nanopore) đọc được đoạn hàng chục nghìn base trở lên, giúp năm 2022 lần đầu có bộ gene người hoàn chỉnh từ đầu này tới đầu kia của mọi nhiễm sắc thể. Một chi tiết nối với module Bán dẫn: máy Ion Torrent đo từng base bằng cảm biến pH làm từ transistor (ISFET) trên chip Si.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ C = \frac{N L}{G}, \qquad P(\text{một base không được đọc}) \approx e^{-C} \]</div>
+      <p class="where"><b>C</b>: độ phủ trung bình; <b>N</b>: số đoạn đọc; <b>L</b>: độ dài mỗi đoạn; <b>G</b>: kích thước bộ gene; <b>P(…)</b>: xác suất của sự kiện ghi trong ngoặc; <b>e<sup>−C</sup></b>: hàm mũ giảm (e ≈ 2,718), ví dụ độ phủ 10 lần thì xác suất một base bị bỏ sót chỉ còn khoảng 0,005%. Vì đoạn đọc rơi ngẫu nhiên, số lần mỗi base được đọc theo phân bố Poisson (Lander & Waterman, 1988).</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Dải ngang dưới cùng là một bộ gene nhỏ (2000 base, vẽ thẳng ra). Mỗi vạch ngắn phía trên là một đoạn đọc, rơi vào vị trí ngẫu nhiên. Dải độ phủ cho biết mỗi vị trí được đọc bao nhiêu lần; chỗ màu đỏ là chưa ai đọc tới. Tăng số đoạn đọc N hoặc độ dài L: độ phủ C tăng và các lỗ đỏ biến mất rất nhanh, đúng như e<sup>−C</sup> dự đoán. Bấm "Giải trình tự lại" vài lần: vì ngẫu nhiên, vị trí các lỗ mỗi lần một khác.</div>
+    <div class="demo" id="demoSeq" data-demo="sequencing">
+      <div class="demo-title"><h4>Giải trình tự shotgun và độ phủ</h4><span>Cắt bộ gene thành đoạn ngẫu nhiên, đọc, rồi xem còn sót chỗ nào</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="cac-tang">
+  <div class="wrap">
+    <h2>Các tầng omics</h2>
+    <div class="prose">
+      <p>Hậu tố "-omics" chỉ việc đo <i>toàn bộ</i> một loại phân tử trong mẫu cùng lúc, thay vì từng gene một. Mỗi tầng trả lời một câu hỏi khác nhau, và nghiên cứu hiện đại thường kết hợp nhiều tầng (đa omics).</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tầng</th><th>Đo cái gì</th><th>Công nghệ chính</th><th>Trả lời câu hỏi</th></tr></thead>
+        <tbody>
+          <tr><td>Genomics</td><td>Trình tự DNA, biến thể</td><td>Giải trình tự toàn bộ bộ gene (WGS), exome</td><td>Người này mang những biến thể nào?</td></tr>
+          <tr><td>Epigenomics</td><td>Methyl hóa DNA, độ mở chất nhiễm sắc, biến đổi histone</td><td>Bisulfite-seq, ATAC-seq, ChIP-seq</td><td>Vùng nào của bộ gene đang "mở" để dùng?</td></tr>
+          <tr><td>Transcriptomics</td><td>Lượng RNA của từng gene</td><td>RNA-seq, RNA-seq tế bào đơn, transcriptomics không gian; trước đây là microarray</td><td>Gene nào đang được bật, mạnh tới đâu?</td></tr>
+          <tr><td>Proteomics</td><td>Lượng và dạng biến đổi của protein</td><td>Khối phổ (mass spectrometry), kháng thể</td><td>Protein nào thật sự có mặt và hoạt động?</td></tr>
+          <tr><td>Metabolomics</td><td>Các phân tử nhỏ (đường, lipid, chất chuyển hóa)</td><td>Khối phổ, cộng hưởng từ hạt nhân (NMR)</td><td>Tế bào đang chuyển hóa ra sao?</td></tr>
+        </tbody>
+        <caption>Transcriptomics là tầng phổ biến nhất trong phân tích biểu hiện gene, và là trọng tâm của <a href="4-phan-tich.html">phần 4</a>.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="bang-dem">
+  <div class="wrap">
+    <h2>Từ đoạn đọc đến bảng đếm</h2>
+    <div class="prose">
+      <p>Trong RNA-seq, RNA của mẫu được chuyển thành DNA (nhờ enzyme phiên mã ngược), cắt nhỏ và giải trình tự. Máy trả về hàng chục triệu đoạn đọc dạng văn bản (tệp FASTQ). Phần mềm gióng hàng (như STAR, HISAT2) hoặc ước lượng nhanh (Salmon, kallisto) xác định mỗi đoạn đọc đến từ gene nào, rồi đếm. Kết quả là <span class="term">ma trận đếm</span> <span class="en">(count matrix)</span>: mỗi hàng một gene, mỗi cột một mẫu. Với RNA-seq tế bào đơn, mỗi cột là một tế bào, mỗi đoạn RNA mang mã vạch của tế bào và một mã phân tử (UMI) để đếm đúng số phân tử; ma trận thường có hơn 90% ô bằng 0.</p>
+      <p>Số đếm thô không so sánh trực tiếp được: mẫu giải trình tự sâu hơn có số đếm lớn hơn ở mọi gene, và gene dài hơn bị cắt ra nhiều đoạn hơn. Hai cách chuẩn hóa đơn giản nhất:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{CPM}_g = \frac{c_g}{\sum_j c_j} \times 10^6, \qquad \text{TPM}_g = \frac{c_g / \ell_g}{\sum_j c_j/\ell_j} \times 10^6 \]</div>
+      <p class="where"><b>CPM</b>: <i>counts per million</i>, số đoạn đọc trên mỗi triệu đoạn đọc; <b>TPM</b>: <i>transcripts per million</i>, số bản phiên mã trên mỗi triệu; <b>c<sub>g</sub></b>: số đoạn đọc của gene g; <b>Σ<sub>j</sub> c<sub>j</sub></b>: cộng số đoạn đọc của mọi gene j trong mẫu, tức tổng độ sâu giải trình tự; <b>ℓ<sub>g</sub></b> (chữ l viết tay): độ dài gene (kb, nghìn base). Gene dài hơn tự nhiên "hứng" được nhiều đoạn đọc hơn, nên TPM chia cho độ dài trước khi so. CPM khử độ sâu giải trình tự; TPM khử thêm độ dài, để so sánh các gene trong cùng một mẫu. Cả hai còn chịu "hiệu ứng thành phần": khi vài gene tăng mạnh, phần đoạn đọc còn lại cho các gene khác ít đi. Các công cụ phân tích khác biệt như DESeq2 (median-of-ratios) và edgeR (TMM) dùng cách chuẩn hóa sửa thêm lỗi này.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Sáu gene, hai mẫu A và B, nhưng mẫu B được giải trình tự sâu hơn (nhiều đoạn đọc hơn). Ở chế độ <b>Số đếm thô</b>, mọi gene của B nhìn như cao hơn A, dù sinh học không đổi gì. Chuyển sang <b>CPM</b>: hai mẫu được đưa về cùng thang "trên mỗi triệu", sự chênh giả biến mất. Chuyển sang <b>TPM</b>: chia thêm cho độ dài gene, nên có thể so các gene với nhau trong cùng một mẫu.</div>
+    <div class="demo" id="demoCount" data-demo="count-matrix">
+      <div class="demo-title"><h4>Từ đoạn đọc đến bảng đếm: CPM và TPM</h4><span>Đổi độ sâu giải trình tự và cách chuẩn hóa</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Các ký hiệu ít gặp trên trang này, kèm cách đọc tiếng Anh.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(C = \dfrac{NL}{G}\)</td><td>C equals N L over G</td><td>Độ phủ: tổng số base đã đọc chia kích thước bộ gene; mỗi base trung bình được đọc C lần.</td></tr>
+          <tr><td class="sym">\(P(\ldots)\)</td><td>probability of …</td><td>Xác suất của sự kiện ghi trong ngoặc.</td></tr>
+          <tr><td class="sym">\(e^{-C}\)</td><td>e to the minus C</td><td>Hàm mũ giảm: C tăng 1 thì giá trị còn khoảng 37%.</td></tr>
+          <tr><td class="sym">\(\sum_j\)</td><td>sum over j</td><td>Cộng qua mọi gene j trong mẫu.</td></tr>
+          <tr><td class="sym">\(\ell_g\)</td><td>ell g</td><td>Độ dài của gene g.</td></tr>
+          <tr><td class="sym">\(\times 10^6\)</td><td>times ten to the six</td><td>Nhân một triệu ("per million").</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li class="bio"><span class="yr">1977</span><div><h4>Giải trình tự Sanger</h4><p>Frederick Sanger công bố phương pháp kết thúc chuỗi (Nobel Hóa học 1980, lần thứ hai của ông).</p></div></li>
+      <li class="bio"><span class="yr">1983</span><div><h4>PCR</h4><p>Kary Mullis phát minh phản ứng chuỗi polymerase, nhân bản một đoạn DNA lên hàng tỉ lần.</p></div></li>
+      <li class="bio"><span class="yr">1995</span><div><h4>Bộ gene vi khuẩn đầu tiên và microarray</h4><p>Bộ gene đầy đủ đầu tiên của một sinh vật sống tự do (<i>Haemophilus influenzae</i>) được giải bằng phương pháp shotgun; cùng năm, microarray đo đồng thời biểu hiện của nhiều gene.</p></div></li>
+      <li class="bio"><span class="yr">2003</span><div><h4>Hoàn thành Dự án Bộ gene Người</h4><p>Bản nháp công bố năm 2001; bản "hoàn thành" năm 2003 phủ khoảng 92% bộ gene.</p></div></li>
+      <li><span class="yr">2008</span><div><h4>RNA-seq</h4><p>Giải trình tự RNA bằng NGS bắt đầu thay thế microarray trong đo biểu hiện gene.</p></div></li>
+      <li><span class="yr">2009</span><div><h4>RNA-seq tế bào đơn</h4><p>Tang và cộng sự giải trình tự transcriptome của một tế bào đơn; từ 2015 các phương pháp dùng giọt dầu đo được hàng nghìn tới hàng triệu tế bào.</p></div></li>
+      <li class="bio"><span class="yr">2022</span><div><h4>Bộ gene người hoàn chỉnh</h4><p>Liên minh Telomere-to-Telomere công bố trình tự hoàn chỉnh đầu tiên, nhờ công nghệ đọc dài.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>F. Sanger, S. Nicklen, A. R. Coulson, "DNA sequencing with chain-terminating inhibitors", <i>PNAS</i> 74 (1977) 5463–5467.</li>
+      <li>E. S. Lander, M. S. Waterman, "Genomic mapping by fingerprinting random clones: a mathematical analysis", <i>Genomics</i> 2 (1988) 231–239.</li>
+      <li>A. Mortazavi et al., "Mapping and quantifying mammalian transcriptomes by RNA-Seq", <i>Nature Methods</i> 5 (2008) 621–628.</li>
+      <li>G. P. Wagner, K. Kin, V. J. Lynch, "Measurement of mRNA abundance using RNA-seq data: RPKM measure is inconsistent among samples", <i>Theory Biosci.</i> 131 (2012) 281–285.</li>
+      <li>S. Nurk et al., "The complete sequence of a human genome", <i>Science</i> 376 (2022) 44–53.</li>
+      <li>National Human Genome Research Institute, "DNA Sequencing Costs: Data" (genome.gov).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-dna-protein.html"><small>Phần 2</small><b>Từ DNA đến protein</b></a>
+      <a class="next" href="4-phan-tich.html"><small>Phần 4</small><b>Phân tích dữ liệu biểu hiện gene</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/omics.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

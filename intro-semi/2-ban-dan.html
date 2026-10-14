@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bán dẫn: electron, lỗ trống, pha tạp | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Electron và lỗ trống trong Si, nồng độ nội tại, pha tạp loại n và p, mức Fermi, dòng trôi, dòng khuếch tán, hệ thức Einstein.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/2-ban-dan.html, phần 2: BÁN DẪN)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      carriers.js      : mạng Si, pha tạp n/p, nhiệt độ, nồng độ hạt tải, mức Fermi
+      drift-diffusion.js: xung hạt tải trôi và khuếch tán (Haynes–Shockley)
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Phần 2</p>
+  <h1><span class="dot"></span>Bán dẫn: electron, lỗ trống, pha tạp</h1>
+  <p class="lead">Si tinh khiết dẫn điện rất kém. Điều kỳ diệu của bán dẫn là chỉ cần thêm một nguyên tử lạ trên một triệu nguyên tử Si, độ dẫn điện tăng hơn một triệu lần, và ta chọn được hạt mang điện là electron hay lỗ trống. Phần này giải thích pha tạp và hai cách hạt tải di chuyển: bị điện trường kéo và tự loang ra.</p>
+</header>
+
+<section class="part" id="tinh-khiet">
+  <div class="wrap">
+    <h2>Si tinh khiết: electron và lỗ trống</h2>
+    <div class="prose">
+      <p>Ở 0 K, mọi electron hóa trị của Si đều nằm trong liên kết và Si là chất cách điện hoàn hảo. Ở nhiệt độ phòng, dao động nhiệt thỉnh thoảng bẻ gãy một liên kết: một electron lên vùng dẫn và để lại một lỗ trống. Hai hạt này luôn sinh ra thành cặp, nên trong Si tinh khiết (bán dẫn <span class="term">nội tại</span>, <span class="en">intrinsic</span>) số electron bằng số lỗ trống, ký hiệu n = p = n<sub>i</sub>. Đồng thời electron và lỗ trống gặp nhau thì tái hợp và cùng biến mất; khi hai quá trình cân bằng, tích n·p không đổi.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ n_i = \sqrt{N_c N_v}\;e^{-E_g/2kT}, \qquad n \cdot p = n_i^2 \qquad (n_i \approx 10^{10}\ \text{cm}^{-3}\ \text{ở Si, 300 K}) \]</div>
+      <p class="where"><b>n</b>, <b>p</b>: nồng độ electron tự do và lỗ trống (số hạt trong mỗi cm³); <b>n<sub>i</sub></b>: nồng độ nội tại, tức n = p trong Si tinh khiết; <b>E<sub>g</sub></b>: độ rộng vùng cấm (eV); <b>T</b>: nhiệt độ tuyệt đối (K, 300 K ≈ 27 °C); <b>e<sup>−x</sup></b>: hàm mũ, giảm rất nhanh khi x tăng (e ≈ 2,718); <b>√</b>: căn bậc hai; <b>N<sub>c</sub>, N<sub>v</sub></b>: mật độ trạng thái hiệu dụng của vùng dẫn và vùng hóa trị (với Si khoảng 3 × 10¹⁹ cm⁻³); <b>k</b> = 8,617 × 10⁻⁵ eV/K: hằng số Boltzmann; <b>kT</b> ≈ 0,0259 eV ở 300 K. Ngành bán dẫn quen đo nồng độ theo cm⁻³; 1 cm³ Si có khoảng 5 × 10²² nguyên tử.</p>
+    </div>
+    <div class="prose">
+      <p>Hàm mũ trong công thức giải thích vì sao bán dẫn nhạy với nhiệt độ: tăng từ 300 K lên 400 K, n<sub>i</sub> của Si tăng khoảng 500 lần (tính cả việc E<sub>g</sub> giảm nhẹ khi nóng lên). Nhưng ngay cả ở 400 K, Si tinh khiết vẫn dẫn điện quá kém để làm được việc gì. Muốn dùng được, phải pha tạp.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="pha-tap">
+  <div class="wrap">
+    <h2>Pha tạp: loại n và loại p</h2>
+    <div class="prose">
+      <p><span class="term">Pha tạp</span> <span class="en">(doping)</span> là thay một phần rất nhỏ nguyên tử Si bằng nguyên tử khác, thường từ cỡ một phần tỉ tới một phần nghìn. Nếu thay bằng phốt pho (P, 5 electron hóa trị), 4 electron tham gia liên kết, electron thứ 5 chỉ bị giữ rất lỏng (cần khoảng 0,045 eV để tách ra) và ở nhiệt độ phòng gần như luôn tự do: P là <span class="term">chất cho</span> <span class="en">(donor)</span>, Si thành <span class="term">loại n</span>. Nếu thay bằng bo (B, 3 electron hóa trị), một liên kết bị thiếu một electron, tức là một lỗ trống: B là <span class="term">chất nhận</span> <span class="en">(acceptor)</span>, Si thành <span class="term">loại p</span>.</p>
+      <p>Hạt tải chiếm áp đảo gọi là hạt tải <span class="term">đa số</span>, loại còn lại là <span class="term">thiểu số</span>. Vì n·p = n<sub>i</sub>² vẫn đúng, pha tạp nhiều electron thì lỗ trống bị ép xuống rất thấp. Ví dụ Si pha 10¹⁶ cm⁻³ phốt pho: n ≈ 10¹⁶, p ≈ 10⁴ cm⁻³, lệch nhau 12 bậc.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{loại n: } n \approx N_D,\ \ p = \frac{n_i^2}{N_D}; \qquad \text{loại p: } p \approx N_A,\ \ n = \frac{n_i^2}{N_A}; \qquad E_F - E_i = kT\ln\frac{n}{n_i} \]</div>
+      <p class="where"><b>N<sub>D</sub>, N<sub>A</sub></b>: nồng độ chất cho, chất nhận (cm⁻³; D là <i>donor</i>, A là <i>acceptor</i>); <b>ln</b>: logarit tự nhiên, phép ngược của hàm mũ: ln(x) cho biết phải lấy e mũ bao nhiêu để được x (ln 10 ≈ 2,3), nên mỗi lần n tăng 10 lần thì E<sub>F</sub> chỉ dịch lên thêm khoảng 2,3 kT ≈ 0,06 eV; <b>E<sub>F</sub></b>: <span class="term">mức Fermi</span>, mức năng lượng mà xác suất có electron chiếm chỗ bằng 50%; <b>E<sub>i</sub></b>: mức Fermi của Si tinh khiết, gần giữa vùng cấm. Loại n: E<sub>F</sub> dịch lên gần vùng dẫn; loại p: dịch xuống gần vùng hóa trị.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Bên trái là mạng tinh thể Si vẽ phẳng: chấm tròn đặc là electron tự do, vòng tròn rỗng là lỗ trống (số lượng không theo tỉ lệ thật). Bên phải là <b>giản đồ vùng</b>: E<sub>C</sub> là đáy vùng dẫn, E<sub>V</sub> là đỉnh vùng hóa trị, E<sub>i</sub> là mức Fermi của Si tinh khiết (gần giữa), E<sub>F</sub> là mức Fermi thật. Chọn <b>Loại n</b> rồi tăng nồng độ pha tạp: E<sub>F</sub> leo lên gần E<sub>C</sub>, electron áp đảo lỗ trống, điện trở suất tụt nhiều bậc. Chọn <b>Loại p</b> thì ngược lại.</div>
+    <div class="demo" id="demoCarriers" data-demo="carriers">
+      <div class="demo-title"><h4>Electron, lỗ trống và pha tạp trong Si</h4><span>Chọn loại pha tạp, nồng độ và nhiệt độ</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Thử kéo nhiệt độ lên trên 500 K với nồng độ pha tạp thấp: n<sub>i</sub> đuổi kịp nồng độ pha tạp, sự khác biệt giữa loại n và loại p biến mất. Đó là lý do chip Si thường chỉ được thiết kế để chạy dưới khoảng 125–150 °C, và vì sao các vật liệu vùng cấm rộng như SiC, GaN được dùng cho linh kiện chạy nóng.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="dong-dien">
+  <div class="wrap">
+    <h2>Dòng trôi và dòng khuếch tán</h2>
+    <div class="prose">
+      <p>Hạt tải trong bán dẫn chuyển động theo hai cơ chế. <span class="term">Trôi</span> <span class="en">(drift)</span>: điện trường kéo electron ngược chiều trường và lỗ trống cùng chiều trường. Hạt tải liên tục va chạm với mạng tinh thể nên không tăng tốc mãi mà đạt một vận tốc trung bình tỉ lệ với điện trường; hệ số tỉ lệ là <span class="term">độ linh động</span> <span class="en">(mobility)</span> μ. <span class="term">Khuếch tán</span> <span class="en">(diffusion)</span>: như giọt mực loang trong nước, hạt tải đi từ nơi đông sang nơi thưa, kể cả khi không có điện trường.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ v_d = \mu E, \qquad J_{\text{trôi}} = q\,(n\mu_n + p\mu_p)\,E, \qquad J_{\text{kt}} = qD_n\frac{dn}{dx} - qD_p\frac{dp}{dx}, \qquad \frac{D}{\mu} = \frac{kT}{q} \]</div>
+      <p class="where"><b>v<sub>d</sub></b>: vận tốc trôi (cm/s); <b>E</b>: điện trường (V/cm); <b>J</b>: mật độ dòng điện (A/cm²), "trôi" là do điện trường, "kt" là do khuếch tán; <b>q</b> ≈ 1,602 × 10⁻¹⁹ C: điện tích nguyên tố; <b>dn/dx</b>: nồng độ electron thay đổi nhanh đến đâu theo vị trí x (độ "dốc" của nồng độ: dốc càng lớn, khuếch tán càng mạnh); <b>μ<sub>n</sub>, μ<sub>p</sub></b>: độ linh động của electron, lỗ trống (Si pha tạp nhẹ: khoảng 1400 và 450 cm²/(V·s); lỗ trống chậm hơn); <b>D</b>: hệ số khuếch tán (cm²/s); hệ thức cuối là <span class="term">hệ thức Einstein</span>: cùng một chuyển động nhiệt hỗn loạn gây ra cả va chạm (giới hạn μ) lẫn khuếch tán. Hạt tải thiểu số còn có <span class="term">thời gian sống</span> τ trước khi tái hợp, và đi được trung bình một <span class="term">độ dài khuếch tán</span> L = √(Dτ).</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Một xung sáng ngắn bắn vào thanh Si tại vị trí 2 mm, tạo ra một "đám" hạt tải. Bấm <b>▶ Bơm xung</b> và quan sát: không có điện trường, đám hạt chỉ loang rộng ra tại chỗ (khuếch tán); bật điện trường, cả đám vừa loang vừa trôi sang một bên (trôi). Biểu đồ cột bên dưới đếm số hạt theo vị trí, đường đen là dự đoán lý thuyết: một "cái chuông" (đường Gauss) càng lúc càng bè ra theo √(2Dt). Thời gian sống τ ngắn thì đám hạt teo dần vì tái hợp. Electron trôi ngược chiều điện trường và nhanh hơn lỗ trống.</div>
+    <div class="demo" id="demoDrift" data-demo="drift-diffusion">
+      <div class="demo-title"><h4>Trôi và khuếch tán: thí nghiệm Haynes–Shockley</h4><span>Bơm một xung hạt tải, xem nó vừa trôi vừa nhòe ra</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Hầu hết linh kiện bán dẫn là sự phối hợp hai dòng này: trong tiếp giáp p–n (<a href="3-diode.html#tiep-giap">phần 3</a>), dòng khuếch tán và dòng trôi triệt tiêu nhau ở trạng thái cân bằng; trong MOSFET (<a href="4-transistor.html#mosfet">phần 4</a>), dòng chạy trong kênh chủ yếu là dòng trôi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Các ký hiệu ít gặp trên trang này, kèm cách đọc tiếng Anh và cách hiểu đơn giản.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(n\), \(p\), \(n_i\)</td><td>n, p, n sub i</td><td>Nồng độ electron, lỗ trống, và nồng độ nội tại của chất bán dẫn tinh khiết.</td></tr>
+          <tr><td class="sym">cm⁻³</td><td>per cubic centimeter</td><td>"Trên mỗi cm³": đếm số hạt trong một khối 1 cm × 1 cm × 1 cm.</td></tr>
+          <tr><td class="sym">\(e^{-E_g/2kT}\)</td><td>e to the minus E g over two k T</td><td>Hàm mũ giảm: vùng cấm càng rộng hoặc nhiệt độ càng thấp thì hạt tải càng hiếm, và giảm cực nhanh.</td></tr>
+          <tr><td class="sym">\(kT\)</td><td>k T</td><td>Năng lượng "rung lắc nhiệt" điển hình của mỗi hạt, ≈ 0,026 eV ở nhiệt độ phòng.</td></tr>
+          <tr><td class="sym">\(\ln\)</td><td>natural log</td><td>Logarit tự nhiên: phép ngược của hàm mũ e<sup>x</sup>.</td></tr>
+          <tr><td class="sym">\(\sqrt{x}\)</td><td>square root of x</td><td>Căn bậc hai.</td></tr>
+          <tr><td class="sym">\(E_F\), \(E_i\)</td><td>E F, E i</td><td>Mức Fermi (mức mà xác suất có electron là 50%) và mức Fermi của bán dẫn tinh khiết.</td></tr>
+          <tr><td class="sym">\(\mu\)</td><td>mu</td><td>Độ linh động: hạt tải chạy nhanh bao nhiêu dưới mỗi V/cm điện trường.</td></tr>
+          <tr><td class="sym">\(\dfrac{dn}{dx}\)</td><td>d n by d x</td><td>Gradient nồng độ: nồng độ thay đổi bao nhiêu trên mỗi cm.</td></tr>
+          <tr><td class="sym">\(D\)</td><td>D</td><td>Hệ số khuếch tán: hạt tải loang ra nhanh đến đâu.</td></tr>
+          <tr><td class="sym">\(\tau\)</td><td>tau</td><td>Thời gian sống trung bình của hạt tải thiểu số trước khi tái hợp.</td></tr>
+          <tr><td class="sym">\(\approx\)</td><td>approximately</td><td>Xấp xỉ bằng.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1874</span><div><h4>Chỉnh lưu ở tinh thể</h4><p>Ferdinand Braun thấy dòng điện qua tiếp xúc kim loại với một số tinh thể sulfide chỉ chạy dễ theo một chiều: linh kiện bán dẫn đầu tiên, dù chưa ai hiểu vì sao.</p></div></li>
+      <li><span class="yr">1906</span><div><h4>Máy tách sóng tinh thể</h4><p>Greenleaf Pickard đăng ký sáng chế máy tách sóng radio dùng tinh thể Si, nền tảng của radio "râu mèo" đầu thế kỷ 20.</p></div></li>
+      <li class="bio"><span class="yr">1940</span><div><h4>Ohl và tiếp giáp p–n</h4><p>Russell Ohl (Bell Labs) tình cờ thấy một thỏi Si bị nứt sinh ra điện áp khi chiếu sáng: hai nửa thỏi chứa tạp chất khác nhau, tức là loại n và loại p.</p></div></li>
+      <li class="bio"><span class="yr">1949</span><div><h4>Thí nghiệm Haynes–Shockley</h4><p>Haynes và Shockley quan sát xung hạt tải thiểu số trôi trong Ge; bài báo đầy đủ năm 1951 đo độ linh động, hệ số khuếch tán, thời gian sống và kiểm chứng hệ thức Einstein.</p></div></li>
+      <li><span class="yr">1952</span><div><h4>Tinh chế vùng</h4><p>William Pfann phát minh phương pháp tinh chế vùng (zone refining), cho phép làm Ge và Si tinh khiết tới mức chưa từng có.</p></div></li>
+      <li class="bio"><span class="yr">1954</span><div><h4>Transistor Si đầu tiên</h4><p>Gordon Teal (Texas Instruments) giới thiệu transistor Si thương mại đầu tiên; Si dần thay Ge nhờ vùng cấm rộng hơn và lớp SiO₂ tự nhiên.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>S. M. Sze, K. K. Ng, <i>Physics of Semiconductor Devices</i>, 3rd ed., Wiley, 2007 (số liệu Si: N<sub>c</sub>, N<sub>v</sub>, E<sub>g</sub>(T)).</li>
+      <li>R. F. Pierret, <i>Semiconductor Device Fundamentals</i>, Addison-Wesley, 1996.</li>
+      <li>D. M. Caughey, R. E. Thomas, "Carrier mobilities in silicon empirically related to doping and field", <i>Proc. IEEE</i> 55 (1967) 2192–2193.</li>
+      <li>J. R. Haynes, W. Shockley, "The mobility and life of injected holes and electrons in germanium", <i>Phys. Rev.</i> 81 (1951) 835–843.</li>
+      <li>Ioffe Institute, <i>New Semiconductor Materials: Characteristics and Properties</i> (cơ sở dữ liệu trực tuyến về Si, Ge, GaAs, GaN, …).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="1-vat-chat.html"><small>Phần 1</small><b>Cấu trúc vật chất</b></a>
+      <a class="next" href="3-diode.html"><small>Phần 3</small><b>Diode và ánh sáng</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

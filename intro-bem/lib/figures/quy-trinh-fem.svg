@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 270" font-family="'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif" font-size="13" fill="#1B1920">
+  <title>Quy trình mô phỏng FEM trên mô hình đầu người (sơ đồ)</title>
+  <!-- Sơ đồ tự vẽ. My Academic / Sinh điện từ. -->
+  <defs>
+    <radialGradient id="mri" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#cfd3d8"/><stop offset=".55" stop-color="#8d939b"/><stop offset=".8" stop-color="#e9ebee"/><stop offset=".86" stop-color="#3b3f45"/><stop offset=".93" stop-color="#d8dbdf"/><stop offset="1" stop-color="#FBFCFD"/>
+    </radialGradient>
+    <radialGradient id="field" cx="38%" cy="22%" r="75%">
+      <stop offset="0" stop-color="#8b1d16"/><stop offset=".25" stop-color="#d8312a"/><stop offset=".5" stop-color="#f2c230"/><stop offset=".8" stop-color="#fff3c9"/><stop offset="1" stop-color="#ffffff"/>
+    </radialGradient>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#1B1920"/></marker>
+    <clipPath id="c4"><circle cx="0" cy="0" r="46"/></clipPath>
+  </defs>
+  <rect width="900" height="270" fill="#FBFCFD"/>
+
+  <!-- 1. ảnh MRI -->
+  <g transform="translate(90 92)">
+    <rect x="-70" y="-62" width="140" height="124" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <circle r="48" fill="url(#mri)"/>
+    <path d="M-20 -8 q10 -14 20 0 q10 14 20 0" fill="none" stroke="#5c626a" stroke-width="3"/>
+    <path d="M-24 14 q12 -10 24 0 q12 10 24 0" fill="none" stroke="#5c626a" stroke-width="3"/>
+  </g>
+  <!-- 2. phân vùng -->
+  <g transform="translate(270 92)">
+    <rect x="-70" y="-62" width="140" height="124" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <circle r="48" fill="#f6dccb" stroke="#1B1920"/>
+    <circle r="43" fill="#e7e2d6" stroke="#1B1920"/>
+    <circle r="38" fill="#bfe3f2" stroke="#1B1920"/>
+    <circle r="35" fill="#f3d0cf" stroke="#1B1920"/>
+    <path d="M-35 0 q8 -6 12 0 t12 0 t12 0 t12 0 t12 0 t10 0" fill="none" stroke="#bfe3f2" stroke-width="3"/>
+    <circle r="16" fill="#e9eef3" stroke="#1B1920" stroke-dasharray="3 2"/>
+  </g>
+  <!-- 3. lưới -->
+  <g transform="translate(450 92)">
+    <rect x="-70" y="-62" width="140" height="124" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <g fill="none" stroke="#1B1920" stroke-width="1">
+      <circle r="48"/><circle r="38"/><circle r="22"/>
+      <path d="M0 -48 L0 -38 L14 -36 L17 -45 Z M17 -45 L14 -36 L27 -27 L34 -34 Z M34 -34 L27 -27 L36 -12 L45 -16 Z M45 -16 L36 -12 L38 0 L48 0 Z"/>
+      <path d="M0 -38 L0 -22 L14 -36 M14 -36 L16 -15 L27 -27 M27 -27 L22 0 L36 -12 M36 -12 L38 0 L22 0"/>
+      <path d="M0 -22 L16 -15 L22 0 L0 0 Z M0 -22 L-16 -15 L-22 0 L0 0 M0 0 L16 15 L22 0 M0 0 L-16 15 L-22 0 M0 0 L0 22 L16 15 M0 22 L-16 15"/>
+      <path d="M0 -48 L0 -38 L-14 -36 L-17 -45 Z M-17 -45 L-14 -36 L-27 -27 L-34 -34 Z M-34 -34 L-27 -27 L-36 -12 L-45 -16 Z M-45 -16 L-36 -12 L-38 0 L-48 0 Z"/>
+      <path d="M0 -38 L0 -22 L-14 -36 M-14 -36 L-16 -15 L-27 -27 M-27 -27 L-22 0 L-36 -12 M-36 -12 L-38 0 L-22 0"/>
+      <path d="M48 0 L38 0 L36 12 L45 16 Z M45 16 L36 12 L27 27 L34 34 Z M34 34 L27 27 L14 36 L17 45 Z M17 45 L14 36 L0 38 L0 48 Z M38 0 L22 0 L36 12 M36 12 L22 0 L27 27 M27 27 L16 15 L14 36 M14 36 L0 22 L0 38"/>
+      <path d="M-48 0 L-38 0 L-36 12 L-45 16 Z M-45 16 L-36 12 L-27 27 L-34 34 Z M-34 34 L-27 27 L-14 36 L-17 45 Z M-17 45 L-14 36 L0 38 L0 48 Z M-38 0 L-22 0 L-36 12 M-36 12 L-22 0 L-27 27 M-27 27 L-16 15 L-14 36 M-14 36 L0 22 L0 38"/>
+    </g>
+  </g>
+  <!-- 4. giải -->
+  <g transform="translate(630 92)">
+    <rect x="-70" y="-62" width="140" height="124" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <rect x="-44" y="-44" width="88" height="88" fill="#fff" stroke="#1B1920"/>
+    <g fill="#3787c4">
+      <rect x="-44" y="-44" width="8" height="8" fill="#d8312a"/><rect x="-36" y="-44" width="8" height="8"/><rect x="-12" y="-44" width="8" height="8"/>
+      <rect x="-44" y="-36" width="8" height="8"/><rect x="-36" y="-36" width="8" height="8" fill="#d8312a"/><rect x="-28" y="-36" width="8" height="8"/><rect x="4" y="-36" width="8" height="8"/>
+      <rect x="-36" y="-28" width="8" height="8"/><rect x="-28" y="-28" width="8" height="8" fill="#d8312a"/><rect x="-20" y="-28" width="8" height="8"/>
+      <rect x="-28" y="-20" width="8" height="8"/><rect x="-20" y="-20" width="8" height="8" fill="#d8312a"/><rect x="-12" y="-20" width="8" height="8"/><rect x="20" y="-20" width="8" height="8"/>
+      <rect x="-44" y="-12" width="8" height="8"/><rect x="-20" y="-12" width="8" height="8"/><rect x="-12" y="-12" width="8" height="8" fill="#d8312a"/><rect x="-4" y="-12" width="8" height="8"/>
+      <rect x="-12" y="-4" width="8" height="8"/><rect x="-4" y="-4" width="8" height="8" fill="#d8312a"/><rect x="4" y="-4" width="8" height="8"/>
+      <rect x="-36" y="4" width="8" height="8"/><rect x="-4" y="4" width="8" height="8"/><rect x="4" y="4" width="8" height="8" fill="#d8312a"/><rect x="12" y="4" width="8" height="8"/>
+      <rect x="4" y="12" width="8" height="8"/><rect x="12" y="12" width="8" height="8" fill="#d8312a"/><rect x="20" y="12" width="8" height="8"/>
+      <rect x="-20" y="20" width="8" height="8"/><rect x="12" y="20" width="8" height="8"/><rect x="20" y="20" width="8" height="8" fill="#d8312a"/><rect x="28" y="20" width="8" height="8"/>
+      <rect x="20" y="28" width="8" height="8"/><rect x="28" y="28" width="8" height="8" fill="#d8312a"/><rect x="36" y="28" width="8" height="8"/>
+      <rect x="28" y="36" width="8" height="8"/><rect x="36" y="36" width="8" height="8" fill="#d8312a"/>
+    </g>
+  </g>
+  <!-- 5. kết quả -->
+  <g transform="translate(810 92)">
+    <rect x="-70" y="-62" width="140" height="124" fill="#fff" stroke="#1B1920" stroke-width="2"/>
+    <circle r="48" fill="#f6dccb" stroke="#1B1920"/>
+    <g clip-path="url(#c4)"><circle r="46" fill="url(#field)"/></g>
+    <circle r="48" fill="none" stroke="#1B1920"/>
+    <rect x="-30" y="-56" width="16" height="7" fill="#d8312a" stroke="#1B1920"/>
+    <rect x="22" y="-46" width="16" height="7" fill="#3787c4" stroke="#1B1920" transform="rotate(40 30 -42)"/>
+  </g>
+
+  <!-- mũi tên -->
+  <g stroke="#1B1920" stroke-width="2" marker-end="url(#ar)">
+    <line x1="162" y1="92" x2="196" y2="92"/><line x1="342" y1="92" x2="376" y2="92"/><line x1="522" y1="92" x2="556" y2="92"/><line x1="702" y1="92" x2="736" y2="92"/>
+  </g>
+  <path d="M810 158 V178 Q810 186 802 186 H98 Q90 186 90 178 V166" fill="none" stroke="#9DA4AD" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+  <text x="450" y="181" text-anchor="middle" font-size="12.5" fill="#59606B">kiểm chứng với số đo (điện cực nội sọ, MREIT, EEG) và hiệu chỉnh mô hình</text>
+
+  <!-- nhãn -->
+  <g text-anchor="middle" font-weight="700" font-size="14">
+    <text x="90" y="214">1. Ảnh MRI</text><text x="270" y="214">2. Phân vùng mô</text><text x="450" y="214">3. Chia lưới</text><text x="630" y="214">4. Gán σ, giải</text><text x="810" y="214">5. Hậu xử lý</text>
+  </g>
+  <g text-anchor="middle" font-size="12.5" fill="#59606B">
+    <text x="90" y="234">T1, T2 (và DTI)</text><text x="90" y="251">độ phân giải ~1 mm</text>
+    <text x="270" y="234">da, sọ, dịch não tủy,</text><text x="270" y="251">chất xám, chất trắng…</text>
+    <text x="450" y="234">tứ diện bám mặt mô,</text><text x="450" y="251">10⁵ – 10⁷ phần tử</text>
+    <text x="630" y="234">σ theo mô (hoặc tensor);</text><text x="630" y="251">K·V = b, CG / AMG</text>
+    <text x="810" y="234">E, J, phân vị 99,9%,</text><text x="810" y="251">VTA, SAR, nhiệt độ</text>
+  </g>
+</svg>

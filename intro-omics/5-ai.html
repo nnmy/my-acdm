@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI cho gene, bệnh và thuốc | Omics | My N. Nguyen</title>
+<meta name="description" content="GWAS, điểm nguy cơ đa gene, phân loại bệnh từ biểu hiện gene, thiên lệch chọn lọc khi p lớn hơn n, AlphaFold, mô hình nền tảng, AI trong phát triển thuốc, quyền riêng tư dữ liệu di truyền.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/omics.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-omics/5-ai.html, phần 5: AI CHO GENE, BỆNH VÀ THUỐC)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      overfit.js       : thiên lệch chọn lọc khi chọn gene trước kiểm định chéo
+      drug-pipeline.js : phễu phát triển thuốc, tỉ lệ chuyển pha, vai trò của AI
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Biểu hiện gene và omics</a> / Phần 5</p>
+  <h1><span class="dot"></span>AI cho gene, bệnh và thuốc</h1>
+  <p class="lead">Dữ liệu omics là một trong những nguồn dữ liệu lớn và phức tạp nhất mà AI từng gặp. Phần cuối giới thiệu cách data science và AI đang được dùng để tìm gene gây bệnh, phân loại bệnh, dự đoán cấu trúc protein và phát triển thuốc, cùng những cái bẫy khiến kết quả đẹp trên giấy mà vô dụng ngoài đời.</p>
+</header>
+
+<section class="part" id="gene-benh">
+  <div class="wrap">
+    <h2>Gene và bệnh: từ GWAS tới phân loại bệnh</h2>
+    <div class="prose">
+      <p>Bệnh đơn gen (xơ nang, hồng cầu hình liềm) do một biến thể có tác động lớn gây ra. Phần lớn bệnh phổ biến như tiểu đường type 2, bệnh mạch vành, trầm cảm thì khác: chúng chịu ảnh hưởng của hàng nghìn biến thể, mỗi biến thể chỉ tăng nguy cơ một chút, cộng với môi trường và lối sống. <span class="term">Nghiên cứu liên kết toàn bộ gene</span> <span class="en">(genome-wide association study, GWAS)</span> so sánh hàng triệu biến thể giữa hàng trăm nghìn người bệnh và người khỏe để tìm các biến thể đó. Vì kiểm định khoảng một triệu biến thể độc lập, ngưỡng ý nghĩa quy ước là p &lt; 5 × 10⁻⁸ (tương đương Bonferroni cho 10⁶ phép kiểm định).</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{PRS} = \sum_{i=1}^{M} \hat\beta_i\, x_i \]</div>
+      <p class="where"><b>Điểm nguy cơ đa gene</b> <span class="en">(polygenic risk score)</span>: <b>x<sub>i</sub></b> ∈ {0, 1, 2} là số bản của biến thể nguy cơ thứ i mà một người mang; <b>β̂<sub>i</sub></b> (đọc "beta mũ"; dấu mũ nghĩa là giá trị <i>ước lượng</i> từ dữ liệu chứ không phải giá trị thật): mức tăng nguy cơ ứng với mỗi bản của biến thể i, lấy từ GWAS; <b>M</b>: số biến thể được tính; <b>Σ<sub>i=1</sub><sup>M</sup></b>: cộng các số hạng với i = 1, 2, …, M; <b>∈</b>: "thuộc", tức x<sub>i</sub> chỉ nhận một trong ba giá trị 0, 1, 2. Nói gọn: PRS là một tổng điểm, mỗi biến thể nguy cơ mà người đó mang được cộng thêm một số điểm bằng β̂ của nó. Vì phần lớn dữ liệu GWAS đến từ người gốc châu Âu, PRS thường dự đoán kém hơn ở các nhóm dân tộc khác, một vấn đề công bằng quan trọng khi đưa vào lâm sàng.</p>
+    </div>
+    <div class="prose">
+      <p>Với dữ liệu biểu hiện gene, bài toán thường gặp là <span class="term">phân loại</span>: dựa trên hồ sơ biểu hiện của khối u, nó thuộc phân nhóm nào, sẽ đáp ứng với thuốc nào? Ví dụ đã vào lâm sàng là bộ 50 gene PAM50 phân ung thư vú thành các phân nhóm phân tử. Nhưng dữ liệu omics có một đặc điểm nguy hiểm: số đặc trưng p (gene) lớn hơn rất nhiều so với số mẫu n (bệnh nhân). Khi p ≫ n, gần như luôn tìm được một tổ hợp gene "phân biệt hoàn hảo" hai nhóm trong dữ liệu đang có, kể cả khi dữ liệu hoàn toàn ngẫu nhiên.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Dữ liệu mô phỏng ở đây là <i>hoàn toàn ngẫu nhiên</i>: không gene nào thật sự liên quan tới bệnh, nên mọi mô hình trung thực chỉ đoán đúng khoảng 50%. Bốn cột so sánh bốn cách đánh giá cùng một mô hình. "Huấn luyện" (chấm trên chính dữ liệu đã học) cho điểm rất cao: mô hình đã học thuộc nhiễu. "CV, chọn gene trước" vẫn cao một cách giả tạo, vì gene đã được chọn bằng cả dữ liệu kiểm tra, một lỗi rất hay gặp. Chỉ "CV, chọn gene bên trong" và "1000 bệnh nhân mới" cho con số thật, khoảng 50%. Tăng số gene p và giảm số bệnh nhân n để thấy cái bẫy càng sâu.</div>
+    <div class="demo" id="demoOverfit" data-demo="overfit">
+      <div class="demo-title"><h4>Ảo giác độ chính xác khi p ≫ n</h4><span>Dữ liệu ngẫu nhiên hoàn toàn, nhưng mô hình vẫn có thể "đạt 90%"</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Lỗi trong demo (chọn gene bằng toàn bộ dữ liệu rồi mới kiểm định chéo) đã được chỉ ra từ năm 2002 nhưng vẫn xuất hiện trong nhiều bài báo. Cách phòng tránh trong scikit-learn là đặt mọi bước học từ dữ liệu, kể cả chuẩn hóa và chọn gene, vào trong một <code>Pipeline</code>, để chúng được làm lại bên trong từng lần chia:</p>
+    </div>
+    <pre class="code"><code>from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+
+# X: (bệnh nhân × gene), y: nhãn bệnh / khỏe
+model = make_pipeline(StandardScaler(),
+                      SelectKBest(f_classif, k=20),      # chọn gene NẰM TRONG pipeline
+                      LogisticRegression(max_iter=1000))
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+print(cross_val_score(model, X, y, cv=cv).mean())</code></pre>
+  </div>
+</section>
+
+<section class="part tint" id="mo-hinh">
+  <div class="wrap">
+    <h2>Từ trình tự tới cấu trúc: AlphaFold và mô hình nền tảng</h2>
+    <div class="prose">
+      <p>Suốt 50 năm, dự đoán hình dạng 3D của protein từ chuỗi amino acid là một trong những bài toán lớn nhất của sinh học. Năm 2020, AlphaFold2 (Google DeepMind) đạt độ chính xác gần với thực nghiệm ở cuộc thi CASP14. Cơ sở dữ liệu AlphaFold sau đó công bố cấu trúc dự đoán của hơn 200 triệu protein, gần như mọi protein đã biết trình tự. Giải Nobel Hóa học 2024 được trao cho Demis Hassabis và John Jumper (dự đoán cấu trúc protein) cùng David Baker (thiết kế protein bằng máy tính).</p>
+      <p>Cùng ý tưởng với mô hình ngôn ngữ lớn, các <span class="term">mô hình nền tảng</span> <span class="en">(foundation models)</span> được huấn luyện trên lượng lớn trình tự hoặc dữ liệu omics: mô hình ngôn ngữ protein (ESM), mô hình DNA (Enformer, Evo) dự đoán tác động của biến thể lên biểu hiện gene, và mô hình tế bào đơn (Geneformer, scGPT) học từ hàng chục triệu tế bào. Đây là hướng phát triển rất nhanh, nhưng một số đánh giá độc lập cho thấy mô hình nền tảng tế bào đơn chưa chắc vượt các phương pháp đơn giản ở mọi bài toán: vẫn cần so sánh với mốc cơ sở và kiểm chứng trên dữ liệu độc lập.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="thuoc">
+  <div class="wrap">
+    <h2>AI trong phát triển thuốc</h2>
+    <div class="prose">
+      <p>Đưa một thuốc mới ra thị trường thường mất 10–15 năm và hàng tỉ USD, và phần lớn ứng viên thất bại. Dữ liệu omics và AI tham gia ở hầu hết các khâu: chọn đích thuốc có bằng chứng di truyền, dự đoán cấu trúc protein đích, sàng lọc ảo và thiết kế phân tử, dự đoán độc tính, và chọn đúng bệnh nhân cho thử nghiệm lâm sàng. Một vài cột mốc: năm 2020, một mô hình học sâu tìm ra kháng sinh halicin từ thư viện phân tử có sẵn; cùng năm, đồ thị tri thức của BenevolentAI gợi ý baricitinib (thuốc viêm khớp) cho COVID-19, về sau được phê duyệt cho chỉ định này; từ 2023, các thuốc mà cả đích lẫn phân tử đều được tìm bằng AI đã vào thử nghiệm pha II.</p>
+    </div>
+    <div class="demo" id="demoDrug" data-demo="drug-pipeline">
+      <div class="demo-title"><h4>Phễu phát triển thuốc và chỗ AI tham gia</h4><span>Bấm vào từng giai đoạn</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Thanh trượt trong demo cho thấy vì sao pha II là nơi AI và omics được kỳ vọng nhiều nhất: đây là cửa ải hẹp nhất, và nguyên nhân thất bại hàng đầu là thuốc không hiệu quả, thường vì đích được chọn không thật sự gây bệnh. Phân tích ban đầu (Jayatunga et al., 2024) cho thấy các phân tử do AI khám phá vượt pha I với tỉ lệ cao hơn trung bình ngành, còn ở pha II thì tỉ lệ thành công tương đương; còn quá sớm để kết luận AI đã rút ngắn được toàn bộ quy trình.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="can-trong">
+  <div class="wrap">
+    <h2>Cạm bẫy và trách nhiệm</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Cạm bẫy</th><th>Biểu hiện</th><th>Cách phòng</th></tr></thead>
+        <tbody>
+          <tr><td>p ≫ n và rò rỉ dữ liệu</td><td>Độ chính xác kiểm định chéo cao bất thường, sụp đổ trên dữ liệu mới.</td><td>Đặt mọi bước học trong pipeline; giữ riêng một bộ kiểm tra độc lập (tốt nhất từ bệnh viện, quần thể khác).</td></tr>
+          <tr><td>Hiệu ứng lô (batch effect)</td><td>Mô hình học khác biệt giữa ngày chạy máy, phòng thí nghiệm, chứ không phải giữa bệnh và khỏe.</td><td>Thiết kế thí nghiệm trộn đều các nhóm qua các lô; hiệu chỉnh lô; kiểm tra PCA tô màu theo lô.</td></tr>
+          <tr><td>Lệch quần thể</td><td>Mô hình huấn luyện trên một nhóm dân tộc, độ tuổi, bệnh viện dự đoán kém ở nhóm khác.</td><td>Báo cáo thành phần dữ liệu; đánh giá riêng từng nhóm; thu thập dữ liệu đa dạng hơn.</td></tr>
+          <tr><td>Tương quan không phải nhân quả</td><td>Gene "quan trọng" với mô hình chưa chắc là nguyên nhân gây bệnh hay đích thuốc tốt.</td><td>Kết hợp bằng chứng di truyền, thí nghiệm can thiệp (CRISPR), suy luận nhân quả.</td></tr>
+          <tr><td>Quyền riêng tư</td><td>Dữ liệu di truyền nhận dạng được cả người mang lẫn họ hàng, kể cả khi đã bỏ tên.</td><td>Đồng ý có hiểu biết, kiểm soát truy cập, học liên kết (federated learning); GDPR xếp dữ liệu di truyền vào nhóm dữ liệu nhạy cảm.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Một ví dụ về rủi ro riêng tư: năm 2013, Gymrek và cộng sự chỉ ra có thể suy ra họ của người tham gia nghiên cứu từ dữ liệu nhiễm sắc thể Y "ẩn danh" bằng cách đối chiếu với cơ sở dữ liệu phả hệ công khai. Dữ liệu gene không bao giờ thật sự ẩn danh, và người làm data science với dữ liệu này cần được đào tạo về đạo đức nghiên cứu như người làm lâm sàng.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>C. Ambroise, G. J. McLachlan, "Selection bias in gene extraction on the basis of microarray gene-expression data", <i>PNAS</i> 99 (2002) 6562–6566.</li>
+      <li>T. R. Golub et al., "Molecular classification of cancer: class discovery and class prediction by gene expression monitoring", <i>Science</i> 286 (1999) 531–537.</li>
+      <li>J. Jumper et al., "Highly accurate protein structure prediction with AlphaFold", <i>Nature</i> 596 (2021) 583–589.</li>
+      <li>J. M. Stokes et al., "A deep learning approach to antibiotic discovery", <i>Cell</i> 180 (2020) 688–702.</li>
+      <li>E. V. Minikel et al., "Refining the impact of genetic evidence on clinical success", <i>Nature</i> 629 (2024) 624–629.</li>
+      <li>M. Jayatunga et al., "How successful are AI-discovered drugs in clinical trials? A first analysis and emerging lessons", <i>Drug Discov. Today</i> 29 (2024) 104009.</li>
+      <li>BIO, Informa Pharma Intelligence, QLS, <i>Clinical Development Success Rates 2011–2020</i>, 2021.</li>
+      <li>M. Gymrek et al., "Identifying personal genomes by surname inference", <i>Science</i> 339 (2013) 321–324.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-phan-tich.html"><small>Phần 4</small><b>Phân tích dữ liệu biểu hiện gene</b></a>
+      <a class="next" href="index.html"><small>Hết</small><b>Trang chủ Omics</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/omics.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

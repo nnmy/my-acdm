@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phân tích dữ liệu biểu hiện gene | Omics | My N. Nguyen</title>
+<meta name="description" content="Biểu hiện khác biệt, log2 fold change, p-value, kiểm định nhiều lần, Benjamini–Hochberg FDR; dữ liệu tế bào đơn, PCA, phân cụm, UMAP; phân tích làm giàu con đường.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/omics.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-omics/4-phan-tich.html, phần 4: PHÂN TÍCH DỮ LIỆU BIỂU HIỆN GENE)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      volcano.js       : kiểm định t, Benjamini–Hochberg, FDR thật so với danh định
+      single-cell.js   : tế bào đơn mô phỏng, PCA, k-means, ARI
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Biểu hiện gene và omics</a> / Phần 4</p>
+  <h1><span class="dot"></span>Phân tích dữ liệu biểu hiện gene</h1>
+  <p class="lead">Có bảng số rồi, câu hỏi là: gene nào thay đổi, tế bào nào giống nhau, và điều đó có nghĩa gì về sinh học? Phần này là nơi sinh học gặp thống kê và data science, với hai cái bẫy kinh điển: kiểm định hàng nghìn lần cùng lúc, và tin quá mức vào một bức hình đẹp.</p>
+</header>
+
+<section class="part" id="khac-biet">
+  <div class="wrap">
+    <h2>Biểu hiện khác biệt và kiểm định nhiều lần</h2>
+    <div class="prose">
+      <p>Câu hỏi phổ biến nhất với dữ liệu RNA-seq: gene nào biểu hiện khác nhau giữa hai nhóm, ví dụ mô ung thư và mô lành, hay tế bào có và không có thuốc? Với mỗi gene, ta so sánh hai nhóm mẫu lặp lại (càng nhiều mẫu sinh học độc lập càng tốt) và tính hai con số: <span class="term">log2 fold change</span>, mức thay đổi theo thang log cơ số 2 (1 nghĩa là tăng gấp đôi), và <span class="term">p-value</span>, xác suất thấy khác biệt lớn như vậy chỉ do ngẫu nhiên nếu thật ra không có khác biệt. Công cụ thực tế (DESeq2, edgeR, limma-voom) dùng mô hình thống kê hợp với số đếm hơn kiểm định t, nhưng logic giống nhau.</p>
+      <p>Cái bẫy nằm ở số lượng: kiểm định 20 000 gene cùng lúc với ngưỡng p &lt; 0,05 thì dù không gene nào khác biệt, vẫn có khoảng 1000 gene "đạt" chỉ do may rủi. Có hai cách hiệu chỉnh. Bonferroni kiểm soát xác suất có <i>dù chỉ một</i> phát hiện sai, quá khắt khe khi có hàng nghìn phép kiểm định. Benjamini–Hochberg kiểm soát <span class="term">tỉ lệ phát hiện sai</span> <span class="en">(false discovery rate, FDR)</span>: trong danh sách gene được báo, trung bình không quá α là báo sai.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{Bonferroni: } p_g < \frac{\alpha}{m}, \qquad \text{Benjamini–Hochberg: } q_{(i)} = \min_{j \ge i} \frac{m\,p_{(j)}}{j}, \ \ \text{báo gene nếu } q < \alpha \]</div>
+      <p class="where"><b>α</b> (alpha): ngưỡng ta chấp nhận, ví dụ 0,05; <b>m</b>: số gene được kiểm định; <b>p<sub>g</sub></b>: p-value của gene g; <b>p<sub>(i)</sub></b>: p-value thứ i khi xếp tất cả p-value tăng dần (dấu ngoặc quanh chỉ số nghĩa là "thứ hạng", không phải tên gene); <b>min<sub>j ≥ i</sub></b>: lấy giá trị nhỏ nhất trong các giá trị với j từ i trở đi, một bước kỹ thuật để q không bao giờ giảm khi thứ hạng tăng; <b>q</b>: p-value đã hiệu chỉnh (còn gọi là "padj" trong DESeq2). Bonferroni nói đơn giản: kiểm định m lần thì chia ngưỡng cho m. Benjamini–Hochberg nhẹ tay hơn: gene xếp hạng i được so với ngưỡng i·α/m, tức gene càng "mạnh" (thứ hạng nhỏ) thì ngưỡng càng chặt.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Mỗi chấm là một gene. Trục ngang (log2 fold change) cho biết gene thay đổi bao nhiêu: sang phải là tăng ở nhóm B, sang trái là giảm; 1 nghĩa là gấp đôi. Trục dọc (−log10 p) cho biết thay đổi đó "chắc chắn" đến đâu: càng lên cao, p-value càng nhỏ (p = 0,001 nằm ở độ cao 3). Gene vừa thay đổi nhiều vừa chắc chắn nằm ở hai "miệng núi lửa" phía trên. Vì đây là dữ liệu mô phỏng, demo biết gene nào khác biệt thật, nên đếm được số gene báo sai. So sánh hai chế độ ngưỡng: không hiệu chỉnh thì báo sai hàng loạt; hiệu chỉnh FDR thì tỉ lệ báo sai giữ quanh mức đã chọn. Tăng số mẫu mỗi nhóm để tìm được nhiều gene thật hơn.</div>
+    <div class="demo" id="demoVolcano" data-demo="volcano">
+      <div class="demo-title"><h4>Biểu hiện khác biệt và kiểm định nhiều lần</h4><span>2000 gene mô phỏng, trong đó 200 gene thật sự khác biệt</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Với dữ liệu thật, mỗi gene là một hàng của ma trận biểu hiện đã chuẩn hóa theo thang log. Đoạn code dưới đây làm đúng những gì demo làm, bằng thư viện Python phổ biến:</p>
+    </div>
+    <pre class="code"><code>import numpy as np
+from scipy import stats
+from statsmodels.stats.multitest import multipletests
+
+# A, B: mảng (số gene × số mẫu), biểu hiện log2 đã chuẩn hóa của hai nhóm
+log2fc = B.mean(axis=1) - A.mean(axis=1)
+t, p = stats.ttest_ind(B, A, axis=1, equal_var=False)   # kiểm định t Welch cho từng gene
+reject, q, _, _ = multipletests(p, alpha=0.05, method="fdr_bh")
+print(reject.sum(), "gene khác biệt ở FDR 5%")</code></pre>
+  </div>
+</section>
+
+<section class="part tint" id="don-bao">
+  <div class="wrap">
+    <h2>Tế bào đơn: giảm chiều và phân cụm</h2>
+    <div class="prose">
+      <p>Một thí nghiệm RNA-seq tế bào đơn cho ma trận hàng chục nghìn tế bào × hơn 20 000 gene, phần lớn là số 0. Không ai nhìn thẳng vào bảng đó được. Quy trình chuẩn gồm: chuẩn hóa theo tổng số đếm mỗi tế bào và lấy log; chọn vài nghìn gene biến thiên nhiều nhất; <span class="term">phân tích thành phần chính</span> <span class="en">(PCA)</span> để nén mỗi tế bào xuống vài chục con số; nối các tế bào giống nhau thành đồ thị láng giềng gần và <span class="term">phân cụm</span> (thường bằng thuật toán Leiden); cuối cùng vẽ bằng UMAP hoặc t-SNE và gán tên loại tế bào cho từng cụm dựa trên các <span class="term">gene đánh dấu</span> <span class="en">(marker genes)</span> đã biết.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \mathbf{w}_1 = \arg\max_{\|\mathbf{w}\| = 1} \operatorname{Var}(X\mathbf{w}) \;\Longleftrightarrow\; \Sigma\,\mathbf{w}_1 = \lambda_1 \mathbf{w}_1 \]</div>
+      <p class="where"><b>Đọc nôm na:</b> tìm một hướng w<sub>1</sub> (một tổ hợp các gene) sao cho khi chiếu mọi tế bào lên hướng đó, các tế bào trải ra rộng nhất. <b>arg max</b>: "giá trị w làm cho biểu thức lớn nhất" (arg max trả về <i>chỗ</i> đạt cực đại, không phải giá trị cực đại); <b>‖w‖ = 1</b>: w có độ dài bằng 1, chỉ quan tâm hướng; <b>Var</b>: phương sai, độ trải rộng của dữ liệu; <b>Xw</b>: tọa độ của mọi tế bào khi chiếu lên hướng w; <b>⟺</b>: "tương đương với". Vế phải nói rằng hướng đó là một <b>vector riêng</b> <span class="en">(eigenvector)</span> của Σ, tức một hướng mà nhân Σ vào chỉ làm nó dài ra λ<sub>1</sub> lần chứ không đổi hướng. <b>X</b>: ma trận tế bào × gene đã chuẩn hóa; <b>Σ</b> (sigma hoa, ở đây <i>không</i> phải dấu tổng): ma trận hiệp phương sai, cho biết từng cặp gene tăng giảm cùng nhau đến đâu; <b>λ<sub>1</sub></b> (lambda): <b>trị riêng</b> lớn nhất, bằng độ trải rộng theo hướng w<sub>1</sub>; <b>w<sub>1</sub></b>: thành phần chính thứ nhất, hướng mà dữ liệu trải rộng nhất; <b>λ<sub>1</sub>/tổng λ</b>: tỉ lệ phương sai nó giải thích. Các thành phần sau vuông góc với các thành phần trước.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Mỗi chấm là một tế bào, đặt theo hai thành phần chính đầu tiên (PC1, PC2): hai "hướng" tóm tắt được nhiều khác biệt giữa các tế bào nhất. Tế bào cùng loại tự tụ thành đám. Chọn <b>Màu theo cụm k-means</b> để xem thuật toán chia nhóm ra sao, rồi <b>Màu theo loại thật</b> để so với đáp án (dữ liệu mô phỏng nên biết đáp án). Thử đặt số cụm k sai (quá ít hoặc quá nhiều) và xem chỉ số khớp ARI giảm xuống (1 là khớp hoàn toàn).</div>
+    <div class="demo" id="demoSc" data-demo="single-cell">
+      <div class="demo-title"><h4>Tế bào đơn: giảm chiều và phân cụm</h4><span>600 tế bào máu mô phỏng, 40 gene, 4 loại tế bào "ẩn"</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Hai lưu ý quan trọng. Số cụm là một lựa chọn của người phân tích, không phải sự thật có sẵn: chia quá ít thì gộp các loại tế bào khác nhau, chia quá nhiều thì tách một loại thành nhiều cụm giả. Và khoảng cách trên hình UMAP, t-SNE không có ý nghĩa định lượng: hai cụm nằm xa nhau trên hình chưa chắc khác nhau nhiều hơn hai cụm nằm gần. Quy trình trên với thư viện scanpy:</p>
+    </div>
+    <pre class="code"><code>import scanpy as sc
+
+adata = sc.read_10x_h5("filtered_feature_bc_matrix.h5")   # tế bào × gene
+sc.pp.normalize_total(adata, target_sum=1e4)
+sc.pp.log1p(adata)
+sc.pp.highly_variable_genes(adata, n_top_genes=2000, subset=True)
+sc.pp.scale(adata, max_value=10)
+sc.tl.pca(adata, n_comps=50)
+sc.pp.neighbors(adata, n_pcs=30)          # đồ thị láng giềng gần trên không gian PCA
+sc.tl.leiden(adata, resolution=1.0)        # phân cụm
+sc.tl.umap(adata)                          # chỉ để vẽ
+sc.tl.rank_genes_groups(adata, "leiden")   # gene đánh dấu của từng cụm</code></pre>
+  </div>
+</section>
+
+<section class="part" id="y-nghia">
+  <div class="wrap">
+    <h2>Từ danh sách gene đến ý nghĩa sinh học</h2>
+    <div class="prose">
+      <p>Kết quả của phân tích khác biệt thường là vài trăm gene. Để hiểu chúng, ta hỏi: danh sách này có chứa nhiều gene của một <span class="term">con đường sinh học</span> <span class="en">(pathway)</span> hay một chức năng nào đó hơn mức ngẫu nhiên không? Các cơ sở dữ liệu như Gene Ontology, KEGG, Reactome gom gene thành hàng nghìn nhóm như vậy. Cách đơn giản nhất là kiểm định siêu bội cho từng nhóm (rồi lại hiệu chỉnh FDR, vì có hàng nghìn nhóm); cách tinh tế hơn là phân tích làm giàu bộ gene (GSEA), dùng toàn bộ danh sách gene đã xếp hạng thay vì một ngưỡng cắt.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ P(X \ge k) = \sum_{i = k}^{\min(n, K)} \frac{\binom{K}{i}\binom{N - K}{n - i}}{\binom{N}{n}} \]</div>
+      <p class="where"><b>Đọc nôm na:</b> nếu bốc ngẫu nhiên n gene từ N gene, xác suất bốc trúng từ k gene của con đường trở lên là bao nhiêu? Nếu xác suất này rất nhỏ, danh sách của ta "giàu" gene của con đường đó một cách không ngẫu nhiên. <b>\(\binom{K}{i}\)</b> (đọc "K choose i"): <b>tổ hợp chập</b>, số cách chọn i phần tử từ K phần tử; <b>Σ<sub>i=k</sub></b>: cộng các trường hợp i = k, k+1, … tới <b>min(n, K)</b> (số nhỏ hơn trong hai số n và K, vì không thể trúng nhiều hơn thế); <b>X</b>: số gene trúng (một biến ngẫu nhiên); <b>≥</b>: lớn hơn hoặc bằng. <b>N</b>: tổng số gene được đo; <b>K</b>: số gene thuộc con đường đang xét; <b>n</b>: số gene trong danh sách khác biệt; <b>k</b>: số gene vừa trong danh sách vừa thuộc con đường. Lưu ý: chỉ dùng N là các gene thật sự đo được trong thí nghiệm, không phải toàn bộ bộ gene, nếu không kết quả sẽ quá lạc quan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Trang này dùng nhiều ký hiệu thống kê và đại số tuyến tính. Bảng dưới gom chúng lại kèm cách đọc tiếng Anh.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(\alpha\)</td><td>alpha, significance level</td><td>Ngưỡng chấp nhận rủi ro báo sai, thường 0,05.</td></tr>
+          <tr><td class="sym">\(p_{(i)}\)</td><td>p sub i in parentheses</td><td>p-value xếp hạng thứ i (sau khi xếp tăng dần).</td></tr>
+          <tr><td class="sym">\(\min_{j\ge i}\)</td><td>minimum over j greater than or equal to i</td><td>Lấy giá trị nhỏ nhất trong các j từ i trở đi.</td></tr>
+          <tr><td class="sym">\(\arg\max\)</td><td>arg max</td><td>"Chỗ" (giá trị của biến) làm biểu thức lớn nhất.</td></tr>
+          <tr><td class="sym">\(\|\mathbf{w}\|\)</td><td>norm of w</td><td>Độ dài của vector w.</td></tr>
+          <tr><td class="sym">\(\operatorname{Var}\)</td><td>variance</td><td>Phương sai: độ trải rộng của dữ liệu quanh giá trị trung bình.</td></tr>
+          <tr><td class="sym">\(\Sigma\)</td><td>capital sigma, covariance matrix</td><td>Ở trang này: ma trận hiệp phương sai (không phải dấu tổng Σ<sub>i</sub>).</td></tr>
+          <tr><td class="sym">\(\lambda_1\)</td><td>lambda one, eigenvalue</td><td>Trị riêng: độ trải rộng của dữ liệu theo hướng thành phần chính thứ nhất.</td></tr>
+          <tr><td class="sym">\(\Longleftrightarrow\)</td><td>if and only if</td><td>Tương đương với.</td></tr>
+          <tr><td class="sym">\(\binom{K}{i}\)</td><td>K choose i</td><td>Số cách chọn i thứ từ K thứ (tổ hợp).</td></tr>
+          <tr><td class="sym">\(\sum_{i=k}^{\min(n,K)}\)</td><td>sum from i equals k to min of n and K</td><td>Cộng các số hạng với i chạy từ k tới số nhỏ hơn trong n và K.</td></tr>
+          <tr><td class="sym">\(P(X\ge k)\)</td><td>probability that X is at least k</td><td>Xác suất X lớn hơn hoặc bằng k.</td></tr>
+          <tr><td class="sym">log2, −log10</td><td>log base two, minus log base ten</td><td>Thang log: log2 = 1 là gấp đôi; −log10 p = 3 là p = 0,001.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>Y. Benjamini, Y. Hochberg, "Controlling the false discovery rate: a practical and powerful approach to multiple testing", <i>J. R. Stat. Soc. B</i> 57 (1995) 289–300.</li>
+      <li>M. I. Love, W. Huber, S. Anders, "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2", <i>Genome Biol.</i> 15 (2014) 550.</li>
+      <li>F. A. Wolf, P. Angerer, F. J. Theis, "SCANPY: large-scale single-cell gene expression data analysis", <i>Genome Biol.</i> 19 (2018) 15.</li>
+      <li>M. D. Luecken, F. J. Theis, "Current best practices in single-cell RNA-seq analysis: a tutorial", <i>Mol. Syst. Biol.</i> 15 (2019) e8746.</li>
+      <li>A. Subramanian et al., "Gene set enrichment analysis", <i>PNAS</i> 102 (2005) 15545–15550.</li>
+      <li>L. Hubert, P. Arabie, "Comparing partitions", <i>J. Classification</i> 2 (1985) 193–218 (chỉ số ARI).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-omics.html"><small>Phần 3</small><b>Đo đạc omics</b></a>
+      <a class="next" href="5-ai.html"><small>Phần 5</small><b>AI cho gene, bệnh và thuốc</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/omics.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
