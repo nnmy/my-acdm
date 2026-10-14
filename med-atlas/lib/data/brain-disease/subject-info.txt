@@ -1,0 +1,3 @@
+alzheimer-1 patient: OASIS1 0001, unknown gender and age
+stroke patient: OpenNeuron_SOOP sub-45, male, 60 yrs
+control: OpenNeuron_ds003592 sub-52, male, 60 yrs

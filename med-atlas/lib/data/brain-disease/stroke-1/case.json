@@ -1,0 +1,64 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). panes.*.detail: giới, tuổi, thang điểm (không ghi mã người tham gia). default: chuỗi xung, hướng cắt và điểm mở đầu ({at: khóa cấu trúc trong labels.json | 'lesion'} hoặc {mm: [x, y, z]}). findings[].go: nút 'Xem trên ảnh' (mod, orient, at/mm, zoom). regions: các cấu trúc được viền khi bật Khoanh vùng bệnh. markers: {kind: circle|arrow, mm: [x, y, z], r, text, pane: patient|control|both, mods: [...], dir: góc mũi tên (độ)}; lấy tọa độ ở trang 1b-brain-disease.html: nhấp vào ảnh rồi bấm 'Chép tọa độ'. sources: {cite: 'Tác giả, năm', title: tên công trình (trang chỉ hiện 60 ký tự đầu, làm liên kết), url}. license: một câu ngắn. acknowledgment: câu ghi nhận bắt buộc của nguồn dữ liệu (nếu có).",
+ "title": "Đột quỵ nhồi máu não cấp",
+ "panes": {
+  "control": {
+   "label": "Người khoẻ",
+   "detail": "Nam, 60 tuổi"
+  },
+  "patient": {
+   "label": "Nhồi máu não",
+   "detail": "Nam, 60 tuổi"
+  }
+ },
+ "default": {
+  "mod": "flair",
+  "orient": "ax",
+  "at": "lesion"
+ },
+ "summary": [
+  "Nhồi máu não xảy ra khi một động mạch não bị tắc. Trong vài phút đến vài giờ đầu, tế bào thiếu máu phù lên và nước khó khuếch tán, nên vùng tổn thương sáng trên DWI trong khi T1 và FLAIR có thể còn gần bình thường.",
+  "Tổn thương thường nằm gọn trong lãnh thổ cấp máu của một động mạch. Ví dụ, động mạch não giữa nuôi phần lớn mặt ngoài bán cầu, thùy đảo và nhân nền."
+ ],
+ "findings": [
+  {
+   "text": "FLAIR: so với cùng vị trí ở người khoẻ. Tín hiệu tăng dần theo thời gian kể từ lúc khởi phát.",
+   "go": {
+    "mod": "flair",
+    "orient": "ax",
+    "at": "lesion"
+   }
+  },
+  {
+   "text": "DWI: vùng tăng tín hiệu rõ, giới hạn trong một lãnh thổ mạch máu.",
+   "go": {
+    "mod": "dwi",
+    "orient": "ax",
+    "at": "lesion"
+   }
+  },
+  {
+   "text": "T1: ở giai đoạn cấp thường chỉ thay đổi nhẹ. Lát coronal cho thấy tổn thương theo chiều trên dưới.",
+   "go": {
+    "mod": "t1",
+    "orient": "cor",
+    "at": "lesion"
+   }
+  }
+ ],
+ "regions": [],
+ "markers": [],
+ "sources": [
+  {
+   "cite": "Absher và cs., 2024",
+   "title": "The stroke outcome optimization project: Acute ischemic strokes from a comprehensive stroke center",
+   "url": "https://doi.org/10.1038/s41597-024-03667-5"
+  },
+  {
+   "cite": "Spreng và cs., 2022",
+   "title": "Neurocognitive aging data release with behavioral, structural and multi-echo functional MRI measures",
+   "url": "https://doi.org/10.1038/s41597-022-01231-7"
+  }
+ ],
+ "license": "Bệnh nhân: OpenNeuro ds004889 (SOOP). Người khoẻ: OpenNeuro ds003592. Cả hai theo CC0."
+}

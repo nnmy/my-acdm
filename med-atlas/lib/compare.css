@@ -1,0 +1,91 @@
+/* =====================================================================
+   Trình xem bệnh não (lib/compare.js). Nạp kèm compare.js khi người xem bấm nút một bệnh
+   trong 1-brain-mri.html; cũng dùng cho trang soạn ca 1b-brain-disease.html.
+   Dùng chung biến màu, chữ, nút, slider, khung ảnh (.film, .loader, .readout-strip) của lib/atlas.css;
+   mọi lớp riêng có tiền tố dz-. Không dùng .controls / .ctl-head của atlas.
+   ===================================================================== */
+.dz { position: relative; background: #fff; border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--sky); margin-bottom: 8px; }
+
+/* nút đóng: X đỏ ở góc trên phải, như nút bỏ ghim */
+.dz-close { position: absolute; top: 8px; right: 8px; z-index: 6; display: grid; place-items: center; width: 34px; height: 32px; padding: 0;
+  border: 2px solid var(--ink); background: #fff; color: var(--pos); cursor: pointer; }
+.dz-close:hover { background: #e81123; border-color: #e81123; color: #fff; }
+
+/* thanh chọn ca (chỉ ở trang soạn ca) */
+.dz-cases { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 10px 14px; border-bottom: 2px solid var(--ink); }
+.dz-cases .lab { font-weight: 600; font-size: 14.5px; }
+.dz-cases .btnrow { gap: 6px; }
+
+.dz .film .tag small { display: block; margin-top: 3px; font: 500 12.5px/1.25 var(--body); color: #C9D3DC; text-shadow: 0 1px 0 #000; }
+.dz .film.empty canvas { cursor: default; }
+.dz .films { border-top: 0; }
+/* chừa chỗ cho nút đóng ở góc phải khung bệnh nhân */
+.dz .film + .film .tag { right: 52px; }
+
+/* dòng đọc giá trị: hai nửa thẳng hàng với hai khung ảnh */
+.dz .readout-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 0; background: var(--ink); }
+.dz .readout-strip > div { padding: 7px 14px; min-height: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; background: var(--ink); }
+.dz .readout-strip .les { color: #ff8a80; font-weight: 600; }
+.dz .readout-strip .xy { margin-left: auto; font: 600 13px var(--mono); color: #A9B4C0; white-space: nowrap; }
+.dz .readout-strip button { font: 600 12.5px var(--body); color: var(--gold); background: transparent; border: 1px solid var(--gold); padding: 1px 8px; cursor: pointer; }
+.dz .readout-strip button:hover:not(:disabled) { background: var(--gold); color: var(--ink); }
+.dz .readout-strip button.pin { background: var(--gold); color: var(--ink); }
+.dz .readout-strip button:disabled { opacity: .6; cursor: default; }
+
+/* điều khiển: nổi ở đáy màn hình khi khung ảnh còn trên màn hình (sticky trong hộp trình xem) */
+.dz-ctl { position: sticky; bottom: 0; z-index: 5; border-top: 2px solid var(--ink);
+  background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.dz-ctl-head { display: none; }
+.dz-ctl-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; padding: 12px 16px 14px; }
+.dz-ctl .ctl { grid-template-columns: 92px minmax(0, 1fr); }
+.dz-ctl .btn.dz-reg { flex: none; padding: 4px 10px; white-space: nowrap; }
+
+/* phần chữ của ca: hai cột dưới khung ảnh */
+.dz-info { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); border-top: 2px solid var(--ink); }
+.dz-info > section { padding: 18px 20px 20px; min-width: 0; }
+.dz-info > section + section { border-left: 2px solid var(--ink); background: var(--paper); }
+.dz-info h2 { font-size: 34px; margin-bottom: 10px; }
+.dz-info h3 { font: 700 16.5px/1.3 var(--body); margin: 20px 0 8px; }
+.dz-info section > h3:first-child, .dz-info #dzTable > h3:first-child { margin-top: 0; }
+.dz-info p, .dz-info li { font-size: 15.5px; }
+.dz-find { list-style: none; margin: 0; padding: 0; }
+.dz-find li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 9px 0; border-top: 1px solid var(--line); text-align: left; }
+.dz-find li:last-child { border-bottom: 1px solid var(--line); }
+.dz-find .btn { padding: 3px 10px; font-size: 13.5px; white-space: nowrap; }
+
+table.dz-tab { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.dz-tab th, .dz-tab td { padding: 5px 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.dz-tab th:first-child, .dz-tab td:first-child { text-align: left; white-space: normal; }
+.dz-tab thead th { font-weight: 600; border-bottom: 2px solid var(--ink); }
+.dz-tab i { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--ink); margin-right: 6px; vertical-align: 0; }
+.dz-tabwrap { overflow-x: auto; }
+.dz-info .dz-small { font-size: 13.5px; color: var(--muted); margin-top: 8px; text-align: left; }
+.dz-info .dz-src { list-style: none; margin: 0; padding: 0; }
+.dz-info .dz-src li { font-size: 14px; color: var(--muted); margin-bottom: 4px; text-align: left; }
+.dz-info .dz-lic, .dz-info .dz-ack { font-size: 13px; color: var(--muted); margin: 8px 0 0; text-align: left; }
+
+@media (max-width: 979px) {
+  .dz-info { grid-template-columns: 1fr; }
+  .dz-info > section + section { border-left: 0; border-top: 2px solid var(--ink); }
+}
+/* điện thoại: bảng điều khiển cố định ở đáy màn hình, hơi trong suốt, thu gọn được (như trang atlas) */
+@media (max-width: 700px) {
+  .dz-ctl { position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+    border: 2px solid var(--ink); background: rgba(251,252,253,.86); transition: transform .2s, opacity .2s; }
+  .dz-ctl.away { transform: translateY(calc(100% + 20px)); opacity: 0; pointer-events: none; }
+  .dz-ctl-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px 0 12px; font-weight: 700; font-size: 14px; }
+  .dz-ctl.min .dz-ctl-head { padding-bottom: 6px; }
+  .dz-ctl.min .dz-ctl-body { display: none; }
+  .dz-ctl-body { grid-template-columns: 1fr; gap: 8px; padding: 8px 12px 12px; }
+  .dz-ctl .ctl { grid-template-columns: 76px minmax(0, 1fr); gap: 8px; }
+  .dz-ctl .btn.dz-reg { padding: 4px 8px; font-size: 13px; }
+  .dz-ctl .dz-long { display: none; }
+  .dz-ctl .inline output { min-width: 3.6em; }
+  .dz .readout-strip > div { padding: 6px 8px; font-size: 12.5px; }
+  .dz .readout-strip .xy { display: none; }
+  .dz .film .tag small { display: none; }
+  .dz .film + .film .tag { right: 44px; }
+  .dz-close { top: 4px; right: 4px; width: 30px; height: 28px; }
+  .dz-info > section { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .dz-ctl { transition: none; } }

@@ -1,0 +1,80 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). panes.*.detail: giới, tuổi, thang điểm (không ghi mã người tham gia). default: chuỗi xung, hướng cắt và điểm mở đầu ({at: khóa cấu trúc trong labels.json | 'lesion'} hoặc {mm: [x, y, z]}). findings[].go: nút 'Xem trên ảnh' (mod, orient, at/mm, zoom). regions: các cấu trúc được viền khi bật Khoanh vùng bệnh. markers: {kind: circle|arrow, mm: [x, y, z], r, text, pane: patient|control|both, mods: [...], dir: góc mũi tên (độ)}; lấy tọa độ ở trang 1b-brain-disease.html: nhấp vào ảnh rồi bấm 'Chép tọa độ'. sources: {cite: 'Tác giả, năm', title: tên công trình (trang chỉ hiện 60 ký tự đầu, làm liên kết), url}. license: một câu ngắn. acknowledgment: câu ghi nhận bắt buộc của nguồn dữ liệu (nếu có).",
+ "title": "Alzheimer: teo thùy thái dương trong",
+ "panes": {
+  "control": {
+   "label": "Người khoẻ",
+   "detail": "Nam, 60 tuổi"
+  },
+  "patient": {
+   "label": "Alzheimer",
+   "detail": "Không rõ"
+  }
+ },
+ "default": {
+  "mod": "t1",
+  "orient": "cor",
+  "at": "hippocampus"
+ },
+ "summary": [
+  "Bệnh Alzheimer làm chết tế bào thần kinh, sớm và nặng nhất ở thùy thái dương trong: hồi hải mã và vỏ khứu. Mô mất đi được thay bằng dịch não tủy, nên trên T1 vùng teo nhỏ lại và các khoang dịch quanh nó rộng ra.",
+  "Não cũng teo dần khi lão hoá bình thường, và hai ảnh ở đây đến từ hai bộ dữ liệu, hai máy chụp khác nhau, nên hãy so hình dạng hơn là độ sáng. Chẩn đoán Alzheimer dựa trên lâm sàng và dấu ấn sinh học; MRI giúp ủng hộ chẩn đoán và loại trừ nguyên nhân khác."
+ ],
+ "findings": [
+  {
+   "text": "Hồi hải mã nhỏ lại, khe quanh hồi hải mã rộng ra. Rõ nhất trên lát coronal qua thùy thái dương trong.",
+   "go": {
+    "mod": "t1",
+    "orient": "cor",
+    "at": "hippocampus"
+   }
+  },
+  {
+   "text": "Sừng thái dương của não thất bên giãn rộng vì mô xung quanh teo.",
+   "go": {
+    "mod": "t1",
+    "orient": "cor",
+    "at": "inferior-lateral-ventricle-temporal-horn"
+   }
+  },
+  {
+   "text": "Vỏ khứu và hồi cạnh hải mã mỏng đi.",
+   "go": {
+    "mod": "t1",
+    "orient": "cor",
+    "at": "entorhinal-cortex"
+   }
+  },
+  {
+   "text": "Não thất bên giãn, rãnh vỏ não rộng: teo não lan toả, không đặc hiệu riêng cho Alzheimer.",
+   "go": {
+    "mod": "t1",
+    "orient": "ax",
+    "at": "lateral-ventricle"
+   }
+  }
+ ],
+ "regions": [
+  "hippocampus",
+  "amygdala",
+  "entorhinal-cortex",
+  "parahippocampal-gyrus",
+  "inferior-lateral-ventricle-temporal-horn",
+  "lateral-ventricle"
+ ],
+ "markers": [],
+ "sources": [
+  {
+   "cite": "Marcus và cs., 2007",
+   "title": "Open Access Series of Imaging Studies (OASIS): cross-sectional MRI data in young, middle aged, nondemented, and demented older adults",
+   "url": "https://doi.org/10.1162/jocn.2007.19.9.1498"
+  },
+  {
+   "cite": "Spreng và cs., 2022",
+   "title": "Neurocognitive aging data release with behavioral, structural and multi-echo functional MRI measures",
+   "url": "https://doi.org/10.1038/s41597-022-01231-7"
+  }
+ ],
+ "license": "Bệnh nhân: OASIS-1, theo Data Use Agreement của OASIS. Người khoẻ: OpenNeuro ds003592, CC0.",
+ "acknowledgment": "Data were provided by OASIS-1: Cross-Sectional: Principal Investigators: D. Marcus, R. Buckner, J. Csernansky, J. Morris; P50 AG05681, P01 AG03991, P01 AG026276, R01 AG021910, P20 MH071616, U24 RR021382."
+}

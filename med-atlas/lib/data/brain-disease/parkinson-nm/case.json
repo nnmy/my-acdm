@@ -1,0 +1,52 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). panes.*.detail: giới, tuổi, thang điểm (không ghi mã người tham gia). default: chuỗi xung, hướng cắt và điểm mở đầu ({at: khóa cấu trúc trong labels.json | 'lesion'} hoặc {mm: [x, y, z]}). findings[].go: nút 'Xem trên ảnh' (mod, orient, at/mm, zoom; tự bật khoanh vùng). regions: các cấu trúc được viền khi bật Khoanh vùng bệnh. markers: {kind: circle|arrow, mm: [x, y, z], r, text, pane: patient|control|both, mods: [...], dir: góc mũi tên (độ)}; lấy tọa độ bằng cách nhấp vào ảnh rồi bấm 'Chép tọa độ'. Ca dạng lát: focus_mm là tâm khi phóng to (ví dụ giữa trung não).",
+ "title": "Parkinson: tín hiệu neuromelanin của chất đen",
+ "panes": {
+  "control": {
+   "label": "Nhóm khoẻ",
+   "detail": "Template CTRL17"
+  },
+  "patient": {
+   "label": "Nhóm Parkinson",
+   "detail": "Template PD126"
+  }
+ },
+ "default": {
+  "mod": "nm",
+  "zoom": 2
+ },
+ "focus_mm": null,
+ "summary": [
+  "Bệnh Parkinson làm mất dần các tế bào thần kinh dopamin ở phần đặc của chất đen trong trung não. Các tế bào này chứa neuromelanin, một sắc tố cho tín hiệu sáng trên chuỗi xung neuromelanin.",
+  "MRI T1 và T2 thường quy của người bệnh Parkinson gần như bình thường. Khác biệt ở đây chỉ thấy được bằng chuỗi xung chuyên biệt."
+ ],
+ "findings": [
+  {
+   "text": "Dải sáng của chất đen hai bên cuống não hẹp và mờ hơn ở nhóm Parkinson.",
+   "go": {
+    "mod": "nm",
+    "zoom": 2
+   }
+  }
+ ],
+ "regions": [],
+ "markers": [],
+ "notes": [
+  "Đây là ảnh trung bình của nhóm, không phải ảnh của một người: CTRL17 ghép từ 13 người khoẻ, PD126 từ 85 bệnh nhân có ảnh neuromelanin.",
+  "Tỉ lệ nam nữ hai nhóm khác nhau, nên giải phẫu hai template có thể lệch nhẹ.",
+  "Hai lát được trích nguyên từ template và dùng chung một thang xám. Khoanh vùng và chú thích chỉ là lớp vẽ phía trên, không sửa ảnh."
+ ],
+ "sources": [
+  {
+   "text": "Madge V, Fonov VS, Xiao Y, Zou L, Jackson C, Postuma RB, Dagher A, Fon EA, Collins DL. A dataset of multi-contrast unbiased average MRI templates of a Parkinson's disease population. Data in Brief 2023;48:109141.",
+   "url": "https://doi.org/10.1016/j.dib.2023.109141",
+   "link": "DOI"
+  },
+  {
+   "text": "Multi-contrast PD126 and CTRL17 templates, NIST MNI Data Share (McGill).",
+   "url": "https://nist.mni.mcgill.ca/multi-contrast-pd126-and-ctrl17-templates/",
+   "link": "Trang dữ liệu"
+  }
+ ],
+ "license": "Template PD126/CTRL17 dùng phi thương mại theo giấy phép Creative Commons (trang MNI ghi BY-NC-SA 4.0, trang NITRC ghi BY-NC-ND 4.0). Lát cắt được trích nguyên, không chỉnh sửa."
+}

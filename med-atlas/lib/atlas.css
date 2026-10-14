@@ -1,0 +1,270 @@
+/* =====================================================================
+   Atlas hình ảnh y khoa: style dùng chung cho mọi trang của module.
+   Dựa trên intro-transformer/lib/tfg.css (cùng bảng màu, chữ, khung viền).
+   Navbar + footer lấy từ ../common/site.css. Font cục bộ: lib/fonts/fonts.css.
+   Mục lục:
+     1. nền chung (biến, chữ, đầu trang, nút, slider)
+     2. trình xem ảnh (.viewer): vùng ảnh 70% + cột điều khiển 30%
+     3. khung thông tin cấu trúc (.info)
+     4. sổ ghi chú (.notebook)
+     5. bản in / PDF (#printSheet, @media print)
+   ===================================================================== */
+:root {
+  --sky: #7bcde8;
+  --sea: #3787c4;
+  --ink: #1B1920;
+  --paper: #FBFCFD;
+  --mist: #EEF6FA;
+  --line: #DCE6EC;
+  --muted: #59606B;
+  --gold: #f2c230;
+  --pos: #d8312a;
+  --film: #000;              /* nền ảnh MRI */
+  --pixel-vi: "VT323", "Courier New", monospace;
+  --body: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --nav-h: 60px;
+  --pad-x: clamp(16px, 4vw, 48px);
+}
+
+/* ---------- 1. nền chung ---------- */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+a { color: var(--sea); }
+:focus-visible { outline: 3px solid var(--sea); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--pixel-vi); font-weight: 400; line-height: 1.05; margin: 0; }
+p { margin: 0 0 14px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad-x); }
+.wrap.wide { max-width: 1480px; }
+.prose { max-width: 72ch; }
+main p, main li { text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+
+.page-head { padding-top: clamp(32px, 5vw, 56px); padding-bottom: 22px; }
+.crumb { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+.crumb a { color: var(--muted); }
+.page-head h1 { font-size: clamp(46px, 6.4vw, 78px); display: flex; align-items: center; }
+.page-head h1 .dot { display: inline-block; flex: none; width: 16px; height: 16px; background: var(--sea); box-shadow: 4px 4px 0 var(--sky); margin-right: 18px; }
+.page-head .lead { margin: 12px 0 0; max-width: 72ch; color: var(--muted); text-align: left; }
+
+.part { padding: clamp(40px, 6vw, 72px) 0; border-top: 2px solid var(--ink); }
+.part > .wrap > h2 { font-size: clamp(38px, 5vw, 54px); margin-bottom: 18px; }
+.part h3 { font-family: var(--body); font-weight: 700; font-size: 20px; line-height: 1.3; margin: 28px 0 10px; }
+.term { font-weight: 600; }
+.en { color: var(--muted); font-style: italic; font-weight: 400; }
+
+.btn { font: 600 14px var(--body); color: var(--ink); background: #fff; border: 2px solid var(--ink); padding: 6px 12px; cursor: pointer; transition: transform .15s, box-shadow .15s; line-height: 1.3; }
+.btn:hover:not(:disabled) { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--sky); }
+.btn[aria-pressed="true"] { background: var(--ink); color: #fff; box-shadow: 3px 3px 0 var(--sea); }
+.btn.primary { background: var(--sea); color: #fff; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btnrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg-btns { display: flex; }
+.seg-btns .btn { flex: 1 1 0; padding: 6px 6px; }
+.seg-btns .btn + .btn { border-left-width: 0; }
+.seg-btns .btn[aria-pressed="true"] { box-shadow: none; }
+.seg-btns .btn:hover { transform: none; box-shadow: none; background: var(--mist); }
+.seg-btns .btn[aria-pressed="true"]:hover { background: var(--ink); }
+
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 26px; background: transparent; margin: 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 6px; background: var(--line); border: 1px solid var(--ink); }
+input[type=range]::-moz-range-track { height: 6px; background: var(--line); border: 1px solid var(--ink); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 22px; margin-top: -9px; background: var(--sea); border: 2px solid var(--ink); border-radius: 0; }
+input[type=range]::-moz-range-thumb { width: 14px; height: 20px; background: var(--sea); border: 2px solid var(--ink); border-radius: 0; }
+select.inp { width: 100%; font: 500 15px var(--body); padding: 6px 8px; border: 2px solid var(--ink); background: #fff; color: var(--ink); border-radius: 0; }
+
+.callout { margin: 18px 0; padding: 12px 16px; border: 2px dashed #9DB3C2; background: #fff; font-size: 15.5px; }
+.refs { font-size: 14.5px; color: var(--muted); padding-left: 20px; }
+.refs li { margin-bottom: 6px; text-align: left; }
+.kbd { font: 600 13px var(--mono); background: var(--mist); border: 1px solid var(--line); padding: 0 5px; }
+
+/* ---------- 2. trình xem ảnh ----------
+   .viewer: cột trái (.left = ảnh + điều khiển) | cột phải (.infocol = khung thông tin).
+   Cột phải không quyết định chiều cao: nội dung nằm trong .info-inner (absolute) và tự cuộn.
+   .viewer.info-min: thu cột phải thành một dải hẹp, ảnh to ra. */
+.viewer { display: grid; grid-template-columns: minmax(0, 7fr) minmax(300px, 3fr); background: #fff; border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--sky); margin-bottom: 8px; }
+.viewer.info-min { grid-template-columns: minmax(0, 1fr) 48px; }
+.left { min-width: 0; display: flex; flex-direction: column; }
+.stage { background: var(--film); min-width: 0; }
+.films { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--ink); }
+.film { position: relative; background: var(--film); aspect-ratio: 1 / 1; min-width: 0; }
+.film canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.film canvas:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+.film .tag { position: absolute; left: 10px; top: 6px; font: 400 30px/1 var(--pixel-vi); color: #fff; pointer-events: none; text-shadow: 0 1px 0 #000; }
+.readout-strip { display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; padding: 8px 14px; background: var(--ink); color: #DCE3EA; font-size: 14px; min-height: 40px; }
+.readout-strip b { color: #fff; font: 600 14px var(--mono); }
+.readout-strip .q { color: #A9B4C0; }
+.lockbtn { display: inline-grid; place-items: center; width: 26px; height: 24px; padding: 0; margin-right: -6px; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
+.lockbtn:hover { background: var(--gold); color: var(--ink); }
+
+.loader { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; color: #DCE3EA; font-size: 15px; text-align: center; z-index: 3; background: var(--film); }
+.loader .bar { width: min(260px, 70%); height: 10px; border: 1px solid #DCE3EA; margin: 10px auto 0; }
+.loader .bar i { display: block; height: 100%; width: 0; background: var(--sky); transition: width .2s; }
+.loader.err { color: #fff; }
+.loader.err code { background: #333; padding: 1px 6px; font: 13.5px var(--mono); }
+
+.tip { position: fixed; z-index: 50; pointer-events: none; background: rgba(255,255,255,.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--ink); border: 1.5px solid var(--ink); padding: 4px 10px 5px; font-size: 14.5px; line-height: 1.3; max-width: 280px; }
+.tip b { font-weight: 600; }
+.tip i { display: inline-block; width: 11px; height: 11px; border: 1px solid var(--ink); margin-right: 6px; vertical-align: -1px; }
+.tip small { display: block; color: var(--muted); font-size: 12.5px; }
+
+.iconbtn { display: inline-grid; place-items: center; flex: none; width: 30px; height: 28px; padding: 0; border: 2px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; }
+.iconbtn:hover { background: var(--mist); }
+
+/* bảng điều khiển: dưới khung ảnh, 2 cột × 2 hàng; mỗi điều khiển một hàng (nhãn + control) */
+.controls { border-top: 2px solid var(--ink); background: #fff; }
+.ctl-head { display: none; }
+.ctl-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; padding: 12px 16px 14px; }
+.ctl { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; }
+.ctl .lab { font-weight: 600; font-size: 14.5px; white-space: nowrap; }
+.inline { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.inline.grow { flex: 1; }
+.inline input[type=range] { flex: 1; min-width: 60px; }
+.inline output { font: 600 13.5px var(--mono); color: var(--sea); white-space: nowrap; min-width: 4.5em; text-align: right; }
+#opacityRow output { min-width: 2em; }
+.sublab { font-size: 13.5px; color: var(--muted); white-space: nowrap; }
+select.inp.sm { width: auto; flex: none; padding: 4px 6px; }
+.ctl select.inp { padding: 4px 8px; }
+.seg-btns .btn { padding: 4px 6px; }
+
+/* ô tìm cấu trúc (combobox): danh sách mở xuống, hoặc mở lên khi gần đáy màn hình (.up) */
+.combo { position: relative; min-width: 0; }
+.combo input.inp { width: 100%; padding: 4px 30px 4px 8px; font: 500 15px var(--body); border: 2px solid var(--ink); background: #fff; color: var(--ink); border-radius: 0; }
+.combo-arrow { position: absolute; right: 2px; top: 2px; bottom: 2px; width: 26px; border: 0; background: transparent; color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+.combo-list { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 70; margin: 0; padding: 4px 0; list-style: none; max-height: 300px; overflow-y: auto;
+  background: #fff; border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--sky); overscroll-behavior: contain; }
+.combo.up .combo-list { top: auto; bottom: calc(100% + 4px); }
+.combo-list li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; padding: 5px 10px; cursor: pointer; line-height: 1.3; text-align: left; }
+.combo-list li .o-en { font-weight: 600; font-size: 14.5px; }
+.combo-list li .o-vi { font-size: 13.5px; color: var(--muted); }
+.combo-list li:hover { background: var(--mist); }
+.combo-list li.act { background: var(--ink); color: #fff; }
+.combo-list li.act .o-vi { color: #C9CED6; }
+.combo-list li.none { color: var(--muted); cursor: default; }
+
+/* ---------- 3. khung thông tin ---------- */
+.infocol { position: relative; border-left: 2px solid var(--ink); min-width: 0; }
+.info-inner { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.info-bar { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 8px 10px 0 16px; }
+.info-title { display: none; font-weight: 700; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.info { flex: 1; overflow-y: auto; padding: 0 16px 16px; overscroll-behavior: contain; }
+.viewer.info-min .info { display: none; }
+.viewer.info-min .info-bar { padding: 8px 0; justify-content: center; }
+.viewer.info-min .info-title { display: block; writing-mode: vertical-rl; flex: none; max-height: 70vh; margin-top: 8px; color: var(--muted); }
+.viewer.info-min .info-bar { flex-direction: column-reverse; justify-content: flex-end; }
+.info-empty { color: var(--muted); font-size: 15px; text-align: left !important; }
+.info h3 { font: 400 32px/1.02 var(--pixel-vi); margin: 0; }
+.info h3 .ipa { font: 400 15px/1.3 "Segoe UI", "Helvetica Neue", Arial, "DejaVu Sans", "Lucida Sans Unicode", system-ui, sans-serif; color: var(--muted); white-space: nowrap; vertical-align: 4px; }
+.info .sub-vi { color: var(--muted); font-size: 15px; margin: 4px 0 8px; text-align: left; }
+.info .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.info .chip { font-size: 12.5px; padding: 1px 8px; background: var(--mist); border: 1px solid var(--line); }
+.info .chip i { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--ink); margin-right: 5px; vertical-align: -1px; }
+.info dl { margin: 0; }
+.info dt { font-weight: 700; font-size: 14px; margin-top: 10px; }
+.info dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.55; text-align: justify; hyphens: auto; }
+.info .where { font: 13px var(--mono); color: var(--muted); margin: 12px 0 0; text-align: left !important; }
+.info .btnrow { margin-top: 12px; }
+
+/* ---------- 4. danh sách ghim ---------- */
+.nb-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 20px; }
+.nb-head h2 { font-size: clamp(36px, 4.4vw, 50px); }
+/* hàng nút chọn ảnh trên trình xem (1-brain-mri.html): khoẻ | các bệnh; cuộn ngang nếu màn hình hẹp */
+.vw-tabs { display: flex; max-width: 100%; overflow-x: auto; margin-bottom: 16px; padding: 0 4px 4px 0; }
+.vw-tabs .btn { flex: none; padding: 7px 16px; font-size: 15px; white-space: nowrap; }
+.vw-tabs .btn + .btn { border-left-width: 0; }
+.vw-tabs .btn:hover { transform: none; box-shadow: none; background: var(--mist); }
+.vw-tabs .btn[aria-pressed="true"], .vw-tabs .btn[aria-pressed="true"]:hover { background: var(--ink); color: #fff; box-shadow: none; }
+/* điện thoại: nhãn ngắn để ba nút vừa một hàng (tên đầy đủ vẫn có trong title/aria-label) */
+@media (max-width: 520px) {
+  .vw-tabs .btn { flex: 1 1 auto; padding: 6px 8px; font-size: 13.5px; }
+  .vw-tabs .vw-long { display: none; }
+  .vw-tabs .vw-short { display: inline !important; }   /* thắng [hidden] trên thẻ nhãn ngắn */
+}
+.nb-list { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.nb-item { background: #fff; border: 2px solid var(--ink); display: flex; flex-direction: column; align-self: start; }
+.nb-top { display: flex; align-items: flex-start; gap: 6px; padding: 8px 8px 8px 12px; }
+.nb-top .nm { flex: 1; min-width: 0; text-align: left; }
+.nb-top .iconbtn { width: 28px; height: 26px; border-width: 1.5px; }
+.nb-top .iconbtn.del { color: var(--pos); }                       /* nút X đỏ kiểu đóng cửa sổ */
+.nb-top .iconbtn.del:hover { background: #e81123; border-color: #e81123; color: #fff; }
+.nb-item b { display: block; font-size: 16px; line-height: 1.3; }
+.nb-item .vi { display: block; font-size: 14px; color: var(--ink); line-height: 1.35; }
+.nb-item img { display: block; width: 100%; height: auto; background: #000; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.nb-item small { display: block; color: var(--muted); font-size: 12.5px; padding: 6px 12px 8px; text-align: left; }
+.nb-item.min img, .nb-item.min small { display: none; }
+.nb-empty { margin-top: 16px; padding: 22px; border: 2px dashed #9DB3C2; color: var(--muted); background: #fff; text-align: left !important; }
+.nb-warn { font-size: 14px; color: var(--muted); margin-top: 10px; }
+
+#printSheet { display: none; }
+
+/* màn hình vừa: xếp chồng ảnh, điều khiển, thông tin */
+@media (max-width: 979px) {
+  .viewer, .viewer.info-min { grid-template-columns: 1fr; }
+  .infocol { border-left: 0; border-top: 2px solid var(--ink); }
+  .info-inner { position: static; }
+  .info-bar { padding: 10px 12px 0 16px; }
+  .info-title { display: block; }
+  .viewer:not(.info-min) .info-title { visibility: hidden; }
+  .info { overflow: visible; padding-top: 0; }
+  .viewer.info-min .info-bar { flex-direction: row; justify-content: flex-end; padding: 10px 12px 10px 16px; }
+  .viewer.info-min .info-title { writing-mode: horizontal-tb; margin: 0; flex: 1; color: var(--ink); }
+}
+/* điện thoại: bảng điều khiển nổi ở đáy màn hình, hơi trong suốt, thu gọn được */
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  .film .tag { font-size: 24px; left: 6px; top: 3px; }
+  .readout-strip { font-size: 13px; gap: 2px 14px; }
+  .controls { position: fixed; z-index: 60; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    border: 2px solid var(--ink); background: rgba(251,252,253,.84); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    transition: transform .2s, opacity .2s; }
+  .controls.away { transform: translateY(calc(100% + 20px)); opacity: 0; pointer-events: none; }
+  .ctl-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px 0 12px; font-weight: 700; font-size: 14px; }
+  .controls.min .ctl-head { padding-bottom: 6px; }
+  .controls.min .ctl-body { display: none; }
+  .ctl-body { grid-template-columns: 1fr; gap: 8px; padding: 8px 12px 12px; }
+  .ctl { grid-template-columns: 76px minmax(0, 1fr); gap: 8px; }
+  .ctl .lab { font-size: 13.5px; white-space: normal; line-height: 1.2; }
+  .sublab { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }   /* "Độ đậm": chỉ cho trình đọc màn hình */
+  .inline { gap: 8px; }
+  .inline output { min-width: 4em; }
+  .viewer { margin-bottom: 0; }
+  #ghim { padding-bottom: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .loader .bar i, .controls { transition: none; }
+}
+
+/* ---------- 5. bản in / PDF ----------
+   exportPdf() (lib/atlas.js) tự dựng các trang A4 cố định (.pg): đầu trang (.ph), nội dung (.pb),
+   chân trang ghi "Trang i/N" (.pf). Kiểu chữ dưới đây dùng cả khi đo chiều cao các mục
+   (#printSheet.measure, ẩn ngoài màn hình) lẫn khi in, nên phép đo khớp với bản in. */
+#printSheet { color: #000; font-size: 11pt; line-height: 1.65; }
+#printSheet.measure { display: block; position: absolute; left: -10000px; top: 0; width: 210mm; visibility: hidden; }
+#printSheet.measure .pb { width: 180mm; margin-left: 15mm; }
+#printSheet .pg { position: relative; height: 296mm; overflow: hidden; break-after: page; page-break-after: always; }
+#printSheet .pg:last-child { break-after: auto; page-break-after: auto; }
+#printSheet .ph { position: absolute; top: 0; left: 15mm; right: 15mm; height: 13mm; display: flex; align-items: flex-end; padding-bottom: 1.5mm;
+  border-bottom: 0.4pt solid #888; font: 600 8.5pt var(--body); color: #555; }
+#printSheet .pg .pb { position: absolute; top: 20mm; left: 15mm; right: 15mm; }
+#printSheet .pf { position: absolute; left: 15mm; right: 15mm; bottom: 7mm; padding-top: 1.5mm; border-top: 0.4pt solid #bbb;
+  text-align: right; font: 600 8.5pt var(--body); color: #555; }
+#printSheet h1 { font: 400 30pt/1 var(--pixel-vi); margin: 0 0 4mm; }
+#printSheet article { display: grid; grid-template-columns: 70mm 1fr; gap: 5mm; padding: 4mm 0; border-top: 1px solid #999; }
+#printSheet img { width: 70mm; height: auto; display: block; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+#printSheet h2 { font: 700 13pt/1.25 var(--body); margin: 0; }
+#printSheet h2 .ipa { font: 400 10pt "Segoe UI", "Helvetica Neue", Arial, "DejaVu Sans", "Lucida Sans Unicode", sans-serif; color: #444; white-space: nowrap; }
+#printSheet .en { font-size: 10pt; color: #222; font-style: normal; margin: 0 0 1.5mm; }
+#printSheet .pos { font: 8.5pt var(--mono); color: #333; margin: 0 0 2mm; }
+#printSheet p { margin: 0 0 1.5mm; font-size: 9.5pt; line-height: 1.4; text-align: justify; }
+#printSheet p b { font-weight: 700; }
+@media print {
+  /* lề trang = 0 để trình duyệt không chèn tiêu đề/URL/ngày của nó; lề thật nằm trong .pg */
+  @page { size: A4; margin: 0; }
+  body { background: #fff; }
+  body > *:not(#printSheet) { display: none !important; }
+  #printSheet { display: block; }
+}

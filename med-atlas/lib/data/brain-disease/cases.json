@@ -1,0 +1,13 @@
+{
+ "_huong_dan": "Danh sách ca theo thứ tự hiện trên nút. id = tên thư mục; label = chữ trên nút.",
+ "cases": [
+  {
+   "id": "alzheimer-1",
+   "label": "Alzheimer"
+  },
+  {
+   "id": "stroke-1",
+   "label": "Đột quỵ nhồi máu"
+  }
+ ]
+}
