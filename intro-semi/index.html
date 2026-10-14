@@ -5,8 +5,8 @@
 <style>html.gate-locked body{visibility:hidden!important}</style>
 <script src="../common/gate.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bán dẫn | My N. Nguyen</title>
-<meta name="description" content="Nhập môn bán dẫn bằng tiếng Việt, từ cấu trúc vật chất tới quy trình sản xuất chip, với các minh họa tương tác.">
+<title>Bán dẫn & Siêu dẫn | My N. Nguyen</title>
+<meta name="description" content="Nhập môn bán dẫn, từ cấu trúc vật chất tới quy trình sản xuất chip, với các minh họa tương tác. Phần siêu dẫn là phụ.">
 <link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,8 +58,8 @@
 
 <main class="wrap">
   <header class="page-head">
-    <h1><span class="dot"></span>Bán dẫn</h1>
-    <p class="lead">Từ nguyên tử tới con chip trong túi bạn: năm phần ngắn, mỗi phần có minh họa tương tác chạy ngay trong trình duyệt. Chỉ cần kiến thức điện học phổ thông. Kế hoạch còn có một phần mô phỏng số linh kiện, sẽ bổ sung sau.</p>
+    <h1><span class="dot"></span>Bán dẫn & Siêu dẫn</h1>
+    <p class="lead"></p>
   </header>
 
   <ul class="grid" id="pages"></ul>
@@ -228,6 +228,33 @@ const PAGES = [
       ".oyyoyyoowoo",
       ".ooooooooooo"
     ]
+  },
+  {
+    "num": "",
+    "name": "Siêu dẫn",
+    "href": "sieu-dan.html",
+    "done": true,
+    "desc": "Hiệu ứng Meissner, cặp Cooper, ứng dụng siêu dẫn.",
+    "tags": [
+      "Superconductivity",
+      "Meissner", "Cooper"
+    ],
+    "iconColors": {
+      "o": "#1B1920",
+      "r": "#d8312a",
+      "b": "#3787c4",
+      "k": "#7bcde8"
+    },
+    "icon": [
+      "...rrbb...",
+      "...rrbb...",
+      "..........",
+      "k...k...k.",
+      ".k.....k..",
+      "oooooooooo",
+      "okkkkkkkko",
+      "oooooooooo"
+    ]
   }
 ];
 
@@ -256,7 +283,8 @@ PAGES.forEach(p => {
   const text = document.createElement('div');
   const h = document.createElement('h3');
   const num = document.createElement('span'); num.className = 'num'; num.textContent = p.num;
-  h.append(num, document.createTextNode(p.name));   // số phần + tiêu đề trên cùng một dòng
+  if (p.num) h.append(num);   // trang đọc thêm: không đánh số
+  h.append(document.createTextNode(p.name));   // số phần + tiêu đề trên cùng một dòng
   const d = document.createElement('p'); d.textContent = p.desc;
   text.append(h, d);
   if (p.icon) body.append(iconSVG(p));   // thẻ không khai báo icon thì không có pixel art

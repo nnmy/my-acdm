@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siêu dẫn | Bán dẫn | My N. Nguyen</title>
+<meta name="description" content="Siêu dẫn: điện trở bằng 0, hiệu ứng Meissner, cặp Cooper, vật liệu siêu dẫn nhiệt độ thấp và cao; ứng dụng trong MRI, máy gia tốc, tàu đệm từ, nhiệt hạch, cảm biến SQUID và máy tính lượng tử.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/semi.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-semi/sieu-dan.html, trang ngoài chuỗi: SIÊU DẪN)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">.
+  - Demo: lib/demos/superconductor.js (data-demo="superconductor"); danh sách vật liệu và T_c ở mảng MATS.
+  - Chạy riêng demo: lib/demos/run.html?demo=superconductor
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Bán dẫn</a> / Đọc thêm</p>
+  <h1><span class="dot"></span>Siêu dẫn</h1>
+  <p class="lead">Hơi lạc đề so với bán dẫn, nhưng cùng một câu chuyện: electron đi trong chất rắn ra sao. Ở bán dẫn, ta điều khiển được <i>bao nhiêu</i> electron được phép chạy. Ở chất siêu dẫn, khi đủ lạnh, electron chạy mà không gặp chút cản trở nào: điện trở đúng bằng 0, và từ trường bị đẩy ra khỏi vật liệu.</p>
+</header>
+
+<!-- ================= ĐIỆN TRỞ BẰNG 0 ================= -->
+<section class="part" id="dien-tro">
+  <div class="wrap">
+    <h2>Điện trở bằng 0</h2>
+    <div class="prose">
+      <p>Trong kim loại thường, electron va chạm với các nguyên tử đang rung vì nhiệt và với các khuyết tật trong tinh thể, nên luôn có điện trở (xem <a href="1-vat-chat.html#vung">vùng năng lượng ở phần 1</a>). Làm lạnh thì rung động giảm, điện trở giảm, nhưng vẫn còn một phần "điện trở dư" do khuyết tật.</p>
+      <p>Năm 1911, Heike Kamerlingh Onnes làm lạnh thủy ngân bằng heli lỏng và thấy một điều lạ: dưới khoảng 4,2 K (−269 °C), điện trở <i>đột ngột</i> tụt về 0, không phải chỉ rất nhỏ. Nhiệt độ mà tại đó điều này xảy ra gọi là <span class="term">nhiệt độ tới hạn</span> <span class="en">(critical temperature)</span> \(T_c\). Vật liệu ở trạng thái này gọi là <span class="term">chất siêu dẫn</span> <span class="en">(superconductor)</span>.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ R = 0 \quad \text{khi } T &lt; T_c \]</div>
+      <p class="where"><b>R</b>: điện trở (Ω); <b>T</b>: nhiệt độ tuyệt đối (K, kelvin; 0 K = −273,15 °C); <b>T<sub>c</sub></b>: nhiệt độ tới hạn của vật liệu. "Bằng 0" theo nghĩa đen: một dòng điện chạy vòng trong vòng dây siêu dẫn có thể duy trì nhiều năm mà không đo được sự suy giảm nào.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEISSNER ================= -->
+<section class="part tint" id="meissner">
+  <div class="wrap">
+    <h2>Hiệu ứng Meissner</h2>
+    <div class="prose">
+      <p>Năm 1933, Walther Meissner và Robert Ochsenfeld phát hiện tính chất thứ hai, còn quan trọng hơn: khi được làm lạnh dưới \(T_c\), chất siêu dẫn <b>đẩy từ trường ra khỏi bên trong nó</b>. Đây là điều một "vật dẫn hoàn hảo" thông thường không làm được, nên siêu dẫn là một trạng thái mới của vật chất chứ không chỉ là "dẫn điện rất tốt". Từ trường chỉ len vào được một lớp mỏng ở bề mặt, dày cỡ vài chục tới vài trăm nanomet.</p>
+      <p>Vì đẩy từ trường, một nam châm đặt phía trên chất siêu dẫn sẽ bị đẩy lên và lơ lửng: hình ảnh quen thuộc của siêu dẫn.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ B_{\text{bên trong}} \approx 0, \qquad B(x) = B_0\,e^{-x/\lambda_L}, \qquad H_c(T) \approx H_c(0)\left[1 - \left(\frac{T}{T_c}\right)^2\right] \]</div>
+      <p class="where"><b>B</b>: mật độ từ thông (T, tesla; xem <a href="../intro-bem/2-tu.html#do-lon">Bioelectromagnetics, phần Từ</a>); <b>B<sub>0</sub></b>: từ trường ngay tại bề mặt; <b>x</b>: độ sâu tính từ bề mặt vào trong; <b>e<sup>−x/λ<sub>L</sub></sup></b>: giảm theo hàm mũ, cứ vào sâu thêm λ<sub>L</sub> thì còn khoảng 37%; <b>λ<sub>L</sub></b>: <span class="term">độ thấm sâu London</span> <span class="en">(London penetration depth)</span>, cỡ 50–500 nm. <b>H<sub>c</sub>(T)</b>: <span class="term">từ trường tới hạn</span> <span class="en">(critical field)</span>, từ trường mạnh hơn mức này sẽ phá trạng thái siêu dẫn; <b>H<sub>c</sub>(0)</b>: giá trị ở 0 K. Càng gần \(T_c\), từ trường tới hạn càng nhỏ.</p>
+    </div>
+    <h3>Siêu dẫn loại I và loại II</h3>
+    <div class="prose">
+      <p><span class="term">Loại I</span> (đa số kim loại nguyên tố như chì, thủy ngân) đẩy hoàn toàn từ trường, nhưng chỉ chịu được từ trường yếu, vài chục mT. <span class="term">Loại II</span> (hợp kim NbTi, Nb₃Sn, các gốm oxit đồng) cho từ trường lọt vào thành những ống từ thông nhỏ li ti gọi là <span class="term">xoáy</span> <span class="en">(vortex)</span>, nhờ vậy vẫn siêu dẫn trong từ trường rất mạnh, hàng chục tesla. Các xoáy bị "ghim" vào khuyết tật trong vật liệu; chính sự ghim này giữ nam châm lơ lửng đứng yên, và cho phép làm nam châm siêu dẫn cực mạnh.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Bên trái là điện trở theo nhiệt độ (vẽ minh họa, không theo số đo của từng vật liệu); hai đường nét đứt là nhiệt độ sôi của heli lỏng (4,2 K) và nitơ lỏng (77 K), hai chất làm lạnh phổ biến nhất. Bên phải là mẫu vật trong từ trường: trên \(T_c\), các đường sức đi xuyên qua; kéo nhiệt độ xuống dưới \(T_c\), đường sức bị đẩy ra ngoài và nam châm nhỏ bật lên lơ lửng. Chọn đồng (Cu) để thấy kim loại thường lạnh tới đâu cũng không về 0. Chọn YBCO để thấy vì sao siêu dẫn "nhiệt độ cao" quan trọng: nó siêu dẫn được trong nitơ lỏng, rẻ hơn heli lỏng rất nhiều.</div>
+    <div class="demo" id="demoSc" data-demo="superconductor">
+      <div class="demo-title"><h4>Điện trở bằng 0 và hiệu ứng Meissner</h4><span>Chọn vật liệu, kéo nhiệt độ</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VÌ SAO ================= -->
+<section class="part" id="cap-cooper">
+  <div class="wrap">
+    <h2>Vì sao: cặp Cooper</h2>
+    <div class="prose">
+      <p>Hai electron vốn đẩy nhau. Nhưng trong tinh thể, một electron đi qua kéo nhẹ các ion dương xung quanh lại gần, tạo ra một vùng hơi dương thoáng qua; electron thứ hai bị vùng đó hút. Kết quả là hai electron "bắt cặp" qua trung gian dao động mạng tinh thể (phonon), gọi là <span class="term">cặp Cooper</span> <span class="en">(Cooper pair)</span>. Lý thuyết BCS (Bardeen, Cooper, Schrieffer, 1957) cho thấy ở nhiệt độ thấp, vô số cặp như vậy cùng rơi vào một trạng thái lượng tử chung và chuyển động nhịp nhàng như một khối. Một va chạm đơn lẻ không đủ để làm lệch cả khối, nên dòng điện chạy mà không mất năng lượng.</p>
+      <p>Muốn phá một cặp phải tốn một năng lượng tối thiểu gọi là <span class="term">khe năng lượng siêu dẫn</span>, khá giống <a href="2-ban-dan.html#tinh-khiet">vùng cấm của bán dẫn</a> nhưng nhỏ hơn hàng nghìn lần:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ 2\Delta(0) \approx 3{,}5\,k_B T_c \]</div>
+      <p class="where"><b>Δ(0)</b> (đọc là "delta"): một nửa năng lượng cần để tách một cặp Cooper, ở 0 K; <b>k<sub>B</sub></b> ≈ 8,617 × 10⁻⁵ eV/K: hằng số Boltzmann; <b>k<sub>B</sub>T<sub>c</sub></b>: năng lượng rung lắc nhiệt ở \(T_c\). Với niobi (T<sub>c</sub> ≈ 9,3 K), 2Δ chỉ khoảng 3 meV, so với 1 120 meV là vùng cấm của silic. Vì năng lượng nhỏ như vậy, chỉ cần ấm lên một chút là các cặp bị phá.</p>
+    </div>
+    <div class="callout"><b>Chưa ai giải thích trọn vẹn siêu dẫn nhiệt độ cao.</b> Lý thuyết BCS giải thích tốt các chất siêu dẫn kim loại cổ điển. Các gốm oxit đồng (cuprate) siêu dẫn trên 77 K, phát hiện từ năm 1986, vẫn là một trong những bài toán mở lớn nhất của vật lý chất rắn: electron vẫn bắt cặp, nhưng "keo" gắn chúng có lẽ không phải là dao động mạng.</div>
+  </div>
+</section>
+
+<!-- ================= VẬT LIỆU ================= -->
+<section class="part tint" id="vat-lieu">
+  <div class="wrap">
+    <h2>Vật liệu siêu dẫn</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Vật liệu</th><th>T<sub>c</sub> (cỡ)</th><th>Phát hiện</th><th>Làm lạnh bằng</th><th>Dùng làm gì</th></tr></thead>
+        <tbody>
+          <tr><td>Thủy ngân (Hg)</td><td class="unit">4,2 K</td><td>1911</td><td>Heli lỏng</td><td>Chất siêu dẫn đầu tiên; chỉ có ý nghĩa lịch sử.</td></tr>
+          <tr><td>Niobi (Nb)</td><td class="unit">9,3 K</td><td>1930</td><td>Heli lỏng</td><td>Hốc cộng hưởng của máy gia tốc; mạch lượng tử.</td></tr>
+          <tr><td>NbTi<span class="en">niobium–titanium</span></td><td class="unit">≈ 9,5 K</td><td>1962</td><td>Heli lỏng</td><td>Dây nam châm: MRI, máy gia tốc LHC. Dễ kéo sợi, rẻ nhất.</td></tr>
+          <tr><td>Nb₃Sn<span class="en">niobium–tin</span></td><td class="unit">≈ 18 K</td><td>1954</td><td>Heli lỏng</td><td>Nam châm từ trường rất mạnh: ITER, nam châm thí nghiệm.</td></tr>
+          <tr><td>MgB₂</td><td class="unit">39 K</td><td>2001</td><td>Máy lạnh khép kín</td><td>MRI không cần heli lỏng, dây dẫn giá rẻ.</td></tr>
+          <tr><td>YBCO, REBCO<span class="en">YBa₂Cu₃O₇, rare-earth barium copper oxide</span></td><td class="unit">≈ 92 K</td><td>1987</td><td>Nitơ lỏng</td><td>Băng dẫn nhiệt độ cao: cáp điện, nam châm nhiệt hạch thế hệ mới.</td></tr>
+          <tr><td>Bi-2223<span class="en">bismuth strontium calcium copper oxide</span></td><td class="unit">≈ 110 K</td><td>1988</td><td>Nitơ lỏng</td><td>Băng dẫn cho cáp điện siêu dẫn.</td></tr>
+          <tr><td>H₃S, LaH₁₀<span class="en">hydride nén cao áp</span></td><td class="unit">203 K, ≈ 250 K</td><td>2015, 2019</td><td>Không cần lạnh sâu, nhưng phải nén tới hơn 1 triệu atm</td><td>Chỉ trong phòng thí nghiệm; chứng minh T<sub>c</sub> gần nhiệt độ phòng là có thể.</td></tr>
+        </tbody>
+        <caption>Giá trị làm tròn. Heli lỏng sôi ở 4,2 K, đắt và nguồn cung hạn chế; nitơ lỏng sôi ở 77 K, rẻ và dễ kiếm. "Siêu dẫn nhiệt độ cao" là các chất có T<sub>c</sub> trên khoảng 30 K, đặc biệt là trên 77 K.</caption>
+      </table>
+    </div>
+    <div class="callout"><b>Còn siêu dẫn ở nhiệt độ phòng thì sao?</b> Thỉnh thoảng có công bố gây xôn xao, như LK-99 năm 2023, nhưng các phòng thí nghiệm khác làm lại đều không thấy siêu dẫn. Đến nay chưa có vật liệu nào được kiểm chứng là siêu dẫn ở nhiệt độ phòng và áp suất thường.</div>
+  </div>
+</section>
+
+<!-- ================= ỨNG DỤNG ================= -->
+<section class="part" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng</h2>
+    <h3>Nam châm cực mạnh</h3>
+    <div class="prose">
+      <p>Cuộn dây đồng tạo từ trường mạnh sẽ nóng lên rất nhiều vì điện trở. Cuộn dây siêu dẫn không tỏa nhiệt, nên tạo được từ trường mạnh và ổn định mà chỉ tốn điện cho việc làm lạnh.</p>
+      <ul>
+        <li><b>Máy MRI</b>: phần lớn máy chụp cộng hưởng từ ở bệnh viện dùng cuộn dây NbTi ngâm trong heli lỏng, tạo từ trường 1,5–3 T (xem <a href="../intro-bem/2-tu.html#do-lon">Bioelectromagnetics, phần Từ</a>). Dòng điện chạy vòng trong cuộn dây gần như mãi mãi, máy không cần cấp điện cho nam châm.</li>
+        <li><b>Máy gia tốc hạt</b>: vòng LHC dài 27 km của CERN dùng hơn 1 200 nam châm lưỡng cực NbTi, làm lạnh tới 1,9 K, tạo từ trường khoảng 8,3 T để bẻ cong đường đi của chùm proton.</li>
+        <li><b>Năng lượng nhiệt hạch</b>: lò ITER (Pháp) dùng nam châm Nb₃Sn và NbTi để giam plasma nóng hàng trăm triệu độ. Các dự án mới dùng băng REBCO nhiệt độ cao để làm nam châm mạnh hơn, lò nhỏ gọn hơn.</li>
+        <li><b>Tàu đệm từ</b>: tàu SCMaglev của Nhật dùng nam châm siêu dẫn gắn trên tàu, đạt kỷ lục 603 km/h năm 2015; tuyến Chuo Shinkansen Tokyo–Nagoya đang được xây dựng.</li>
+      </ul>
+    </div>
+    <h3>Cảm biến và máy tính lượng tử</h3>
+    <div class="prose">
+      <ul>
+        <li><b>Hiệu ứng Josephson</b>: hai miếng siêu dẫn ngăn cách bởi một lớp cách điện mỏng vài nanomet vẫn cho cặp Cooper "xuyên hầm" qua. Tần số và điện áp ở mối nối này liên hệ với nhau chỉ qua các hằng số cơ bản, nên được dùng làm chuẩn đo điện áp quốc tế.</li>
+        <li><b>SQUID</b>: vòng siêu dẫn có mối nối Josephson, đo được từ trường cực yếu, cỡ femtotesla, như từ trường của não người trong MEG (xem <a href="../intro-bem/2-tu.html#do-lon">bảng độ lớn từ trường</a>).</li>
+        <li><b>Qubit siêu dẫn</b>: các mạch siêu dẫn nhỏ có mối nối Josephson cư xử như một "nguyên tử nhân tạo" có hai mức năng lượng, làm qubit cho máy tính lượng tử (Google, IBM). Chúng phải hoạt động ở khoảng 10–20 mK, lạnh hơn khoảng không vũ trụ.</li>
+      </ul>
+    </div>
+    <h3>Lưới điện</h3>
+    <div class="prose">
+      <p>Cáp siêu dẫn nhiệt độ cao làm lạnh bằng nitơ lỏng truyền được dòng lớn hơn nhiều lần cáp đồng cùng cỡ, gần như không tổn hao, hợp với nội đô chật chội. Đã có các đoạn cáp chạy thật trong lưới điện (ví dụ AmpaCity ở Essen, Đức, từ 2014). <span class="term">Bộ hạn chế dòng sự cố</span> siêu dẫn tận dụng chuyện vật liệu mất siêu dẫn khi dòng vượt ngưỡng: điện trở đột ngột xuất hiện và chặn dòng ngắn mạch.</p>
+    </div>
+    <div class="callout"><b>Vì sao siêu dẫn chưa có mặt khắp nơi?</b> Vì phải làm lạnh: heli lỏng đắt và khan hiếm, máy lạnh tốn điện và cần bảo trì; gốm siêu dẫn nhiệt độ cao giòn, khó làm thành dây dài; và trạng thái siêu dẫn mất đi nếu dòng điện hay từ trường vượt mức tới hạn. Chỉ ở những nơi lợi ích quá lớn (từ trường mạnh, độ nhạy cực cao) thì chi phí đó mới đáng.</div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <p class="prose">Các ký hiệu trong công thức của trang, kèm cách đọc tiếng Anh.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(T_c\)</td><td>T c, critical temperature</td><td>Nhiệt độ tới hạn: lạnh hơn mức này thì vật liệu siêu dẫn.</td></tr>
+          <tr><td class="sym">K</td><td>kelvin</td><td>Đơn vị nhiệt độ tuyệt đối; 0 K = −273,15 °C, mỗi kelvin bằng một độ C.</td></tr>
+          <tr><td class="sym">\(\lambda_L\)</td><td>lambda L, London penetration depth</td><td>Độ sâu mà từ trường len được vào chất siêu dẫn.</td></tr>
+          <tr><td class="sym">\(e^{-x/\lambda_L}\)</td><td>e to the minus x over lambda L</td><td>Giảm theo hàm mũ: cứ vào sâu thêm λ<sub>L</sub> thì còn khoảng 37%.</td></tr>
+          <tr><td class="sym">\(H_c\)</td><td>H c, critical field</td><td>Từ trường tới hạn: mạnh hơn mức này thì mất siêu dẫn.</td></tr>
+          <tr><td class="sym">\(\Delta\)</td><td>delta, gap</td><td>Khe năng lượng: năng lượng cần để phá một cặp Cooper (2Δ cho cả cặp).</td></tr>
+          <tr><td class="sym">\(k_B\)</td><td>k B, Boltzmann constant</td><td>Hằng số đổi nhiệt độ sang năng lượng; \(k_BT\) là năng lượng rung lắc nhiệt.</td></tr>
+          <tr><td class="sym">\(\approx\)</td><td>approximately</td><td>Xấp xỉ bằng.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LỊCH SỬ ================= -->
+<section class="part" id="lich-su">
+  <div class="wrap">
+    <h2>Lịch sử</h2>
+    <ol class="timeline">
+      <li><span class="yr">1908</span><div><h4>Hóa lỏng heli</h4><p>Heike Kamerlingh Onnes (Leiden) lần đầu hóa lỏng được heli, mở đường cho các thí nghiệm ở vài kelvin.</p></div></li>
+      <li><span class="yr">1911</span><div><h4>Điện trở của thủy ngân biến mất</h4><p>Onnes và cộng sự thấy điện trở thủy ngân tụt về 0 dưới khoảng 4,2 K. Onnes nhận giải Nobel Vật lý 1913.</p></div></li>
+      <li><span class="yr">1933</span><div><h4>Hiệu ứng Meissner</h4><p>Meissner và Ochsenfeld phát hiện chất siêu dẫn đẩy từ trường ra ngoài. Hai năm sau, anh em Fritz và Heinz London đưa ra phương trình mô tả độ thấm sâu.</p></div></li>
+      <li><span class="yr">1950</span><div><h4>Lý thuyết Ginzburg–Landau</h4><p>Mô tả hiện tượng luận của trạng thái siêu dẫn; về sau Abrikosov dùng nó để tiên đoán các xoáy từ thông trong siêu dẫn loại II (Nobel 2003).</p></div></li>
+      <li><span class="yr">1957</span><div><h4>Lý thuyết BCS</h4><p>Bardeen, Cooper và Schrieffer giải thích siêu dẫn bằng sự bắt cặp electron qua dao động mạng tinh thể (Nobel 1972).</p></div></li>
+      <li><span class="yr">1962</span><div><h4>Hiệu ứng Josephson</h4><p>Brian Josephson tiên đoán dòng cặp Cooper xuyên qua lớp cách điện mỏng (Nobel 1973). Cùng năm, dây NbTi thương mại ra đời.</p></div></li>
+      <li><span class="yr">1986</span><div><h4>Siêu dẫn nhiệt độ cao</h4><p>Bednorz và Müller (IBM Zurich) phát hiện gốm oxit đồng siêu dẫn ở khoảng 35 K (Nobel 1987). Năm 1987, YBCO vượt mốc 77 K của nitơ lỏng.</p></div></li>
+      <li><span class="yr">2015</span><div><h4>Hydride dưới áp suất cực cao</h4><p>H₃S siêu dẫn ở 203 K khi bị nén khoảng 1,5 triệu atm; năm 2019, LaH₁₀ đạt khoảng 250 K.</p></div></li>
+    </ol>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>M. Tinkham, <i>Introduction to Superconductivity</i>, 2nd ed., Dover, 2004.</li>
+      <li>C. Kittel, <i>Introduction to Solid State Physics</i>, 8th ed., Wiley, 2005, chương 10.</li>
+      <li>The Nobel Prize in Physics 1913, 1972, 1973, 1987, 2003. <a href="https://www.nobelprize.org/prizes/physics/" rel="noopener">nobelprize.org</a></li>
+      <li>CERN, <i>LHC: the guide</i> (nam châm lưỡng cực, nhiệt độ vận hành). <a href="https://home.cern" rel="noopener">home.cern</a></li>
+      <li>ITER Organization, <i>Magnets</i>. <a href="https://www.iter.org" rel="noopener">iter.org</a></li>
+      <li>A. P. Drozdov et al., "Conventional superconductivity at 203 kelvin at high pressures in the sulfur hydride system", <i>Nature</i> 525 (2015) 73–76.</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="5-san-xuat.html"><small>Phần 5</small><b>Từ thiết kế đến con chip</b></a>
+      <a class="next" href="index.html"><small>Hết</small><b>Trang chủ Bán dẫn</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/semi.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
