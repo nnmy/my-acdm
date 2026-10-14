@@ -276,8 +276,7 @@ SECTIONS.forEach((sec, si) => {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.className = "card"; a.href = tool.href;
-    a.target = "_blank"; a.rel = "noopener";
-    a.setAttribute("aria-label", tool.name + (external ? " (trang bên ngoài, mở trong tab mới)" : " (mở trong tab mới)"));
+    a.setAttribute("aria-label", tool.name + (external ? " (trang bên ngoài)" : ""));
     const t3 = document.createElement("h3"); t3.textContent = tool.name;
     if (external) { const x = document.createElement("span"); x.className = "ext"; x.textContent = "↗"; x.setAttribute("aria-hidden", "true"); t3.appendChild(x); }
     const body = document.createElement("div"); body.className = "card-body";
