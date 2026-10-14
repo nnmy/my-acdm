@@ -235,17 +235,29 @@ const LT = (() => {
       }
       ol.appendChild(li);
     });
-    panel.append(homeA, ol); nav.append(btn, panel); document.body.appendChild(nav);
-    // Mặc định mở. Chỉ nút này mới thu gọn / mở lại; lựa chọn được nhớ giữa các trang của module.
+    panel.append(homeA, ol);
+    // link trang trước / trang sau ở cuối mục lục, lấy từ khối <nav class="pager"> cuối trang
+    const pg = [...document.querySelectorAll('main .pager a[href]')];
+    if (pg.length) {
+      const box = document.createElement('div'); box.className = 'ftoc-pager';
+      pg.forEach(p => {
+        const isNext = p.classList.contains('next');
+        const a = document.createElement('a'); a.href = p.getAttribute('href'); a.className = isNext ? 'next' : 'prev';
+        const t = (p.querySelector('b') || p).textContent.trim();
+        a.innerHTML = '<small>' + (isNext ? 'Trang sau →' : '← Trang trước') + '</small>';
+        a.appendChild(document.createTextNode(t)); box.appendChild(a);
+      });
+      panel.appendChild(box);
+    }
+    nav.append(btn, panel); document.body.appendChild(nav);
+    // Mặc định THU GỌN mỗi khi tải trang; chỉ nút này mới mở ra / thu gọn lại.
     const ICON_MIN = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="2.2"/></svg>';
     const ICON_MAX = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 3h12M2 8h12M2 13h8" stroke="currentColor" stroke-width="2" fill="none"/></svg>';
-    const KEY = 'linh-tinh-toc-open';
-    let open = true; try { const v = localStorage.getItem(KEY); if (v !== null) open = v === '1'; } catch (e) {}
+    let open = false;
     const setOpen = v => {
       open = v; nav.classList.toggle('open', v); btn.setAttribute('aria-expanded', v);
       btn.innerHTML = v ? ICON_MIN + '<span>Thu gọn</span>' : ICON_MAX + '<span>Mục lục</span>';
       btn.title = v ? 'Thu gọn mục lục' : 'Mở mục lục';
-      try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (e) {}
     };
     btn.addEventListener('click', () => setOpen(!open));
     setOpen(open);
