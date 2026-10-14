@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xếp hành lý | Linh tinh | My N. Nguyen</title>
+<meta name="description" content="Công cụ xếp hành lý đi du lịch: gợi ý theo thời tiết, nơi đến, phương tiện; kéo thả vật dụng vào túi, vali; xuất checklist DOCX/PDF và file dữ liệu để dùng lại.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/lt.css">
+<link rel="stylesheet" href="lib/hanh-ly.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (linh-tinh/hanh-ly.html)
+  - Danh mục vật dụng, loại đồ chứa: lib/hanh-ly-data.js (có hướng dẫn ở đầu file).
+  - Logic (gợi ý, kéo thả, tạo nhanh, xuất DOCX/PDF/JSON, tự lưu): lib/hanh-ly.js
+  - Giao diện: lib/hanh-ly.css (class tiền tố hl-); bản in PDF: #hlPrint trong cùng file CSS.
+  - Trạng thái tự lưu trong localStorage, khóa "hanh-ly-v4".
+  - Navbar, footer: ../common (site.css, site.js); style chung: lib/lt.css
+  =====================================================================
+-->
+</head>
+<body data-no-toc>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để dùng.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Academia</a></li>
+    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page hl" id="hl">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Linh tinh</a> / Xếp hành lý</p>
+  <h1><span class="dot"></span>Xếp hành lý</h1>
+</header>
+
+<!-- ================= 1. CHUYẾN ĐI ================= -->
+<section class="part" id="chuyen-di">
+  <div class="wrap">
+    <div class="hl-step"><span class="n">1</span><h2>Chuyến đi</h2></div>
+    <div class="hl-form">
+      <div class="hl-col">
+        <div class="hl-row"><span class="lab" id="lbScope">Đi</span>
+          <div class="hl-seg" data-key="scope" data-single role="group" aria-labelledby="lbScope">
+            <button type="button" data-v="dom">Trong nước</button><button type="button" data-v="intl">Nước ngoài</button>
+          </div></div>
+        <div class="hl-row"><span class="lab" id="lbDays">Số ngày</span>
+          <div class="hl-stepper" role="group" aria-labelledby="lbDays">
+            <button type="button" data-step="-1" aria-label="Bớt một ngày">−</button>
+            <output id="hlDays" aria-live="polite">2</output>
+            <button type="button" data-step="1" aria-label="Thêm một ngày">+</button>
+          </div></div>
+        <div class="hl-row"><span class="lab" id="lbTr">Phương tiện</span>
+          <div class="hl-seg" data-key="transport" role="group" aria-labelledby="lbTr">
+            <button type="button" data-v="plane">Máy bay</button><button type="button" data-v="ground">Xe</button>
+          </div></div>
+        <div class="hl-row"><span class="lab" id="lbPl">Nơi đến</span>
+          <div class="hl-seg" data-key="place" role="group" aria-labelledby="lbPl">
+            <button type="button" data-v="city">Thành thị</button><button type="button" data-v="rural">Nông thôn</button><button type="button" data-v="beach">Biển</button><button type="button" data-v="mountain">Núi</button>
+          </div></div>
+      </div>
+      <div class="hl-col">
+        <div class="hl-row top"><span class="lab">Thời tiết</span>
+          <div class="hl-wx">
+            <div class="hl-wtabs" role="tablist">
+              <button type="button" role="tab" data-wtab="temp" aria-selected="true">Nhiệt độ <b id="hlTempOut"></b></button>
+              <button type="button" role="tab" data-wtab="hum" aria-selected="false">Độ ẩm <b id="hlHumOut"></b></button>
+              <button type="button" role="tab" data-wtab="other" aria-selected="false">Khác <b id="hlOtherOut"></b></button>
+              <button type="button" class="hl-pin" id="hlGeo" title="Lấy nhiệt độ, độ ẩm theo vị trí hiện tại (dự báo 7 ngày)" aria-label="Lấy theo vị trí hiện tại"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg></button>
+            </div>
+            <div class="hl-wpanel" data-wpanel="temp">
+              <div class="hl-range2" data-r2="t"><div class="track"></div><div class="fill"></div>
+                <input type="range" id="hlTmin" min="-20" max="45" step="1" aria-label="Nhiệt độ thấp nhất">
+                <input type="range" id="hlTmax" min="-20" max="45" step="1" aria-label="Nhiệt độ cao nhất"></div>
+            </div>
+            <div class="hl-wpanel" data-wpanel="hum" hidden>
+              <div class="hl-range2 hum" data-r2="h"><div class="track"></div><div class="fill"></div>
+                <input type="range" id="hlHmin" min="0" max="100" step="5" aria-label="Độ ẩm thấp nhất">
+                <input type="range" id="hlHmax" min="0" max="100" step="5" aria-label="Độ ẩm cao nhất"></div>
+            </div>
+            <div class="hl-wpanel" data-wpanel="other" hidden>
+              <div class="hl-seg" data-key="weather"><button type="button" data-v="rain">Mưa</button><button type="button" data-v="snow">Tuyết</button></div>
+            </div>
+            <p class="hl-wsrc" id="hlWsrc" hidden></p>
+          </div></div>
+        <div class="hl-row"><label class="lab" for="hlPerDay">Tiền mặt</label>
+          <div class="hl-money">
+            <input type="number" id="hlPerDay" min="0" step="any" placeholder="mỗi ngày">
+            <input type="text" id="hlCur" aria-label="Đơn vị tiền" placeholder="VND">
+            <span>/ngày</span><output id="hlBudgetOut"></output>
+            <a href="https://www.numbeo.com/cost-of-living/" rel="noopener" class="hl-ref" title="Tham khảo mức giá trên Numbeo">Numbeo</a>
+          </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. SẮP XẾP ================= -->
+<section class="part tint" id="sap-xep">
+  <div class="wrap">
+    <div class="hl-step"><span class="n">2</span><h2>Sắp xếp</h2></div>
+    <p class="hl-sub">Kéo món từ danh sách gợi ý (hoặc bấm <b>+</b>) vào đồ chứa. Bấm vào món để sửa.</p>
+
+    <div class="hl-work">
+      <aside class="hl-side" aria-label="Gợi ý vật dụng">
+        <h3>Gợi ý</h3>
+        <div class="hl-tabs" role="tablist">
+          <button type="button" role="tab" data-tab="personal" aria-selected="true">Mang bên người <span class="cnt"></span></button>
+          <button type="button" role="tab" data-tab="special" aria-selected="false">Đặc thù <span class="cnt"></span></button>
+          <button type="button" role="tab" data-tab="base" aria-selected="false">Cơ bản <span class="cnt"></span></button>
+        </div>
+        <div class="hl-sugg" id="hlSugg" role="tabpanel"></div>
+        <div class="hl-side-foot">
+          <button type="button" class="btn" id="hlAddAll">Thêm hết mục này</button>
+        </div>
+        <div class="hl-quick">
+          <label for="hlQuick">Tạo nhanh</label>
+          <textarea id="hlQuick" class="inp" placeholder="áo thun x3; kem chống nắng 1 tuýp 50ml; sách 300g"></textarea>
+          <div class="row">
+            <select id="hlQuickTo" aria-label="Thêm vào"></select>
+            <button type="button" class="btn primary" id="hlQuickBtn">Thêm</button>
+          </div>
+          <p class="note">Ngăn cách các món bằng dấu chấm phẩy. Viết số lượng và đơn vị ở cuối (<i>vớ 4 đôi</i>, <i>áo x3</i>); thêm khối lượng, thể tích nếu muốn (<i>500g</i>, <i>1,2kg</i>, <i>100ml</i>).</p>
+        </div>
+      </aside>
+
+      <div>
+        <div class="hl-alerts" id="hlAlerts" hidden></div>
+        <div class="hl-bar">
+          <select id="hlNewType" aria-label="Loại đồ chứa"></select>
+          <button type="button" class="hl-icon" id="hlNewBag" aria-label="Thêm đồ chứa" title="Thêm đồ chứa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button type="button" class="hl-icon" id="hlUndo" aria-label="Hoàn tác" title="Hoàn tác (Ctrl+Z)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+        </div>
+        <div class="hl-bags" id="hlBags"></div>
+        <div class="hl-zones">
+          <div class="hl-zone" data-loc="pool" id="hlPool">
+            <h4>Chưa xếp <small id="hlPoolN"></small></h4>
+            <ul class="hl-items"></ul>
+          </div>
+          <div class="hl-zone skip" data-loc="skip" id="hlSkip">
+            <h4>Không mang <small id="hlSkipN"></small></h4>
+            <ul class="hl-items"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. XUẤT FILE ================= -->
+<section class="part" id="xuat">
+  <div class="wrap">
+    <div class="hl-step"><span class="n">3</span><h2>Xuất file</h2></div>
+    <div class="hl-exbar">
+      <div class="grp"><span class="lab">Checklist</span>
+        <button type="button" class="btn hl-ib" id="hlDocx"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h6"/></svg>DOCX</button>
+        <button type="button" class="btn hl-ib" id="hlPdf" title="Mở hộp thoại In, chọn Lưu thành PDF"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M7 14h10v7H7z"/></svg>PDF</button></div>
+      <div class="grp"><span class="lab">Sao lưu</span>
+        <button type="button" class="btn hl-ib" id="hlSave" title="Lưu chuyến đi và cách xếp thành file .json"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></svg>Lưu</button>
+        <button type="button" class="btn hl-ib" id="hlLoad" title="Mở file .json đã lưu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 19h16"/></svg>Mở</button>
+        <input type="file" id="hlFile" accept=".json,application/json" hidden></div>
+      <div class="grp"><span class="lab"></span><button type="button" class="btn hl-ib" id="hlReset" title="Xóa hết, đưa về mặc định"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 3v5h5"/></svg>Reset</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<dialog class="hl-dlg" id="hlDlg" aria-labelledby="hlDlgT">
+  <h3 id="hlDlgT">Sửa vật dụng</h3>
+  <form method="dialog" id="hlDlgForm">
+    <label class="full">Tên<input type="text" name="nm" required></label>
+    <label>Số lượng<input type="number" name="qty" min="0" step="any"></label>
+    <label>Đơn vị<input type="text" name="unit"></label>
+    <label>Khối lượng mỗi đơn vị (g)<input type="number" name="g" min="0" step="any" placeholder="không bắt buộc"></label>
+    <label>Thể tích mỗi đơn vị (ml)<input type="number" name="ml" min="0" step="any" placeholder="không bắt buộc"></label>
+    <label>Nhóm<select name="cat"></select></label>
+    <label>Để ở<select name="loc"></select></label>
+    <label class="full">Ghi chú<input type="text" name="note"></label>
+    <div class="acts">
+      <button type="button" class="btn x" id="hlDlgDel">Xóa món</button>
+      <button type="button" class="btn" id="hlDlgCancel">Hủy</button>
+      <button type="submit" class="btn primary">Lưu</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="hlPrint" aria-hidden="true"></div>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/lt.js"></script>
+<script src="lib/hanh-ly-data.js"></script>
+<script src="lib/hanh-ly.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
