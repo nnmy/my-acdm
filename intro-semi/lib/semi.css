@@ -1,7 +1,7 @@
 /* =====================================================================
    Bán dẫn: style dùng chung (chép từ intro-bem/lib/bem.css; giữ đồng bộ khi sửa).
    Navbar + footer lấy từ ../common/site.css (không định nghĩa lại ở đây).
-   Bảng màu và cảm giác khung viền theo my-acdm (index.html, luu-niem).
+   Bảng màu và cảm giác khung viền theo my-collection (index.html, luu-niem).
    ===================================================================== */
 :root {
   --sky: #7bcde8;
