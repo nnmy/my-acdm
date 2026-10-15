@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Chặn mọi kết nối ra ngoài trừ font của Google: dữ liệu nhập vào không thể bị gửi đi đâu. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://nnmy.github.io; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Kỷ yếu | My N. Nguyen</title>
+<meta name="description" content="Tạo kỷ yếu các thành viên trong lab hoặc lớp học.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ky-yeu/ky-yeu.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (linh-tinh/ky-yeu.html: tiện ích Kỷ yếu)
+  - Giao diện: file này. Logic: lib/ky-yeu/ky-yeu.js. Kiểu dáng (cả trang kỷ yếu xuất ra): lib/ky-yeu/ky-yeu.css.
+  - Dữ liệu, định dạng thẻ: lib/ky-yeu/model.js. Dàn trang (xem trước, in, PNG): render.js. DOCX: docx.js.
+  - Sao lưu .zip, bảng tính mẫu, nhập bảng tính, ảnh: io.js (dùng kzip.js, xlsx.js). Lưu trên máy: store.js (IndexedDB "ky-yeu").
+  - Thuật ngữ trong kỷ yếu (vai trò, nhãn) và danh sách gợi ý vai trò: lib/ky-yeu/terms/vi.js, en.js.
+  - Không có code nào gửi dữ liệu ra ngoài; thẻ Content-Security-Policy ở trên chặn mọi kết nối ra ngoài trừ font Google.
+  - Xuất PNG dùng lib/ky-yeu/vendor/html-to-image.js (MIT).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Linh tinh</a> / Kỷ yếu</p>
+  <h1>Kỷ yếu</h1>
+  <p class="lead">Tạo kỷ yếu các thành viên trong lab hoặc lớp học.</p>
+  <p class="privacy">Dữ liệu chỉ nằm tại máy bạn, chúng tui không lấy hay tải nó lên Internet. Xin thận trọng với các thông tin cá nhân mà bạn sử dụng.</p>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="data">Lab và thành viên</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="export">Xuất kỷ yếu</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="io">Nhập và sao lưu</button>
+  </div>
+</header>
+
+<!-- ============ TAB 1: LAB VÀ THÀNH VIÊN ============ -->
+<section class="wrap panel" id="tab-data">
+  <div class="data-grid">
+    <div>
+      <ul class="lab-list" id="labList"></ul>
+      <button class="btn" id="btnAddLab" type="button" data-icon="plus">Lab</button>
+    </div>
+    <div id="labDetail"></div>
+  </div>
+</section>
+
+<!-- ============ TAB 2: XUẤT ============ -->
+<section class="wrap panel" id="tab-export" hidden>
+  <div class="exp-grid">
+    <div class="exp-opts" id="expOpts">
+      <details class="box grp">
+        <summary><span class="t">Nội dung</span><span class="sv" id="svContent"></span>
+          <span class="seg" role="group" aria-label="Ngôn ngữ"><button type="button" data-lang="en">EN</button><button type="button" data-lang="vi">VI</button></span></summary>
+        <div class="grp-b">
+        <div class="frow"><label for="exLab">Lab</label><select class="inp" id="exLab"></select></div>
+        <div class="frow"><label>Thời gian</label><div id="exYears"></div></div>
+        <div class="frow"><span></span><label class="chk"><input type="checkbox" id="exCover"> Trang bìa</label></div>
+        </div>
+      </details>
+      <details class="box grp">
+        <summary><span class="t">Trình bày</span><span class="sv" id="svLayout"></span></summary>
+        <div class="grp-b">
+        <div class="frow"><label>Kiểu</label><div class="seg wide" role="group" aria-label="Kiểu trình bày">
+          <button type="button" data-layout="directory" data-icon="cards">Danh bạ</button><button type="button" data-layout="mosaic" data-icon="grid">Lưới ảnh</button></div></div>
+        <div class="frow"><label for="exCols">Mỗi hàng</label><input class="inp num" type="number" id="exCols" min="1" max="20"></div>
+        <div class="frow"><label>Nhãn</label><div class="seg wide" role="group" aria-label="Nhãn trường">
+          <button type="button" data-labelmode="icon" data-icon="tag">Biểu tượng</button><button type="button" data-labelmode="text" data-icon="text">Chữ</button></div></div>
+        <div class="frow" id="exBorderRow"><label for="exBorder">Viền</label><div class="inl">
+          <input class="inp num" type="number" id="exBorder" min="0" max="3" step="0.05" title="Độ dày (mm)"><span class="muted">mm</span>
+          <input type="color" id="exBorderColor" class="clr" title="Màu viền"></div></div>
+        <div class="frow"><label for="exFont">Cỡ chữ</label><div class="inl">
+          <input class="inp num" type="number" id="exFont" min="6" max="16" step="0.5"><span class="muted">pt</span>
+          <label class="lbl" for="exLine" style="margin-left:10px">Dòng</label><input class="inp num" type="number" id="exLine" min="1" max="2.5" step="0.05"></div></div>
+        <div class="frow" id="exPhotoRow"><label for="exPhotoSize">Ảnh</label><div class="inl">
+          <label class="chk"><input type="checkbox" id="exPhoto"> Hiện</label>
+          <input class="inp num" type="number" id="exPhotoSize" min="10" max="100" step="5" placeholder="tự động" title="Bề rộng ảnh so với thẻ (%)"><span class="muted">% bề rộng thẻ</span></div></div>
+        </div>
+      </details>
+      <details class="box grp">
+        <summary><span class="t">Khổ giấy</span><span class="sv" id="svPaper"></span></summary>
+        <div class="grp-b">
+        <div class="frow"><label for="exPaper">Khổ</label><select class="inp" id="exPaper"><option>A4</option><option>A5</option><option value="B5">B5 (JIS)</option><option>Letter</option></select></div>
+        <div class="frow"><label>Hướng</label><div class="seg wide" role="group" aria-label="Hướng giấy">
+          <button type="button" data-orient="portrait" data-icon="portrait">Dọc</button><button type="button" data-orient="landscape" data-icon="landscape">Ngang</button></div></div>
+        <div class="frow"><label for="exMargin">Lề (mm)</label><input class="inp num" type="number" id="exMargin" min="5" max="40"></div>
+        <div class="frow top"><label for="exHeader">Header</label><textarea class="inp code" id="exHeader" rows="2"></textarea></div>
+        <div class="frow top"><label for="exFooter">Footer</label><textarea class="inp code" id="exFooter" rows="1"></textarea></div>
+        <p class="hint">Biến: {lab} {unit} {years} {year} {page} {pages}. Dùng được HTML.</p>
+        </div>
+      </details>
+      <details class="box grp">
+        <summary><span class="t">Thông tin hiện</span><span class="sv" id="svFields"></span></summary>
+        <div class="grp-b">
+        <div id="exFields" class="grid2"></div>
+        </div>
+      </details>
+    </div>
+    <div>
+      <div class="pv-bar">
+        <span class="status" id="pvStatus"></span>
+        <div class="btnrow">
+          <button class="btn primary" id="btnPrint" type="button" data-icon="print">PDF</button>
+          <button class="btn" id="btnPng" type="button" data-icon="image">PNG</button>
+          <button class="btn" id="btnDocx" type="button" data-icon="doc">DOCX</button>
+        </div>
+      </div>
+      <div class="preview" id="preview"></div>
+      <p class="hint">PDF: trong hộp thoại In, chọn "Lưu dưới dạng PDF", lề "Không", bật "Đồ họa nền". Nên dùng Chrome hoặc Edge.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 3: NHẬP VÀ SAO LƯU ============ -->
+<section class="wrap panel" id="tab-io" hidden>
+  <div class="io-grid">
+    <div class="box">
+      <h3>Sao lưu</h3>
+      <div class="btnrow">
+        <button class="btn primary" id="btnBackup" type="button" data-icon="download">Sao lưu</button>
+        <button class="btn" id="btnRestore" type="button" data-icon="upload">Khôi phục</button>
+      </div>
+      <p class="hint">File .zip gồm toàn bộ dữ liệu và ảnh. Khôi phục sẽ thay dữ liệu hiện có.</p>
+    </div>
+    <div class="box">
+      <h3>Bảng tính</h3>
+      <div class="btnrow">
+        <button class="btn" id="btnTemplate" type="button" data-icon="sheet">File mẫu</button>
+        <button class="btn primary" id="btnImport" type="button" data-icon="upload">Nhập</button>
+        <button class="btn" id="btnPhotos" type="button" data-icon="image">Gán ảnh</button>
+      </div>
+      <p class="hint">Điền theo file mẫu rồi nhập; dữ liệu được gộp, không xóa.</p>
+      <div id="importReport"></div>
+    </div>
+    <div class="box">
+      <h3>Dữ liệu trên máy này</h3>
+      <div id="ioStats" class="muted"></div>
+      <div class="btnrow" style="margin-top:10px"><button class="btn danger" id="btnWipe" type="button" data-icon="trash">Xóa hết</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ HỘP THOẠI ============ -->
+<dialog id="dlgLab">
+  <div class="dlg-h"><h3 id="dlgLabTitle">Lab</h3><button class="x" type="button" data-close aria-label="Đóng">×</button></div>
+  <div class="dlg-b">
+    <div class="sec">
+      <label class="lbl">Tên lab<i class="req">*</i></label>
+      <div class="rows" id="labNames"></div>
+      <button class="ibtn" type="button" id="labAddName" data-icon="plus" title="Thêm tên bằng ngôn ngữ khác" aria-label="Thêm tên"></button>
+      <label class="lbl" style="margin-top:12px">Đơn vị</label>
+      <div class="rows" id="labUnits"></div>
+      <button class="ibtn" type="button" id="labAddUnit" data-icon="plus" title="Thêm tên đơn vị bằng ngôn ngữ khác" aria-label="Thêm tên đơn vị"></button>
+      <label class="lbl" style="margin-top:12px" for="labDesc">Mô tả</label>
+      <textarea class="inp" id="labDesc" rows="3"></textarea>
+    </div>
+  </div>
+  <div class="dlg-f"><button class="btn danger" type="button" id="labDelete" data-icon="trash">Xóa lab</button><span style="flex:1"></span>
+    <button class="btn" type="button" data-close>Hủy</button><button class="btn primary" type="button" id="labSave">Lưu</button></div>
+</dialog>
+
+<dialog id="dlgPerson">
+  <div class="dlg-h"><h3 id="dlgPersonTitle">Thành viên</h3><button class="x" type="button" data-close aria-label="Đóng">×</button></div>
+  <div class="dlg-b">
+    <div class="sec sec-person">
+      <div class="photo-edit">
+        <div>
+          <div class="photo-frame" id="pFrame"></div>
+          <div class="btnrow" style="margin-top:6px">
+            <button class="ibtn" type="button" id="pPhotoPick" data-icon="image" title="Chọn ảnh" aria-label="Chọn ảnh"></button>
+            <button class="ibtn danger" type="button" id="pPhotoDel" data-icon="x" title="Bỏ ảnh" aria-label="Bỏ ảnh"></button>
+          </div>
+        </div>
+        <div class="pgrid">
+          <label class="lbl" for="pNameNative">Họ tên<i class="req">*</i></label>
+          <div class="two"><input class="inp" id="pNameNative" placeholder="bằng tiếng mẹ đẻ" autocomplete="off"><input class="inp" id="pNameEn" placeholder="bằng tiếng Anh" autocomplete="off"></div>
+          <label class="lbl" for="pBirth">Ngày sinh</label>
+          <div class="two"><input class="inp" id="pBirth" placeholder="21/08/1995 hoặc 1995" autocomplete="off">
+            <div class="inl"><label class="lbl" for="pHometown">Quê quán</label><input class="inp" id="pHometown"></div></div>
+          <label class="lbl" for="pWork">Chỗ làm</label>
+          <div class="two wide1"><input class="inp" id="pWork"><div class="inl"><label class="lbl" for="pWorkYear">Từ năm</label><input class="inp num" id="pWorkYear" inputmode="numeric"></div></div>
+        </div>
+      </div>
+      <label class="lbl" style="margin-top:12px">Liên lạc</label>
+      <div class="rows" id="pContacts"></div>
+      <button class="ibtn" type="button" id="pAddContact" data-icon="plus" title="Thêm liên lạc" aria-label="Thêm liên lạc"></button>
+      <label class="lbl" style="margin-top:12px" for="pNote">Ghi chú</label>
+      <textarea class="inp" id="pNote" rows="2"></textarea>
+      <label class="chk" style="margin-top:6px"><input type="checkbox" id="pHidden"> Ẩn khi xuất kỷ yếu</label>
+    </div>
+    <div class="sec sec-lab">
+      <h4 id="pLabName"></h4>
+      <div class="pgrid">
+        <label class="lbl">Năm<i class="req">*</i></label>
+        <div id="mYears"></div>
+        <label class="lbl" for="mRoleIn">Vai trò</label>
+        <div class="two arrow"><input class="inp" id="mRoleIn" list="roleList" placeholder="khi vào" autocomplete="off"><span>→</span><input class="inp" id="mRoleOut" list="roleList" placeholder="khi ra" autocomplete="off"></div>
+        <label class="lbl" for="mResearch">Hướng nghiên cứu</label>
+        <textarea class="inp" id="mResearch" rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="dlg-f"><button class="btn danger" type="button" id="pRemove" data-icon="x">Gỡ khỏi lab</button><span style="flex:1"></span>
+    <button class="btn" type="button" data-close>Hủy</button><button class="btn primary" type="button" id="pSave">Lưu</button></div>
+</dialog>
+<datalist id="roleList"></datalist>
+
+<dialog id="dlgMatch" class="small">
+  <div class="dlg-h"><h3>Người này đã có</h3><button class="x" type="button" data-close aria-label="Đóng">×</button></div>
+  <div class="dlg-b" id="matchBody"></div>
+  <div class="dlg-f" id="matchFoot"></div>
+</dialog>
+
+<input type="file" id="filePhoto" accept="image/*" hidden>
+<input type="file" id="fileRestore" accept=".zip,application/zip" hidden>
+<input type="file" id="fileXlsx" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+<input type="file" id="filePhotos" accept="image/*" multiple hidden>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ky-yeu/terms/vi.js"></script>
+<script src="lib/ky-yeu/terms/en.js"></script>
+<script src="lib/ky-yeu/kzip.js"></script>
+<script src="lib/ky-yeu/xlsx.js"></script>
+<script src="lib/ky-yeu/store.js"></script>
+<script src="lib/ky-yeu/model.js"></script>
+<script src="lib/ky-yeu/render.js"></script>
+<script src="lib/ky-yeu/docx.js"></script>
+<script src="lib/ky-yeu/io.js"></script>
+<script src="lib/ky-yeu/vendor/html-to-image.js"></script>
+<script src="lib/ky-yeu/ky-yeu.js"></script>
+<script src="../common/site.js" defer></script>
+</body>
+</html>
