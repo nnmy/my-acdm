@@ -1,0 +1,43 @@
+/* =====================================================================
+   Trình xem X-quang ngực (2-chest-xray.html). Dùng chung atlas.css; file này chỉ thêm phần riêng.
+   ===================================================================== */
+.cx-films { position: relative; display: grid; grid-template-columns: 1fr; gap: 2px; background: var(--ink); }
+.cx-films.two { grid-template-columns: 1fr 1fr; }
+.cx-films .film { aspect-ratio: 4 / 3; }
+.cx-films.two .film { aspect-ratio: 3 / 4; }
+.film .tag.sm { font-size: 24px; }
+.cx-legend { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 8px 14px; background: #fff; border-top: 2px solid var(--ink); font-size: 13.5px; color: var(--ink); }
+.cx-legend:empty { display: none; }
+.cx-legend span { display: inline-flex; align-items: center; gap: 6px; text-align: left; }
+.cx-legend .sw { display: inline-block; width: 22px; height: 0; border-top: 3px solid var(--gold); flex: none; }
+.cx-legend .sw.dash { border-top-style: dashed; border-top-color: #C99A00; }
+.cx-legend b { font-weight: 600; }
+.src-tag { display: inline-block; font: 600 11.5px/1.5 var(--body); padding: 0 6px; border: 1px solid currentColor; white-space: nowrap; vertical-align: 1px; }
+.readout-strip .src-tag.expert { color: #ff8a7e; }
+.readout-strip .src-tag.ai { color: var(--gold); }
+.info .src-tag.expert { color: #b4231a; }
+.info .src-tag.ai { color: #8a6a00; background: #FCF3CF; }
+.src-note { font-size: 13.5px; margin: 8px 0; padding: 6px 9px; text-align: left !important; }
+.src-note.ai { background: #FCF6DD; border-left: 3px solid var(--gold); }
+.src-note.expert { background: #FBEDEB; border-left: 3px solid #d8312a; }
+.info .para { font-size: 14.5px; line-height: 1.55; margin: 8px 0; }
+.info ul.finds { margin: 4px 0 8px; padding-left: 18px; font-size: 14.5px; line-height: 1.5; }
+.info ul.finds li { margin: 3px 0; }
+.info .note-s { font-size: 13.5px; color: var(--muted); }
+.info h3.h-sm { font-size: 26px; margin-top: 4px; }
+.info hr.sep { border: 0; border-top: 1px solid var(--line); margin: 14px 0 10px; }
+.cx-tabs { flex-wrap: nowrap; }
+.cx-tabs .btn { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 14px 5px; line-height: 1.2; }
+.cx-tabs .t-vi { font-weight: 600; }
+.cx-tabs .t-en { font-size: 12px; font-weight: 400; color: var(--muted); font-style: italic; }
+.cx-tabs .btn[aria-pressed="true"] .t-en { color: #C9D3DC; }
+.ctl .inline .sublab { font-size: 13px; color: var(--muted); white-space: nowrap; }
+.ctl .inline input[type=range] { min-width: 50px; }
+.ctl .checkrow { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.ctl .checkrow input { accent-color: var(--sea); width: 16px; height: 16px; margin: 0; }
+@media (max-width: 700px) {
+  .ctl .inline .sublab { display: inline !important; font-size: 12px; }
+  .cx-zoomhint { display: none; }
+  .cx-films.two { grid-template-columns: 1fr; }
+  .cx-films.two .film, .cx-films .film { aspect-ratio: 1 / 1; }
+}
