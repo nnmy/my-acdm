@@ -18,21 +18,15 @@
   HOW TO EDIT  (linh-tinh/xuat-ban.html)
   - Demo: lib/demos/journal-check.js (đầu trang), lib/demos/journal-metrics.js (mục #chi-so).
   - Chữ: sửa trực tiếp trong các <section class="part">; nguồn: mục #co-so.
-  - Navbar, footer: ../common (site.css, site.js); style chung: lib/lt.css; tiện ích: lib/lt.js
+  - Navbar: ../common/nav.js (dùng chung, sửa một chỗ); footer: ../common (site.css, site.js); style chung: lib/lt.css; tiện ích: lib/lt.js
   =====================================================================
 -->
 </head>
 <body data-no-toc>
 <noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
 
-<nav class="site-nav" aria-label="Site">
-  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
-  <ul>
-    <li><a href="https://nnmy.github.io/">Profile</a></li>
-    <li><a href="../index.html">My Library</a></li>
-    <li><a href="https://nnmy.github.io/my-collection">My Collection</a></li>
-  </ul>
-</nav>
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
 
 <main class="lt-page">
 <header class="wrap page-head">

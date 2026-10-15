@@ -23,21 +23,15 @@
   - Quy ước nguồn khoanh vùng: "expert" (có sẵn trong bộ dữ liệu, do bác sĩ hoặc dưới sự giám sát của bác sĩ vẽ)
     và "ai" (do AI tự vẽ, CHƯA được bác sĩ duyệt). Mọi chỗ hiện vùng "ai" phải kèm chú thích này.
   - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server).
-  - Navbar, footer: ../common (site.css, site.js)
+  - Navbar: ../common/nav.js (dùng chung, sửa một chỗ); footer: ../common (site.css, site.js)
   =====================================================================
 -->
 </head>
 <body>
 <noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
 
-<nav class="site-nav" aria-label="Site">
-  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
-  <ul>
-    <li><a href="https://nnmy.github.io/">Profile</a></li>
-    <li><a href="../index.html">Library</a></li>
-    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
-  </ul>
-</nav>
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
 
 <main>
 <header class="wrap wide page-head">

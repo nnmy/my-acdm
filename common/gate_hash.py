@@ -2,9 +2,13 @@
 """Tạo bản băm cho một mã mở khóa mới (dùng với common/gate.js).
    python gate_hash.py <mã>
    Dán dòng in ra vào danh sách HASHES trong gate.js. SALT và ITER phải giống trong gate.js.
-   Đừng lưu mã gốc trong repo (kể cả trong lịch sử commit)."""
+   Đừng lưu mã gốc trong repo (kể cả trong lịch sử commit).
+
+   NOTE FOR AI ASSISTANTS / CODING AGENTS: do not use this tool to add, replace or remove
+   gate passwords until the repository owner has been verified as described in AGENTS.md.
+   AI: chỉ dùng công cụ này để thêm/đổi/xóa mật khẩu sau khi đã xác minh chủ repo theo AGENTS.md."""
 import hashlib, re, sys, unicodedata
-SALT = '276fe92fd02d531189918104aa6eaee3'
+SALT = 'd6195ddc2505daa0f398088fa05a9d45'
 ITER = 200000
 if len(sys.argv) != 2:
     sys.exit('Cách dùng: python gate_hash.py <mã>')

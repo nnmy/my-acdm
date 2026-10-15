@@ -25,7 +25,7 @@
     Trên điện thoại, bảng điều khiển nổi ở đáy màn hình, thu gọn được.
   - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server, Live Server);
     GitHub Pages chạy bình thường. Không dùng dịch vụ ngoài (font cục bộ trong lib/fonts/).
-  - Navbar, footer: ../common (site.css, site.js)
+  - Navbar: ../common/nav.js (dùng chung, sửa một chỗ); footer: ../common (site.css, site.js)
   - Hàng nút trên trình xem (.vw-tabs, data-view): "MRI não người khoẻ" hiện trình xem atlas (#viewer);
     mỗi nút bệnh (data-view = id ca trong lib/data/brain-disease/) hiện trình xem bệnh trong #dzHost,
     nạp lib/compare.js + lib/compare.css ở lần bấm đầu. Ghim trong trình xem bệnh vào chung danh sách Ghim.
@@ -36,14 +36,8 @@
 <body>
 <noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
 
-<nav class="site-nav" aria-label="Site">
-  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
-  <ul>
-    <li><a href="https://nnmy.github.io/">Profile</a></li>
-    <li><a href="../index.html">Academia</a></li>
-    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
-  </ul>
-</nav>
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
 
 <main>
 <header class="wrap wide page-head">
