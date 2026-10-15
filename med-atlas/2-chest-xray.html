@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X-quang ngực | Atlas hình ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Nhận diện các mốc giải phẫu trên phim X-quang ngực thẳng và xem dấu hiệu của lao phổi, viêm phổi, tràn dịch, tràn khí màng phổi, tim to, u và nốt phổi trên ảnh thật.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="stylesheet" href="lib/fonts/fonts.css">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/atlas.css?v=20261015c">
+<link rel="stylesheet" href="lib/cxr.css?v=20261015c">
+<!--
+  =====================================================================
+  HOW TO EDIT  (med-atlas/2-chest-xray.html, X-QUANG NGỰC)
+  - Ảnh: lib/data/chest-xray/<ca>/image.png (+ lung-r.png, lung-l.png, meta.json), tạo bằng tools/prepare_chest_xray.py.
+  - Nội dung chữ, vùng nhận diện, marker AI: lib/data/chest-xray/<ca>/case.json; tên và ý nghĩa cấu trúc: anatomy.json;
+    thứ tự nút: cases.json. Sửa trực tiếp, không cần chạy lại Python. Hướng dẫn: README-chest-xray.md
+  - Ghim + Xuất PDF giống trang MRI não (IndexedDB med-atlas, organ chest-xray; bản in #printSheet trong atlas.css).
+  - Trình xem: lib/cxr.js; giao diện: lib/atlas.css (dùng chung) + lib/cxr.css. Sau khi sửa, đổi chuỗi ?v=...
+  - Quy ước nguồn khoanh vùng: "expert" (có sẵn trong bộ dữ liệu, do bác sĩ hoặc dưới sự giám sát của bác sĩ vẽ)
+    và "ai" (do AI tự vẽ, CHƯA được bác sĩ duyệt). Mọi chỗ hiện vùng "ai" phải kèm chú thích này.
+  - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server).
+  - Navbar, footer: ../common (site.css, site.js)
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main>
+<header class="wrap wide page-head">
+  <p class="crumb"><a href="index.html">Atlas hình ảnh y khoa</a> / X-quang ngực</p>
+  <h1><span class="dot"></span>X-quang ngực</h1>
+</header>
+
+<section class="wrap wide" aria-label="Trình xem X-quang">
+  <div class="vw-tabs cx-tabs" id="cxTabs" role="group" aria-label="Chọn ca"></div>
+  <div class="viewer" id="cxViewer">
+    <div class="left">
+      <div class="stage" id="cxStage">
+        <div class="cx-films" id="cxFilms">
+          <div class="film" id="cxFilmA"><canvas id="cxCvA" tabindex="0" aria-label="Phim X-quang ngực. Rê chuột hoặc chạm để nhận diện cấu trúc, nhấp để khóa, Esc để bỏ khóa, nhấp đúp để phóng to."></canvas><span class="tag sm" id="cxTagA" aria-hidden="true"></span></div>
+          <div class="film" id="cxFilmB" hidden><canvas id="cxCvB" tabindex="0" aria-label="Phim của ca bệnh, có khung khoanh vùng."></canvas><span class="tag sm" id="cxTagB" aria-hidden="true"></span></div>
+          <div class="loader" id="cxLoader"><div>Đang chuẩn bị…</div></div>
+        </div>
+        <div class="cx-legend" id="cxLegend"></div>
+        <div class="readout-strip" id="cxReadout" aria-live="polite"></div>
+      </div>
+      <div class="controls" id="cxControls">
+        <div class="ctl-head"><span>Điều khiển</span><button class="iconbtn" type="button" id="cxCtlMin" aria-controls="cxCtlBody"></button></div>
+        <div class="ctl-body" id="cxCtlBody">
+          <div class="ctl">
+            <label class="lab" for="cxLevel">Khoanh vùng</label>
+            <div class="inline"><input type="range" id="cxLevel" min="0" max="5" step="1" value="2"><output id="cxLevelOut" for="cxLevel" style="min-width:6.5em"></output></div>
+          </div>
+          <div class="ctl" id="cxFindRow">
+            <label class="lab" for="cxFind">Tìm cấu trúc</label>
+            <select id="cxFind" class="inp sm"></select>
+          </div>
+          <div class="ctl">
+            <span class="lab">Ảnh</span>
+            <div class="inline">
+              <label for="cxBright" class="sublab">Sáng</label><input type="range" id="cxBright" min="-60" max="60" value="0"><output id="cxBrightOut" for="cxBright" style="min-width:2.6em"></output>
+              <label for="cxContrast" class="sublab">Tương phản</label><input type="range" id="cxContrast" min="-60" max="100" value="0"><output id="cxContrastOut" for="cxContrast" style="min-width:2.6em"></output>
+            </div>
+          </div>
+          <div class="ctl">
+            <span class="lab">Phóng to</span>
+            <div class="inline"><output id="cxZoomOut" style="min-width:3.5em">100%</output><span class="cx-zoomhint" style="font-size:13px;color:var(--muted);flex:1">nhấp đúp ảnh để phóng to, kéo để di chuyển</span><button class="btn" type="button" id="cxReset" style="padding:4px 10px">Đặt lại</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="infocol" aria-label="Thông tin">
+      <div class="info-inner">
+        <div class="info-bar"><span class="info-title" id="cxInfoName"></span><button class="iconbtn" type="button" id="cxInfoMin" ></button></div>
+        <div class="info" id="cxInfo" aria-live="polite"></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="part" id="ghim" style="margin-top:44px">
+  <div class="wrap wide">
+    <div class="nb-head">
+      <h2>Ghim <span id="nbCount" style="color:var(--sea)">0</span></h2>
+      <div class="btnrow"><button class="btn primary" type="button" id="btnPdf" disabled>Xuất PDF</button></div>
+    </div>
+    <p class="hint-s" style="margin-top:6px">Bấm nút <b>Xuất PDF</b> để lưu những gì bạn đã ghim vào một file PDF.</p>
+    <p class="nb-empty" id="nbEmpty">Chưa ghim mục nào. Nhấp vào một cấu trúc trên ảnh để khóa, rồi bấm <b>Ghim</b> trong khung thông tin; ở ca bệnh, bấm <b>Ghim ca này</b>.</p>
+    <p class="nb-warn" id="nbWarn" hidden>Trình duyệt đang chặn bộ nhớ cục bộ (ví dụ chế độ ẩn danh), nên danh sách ghim sẽ mất khi đóng trang. Hãy xuất PDF trước khi rời trang.</p>
+    <ul class="nb-list" id="nbList"></ul>
+  </div>
+</section>
+
+<section class="part" id="cach-doc">
+  <div class="wrap">
+    <h2>Đọc phim ngực thẳng theo thứ tự</h2>
+    <div class="prose">
+      <p>Đọc theo một trình tự cố định giúp không bỏ sót. Một cách nhớ phổ biến là đi từ ngoài vào trong và so sánh hai bên:</p>
+      <ul>
+        <li><b>Chất lượng phim</b>: tên, ngày, hướng chụp (sau–trước hay trước–sau, đứng hay nằm), hít vào đủ sâu (thấy khoảng 9–10 cung sườn sau phía trên vòm hoành phải), không xoay (đầu trong hai xương đòn cách đều gai sống).</li>
+        <li><b>Đường thở</b>: khí quản ở giữa, carina, hai phế quản gốc.</li>
+        <li><b>Phổi và màng phổi</b>: so sánh từng vùng hai bên; tìm đám mờ, nốt, vùng quá sáng, đường màng phổi; góc sườn hoành có nhọn không.</li>
+        <li><b>Tim và trung thất</b>: kích thước bóng tim (chỉ số tim–ngực), bờ tim rõ hay bị xóa, trung thất có rộng không, rốn phổi.</li>
+        <li><b>Cơ hoành</b>: vòm phải thường cao hơn vòm trái; có khí tự do dưới hoành không.</li>
+        <li><b>Xương và mô mềm</b>: xương sườn, xương đòn, cột sống, bóng mô mềm thành ngực, vú.</li>
+        <li><b>Vùng hay bỏ sót</b>: đỉnh phổi, sau bóng tim, rốn phổi, dưới cơ hoành.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="du-lieu">
+  <div class="wrap">
+    <h2>Về dữ liệu</h2>
+    <div class="prose">
+      <p>Ảnh phim bình thường và ca lao phổi lấy từ bộ <span class="term">Montgomery County</span> của Thư viện Y khoa Quốc gia Hoa Kỳ (NLM); bộ này có sẵn <b>mặt nạ phổi phải và trái</b>, được nhóm tác giả vẽ dưới sự giám sát của bác sĩ chẩn đoán hình ảnh, cùng kết luận đọc phim của bác sĩ cho từng ảnh. Sáu ca còn lại lấy từ bộ <span class="term">NIH ChestX-ray14</span>; mỗi ảnh có một <b>khung khoanh vùng tổn thương do bác sĩ vẽ</b> (danh sách BBox_List_2017 của bộ dữ liệu).</p>
+      <p>Các ảnh được chọn là phim thẳng sau–trước, chỉ mang đúng một nhãn bệnh và có đúng một khung khoanh vùng. Nhãn bệnh của ChestX-ray14 được rút tự động từ báo cáo chữ, nên có thể chưa chính xác hoàn toàn.</p>
+    </div>
+    <div class="callout"><b>Khoanh vùng do AI tự vẽ, chưa được bác sĩ duyệt:</b> trên phim bình thường, mọi mốc ngoài phổi phải và phổi trái (bóng tim, trung thất trên, khí quản, quai động mạch chủ, rốn phổi, vòm hoành, góc sườn hoành); trên các ca bệnh, mọi vòng tròn, mũi tên và đường đo màu vàng nét đứt. Chúng chỉ minh họa vị trí gần đúng. Xương đòn và bóng hơi dạ dày không được khoanh vì không xác định được ranh giới đủ chắc chắn trên ảnh này.</div>
+    <div class="callout">Tài liệu học tập, không dùng để chẩn đoán hay điều trị.</div>
+    <h3>Nguồn</h3>
+    <ol class="refs">
+      <li>Jaeger S và cs. <a href="https://doi.org/10.3978/j.issn.2223-4292.2014.11.20" rel="noopener">Two public chest X-ray datasets for computer-aided screening of pulmonary diseases</a>. Quantitative Imaging in Medicine and Surgery 2014;4(6):475-477.</li>
+      <li>Candemir S và cs. <a href="https://doi.org/10.1109/TMI.2013.2290491" rel="noopener">Lung segmentation in chest radiographs using anatomical atlases with nonrigid registration</a>. IEEE Transactions on Medical Imaging 2014;33(2):577-590.</li>
+      <li>Jaeger S và cs. <a href="https://doi.org/10.1109/TMI.2013.2284099" rel="noopener">Automatic tuberculosis screening using chest radiographs</a>. IEEE Transactions on Medical Imaging 2014;33(2):233-245.</li>
+      <li>Wang X và cs. <a href="https://openaccess.thecvf.com/content_cvpr_2017/html/Wang_ChestX-ray8_Hospital-Scale_Chest_CVPR_2017_paper.html" rel="noopener">ChestX-ray8: Hospital-scale chest X-ray database and benchmarks on weakly-supervised classification and localization of common thorax diseases</a>. CVPR 2017:2097-2106.</li>
+      <li>Dữ liệu gốc: <a href="https://nihcc.app.box.com/v/ChestXray-NIHCC" rel="noopener">NIH ChestX-ray14</a> (NIH Clinical Center). Ảnh Montgomery lấy qua bản sao trên Kaggle của bộ dữ liệu NLM.</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<div id="printSheet"></div>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/cxr.js?v=20261015c"></script>
+<script>
+  CXR.start({
+    data: 'lib/data/chest-xray/',
+    printHeader: "My N. Nguyen's Library",     // dòng đầu mỗi trang PDF
+    printTitle: 'Ghi chú X-quang ngực',        // tiêu đề trong PDF
+    printFile: 'ghichu_xquang_nguc',           // tên file mặc định: ghichu_xquang_nguc yyyymmdd_HHMMSS.pdf
+  });
+</script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
