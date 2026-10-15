@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyên lý CT | Ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Nguyên lý chụp cắt lớp vi tính (CT): suy giảm tia X, phép chiếu và sinogram, tái tạo ảnh bằng chiếu ngược có lọc, đơn vị Hounsfield, cửa sổ ảnh, máy CT hiện đại và liều bức xạ.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ay.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (anh-y-khoa/2-ct.html)
+  - Minh họa: lib/demos/ct-recon.js (mục #dung-anh).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/ay.css; tiện ích: lib/ay.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Ảnh y khoa">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Ảnh y khoa</a> / Phần 2</p>
+  <h1><span class="dot"></span>Nguyên lý CT</h1>
+  <p class="lead">CT chiếu chùm tia X mỏng qua cơ thể từ hàng trăm góc khi bóng phát tia quay quanh người bệnh, đo lượng tia còn lại ở phía đối diện, rồi dùng máy tính dựng lại bản đồ suy giảm tia X của từng lát cắt.</p>
+</header>
+
+<section class="part" id="suy-giam">
+  <div class="wrap">
+    <h2>Tia X bị suy giảm</h2>
+    <div class="prose">
+      <p>Tia X đi qua vật chất bị hấp thụ và tán xạ bớt. Với một chùm hẹp đơn năng đi qua vật đồng nhất dày \(x\), cường độ giảm theo hàm mũ (định luật Beer–Lambert). Qua cơ thể gồm nhiều mô, hệ số suy giảm \(\mu\) thay đổi dọc đường tia:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ I = I_0\,e^{-\int_L \mu(s)\,ds} \quad\Longrightarrow\quad p = \ln\frac{I_0}{I} = \int_L \mu(s)\,ds \]</div><p class="where">Lấy logarit của tỉ số cường độ, mỗi phép đo cho <b>tổng</b> hệ số suy giảm dọc một đường thẳng: một <span class="term">phép chiếu</span>. (Xem <a href="../toan-hoc/7-mu-logarit.html">Hàm mũ và logarit</a>, <a href="../toan-hoc/3-tich-phan.html">Tích phân</a>.)</p></div>
+    <div class="prose">
+      <p>Xương (canxi) suy giảm mạnh nên trắng trên phim; khí suy giảm rất ít nên đen; các mô mềm (gan, cơ, não) khác nhau rất ít. Phim X-quang thường chồng mọi thứ trên đường tia lên nhau; CT tách được từng lát nên thấy rõ cả khác biệt nhỏ giữa các mô mềm.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="dung-anh">
+  <div class="wrap">
+    <h2>Từ các phép chiếu đến ảnh</h2>
+    <div class="prose">
+      <p>Ở mỗi góc quay \(\theta\), dãy đầu thu đo được một hồ sơ chiếu \(p_\theta(t)\). Xếp các hồ sơ theo góc thành một ảnh gọi là <span class="term">sinogram</span>: mỗi điểm trong cơ thể vẽ thành một đường hình sin. Bài toán tái tạo: từ sinogram tìm lại \(\mu(x, y)\).</p>
+    </div>
+    <div class="prose">
+      <ul><li><b>Chiếu ngược</b> (backprojection): trải giá trị mỗi phép chiếu ngược lại đều trên đường tia của nó, cộng tất cả các góc. Kết quả đúng vị trí nhưng mờ nhòe.</li><li><b>Chiếu ngược có lọc</b> (filtered backprojection, FBP): lọc mỗi hồ sơ chiếu bằng bộ lọc "ramp" (khuếch đại tần số cao) trước khi chiếu ngược; độ mờ bị khử chính xác. Cơ sở toán học là định lý lát cắt Fourier: biến đổi Fourier của một phép chiếu là một đường thẳng qua tâm trong biến đổi Fourier 2D của ảnh.</li><li><b>Tái tạo lặp</b> (iterative reconstruction) và tái tạo bằng học sâu: đoán ảnh, mô phỏng phép chiếu, so với dữ liệu đo, sửa dần. Chịu nhiễu tốt hơn FBP nên cho phép giảm liều tia; máy CT hiện nay đều có.</li></ul>
+    </div>
+    <div class="demo" id="demoCt" data-demo="ct-recon">
+      <div class="demo-title"><h4>Dựng ảnh CT từ các phép chiếu</h4><span>Vật thể → sinogram → ảnh tái tạo; thêm góc chiếu, bật/tắt bộ lọc</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="hu">
+  <div class="wrap">
+    <h2>Đơn vị Hounsfield và cửa sổ ảnh</h2>
+    <div class="formula"><div class="eq">\[ \text{HU} = 1000 \times \frac{\mu - \mu_{\text{nước}}}{\mu_{\text{nước}} - \mu_{\text{khí}}} \]</div><p class="where">Thang đo chuẩn hóa: nước = 0 HU, không khí = −1000 HU. Nhờ vậy giá trị CT so sánh được giữa các máy.</p></div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Mô</th><th>Khoảng HU (gần đúng)</th></tr></thead>
+        <tbody>
+          <tr><td>Không khí, phổi</td><td>−1000; nhu mô phổi khoảng −900…−600</td></tr>
+          <tr><td>Mỡ</td><td>−120…−60</td></tr>
+          <tr><td>Nước, dịch</td><td>0…+20</td></tr>
+          <tr><td>Mô mềm (cơ, gan, não)</td><td>+20…+60</td></tr>
+          <tr><td>Máu tụ mới</td><td>+50…+90</td></tr>
+          <tr><td>Xương xốp; xương đặc</td><td>+300…+800; trên +1000</td></tr>
+          <tr><td>Kim loại</td><td>vượt thang, gây xảo ảnh vệt sáng</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Màn hình chỉ hiện được khoảng 256 mức xám, mắt người phân biệt còn ít hơn, trong khi ảnh CT trải hơn 3000 HU. Người đọc chọn một <span class="term">cửa sổ</span> (window): mức giữa (level, L) và độ rộng (width, W). Mọi giá trị dưới cửa sổ hiện đen, trên cửa sổ hiện trắng.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Cửa sổ</th><th>W / L (HU)</th><th>Để xem</th></tr></thead>
+        <tbody>
+          <tr><td>Não</td><td>80 / 40</td><td>chất xám, chất trắng, máu tụ</td></tr>
+          <tr><td>Mô mềm, bụng</td><td>400 / 40</td><td>gan, thận, ruột, cơ</td></tr>
+          <tr><td>Phổi</td><td>1500 / −600</td><td>nhu mô phổi, nốt phổi</td></tr>
+          <tr><td>Xương</td><td>2000 / 500</td><td>gãy xương, cấu trúc xương</td></tr>
+        </tbody>
+        <caption>Giá trị cửa sổ hay dùng; mỗi cơ sở có thể chỉnh khác nhau.</caption>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="may">
+  <div class="wrap">
+    <h2>Máy CT hiện đại và liều bức xạ</h2>
+    <div class="prose">
+      <p>Máy CT ngày nay quay một vòng trong khoảng 0,25–0,5 giây, có 64 tới 320 dãy đầu thu, và chụp <span class="term">xoắn ốc</span> (bàn di chuyển liên tục trong khi bóng quay), nên quét cả ngực bụng chỉ trong vài giây, nín thở một lần. CT năng lượng kép đo ở hai mức năng lượng tia để phân biệt vật chất (i-ốt, canxi, acid uric). Thuốc cản quang chứa i-ốt được tiêm tĩnh mạch để làm rõ mạch máu và các tạng.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thăm khám</th><th>Liều hiệu dụng điển hình (mSv)</th></tr></thead>
+        <tbody>
+          <tr><td>X-quang ngực thẳng</td><td>0,02</td></tr>
+          <tr><td>CT đầu</td><td>2</td></tr>
+          <tr><td>CT ngực</td><td>7</td></tr>
+          <tr><td>CT bụng – chậu</td><td>8–10</td></tr>
+          <tr><td>Phông bức xạ tự nhiên (trung bình thế giới)</td><td>khoảng 2,4 mỗi năm</td></tr>
+        </tbody>
+        <caption>Theo <a href="#ref5">[5]</a>, <a href="#ref6">[6]</a>; liều thật thay đổi nhiều theo máy, thể trạng, quy trình.</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Bức xạ ion hóa liều thấp có thể làm tăng rất nhẹ nguy cơ ung thư về lâu dài; trẻ em nhạy hơn người lớn. Nguyên tắc: chỉ chụp khi lợi ích chẩn đoán vượt rủi ro, và dùng liều thấp nhất đủ cho chẩn đoán (ALARA). Với một ca nghi xuất huyết não hay chấn thương nặng, lợi ích của CT lớn hơn rủi ro rất nhiều.</p>
+    </div>
+    <div class="apps">
+      <div class="app"><span class="where">Cấp cứu</span><h4>Chấn thương, đột quỵ</h4><p>CT sọ không thuốc phát hiện xuất huyết não trong vài phút, quyết định có dùng thuốc tiêu sợi huyết hay không. CT toàn thân trong đa chấn thương.</p></div>
+      <div class="app"><span class="where">Bụng</span><h4>Đau bụng cấp</h4><p>Viêm ruột thừa, sỏi niệu quản (CT không thuốc), tắc ruột, thủng tạng rỗng.</p></div>
+      <div class="app"><span class="where">Ung thư</span><h4>Phát hiện, phân giai đoạn, theo dõi</h4><p>CT liều thấp tầm soát ung thư phổi ở người hút thuốc nhiều; đánh giá kích thước khối u và di căn.</p></div>
+      <div class="app"><span class="where">Mạch máu</span><h4>CT mạch (CTA)</h4><p>Tiêm thuốc i-ốt nhanh rồi chụp đúng thời điểm: phình, bóc tách động mạch chủ, thuyên tắc phổi, hẹp mạch vành.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Hệ số suy giảm <span class="en">(attenuation coefficient, μ)</span></td><td>Tỉ lệ tia X bị mất trên mỗi đơn vị chiều dài vật chất.</td></tr>
+          <tr><td>Phép chiếu <span class="en">(projection)</span></td><td>Tổng μ dọc một đường tia, đo được từ ln(I₀/I).</td></tr>
+          <tr><td>Sinogram</td><td>Ảnh xếp các hồ sơ chiếu theo góc; mỗi điểm thành một đường sin.</td></tr>
+          <tr><td>FBP <span class="en">(filtered backprojection)</span></td><td>Lọc ramp rồi chiếu ngược: thuật toán tái tạo kinh điển.</td></tr>
+          <tr><td>HU <span class="en">(Hounsfield unit)</span></td><td>Thang giá trị CT: nước 0, khí −1000.</td></tr>
+          <tr><td>Cửa sổ <span class="en">(window width/level)</span></td><td>Khoảng HU được trải ra trên các mức xám hiển thị.</td></tr>
+          <tr><td>mSv</td><td>Millisievert, đơn vị liều hiệu dụng, ước lượng rủi ro bức xạ cho toàn cơ thể.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: phantom Shepp–Logan cải tiến <a href="#ref4">[4]</a>; phép chiếu song song tính chính xác bằng công thức tích phân đường của elip; FBP với bộ lọc Ram-Lak dạng không gian <a href="#ref3">[3]</a>. Máy thật dùng chùm tia hình quạt hoặc hình nón, hàng nghìn góc, và hiệu chỉnh nhiều hiệu ứng vật lý (cứng hóa chùm tia, tán xạ).</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">J. T. Bushberg, J. A. Seibert, E. M. Leidholdt, J. M. Boone, <i>The Essential Physics of Medical Imaging</i>, 4th ed., Wolters Kluwer, 2020.</li>
+      <li id="ref2">J. Hsieh, <i>Computed Tomography: Principles, Design, Artifacts, and Recent Advances</i>, 3rd ed., SPIE Press, 2015.</li>
+      <li id="ref3">A. C. Kak, M. Slaney, <i>Principles of Computerized Tomographic Imaging</i>, IEEE Press, 1988; tái bản SIAM, 2001. <a href="https://www.slaney.org/pct/" rel="noopener">slaney.org/pct</a></li>
+      <li id="ref4">L. A. Shepp, B. F. Logan, "The Fourier reconstruction of a head section", <i>IEEE Transactions on Nuclear Science</i> 21(3):21–43, 1974. <a href="https://doi.org/10.1109/TNS.1974.6499235" rel="noopener">Liên kết</a></li>
+      <li id="ref5">F. A. Mettler Jr. et al., "Effective doses in radiology and diagnostic nuclear medicine: a catalog", <i>Radiology</i> 248(1):254–263, 2008. <a href="https://doi.org/10.1148/radiol.2481071451" rel="noopener">Liên kết</a></li>
+      <li id="ref6">UNSCEAR, <i>Sources and Effects of Ionizing Radiation</i>, Report to the General Assembly, Volume I, 2008. <a href="https://www.unscear.org" rel="noopener">unscear.org</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="1-mri.html"><small>Phần 1</small><b>Nguyên lý MRI</b></a>
+      <a class="next" href="3-angiography.html"><small>Phần 3</small><b>Nguyên lý chụp mạch</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ay.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyên lý chụp mạch | Ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Nguyên lý chụp mạch máu: thuốc cản quang i-ốt, chiếu tia X huỳnh quang, chụp mạch số hóa xóa nền (DSA), quy trình qua ống thông, so sánh với CTA và MRA, an toàn và ứng dụng can thiệp.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ay.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (anh-y-khoa/3-angiography.html)
+  - Minh họa: lib/demos/dsa-sub.js (mục #dsa).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/ay.css; tiện ích: lib/ay.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Ảnh y khoa">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Ảnh y khoa</a> / Phần 3</p>
+  <h1><span class="dot"></span>Nguyên lý chụp mạch</h1>
+  <p class="lead">Chụp mạch (angiography) làm hiện hình lòng mạch máu bằng cách đưa thuốc cản quang vào mạch rồi chụp. Chụp mạch số hóa xóa nền (DSA) qua ống thông cho hình mạch rõ nhất và cho phép can thiệp ngay; CTA và MRA là các cách chụp mạch không cần luồn ống.</p>
+</header>
+
+<section class="part" id="nguyen-ly">
+  <div class="wrap">
+    <h2>Vì sao cần thuốc cản quang</h2>
+    <div class="prose">
+      <p>Máu, thành mạch và mô mềm xung quanh suy giảm tia X gần như nhau, nên trên phim X-quang thường không thấy lòng mạch. Thuốc cản quang chứa <span class="term">i-ốt</span> (số nguyên tử 53, ngưỡng hấp thụ K ở 33,2 keV, gần với năng lượng tia X chẩn đoán) hấp thụ tia X mạnh hơn mô mềm nhiều lần. Khi bơm thuốc vào mạch, lòng mạch hiện rõ như được "đổ khuôn".</p>
+    </div>
+    <div class="prose">
+      <p>Khi chụp, máy dùng chế độ <span class="term">chiếu huỳnh quang</span> (fluoroscopy): phát tia liên tục hoặc theo xung, đầu thu phẳng ghi ảnh động nhiều khung mỗi giây, để bác sĩ thấy dây dẫn, ống thông di chuyển trong mạch và thấy thuốc chảy theo thời gian.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="dsa">
+  <div class="wrap">
+    <h2>Chụp mạch số hóa xóa nền (DSA)</h2>
+    <div class="prose">
+      <p>Ngay cả khi có thuốc, xương và mô mềm chồng lên vẫn che mạch. DSA giải quyết bằng phép trừ: chụp một ảnh <span class="term">mask</span> trước khi bơm thuốc, rồi chụp chuỗi ảnh <span class="term">live</span> khi thuốc chảy qua. Vì tia X suy giảm theo hàm mũ, máy trừ <b>logarit</b> của hai ảnh: phần nền giống nhau bị triệt tiêu, chỉ còn phần do i-ốt.</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \ln I_{\text{mask}} - \ln I_{\text{live}} = \mu_{\text{iốt}}\,d_{\text{mạch}} \]</div><p class="where">\(d\): bề dày mạch có thuốc dọc đường tia. Mạch càng to hoặc thuốc càng đậm thì càng đậm trên ảnh trừ.</p></div>
+    <div class="demo" id="demoDsa" data-demo="dsa-sub">
+      <div class="demo-title"><h4>Chụp mạch xóa nền (DSA)</h4><span>Ảnh mask trước tiêm, ảnh khi có thuốc, và ảnh trừ</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Điểm yếu của DSA là <b>cử động</b>: bệnh nhân thở, nuốt, tim đập, ruột nhu động làm mask và live lệch nhau, nền không trừ hết và tạo vệt nhiễu. Cách xử lý: dặn nín thở, chọn lại ảnh mask gần thời điểm hơn, hoặc dịch chỉnh mask bằng phần mềm (pixel shift, đăng ký ảnh). Chuỗi DSA cho thấy lần lượt pha động mạch, pha mao mạch (nhu mô ngấm thuốc) và pha tĩnh mạch.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="quy-trinh">
+  <div class="wrap">
+    <h2>Quy trình chụp qua ống thông</h2>
+    <div class="prose">
+      <ul><li><b>Chọc mạch theo kỹ thuật Seldinger</b>: chọc kim vào động mạch (động mạch quay ở cổ tay hoặc động mạch đùi ở bẹn), luồn dây dẫn qua kim, rút kim, đặt ống bọc (sheath) giữ đường vào.</li><li><b>Đưa ống thông</b> (catheter) theo dây dẫn dưới màn huỳnh quang tới đúng nhánh mạch cần chụp: mạch vành, mạch não, mạch gan…</li><li><b>Bơm thuốc và chụp</b> chuỗi DSA ở nhiều góc nghiêng để thấy chỗ hẹp, tắc, phình.</li><li><b>Can thiệp ngay nếu cần</b>: nong bóng, đặt stent, lấy huyết khối, thả coil vào túi phình, bơm chất gây tắc (nút mạch) để cầm máu hoặc làm teo khối u.</li><li><b>Rút ống, cầm máu</b> chỗ chọc bằng băng ép hoặc thiết bị đóng mạch. Đường động mạch quay ít biến chứng chảy máu hơn và cho phép đi lại sớm hơn đường đùi.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="so-sanh">
+  <div class="wrap">
+    <h2>CTA và MRA: chụp mạch không xâm lấn</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>DSA qua ống thông</th><th>CTA (CT mạch)</th><th>MRA (cộng hưởng từ mạch)</th></tr></thead>
+        <tbody>
+          <tr><td>Cách làm</td><td>Luồn ống thông vào động mạch, bơm thuốc i-ốt tại chỗ</td><td>Tiêm thuốc i-ốt tĩnh mạch, chụp CT đúng lúc thuốc tới</td><td>Không thuốc (TOF, dựa vào dòng chảy) hoặc tiêm gadolinium</td></tr>
+          <tr><td>Xâm lấn</td><td>Có (chọc động mạch)</td><td>Không (chỉ tiêm tĩnh mạch)</td><td>Không</td></tr>
+          <tr><td>Bức xạ</td><td>Có, có thể cao nếu can thiệp kéo dài</td><td>Có</td><td>Không</td></tr>
+          <tr><td>Độ phân giải, động học</td><td>Cao nhất; thấy dòng chảy theo thời gian</td><td>Tốt, ảnh 3D, thấy cả thành mạch, mô quanh</td><td>Kém hơn với mạch nhỏ; có thể đánh giá quá mức chỗ hẹp</td></tr>
+          <tr><td>Điều trị được ngay</td><td>Có</td><td>Không</td><td>Không</td></tr>
+          <tr><td>Hay dùng cho</td><td>Can thiệp mạch vành, mạch não, nút mạch</td><td>Cấp cứu: bóc tách, thuyên tắc phổi, đột quỵ, chấn thương</td><td>Tầm soát phình mạch não, theo dõi; khi cần tránh tia X hoặc thuốc i-ốt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="an-toan">
+  <div class="wrap">
+    <h2>An toàn và ứng dụng</h2>
+    <div class="prose">
+      <ul><li><b>Thuốc cản quang i-ốt</b>: phản ứng dị ứng nhẹ (nổi mẩn, buồn nôn) không hiếm, phản ứng nặng hiếm. Người từng phản ứng cần được báo trước để chuẩn bị.</li><li><b>Thận</b>: nguy cơ tổn thương thận cấp sau thuốc cản quang tĩnh mạch hiện được cho là thấp hơn trước đây, nhưng người suy thận nặng vẫn cần cân nhắc và bù dịch theo hướng dẫn.</li><li><b>Chỗ chọc mạch</b>: tụ máu, chảy máu, giả phình; hiếm gặp tắc mạch, bóc tách do dụng cụ.</li><li><b>Liều tia</b>: thủ thuật can thiệp phức tạp có thể kéo dài, cần theo dõi liều da để tránh tổn thương da.</li></ul>
+    </div>
+    <div class="apps">
+      <div class="app"><span class="where">Tim mạch</span><h4>Nhồi máu cơ tim</h4><p>Chụp mạch vành tìm nhánh bị tắc rồi nong bóng, đặt stent ngay trong vài chục phút: điều trị chuẩn cho nhồi máu cơ tim cấp.</p></div>
+      <div class="app"><span class="where">Thần kinh</span><h4>Đột quỵ do tắc mạch lớn</h4><p>Luồn ống thông lên não lấy huyết khối ra (thrombectomy), cải thiện rõ khả năng hồi phục so với chỉ dùng thuốc.</p></div>
+      <div class="app"><span class="where">Thần kinh</span><h4>Phình mạch não</h4><p>Thả coil vào túi phình hoặc đặt stent chuyển dòng để ngăn vỡ, không cần mổ mở hộp sọ.</p></div>
+      <div class="app"><span class="where">Tiêu hóa, ung thư</span><h4>Nút mạch</h4><p>Cầm máu xuất huyết tiêu hóa, chảy máu sau sinh; bơm hóa chất kèm hạt gây tắc vào khối u gan (TACE).</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>DSA <span class="en">(digital subtraction angiography)</span></td><td>Chụp mạch số hóa xóa nền: trừ logarit ảnh có thuốc cho ảnh không thuốc.</td></tr>
+          <tr><td>Mask, live</td><td>Ảnh chụp trước khi bơm thuốc; ảnh chụp khi đang có thuốc.</td></tr>
+          <tr><td>Chiếu huỳnh quang <span class="en">(fluoroscopy)</span></td><td>Chụp X-quang liên tục theo thời gian thực.</td></tr>
+          <tr><td>Kỹ thuật Seldinger</td><td>Cách đưa ống thông vào mạch qua kim chọc và dây dẫn.</td></tr>
+          <tr><td>Ống thông <span class="en">(catheter)</span></td><td>Ống nhựa mảnh luồn trong lòng mạch để bơm thuốc, đưa dụng cụ.</td></tr>
+          <tr><td>CTA, MRA</td><td>Chụp mạch bằng CT có tiêm i-ốt; chụp mạch bằng cộng hưởng từ.</td></tr>
+          <tr><td>Nút mạch <span class="en">(embolization)</span></td><td>Chủ động làm tắc một mạch bằng coil, hạt, keo để cầm máu hoặc điều trị u.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: ảnh nền (mô mềm, cột sống, xương sườn) và cây mạch là hình học giả lập; nồng độ thuốc theo thời gian dùng hàm gamma, một dạng thường dùng để mô tả đường cong thuốc qua mạch. Giá trị chỉ để minh họa nguyên lý trừ logarit và nhiễu do cử động.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">J. T. Bushberg, J. A. Seibert, E. M. Leidholdt, J. M. Boone, <i>The Essential Physics of Medical Imaging</i>, 4th ed., Wolters Kluwer, 2020. (chương Fluoroscopy, Digital Subtraction Angiography).</li>
+      <li id="ref2">S. I. Seldinger, "Catheter replacement of the needle in percutaneous arteriography: a new technique", <i>Acta Radiologica</i> 39(5):368–376, 1953. <a href="https://doi.org/10.3109/00016925309136722" rel="noopener">Liên kết</a></li>
+      <li id="ref3">ACR Committee on Drugs and Contrast Media, <i>ACR Manual on Contrast Media</i>, American College of Radiology, 2024. <a href="https://www.acr.org/Clinical-Resources/Contrast-Manual" rel="noopener">acr.org</a></li>
+      <li id="ref4">S. S. Jolly et al., "Radial versus femoral access for coronary angiography and intervention in patients with acute coronary syndromes (RIVAL)", <i>The Lancet</i> 377(9775):1409–1420, 2011. <a href="https://doi.org/10.1016/S0140-6736(11)60404-2" rel="noopener">Liên kết</a></li>
+      <li id="ref5">M. Goyal et al., "Endovascular thrombectomy after large-vessel ischaemic stroke: a meta-analysis of individual patient data from five randomised trials (HERMES)", <i>The Lancet</i> 387(10029):1723–1731, 2016. <a href="https://doi.org/10.1016/S0140-6736(16)00163-X" rel="noopener">Liên kết</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-ct.html"><small>Phần 2</small><b>Nguyên lý CT</b></a>
+      <a class="next" href="4-nifti-dicom.html"><small>Phần 4</small><b>NIfTI và DICOM</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ay.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

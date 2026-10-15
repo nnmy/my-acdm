@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Các hệ tọa độ | Ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Các hệ tọa độ trong ảnh y khoa: hướng giải phẫu, mặt cắt, hệ voxel, hệ thế giới RAS+ và LPS+, ma trận affine, quy ước hiển thị X quang và thần kinh, không gian chuẩn MNI.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ay.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (anh-y-khoa/5-he-toa-do.html)
+  - Minh họa: lib/demos/coord-sys.js (mục #the-gioi).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/ay.css; tiện ích: lib/ay.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Ảnh y khoa">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Ảnh y khoa</a> / Phần 5</p>
+  <h1><span class="dot"></span>Các hệ tọa độ</h1>
+  <p class="lead">Cùng một điểm trong não có thể có ba bốn "địa chỉ" khác nhau: chỉ số voxel trong mảng dữ liệu, tọa độ milimét theo quy ước RAS hay LPS, và tọa độ trong không gian chuẩn MNI. Hiểu chúng là cách duy nhất để không nhầm bên trái với bên phải.</p>
+</header>
+
+<section class="part" id="huong">
+  <div class="wrap">
+    <h2>Hướng giải phẫu và mặt cắt</h2>
+    <div class="prose">
+      <p>Mọi hướng được gọi theo <b>cơ thể bệnh nhân</b>, không theo người nhìn: bên phải là bên phải của bệnh nhân. Ba cặp hướng: <b>Right–Left</b> (phải–trái), <b>Anterior–Posterior</b> (trước–sau), <b>Superior–Inferior</b> (trên–dưới, về phía đầu–về phía chân).</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Mặt cắt</th><th>Tên khác</th><th>Chia cơ thể thành</th><th>Pháp tuyến</th></tr></thead>
+        <tbody>
+          <tr><td>Ngang <span class="en">(axial, transverse)</span></td><td>cắt ngang</td><td>trên và dưới</td><td>S–I</td></tr>
+          <tr><td>Đứng ngang <span class="en">(coronal)</span></td><td>mặt phẳng trán</td><td>trước và sau</td><td>A–P</td></tr>
+          <tr><td>Đứng dọc <span class="en">(sagittal)</span></td><td>mặt phẳng dọc giữa</td><td>phải và trái</td><td>R–L</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="voxel">
+  <div class="wrap">
+    <h2>Hệ voxel: chỉ số trong mảng</h2>
+    <div class="prose">
+      <p>Dữ liệu ảnh là một mảng 3D; mỗi phần tử (voxel) có chỉ số \((i, j, k)\). Chỉ số không có đơn vị và không cho biết hướng: \(i\) tăng có thể là về bên phải, bên trái hay ra trước, tùy cách máy lưu. NIfTI, Python (numpy) đếm từ 0; MATLAB đếm từ 1: một nguồn lệch một voxel kinh điển.</p>
+    </div>
+    <div class="prose">
+      <p>Để biết voxel nằm ở đâu trong không gian thật cần thêm kích thước voxel, hướng các trục và vị trí gốc: gói lại thành một <span class="term">ma trận affine</span>.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="the-gioi">
+  <div class="wrap">
+    <h2>Hệ thế giới: RAS+ và LPS+</h2>
+    <div class="prose">
+      <p>Tọa độ thế giới tính bằng milimét, gắn với bệnh nhân (hoặc máy chụp). Có hai quy ước phổ biến, chỉ khác nhau ở dấu của hai trục đầu:</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Quy ước</th><th>Trục x dương về</th><th>Trục y dương về</th><th>Trục z dương về</th><th>Ai dùng</th></tr></thead>
+        <tbody>
+          <tr><td><b>RAS+</b></td><td>phải (Right)</td><td>trước (Anterior)</td><td>trên (Superior)</td><td>NIfTI, FreeSurfer, FSL, SPM, không gian MNI, 3D Slicer (hiển thị)</td></tr>
+          <tr><td><b>LPS+</b></td><td>trái (Left)</td><td>sau (Posterior)</td><td>trên (Superior)</td><td>DICOM, ITK và phần mềm dựa trên ITK</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="formula"><div class="eq">\[ (x, y, z)_{\text{RAS}} = (-x, -y, z)_{\text{LPS}}, \qquad \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix} = A \begin{bmatrix} i \\ j \\ k \\ 1 \end{bmatrix} \]</div><p class="where">Ma trận affine \(A\) (4 × 4): khối 3 × 3 bên trái chứa hướng các trục voxel nhân kích thước voxel; cột cuối là tọa độ của voxel (0, 0, 0). Từ DICOM: cột 1, 2 lấy từ ImageOrientationPatient nhân PixelSpacing, cột 3 là hướng giữa các lát, cột 4 là ImagePositionPatient của lát đầu.</p></div>
+    <div class="demo" id="demoCs" data-demo="coord-sys">
+      <div class="demo-title"><h4>Một điểm, nhiều tọa độ</h4><span>Kéo dấu chữ thập; đổi quy ước hiển thị, kích thước voxel, góc nghiêng</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Thử nghiêng lưới voxel: tọa độ thế giới của điểm không đổi, nhưng chỉ số voxel thay đổi, và các cột của ma trận affine không còn song song với trục. Thử đổi kích thước voxel: cùng một điểm có chỉ số khác hẳn. Đó là lý do không bao giờ so sánh hai ảnh bằng chỉ số voxel trừ khi chúng đã được đưa về cùng lưới.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="hien-thi">
+  <div class="wrap">
+    <h2>Quy ước hiển thị: X quang và thần kinh</h2>
+    <div class="prose">
+      <ul><li><b>Quy ước X quang</b> (radiological): ảnh cắt ngang nhìn như đứng ở chân bệnh nhân nhìn lên, nên <b>bên phải bệnh nhân hiện ở bên trái màn hình</b>. Đây là chuẩn của gần như mọi máy trạm đọc phim lâm sàng (CT, MRI, X-quang).</li><li><b>Quy ước thần kinh</b> (neurological): nhìn như từ trên đỉnh đầu xuống, <b>bên trái bệnh nhân ở bên trái màn hình</b>. Nhiều phần mềm nghiên cứu não và nhiều hình trong bài báo khoa học thần kinh dùng quy ước này.</li></ul>
+    </div>
+    <div class="prose">
+      <p>Tọa độ không đổi khi đổi quy ước; chỉ hình bị lật. Vì vậy hình trong bài báo, phần mềm nên luôn ghi chữ <b>L</b>/<b>R</b> trên ảnh. Một ảnh không ghi hướng thì không thể biết tổn thương ở bên nào.</p>
+    </div>
+    <div class="callout"><b>Kiểm tra thực hành:</b> mở ảnh trong phần mềm của bạn, đặt con trỏ vào một cấu trúc biết chắc bên (ví dụ dấu đánh dấu R/L của kỹ thuật viên, hay một tổn thương đã biết bên), xem phần mềm báo tọa độ x âm hay dương và hiện ở phía nào màn hình. Với Python: <code>nib.aff2axcodes(img.affine)</code>.</div>
+
+  </div>
+</section>
+
+<section class="part" id="chuan">
+  <div class="wrap">
+    <h2>Không gian chuẩn: MNI và Talairach</h2>
+    <div class="prose">
+      <p>Mỗi bộ não một kích thước, hình dạng. Để so sánh hay gộp kết quả nhiều người, ảnh từng người được <span class="term">đăng ký</span> (registration) vào một khuôn chung bằng phép biến đổi affine rồi phi tuyến. Khuôn phổ biến nhất là <b>MNI152</b> (trung bình ảnh của 152 người trưởng thành), dùng quy ước RAS+ với gốc gần mép trước (anterior commissure). Khi một bài báo fMRI viết "kích hoạt ở (−42, 22, 8)", đó là tọa độ mm trong không gian MNI: x âm là bán cầu trái.</p>
+    </div>
+    <div class="prose">
+      <p>Không gian <b>Talairach</b> cũ hơn, dựa trên một bộ não duy nhất; tọa độ MNI và Talairach lệch nhau vài milimét, cần công thức chuyển đổi chứ không dùng lẫn được. Atlas giải phẫu (ví dụ trong <a href="../med-atlas/index.html">Atlas ảnh y khoa</a>) gắn nhãn cấu trúc cho từng vùng của khuôn.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Chỉ số voxel không có hướng và đơn vị; ma trận affine biến nó thành tọa độ mm.</li><li>NIfTI dùng RAS+, DICOM dùng LPS+: đổi dấu x và y.</li><li>Màn hình lâm sàng theo quy ước X quang (phải bệnh nhân ở trái màn hình); luôn nhìn nhãn L/R.</li><li>Tọa độ trong bài báo nghiên cứu não thường là mm trong không gian MNI.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>RAS+, LPS+</td><td>Quy ước hệ tọa độ thế giới: chữ cái chỉ hướng dương của trục x, y, z.</td></tr>
+          <tr><td>Affine</td><td>Phép biến đổi tuyến tính cộng tịnh tiến, biểu diễn bằng ma trận 4 × 4.</td></tr>
+          <tr><td>Đăng ký ảnh <span class="en">(registration)</span></td><td>Tìm phép biến đổi để hai ảnh (hoặc ảnh với khuôn) khớp nhau.</td></tr>
+          <tr><td>MNI152</td><td>Khuôn não chuẩn của Viện Thần kinh Montreal, trung bình 152 người.</td></tr>
+          <tr><td>Quy ước X quang, thần kinh <span class="en">(radiological, neurological convention)</span></td><td>Hai cách hiển thị ảnh cắt ngang, lật trái phải so với nhau.</td></tr>
+          <tr><td>Isocenter</td><td>Tâm của máy chụp, nơi gốc tọa độ máy thường được đặt.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: đầu là hình vẽ giả lập; khối ảnh giả định có trục i hướng về phải, j về trước, k lên trên khi góc nghiêng bằng 0, gốc tọa độ ở tâm khối.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">3D Slicer documentation, "Coordinate systems". <a href="https://slicer.readthedocs.io/en/latest/user_guide/coordinate_systems.html" rel="noopener">slicer.readthedocs.io</a></li>
+      <li id="ref2">NIfTI Data Format Working Group, <i>NIfTI-1 Data Format</i>, mục qform/sform. <a href="https://nifti.nimh.nih.gov/nifti-1/" rel="noopener">nifti.nimh.nih.gov</a></li>
+      <li id="ref3">NEMA, <i>DICOM Standard</i>, PS3.3, mục C.7.6.2 Image Plane Module. <a href="https://www.dicomstandard.org" rel="noopener">dicomstandard.org</a></li>
+      <li id="ref4">NiBabel documentation, "Coordinate systems and affines". <a href="https://nipy.org/nibabel/coordinate_systems.html" rel="noopener">nipy.org/nibabel</a></li>
+      <li id="ref5">M. Brett, I. S. Johnsrude, A. M. Owen, "The problem of functional localization in the human brain", <i>Nature Reviews Neuroscience</i> 3(3):243–249, 2002. <a href="https://doi.org/10.1038/nrn756" rel="noopener">Liên kết</a></li>
+      <li id="ref6">V. Fonov et al., "Unbiased average age-appropriate atlases for pediatric studies", <i>NeuroImage</i> 54(1):313–327, 2011. <a href="https://doi.org/10.1016/j.neuroimage.2010.07.033" rel="noopener">Liên kết</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-nifti-dicom.html"><small>Phần 4</small><b>NIfTI và DICOM</b></a>
+      <a class="next" href="index.html"><small>Quay lại</small><b>Ảnh y khoa</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ay.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

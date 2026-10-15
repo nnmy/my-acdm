@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giới hạn | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Giới hạn của hàm số: ý tưởng, định nghĩa ε–δ, cách tính, giới hạn ở vô cực, và các ứng dụng trong đời sống.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/1-gioi-han.html)
+  - Minh họa: lib/demos/lim-approach.js (mục #y-tuong); dùng chung lib/demos/plot.js.
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 1</p>
+  <h1><span class="dot"></span>Giới hạn</h1>
+  <p class="lead">Giới hạn trả lời câu hỏi: khi x tới rất gần a (nhưng không bằng a), f(x) tới gần giá trị nào? Đây là cách toán học làm việc với "vô cùng nhỏ" và "vô cùng lớn", và là nền móng của đạo hàm, tích phân.</p>
+</header>
+
+<section class="part" id="y-tuong">
+  <div class="wrap">
+    <h2>Tiến gần mà không chạm</h2>
+    <div class="prose">
+      <p>Thử tính \(f(x) = \dfrac{x^2 - 1}{x - 1}\) tại \(x = 1\): ta được \(0/0\), vô nghĩa. Nhưng với mọi \(x \ne 1\), tử số bằng \((x-1)(x+1)\), nên \(f(x) = x + 1\). Khi \(x\) tới gần 1, \(f(x)\) tới gần 2. Ta viết:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \lim_{x \to 1} \frac{x^2 - 1}{x - 1} = 2 \]</div><p class="where">Đọc là "giới hạn của f(x) khi x tiến tới 1 bằng 2". Giá trị của f tại chính điểm 1 không quan trọng, thậm chí không cần tồn tại.</p></div>
+    <div class="prose">
+      <p>Kéo thanh h trong minh họa để lấy x ngày càng gần a từ cả hai phía. Nếu f(a − h) và f(a + h) cùng tiến về một số L, giới hạn bằng L. Nếu hai phía tiến về hai số khác nhau, hay cứ dao động mãi, hay lớn lên không ngừng, giới hạn không tồn tại (hoặc là vô cực).</p>
+    </div>
+    <div class="demo" id="demoLim" data-demo="lim-approach">
+      <div class="demo-title"><h4>Tiến về một điểm</h4><span>Kéo h nhỏ dần: f(a − h) và f(a + h) có tiến về cùng một số?</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <h3>Giới hạn một phía</h3>
+    <div class="prose">
+      <p>Khi chỉ xét \(x\) từ bên trái (\(x < a\)) ta có giới hạn trái \(\lim_{x \to a^-} f(x)\); từ bên phải là giới hạn phải \(\lim_{x \to a^+} f(x)\). Giới hạn (hai phía) tồn tại khi và chỉ khi hai giới hạn một phía tồn tại và bằng nhau. Hàm \(|x|/x\) có giới hạn trái −1, phải +1: đồ thị "nhảy bậc" tại 0, như cước taxi nhảy lên mỗi khi qua một mốc quãng đường.</p>
+    </div>
+    <h3>Liên tục</h3>
+    <div class="prose">
+      <p>Hàm \(f\) <span class="term">liên tục</span> tại \(a\) nếu \(\lim_{x \to a} f(x) = f(a)\): vẽ đồ thị qua điểm đó không phải nhấc bút. Đa thức, \(\sin\), \(\cos\), \(e^x\) liên tục ở mọi nơi; phân thức liên tục ở mọi điểm mẫu khác 0. Với hàm liên tục, tính giới hạn chỉ là thay số vào.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="dinh-nghia">
+  <div class="wrap">
+    <h2>Định nghĩa chặt chẽ: ε và δ</h2>
+    <div class="prose">
+      <p>"Tới gần" cần được nói chính xác. Định nghĩa của Cauchy và Weierstrass biến nó thành một trò thách đố: bạn đưa ra sai số cho phép \(\varepsilon\) (nhỏ bao nhiêu cũng được), tôi phải tìm được một khoảng \(\delta\) quanh \(a\) sao cho mọi \(x\) trong khoảng đó đều làm \(f(x)\) cách \(L\) không quá \(\varepsilon\).</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \lim_{x\to a} f(x) = L \iff \forall \varepsilon > 0,\ \exists \delta > 0:\ 0 < |x - a| < \delta \Rightarrow |f(x) - L| < \varepsilon \]</div><p class="where">Ví dụ với \(f(x) = 3x + 1\), \(a = 2\), \(L = 7\): \(|f(x) - 7| = 3|x - 2|\), nên chọn \(\delta = \varepsilon/3\) là thắng mọi thách đố.</p></div>
+    <div class="prose">
+      <p>Kỹ sư dùng đúng ý này hằng ngày dưới tên "dung sai": muốn trục quay lệch không quá 0,01 mm thì máy tiện phải định vị chính xác tới mức nào?</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="tinh">
+  <div class="wrap">
+    <h2>Tính giới hạn trong thực hành</h2>
+    <div class="prose">
+      <ul><li><b>Thay trực tiếp</b> nếu hàm liên tục tại điểm đó.</li><li><b>Dạng vô định \(0/0\)</b>: rút gọn nhân tử chung, nhân với biểu thức liên hợp, hoặc dùng quy tắc L'Hôpital: \(\lim f/g = \lim f'/g'\) khi cả hai cùng tiến về 0 (hoặc ∞).</li><li><b>Quy tắc cộng, nhân, chia</b>: giới hạn của tổng, tích, thương bằng tổng, tích, thương các giới hạn (khi các giới hạn đó tồn tại và mẫu khác 0).</li></ul>
+    </div>
+    <div class="formula"><div class="eq">\[ \lim_{x\to 0}\frac{\sin x}{x} = 1 \qquad \lim_{x\to 0}(1+x)^{1/x} = \lim_{n\to\infty}\Big(1+\frac1n\Big)^n = e \approx 2{,}71828 \qquad \lim_{x\to\infty}\frac{1}{x} = 0 \]</div><p class="where">Ba giới hạn "nền": từ chúng suy ra đạo hàm của sin, cos, hàm mũ và logarit.</p></div>
+    <div class="worked"><b class="lbl">Ví dụ</b><p>Tính \(\displaystyle\lim_{x\to 0}\frac{\sqrt{x+4}-2}{x}\). Thay \(x = 0\) được \(0/0\). Nhân cả tử và mẫu với \(\sqrt{x+4}+2\):</p><p>\(\dfrac{(x+4) - 4}{x(\sqrt{x+4}+2)} = \dfrac{1}{\sqrt{x+4}+2} \to \dfrac{1}{4}\). Kiểm tra bằng máy tính: với \(x = 0{,}001\), biểu thức bằng 0,24998.</p></div>
+    <h3>Giới hạn ở vô cực và tiệm cận</h3>
+    <div class="prose">
+      <p>Khi \(x\) lớn dần, \(1/x \to 0\), \(\dfrac{2x+1}{x-3} \to 2\). Đường \(y = 2\) là <span class="term">tiệm cận ngang</span>. Ở vô cực, các hàm có "thứ bậc tăng" rõ ràng: \(\ln x \ll x^k \ll a^x \ll x!\). Ví dụ \(\lim_{x\to\infty} x^{100}/2^x = 0\): hàm mũ cuối cùng luôn thắng đa thức, dù lúc đầu chậm hơn.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Giao thông</span><h4>Vận tốc tức thời</h4><p>Đồng hồ tốc độ hiển thị quãng đường chia thời gian trong một khoảng rất ngắn. Khoảng đó tiến về 0 thì ta có vận tốc tức thời, chính là đạo hàm (định nghĩa bằng giới hạn).</p></div>
+      <div class="app"><span class="where">Tài chính</span><h4>Lãi ghép liên tục và số e</h4><p>Ghép lãi càng dày (năm, tháng, ngày, giờ…), hệ số \((1 + r/n)^n\) càng tiến tới \(e^r\) chứ không tăng mãi. Ngân hàng và mô hình tài chính dùng \(e^{rt}\) làm chuẩn.</p></div>
+      <div class="app"><span class="where">Y khoa</span><h4>Nồng độ thuốc ổn định</h4><p>Uống thuốc đều đặn mỗi 8 giờ, nồng độ trong máu dao động rồi tiến tới một mức trần ổn định (trạng thái cân bằng), sau khoảng 4–5 lần thời gian bán thải.</p></div>
+      <div class="app"><span class="where">Kinh tế</span><h4>Chi phí trung bình</h4><p>Chi phí cố định 1 tỷ chia cho n sản phẩm tiến về 0 khi n rất lớn: chi phí mỗi sản phẩm tiến tới chi phí biến đổi. Đó là lý do sản xuất hàng loạt rẻ hơn.</p></div>
+      <div class="app"><span class="where">Máy tính</span><h4>Tính √2, π, sin x</h4><p>Máy tính tạo ra một dãy số xấp xỉ hội tụ (ví dụ phương pháp Newton cho √2) và dừng khi sai số nhỏ hơn ε cho trước: định nghĩa ε–δ trong thực tế.</p></div>
+      <div class="app"><span class="where">Đời thường</span><h4>Đi mãi nửa quãng còn lại</h4><p>Đi nửa quãng, rồi nửa phần còn lại… tổng \(1/2 + 1/4 + 1/8 + \dots\) có vô số số hạng nhưng giới hạn bằng 1: ta vẫn tới đích. Chuỗi vô hạn hội tụ là giới hạn của các tổng riêng.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Giới hạn nói về hành vi của f <b>gần</b> a, không phải <b>tại</b> a.</li><li>Giới hạn tồn tại khi giới hạn trái và phải tồn tại và bằng nhau.</li><li>Hàm liên tục: giới hạn bằng giá trị hàm, cứ thay số vào.</li><li>Gặp \(0/0\) hay \(\infty/\infty\): đó là dấu hiệu phải biến đổi, chưa phải đáp số.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Giới hạn <span class="en">(limit)</span></td><td>Giá trị mà f(x) tiến tới khi x tiến tới a.</td></tr>
+          <tr><td>Giới hạn một phía <span class="en">(one-sided limit)</span></td><td>Chỉ xét x tiến tới a từ bên trái hoặc từ bên phải.</td></tr>
+          <tr><td>Liên tục <span class="en">(continuous)</span></td><td>Giới hạn tại a bằng f(a): đồ thị không đứt tại a.</td></tr>
+          <tr><td>Dạng vô định <span class="en">(indeterminate form)</span></td><td>Các dạng 0/0, ∞/∞, ∞ − ∞, 0·∞, 1^∞… chưa cho biết kết quả, cần biến đổi thêm.</td></tr>
+          <tr><td>Tiệm cận <span class="en">(asymptote)</span></td><td>Đường thẳng mà đồ thị tiến sát tới mãi mà không cần chạm.</td></tr>
+          <tr><td>Hội tụ, phân kỳ <span class="en">(converge, diverge)</span></td><td>Dãy (chuỗi) hội tụ nếu có giới hạn hữu hạn; ngược lại là phân kỳ.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: giá trị hàm tính trực tiếp bằng số thực dấu phẩy động của trình duyệt; khi h rất nhỏ (dưới khoảng 10⁻⁸), sai số làm tròn có thể làm vài hàm như (x² − 1)/(x − 1) lệch nhẹ.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">G. Strang, E. Herman et al., <i>Calculus Volume 1</i>, OpenStax, 2016, chương 2 (Limits). <a href="https://openstax.org/details/books/calculus-volume-1" rel="noopener">openstax.org</a></li>
+      <li id="ref2">J. Stewart, D. Clegg, S. Watson, <i>Calculus: Early Transcendentals</i>, 9th ed., Cengage, 2020.</li>
+      <li id="ref3">S. Abbott, <i>Understanding Analysis</i>, 2nd ed., Springer, 2015 (định nghĩa ε–δ, dãy và chuỗi).</li>
+      <li id="ref4">M. Rowland, T. N. Tozer, <i>Clinical Pharmacokinetics and Pharmacodynamics</i>, 4th ed., Lippincott Williams &amp; Wilkins, 2011 (trạng thái ổn định khi dùng thuốc lặp lại).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Quay lại</small><b>Toán học &amp; ứng dụng</b></a>
+      <a class="next" href="2-dao-ham.html"><small>Phần 2</small><b>Đạo hàm</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

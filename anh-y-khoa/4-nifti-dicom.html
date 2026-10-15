@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIfTI và DICOM | Ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="So sánh định dạng ảnh y khoa DICOM và NIfTI: cấu trúc, thẻ DICOM, header NIfTI, ma trận affine, hệ tọa độ, ẩn danh hóa, chuyển đổi bằng dcm2niix và đọc bằng Python.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ay.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (anh-y-khoa/4-nifti-dicom.html)
+  - Minh họa: lib/demos/dicom-nifti.js (mục #so-sanh).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/ay.css; tiện ích: lib/ay.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Ảnh y khoa">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Ảnh y khoa</a> / Phần 4</p>
+  <h1><span class="dot"></span>NIfTI và DICOM</h1>
+  <p class="lead">DICOM là chuẩn của bệnh viện: thường mỗi lát ảnh là một file, kèm hàng trăm thông tin về bệnh nhân, máy, cách chụp, và đi kèm cả giao thức truyền ảnh. NIfTI là định dạng gọn của giới nghiên cứu: cả khối 3D, 4D trong một file, kèm ma trận cho biết mỗi voxel nằm ở đâu trong không gian.</p>
+</header>
+
+<section class="part" id="dicom">
+  <div class="wrap">
+    <h2>DICOM: chuẩn của bệnh viện</h2>
+    <div class="prose">
+      <span class="term">DICOM</span> (Digital Imaging and Communications in Medicine) vừa là định dạng file vừa là chuẩn giao tiếp mạng. Máy CT, MRI, X-quang, siêu âm gửi ảnh tới hệ thống lưu trữ <span class="term">PACS</span> bằng giao thức DICOM; máy trạm đọc ảnh truy vấn, tải ảnh cũng bằng DICOM. Nhờ vậy máy của các hãng khác nhau làm việc được với nhau.
+    </div>
+    <div class="prose">
+      <p>Một file DICOM là danh sách các <span class="term">phần tử dữ liệu</span>, mỗi phần tử có thẻ \((\text{nhóm}, \text{phần tử})\) dạng thập lục phân, kiểu giá trị (VR) và giá trị. Ảnh tổ chức theo cấp: <b>Bệnh nhân → Lần khám (Study) → Loạt ảnh (Series) → Ảnh (Instance)</b>, mỗi cấp có mã định danh duy nhất (UID).</p>
+    </div>
+    <pre class="code">(0010,0010) PN  PatientName              TRAN^THI^MAI
+(0008,0060) CS  Modality                 MR
+(0020,000E) UI  SeriesInstanceUID        1.2.840.99999.1.20260312.8
+(0020,0032) DS  ImagePositionPatient     -120\-110\-5
+(0020,0037) DS  ImageOrientationPatient  1\0\0\0\1\0
+(0028,0030) DS  PixelSpacing             0.9375\0.9375
+(0028,1053) DS  RescaleSlope             1        (CT: đổi giá trị pixel ra HU)
+(7FE0,0010) OW  PixelData                ...</pre>
+    <div class="prose">
+      <p>Điểm mạnh: thông tin đầy đủ, chuẩn hóa, dùng trong mọi bệnh viện, hỗ trợ nén (JPEG, JPEG 2000…), có cả báo cáo cấu trúc, vùng đánh dấu, liều bức xạ. Điểm yếu cho nghiên cứu: hàng trăm file nhỏ cho một loạt ảnh, cách ghi khác nhau giữa các hãng, và chứa thông tin cá nhân của bệnh nhân.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="nifti">
+  <div class="wrap">
+    <h2>NIfTI: định dạng cho phân tích</h2>
+    <div class="prose">
+      <span class="term">NIfTI</span> (Neuroimaging Informatics Technology Initiative) ra đời đầu những năm 2000 từ định dạng Analyze cũ, cho cộng đồng phân tích ảnh não. Một file <code>.nii</code> (hoặc nén <code>.nii.gz</code>) gồm header cố định 348 byte (NIfTI-1) rồi tới toàn bộ mảng dữ liệu 3D hoặc 4D (ví dụ fMRI: 3 chiều không gian + thời gian).
+    </div>
+    <div class="prose">
+      <ul><li><b>dim, pixdim</b>: kích thước mảng và kích thước voxel (mm), khoảng thời gian giữa các khung.</li><li><b>datatype</b>: kiểu số (int16, float32…); <b>scl_slope, scl_inter</b>: hệ số đổi giá trị lưu ra giá trị thật.</li><li><b>qform, sform</b>: hai cách ghi phép biến đổi từ chỉ số voxel sang tọa độ mm (theo quy ước RAS+); sform là một ma trận affine 4 × 4 tổng quát. Đây là phần quan trọng nhất của NIfTI.</li><li><b>Không có trường dành cho thông tin bệnh nhân</b> (chỉ có một chuỗi mô tả 80 ký tự), nên dễ chia sẻ hơn sau khi đã xóa mặt trên ảnh 3D đầu.</li></ul>
+    </div>
+    <div class="prose">
+      <p>NIfTI-2 (2011) mở rộng header lên 540 byte để chứa mảng rất lớn. Chuẩn tổ chức dữ liệu nghiên cứu <b>BIDS</b> dùng NIfTI cho ảnh và file JSON đi kèm cho tham số chụp lấy từ DICOM (TR, TE, góc lật…).</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="so-sanh">
+  <div class="wrap">
+    <h2>So sánh trực tiếp</h2>
+    <div class="demo" id="demoDn" data-demo="dicom-nifti">
+      <div class="demo-title"><h4>Một loạt ảnh, hai cách lưu</h4><span>Chọn một lát để xem thẻ DICOM; so với header NIfTI của cả khối</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tiêu chí</th><th>DICOM</th><th>NIfTI</th></tr></thead>
+        <tbody>
+          <tr><td>Mục đích</td><td>Lâm sàng: lưu, truyền, hiển thị, báo cáo</td><td>Nghiên cứu: phân tích, xử lý, chia sẻ dữ liệu</td></tr>
+          <tr><td>Đơn vị lưu</td><td>Thường 1 file mỗi lát (hoặc multi-frame)</td><td>1 file cho cả khối 3D/4D</td></tr>
+          <tr><td>Thông tin đi kèm</td><td>Hàng trăm thẻ: bệnh nhân, máy, tham số chụp, liều</td><td>Tối thiểu: kích thước, kiểu dữ liệu, định vị</td></tr>
+          <tr><td>Thông tin cá nhân</td><td>Có, phải ẩn danh hóa trước khi chia sẻ</td><td>Không có trường riêng; vẫn cần xóa mặt trên ảnh đầu</td></tr>
+          <tr><td>Định vị không gian</td><td>Mỗi lát: ImagePositionPatient, ImageOrientationPatient, PixelSpacing</td><td>Một ma trận affine cho cả khối (qform, sform)</td></tr>
+          <tr><td>Hệ tọa độ</td><td>LPS+ (x về trái, y về sau, z lên đầu bệnh nhân)</td><td>RAS+ (x về phải, y về trước, z lên đầu)</td></tr>
+          <tr><td>Nén</td><td>Nhiều chuẩn nén trong file</td><td>gzip toàn file (.nii.gz)</td></tr>
+          <tr><td>Phần mềm tiêu biểu</td><td>PACS, RadiAnt, Horos/OsiriX, Weasis</td><td>FSL, SPM, AFNI, FreeSurfer, ANTs, ITK-SNAP, 3D Slicer, nibabel</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="chuyen-doi">
+  <div class="wrap">
+    <h2>Chuyển đổi và đọc dữ liệu</h2>
+    <div class="prose">
+      <p>Công cụ phổ biến nhất để chuyển DICOM sang NIfTI là <b>dcm2niix</b>: nó ghép các lát thành khối, tính ma trận affine từ các thẻ định vị, xử lý các trường hợp khó (lát cách không đều, gantry nghiêng, ảnh mosaic của Siemens), và xuất file JSON tham số chụp theo BIDS.</p>
+    </div>
+    <pre class="code"># chuyển cả thư mục DICOM, nén .nii.gz, tên file theo mô tả loạt ảnh
+dcm2niix -z y -f %d_%s -o nifti_out/ dicom_folder/
+
+# đọc bằng Python
+import nibabel as nib
+img = nib.load("nifti_out/T1_SE_AX_8.nii.gz")
+print(img.shape, img.header.get_zooms())   # (256, 256, 24) (0.9375, 0.9375, 5.0)
+print(img.affine)                          # ma trận voxel -> RAS+ (mm)
+print(nib.aff2axcodes(img.affine))          # hướng các trục, ví dụ ('L', 'P', 'S')
+data = img.get_fdata()</pre>
+    <div class="prose">
+      <ul><li><b>Luôn kiểm tra hướng trái phải</b> sau khi chuyển đổi, nhất là khi dùng nhiều phần mềm: nhầm quy ước LPS và RAS là lỗi kinh điển (xem <a href="5-he-toa-do.html">Các hệ tọa độ</a>).</li><li><b>Ẩn danh hóa</b> DICOM trước khi đưa ra ngoài bệnh viện: xóa hoặc thay tên, mã, ngày sinh, ngày chụp, tên cơ sở, UID; cẩn thận chữ in cứng trên ảnh (siêu âm, ảnh chụp màn hình).</li><li><b>Giữ lại DICOM gốc</b>: NIfTI bỏ đi nhiều thông tin mà sau này có thể cần.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>PACS</td><td>Hệ thống lưu trữ và truyền ảnh của bệnh viện (Picture Archiving and Communication System).</td></tr>
+          <tr><td>Thẻ DICOM <span class="en">(tag)</span></td><td>Cặp số (nhóm, phần tử) định danh một trường thông tin, ví dụ (0010,0010) là tên bệnh nhân.</td></tr>
+          <tr><td>UID</td><td>Mã định danh duy nhất toàn cầu cho Study, Series, Instance.</td></tr>
+          <tr><td>Voxel</td><td>Phần tử thể tích của ảnh 3D, như pixel của ảnh 2D.</td></tr>
+          <tr><td>Affine</td><td>Ma trận 4 × 4 đổi chỉ số voxel (i, j, k) sang tọa độ thế giới (mm).</td></tr>
+          <tr><td>qform, sform</td><td>Hai cách ghi phép biến đổi định vị trong header NIfTI (phép quay + tịnh tiến; ma trận affine tổng quát).</td></tr>
+          <tr><td>BIDS</td><td>Brain Imaging Data Structure: chuẩn tổ chức thư mục, tên file dữ liệu ảnh nghiên cứu.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: loạt ảnh và mọi thông tin bệnh nhân là giả. Ma trận sform suy từ thẻ DICOM theo <a href="#ref2">[2]</a>, <a href="#ref6">[6]</a>; các công cụ chuyển đổi thực tế có thể đảo thứ tự hàng hoặc lát để ma trận gần với hướng chuẩn hơn, nên giá trị cụ thể có thể khác mà vẫn đúng.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">NEMA, <i>Digital Imaging and Communications in Medicine (DICOM) Standard</i>, PS3.1–PS3.20. <a href="https://www.dicomstandard.org" rel="noopener">dicomstandard.org</a></li>
+      <li id="ref2">NIfTI Data Format Working Group, <i>NIfTI-1 Data Format</i> (nifti1.h). <a href="https://nifti.nimh.nih.gov/nifti-1/" rel="noopener">nifti.nimh.nih.gov</a></li>
+      <li id="ref3">M. Larobina, L. Murino, "Medical image file formats", <i>Journal of Digital Imaging</i> 27(2):200–206, 2014. <a href="https://doi.org/10.1007/s10278-013-9657-9" rel="noopener">Liên kết</a></li>
+      <li id="ref4">X. Li, P. S. Morgan, J. Ashburner, J. Smith, C. Rorden, "The first step for neuroimaging data analysis: DICOM to NIfTI conversion", <i>Journal of Neuroscience Methods</i> 264:47–56, 2016. <a href="https://doi.org/10.1016/j.jneumeth.2016.03.001" rel="noopener">Liên kết</a></li>
+      <li id="ref5">K. J. Gorgolewski et al., "The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments", <i>Scientific Data</i> 3:160044, 2016. <a href="https://doi.org/10.1038/sdata.2016.44" rel="noopener">Liên kết</a></li>
+      <li id="ref6">NiBabel documentation, "Coordinate systems and affines". <a href="https://nipy.org/nibabel/coordinate_systems.html" rel="noopener">nipy.org/nibabel</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-angiography.html"><small>Phần 3</small><b>Nguyên lý chụp mạch</b></a>
+      <a class="next" href="5-he-toa-do.html"><small>Phần 5</small><b>Các hệ tọa độ</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ay.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

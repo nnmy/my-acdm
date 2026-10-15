@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đạo hàm | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Đạo hàm: từ cát tuyến đến tiếp tuyến, quy tắc tính, ý nghĩa với đồ thị, bài toán tối ưu, và ứng dụng trong đời sống.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/2-dao-ham.html)
+  - Minh họa: lib/demos/der-tangent.js (mục #dinh-nghia); dùng chung lib/demos/plot.js.
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 2</p>
+  <h1><span class="dot"></span>Đạo hàm</h1>
+  <p class="lead">Đạo hàm đo một đại lượng thay đổi nhanh cỡ nào ngay tại một thời điểm: vận tốc là đạo hàm của vị trí, gia tốc là đạo hàm của vận tốc. Về hình học, đạo hàm là độ dốc của tiếp tuyến.</p>
+</header>
+
+<section class="part" id="dinh-nghia">
+  <div class="wrap">
+    <h2>Từ cát tuyến đến tiếp tuyến</h2>
+    <div class="prose">
+      <p>Đi 120 km trong 2 giờ là vận tốc <i>trung bình</i> 60 km/h. Nhưng đồng hồ tốc độ cho vận tốc <i>tức thời</i>. Cách làm: lấy vận tốc trung bình trong một khoảng thời gian \(h\) rất ngắn, rồi cho \(h \to 0\). Trên đồ thị, vận tốc trung bình là hệ số góc của <span class="term">cát tuyến</span> nối hai điểm; giới hạn của nó là hệ số góc của <span class="term">tiếp tuyến</span>.</p>
+    </div>
+    <div class="formula"><div class="eq">\[ f'(x) = \lim_{h\to 0}\frac{f(x+h) - f(x)}{h} \]</div><p class="where">Các ký hiệu khác: \(\dfrac{df}{dx}\), \(\dfrac{dy}{dx}\), \(\dot{x}\) (đạo hàm theo thời gian, hay dùng trong vật lý).</p></div>
+    <div class="demo" id="demoDer" data-demo="der-tangent">
+      <div class="demo-title"><h4>Từ cát tuyến đến tiếp tuyến</h4><span>Kéo x₀ để di chuyển, giảm h để cát tuyến thành tiếp tuyến</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="quy-tac">
+  <div class="wrap">
+    <h2>Các quy tắc tính</h2>
+    <div class="prose">
+      <p>Không ai tính đạo hàm bằng giới hạn mỗi lần. Từ định nghĩa, người ta rút ra một bảng nhỏ và vài quy tắc ghép; mọi hàm sơ cấp đều tính được bằng chúng.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Hàm</th><th>Đạo hàm</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>\(x^n\)</td><td>\(n x^{n-1}\)</td><td>Với mọi số mũ thực n. Ví dụ \((\sqrt{x})' = \frac{1}{2\sqrt{x}}\).</td></tr>
+          <tr><td>\(e^x\)</td><td>\(e^x\)</td><td>Hàm duy nhất (sai khác hằng số nhân) bằng chính đạo hàm của nó: tốc độ tăng tỉ lệ với giá trị.</td></tr>
+          <tr><td>\(\ln x\)</td><td>\(1/x\)</td><td></td></tr>
+          <tr><td>\(\sin x,\ \cos x\)</td><td>\(\cos x,\ -\sin x\)</td><td>x tính bằng radian.</td></tr>
+          <tr><td>\(u + v,\ c\,u\)</td><td>\(u' + v',\ c\,u'\)</td><td>Tuyến tính.</td></tr>
+          <tr><td>\(u\,v\)</td><td>\(u'v + uv'\)</td><td>Quy tắc tích.</td></tr>
+          <tr><td>\(u/v\)</td><td>\((u'v - uv')/v^2\)</td><td>Quy tắc thương.</td></tr>
+          <tr><td>\(f(g(x))\)</td><td>\(f'(g(x))\cdot g'(x)\)</td><td>Quy tắc hàm hợp (chuỗi): nhân các tốc độ thay đổi nối tiếp nhau.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="worked"><b class="lbl">Ví dụ: rơi tự do</b><p>Một vật rơi được quãng đường \(s(t) = 4{,}9\,t^2\) (mét, t tính bằng giây). Vận tốc \(v(t) = s'(t) = 9{,}8\,t\) m/s; gia tốc \(a(t) = v'(t) = 9{,}8\) m/s², chính là gia tốc trọng trường g.</p><p>Sau 3 giây vật rơi được 44,1 m và đang có vận tốc 29,4 m/s (khoảng 106 km/h).</p></div>
+
+  </div>
+</section>
+
+<section class="part" id="do-thi">
+  <div class="wrap">
+    <h2>Đạo hàm nói gì về đồ thị</h2>
+    <div class="prose">
+      <ul><li>\(f' > 0\): hàm đang tăng; \(f' < 0\): đang giảm.</li><li>\(f' = 0\): điểm dừng, ứng viên cho cực đại, cực tiểu. Đây là chìa khóa của mọi bài toán <b>tối ưu</b>: tìm chỗ đạo hàm bằng 0.</li><li>Đạo hàm bậc hai \(f''\): \(f'' > 0\) đồ thị cong lên (như cái chén), \(f'' < 0\) cong xuống. Trong chuyển động, \(f''\) là gia tốc.</li></ul>
+    </div>
+    <div class="worked"><b class="lbl">Ví dụ tối ưu: hộp không nắp</b><p>Từ tấm bìa vuông cạnh 30 cm, cắt 4 hình vuông cạnh \(x\) ở góc rồi gấp thành hộp. Thể tích \(V(x) = x(30 - 2x)^2\) với \(0 < x < 15\).</p><p>\(V'(x) = (30-2x)^2 - 4x(30-2x) = (30-2x)(30-6x)\). \(V' = 0\) khi \(x = 5\) (loại \(x = 15\)). Hộp lớn nhất có thể tích \(5 \cdot 20^2 = 2000\) cm³.</p></div>
+    <h3>Xấp xỉ tuyến tính</h3>
+    <div class="prose">
+      <p>Gần một điểm, đồ thị trông như tiếp tuyến của nó: \(f(a + h) \approx f(a) + f'(a)\,h\). Ví dụ \(\sqrt{4{,}1} \approx 2 + \dfrac{0{,}1}{2\sqrt4} = 2{,}025\) (đúng: 2,02485). Kỹ sư và nhà vật lý dùng phép xấp xỉ này liên tục, ví dụ \(\sin\theta \approx \theta\) với góc nhỏ khi tính dao động con lắc.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Giao thông, điện thoại</span><h4>Vận tốc và gia tốc</h4><p>Vận tốc là đạo hàm của vị trí, gia tốc là đạo hàm của vận tốc. Cảm biến gia tốc trong điện thoại đo gia tốc để biết bạn đang đi bộ, chạy, hay vừa làm rơi máy.</p></div>
+      <div class="app"><span class="where">Sản xuất</span><h4>Thiết kế tiết kiệm vật liệu</h4><p>Lon hình trụ chứa thể tích cho trước tốn ít vật liệu nhất khi chiều cao bằng đường kính (đặt đạo hàm diện tích theo bán kính bằng 0). Lon thật hơi khác vì nắp dày hơn thân và yêu cầu cầm nắm.</p></div>
+      <div class="app"><span class="where">Kinh tế</span><h4>Chi phí biên, doanh thu biên</h4><p>Chi phí biên là đạo hàm của tổng chi phí theo sản lượng: làm thêm một sản phẩm tốn thêm bao nhiêu. Lợi nhuận lớn nhất khi doanh thu biên bằng chi phí biên.</p></div>
+      <div class="app"><span class="where">Trí tuệ nhân tạo</span><h4>Gradient descent</h4><p>Mạng nơ-ron "học" bằng cách tính đạo hàm (gradient) của sai số theo hàng triệu tham số, rồi chỉnh mỗi tham số một chút theo hướng làm sai số giảm. Quy tắc hàm hợp chính là thuật toán lan truyền ngược.</p></div>
+      <div class="app"><span class="where">Dịch tễ</span><h4>Tốc độ lây lan</h4><p>Số ca mới mỗi ngày là đạo hàm của tổng số ca. Khi số ca mới bắt đầu giảm (đạo hàm bậc hai âm) thì đường cong tổng số ca đã qua điểm uốn: dịch đang chậm lại.</p></div>
+      <div class="app"><span class="where">Y khoa</span><h4>Đọc đồ thị theo dõi</h4><p>Bác sĩ chú ý không chỉ giá trị mà cả tốc độ thay đổi: đường huyết, nhịp tim, creatinin tăng nhanh bất thường là dấu hiệu cảnh báo dù giá trị còn trong ngưỡng.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Đạo hàm = tốc độ thay đổi tức thời = hệ số góc tiếp tuyến.</li><li>Cực đại, cực tiểu (trên khoảng mở) xảy ra tại chỗ đạo hàm bằng 0 hoặc không tồn tại; vẫn phải kiểm tra hai đầu mút.</li><li>Quy tắc hàm hợp: tốc độ của chuỗi thay đổi nối tiếp là tích các tốc độ.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Đạo hàm <span class="en">(derivative)</span></td><td>Giới hạn của tỉ số thay đổi (f(x + h) − f(x))/h khi h → 0.</td></tr>
+          <tr><td>Cát tuyến, tiếp tuyến <span class="en">(secant, tangent line)</span></td><td>Đường thẳng qua hai điểm của đồ thị; đường thẳng "chạm" đồ thị tại một điểm với cùng độ dốc.</td></tr>
+          <tr><td>Điểm dừng <span class="en">(critical point)</span></td><td>Nơi đạo hàm bằng 0 hoặc không tồn tại.</td></tr>
+          <tr><td>Điểm uốn <span class="en">(inflection point)</span></td><td>Nơi đồ thị đổi chiều cong (đạo hàm bậc hai đổi dấu).</td></tr>
+          <tr><td>Gradient</td><td>Véc-tơ các đạo hàm riêng của hàm nhiều biến; chỉ hướng hàm tăng nhanh nhất.</td></tr>
+          <tr><td>Khả vi <span class="en">(differentiable)</span></td><td>Có đạo hàm tại điểm đó. Hàm khả vi thì liên tục, nhưng ngược lại không chắc (ví dụ |x| tại 0).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li id="ref1">G. Strang, E. Herman et al., <i>Calculus Volume 1</i>, OpenStax, 2016, chương 3–4. <a href="https://openstax.org/details/books/calculus-volume-1" rel="noopener">openstax.org</a></li>
+      <li id="ref2">J. Stewart, D. Clegg, S. Watson, <i>Calculus: Early Transcendentals</i>, 9th ed., Cengage, 2020.</li>
+      <li id="ref3">I. Goodfellow, Y. Bengio, A. Courville, <i>Deep Learning</i>, MIT Press, 2016, chương 4 và 6 (gradient, lan truyền ngược). <a href="https://www.deeplearningbook.org" rel="noopener">deeplearningbook.org</a></li>
+      <li id="ref4">N. G. Mankiw, <i>Principles of Economics</i>, 9th ed., Cengage, 2020 (chi phí biên).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="1-gioi-han.html"><small>Phần 1</small><b>Giới hạn</b></a>
+      <a class="next" href="3-tich-phan.html"><small>Phần 3</small><b>Tích phân</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyên lý MRI | Ảnh y khoa | My N. Nguyen</title>
+<meta name="description" content="Nguyên lý chụp cộng hưởng từ (MRI): spin proton, tần số Larmor, kích thích RF, thư duỗi T1 và T2, tương phản theo TR và TE, mã hóa không gian, k-space và an toàn.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/ay.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (anh-y-khoa/1-mri.html)
+  - Minh họa: lib/demos/mri-contrast.js (mục #tuong-phan).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/ay.css; tiện ích: lib/ay.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Ảnh y khoa">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Ảnh y khoa</a> / Phần 1</p>
+  <h1><span class="dot"></span>Nguyên lý MRI</h1>
+  <p class="lead">MRI tạo ảnh từ chính các proton (hạt nhân hydro) trong nước và mỡ của cơ thể, bằng từ trường mạnh và sóng radio, không dùng tia X. Độ sáng trên ảnh phụ thuộc vào việc proton trong từng mô "hồi phục" nhanh hay chậm sau khi bị kích thích.</p>
+</header>
+
+<section class="part" id="spin">
+  <div class="wrap">
+    <h2>Proton như những con quay nhỏ</h2>
+    <div class="prose">
+      <p>Cơ thể khoảng 60% là nước; mỗi phân tử nước có hai proton. Proton có <span class="term">spin</span>: hành xử như một nam châm nhỏ đang tự quay. Bình thường các nam châm này hướng ngẫu nhiên, triệt tiêu nhau. Đặt cơ thể vào từ trường mạnh \(B_0\) của máy (1,5 hoặc 3 tesla, gấp hàng chục nghìn lần từ trường Trái Đất), một phần rất nhỏ thừa hướng theo \(B_0\), tạo ra một <span class="term">từ hóa tổng</span> \(M\) dọc theo trục máy.</p>
+    </div>
+    <div class="prose">
+      <p>Các spin không đứng yên mà <span class="term">tiến động</span> quanh \(B_0\) như con quay nghiêng quanh phương thẳng đứng, với tần số tỉ lệ thuận với từ trường:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ f_0 = \bar\gamma\,B_0, \qquad \bar\gamma \approx 42{,}58\ \text{MHz/T (proton)} \]</div><p class="where">Tần số Larmor: khoảng 63,9 MHz ở 1,5 T và 127,7 MHz ở 3 T, nằm trong dải sóng radio FM. Vì vậy phòng máy MRI được bọc lồng kim loại chắn sóng.</p></div>
+
+  </div>
+</section>
+
+<section class="part tint" id="kich-thich">
+  <div class="wrap">
+    <h2>Kích thích và thư duỗi</h2>
+    <div class="prose">
+      <p>Máy phát một xung sóng radio (RF) đúng tần số Larmor: đây là "cộng hưởng". Xung làm nghiêng \(M\) khỏi trục \(B_0\), ví dụ lật 90° vào mặt phẳng ngang. Từ hóa ngang quay quanh trục ở tần số Larmor và cảm ứng ra dòng điện nhỏ trong cuộn thu: đó là tín hiệu MR. Ngắt xung, hai quá trình <span class="term">thư duỗi</span> diễn ra đồng thời:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ M_z(t) = M_0\big(1 - e^{-t/T_1}\big), \qquad M_{xy}(t) = M_{xy}(0)\,e^{-t/T_2} \]</div><p class="where"><b>T1</b> (hồi phục dọc): thời gian từ hóa dọc mọc lại, do proton nhả năng lượng cho môi trường xung quanh. <b>T2</b> (suy giảm ngang): thời gian tín hiệu ngang tắt dần, do các spin lệch pha nhau. Luôn có T2 ≤ T1. Sự không đồng đều của từ trường làm tín hiệu tắt còn nhanh hơn, ký hiệu T2*.</p></div>
+    <div class="prose">
+      <p>T1 và T2 khác nhau rõ rệt giữa các mô vì chúng phụ thuộc vào việc phân tử nước được tự do (dịch não tủy, phù nề) hay gắn với đại phân tử, màng tế bào (chất trắng, mỡ). Đây là nguồn gốc của tương phản mô mềm rất tốt của MRI.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="tuong-phan">
+  <div class="wrap">
+    <h2>T1, T2, PD: cùng một mô, nhiều kiểu ảnh</h2>
+    <div class="prose">
+      <p>Ở chuỗi xung spin echo, người chụp chọn hai tham số: <span class="term">TR</span> (thời gian lặp lại giữa hai lần kích thích) và <span class="term">TE</span> (thời gian từ kích thích tới lúc đọc tín hiệu). Tín hiệu của một mô xấp xỉ:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ S \approx PD\cdot\big(1 - e^{-TR/T_1}\big)\cdot e^{-TE/T_2} \]</div><p class="where">PD: mật độ proton. TR ngắn làm nổi khác biệt T1; TE dài làm nổi khác biệt T2.</p></div>
+    <div class="demo" id="demoMri" data-demo="mri-contrast">
+      <div class="demo-title"><h4>TR, TE và tương phản</h4><span>Cùng một bộ não, đổi TR và TE thì mô nào sáng mô nào tối thay đổi</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Kiểu ảnh</th><th>TR / TE</th><th>Sáng</th><th>Tối</th><th>Hay dùng để</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>ngắn / ngắn (vd. 500 / 15 ms)</td><td>mỡ, chất trắng, thuốc cản từ gadolinium</td><td>dịch não tủy, nước</td><td>xem giải phẫu; tìm tổn thương ngấm thuốc (u, viêm) sau tiêm</td></tr>
+          <tr><td>T2</td><td>dài / dài (vd. 4000 / 100 ms)</td><td>dịch, nước, phù nề</td><td>chất trắng (tương đối), xương vỏ, khí</td><td>phát hiện bệnh lý chứa nhiều nước: viêm, phù, nhiều loại u</td></tr>
+          <tr><td>PD</td><td>dài / ngắn</td><td>theo lượng proton</td><td>xương vỏ, khí</td><td>khớp, sụn, sụn chêm</td></tr>
+          <tr><td>FLAIR</td><td>T2 có xung đảo chiều xóa tín hiệu dịch</td><td>phù, mảng xơ hóa</td><td>dịch não tủy</td><td>tổn thương sát não thất, vỏ não (xơ cứng rải rác)</td></tr>
+          <tr><td>DWI</td><td>nhạy với chuyển động khuếch tán của nước</td><td>vùng nước bị hạn chế khuếch tán</td><td></td><td>phát hiện nhồi máu não cấp chỉ sau vài phút đến vài giờ</td></tr>
+        </tbody>
+        <caption>Xương vỏ và khí gần như không có tín hiệu trên mọi chuỗi vì có ít proton tự do hoặc T2 cực ngắn.</caption>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="khong-gian">
+  <div class="wrap">
+    <h2>Tạo ảnh: mã hóa không gian và k-space</h2>
+    <div class="prose">
+      <p>Tín hiệu từ cuộn thu là tổng của mọi proton bị kích thích. Để biết tín hiệu đến từ đâu, máy bật thêm các <span class="term">gradient</span>: từ trường tăng dần theo một hướng, khiến tần số Larmor phụ thuộc vào vị trí.</p>
+    </div>
+    <div class="prose">
+      <ul><li><b>Chọn lát</b>: bật gradient khi phát xung RF có dải tần hẹp, chỉ lát có tần số khớp mới bị kích thích.</li><li><b>Mã hóa tần số</b>: bật gradient khi đọc tín hiệu, mỗi cột phát ở một tần số khác nhau.</li><li><b>Mã hóa pha</b>: bật một gradient ngắn trước khi đọc; lặp lại nhiều lần với độ lớn khác nhau để phân biệt các hàng.</li></ul>
+    </div>
+    <div class="prose">
+      <p>Dữ liệu thu được là các số phức (biên độ và pha) xếp vào một mảng gọi là <span class="term">k-space</span>: đó là biến đổi Fourier của ảnh. Ảnh là biến đổi Fourier ngược của k-space (xem thêm <a href="../toan-hoc/6-so-phuc.html">Số phức</a>). Mỗi hàng k-space cần một lần lặp TR, nên chụp MRI lâu: vài phút mỗi chuỗi. Các kỹ thuật tăng tốc (chụp song song nhiều cuộn thu, compressed sensing, tái tạo bằng học sâu) chỉ thu một phần k-space rồi dựng lại.</p>
+    </div>
+    <div class="prose">
+      <p>Tiếng gõ ồn ào trong máy là do các cuộn gradient đóng ngắt hàng nghìn lần mỗi giây trong từ trường mạnh, chịu lực và rung như loa. Độ ồn có thể trên 100 dB, nên người chụp luôn được bịt tai hoặc đeo tai nghe.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="an-toan">
+  <div class="wrap">
+    <h2>An toàn và khi nào dùng MRI</h2>
+    <div class="prose">
+      <ul><li><b>Không có bức xạ ion hóa</b>: an toàn để chụp lặp lại, phù hợp cho trẻ em và phụ nữ mang thai khi thật cần (thường tránh thuốc cản từ).</li><li><b>Từ trường luôn bật</b>, kể cả khi không chụp: vật kim loại sắt từ (bình oxy, kéo, ghế xe lăn) có thể bị hút bay vào máy. Phải sàng lọc kỹ trước khi vào phòng.</li><li><b>Thiết bị cấy ghép</b> (máy tạo nhịp, ốc tai điện tử, kẹp phình mạch cũ) có thể nguy hiểm; nhiều thiết bị mới được ghi "MR-conditional", chụp được với điều kiện cụ thể.</li><li><b>Làm nóng mô</b> do sóng RF được giới hạn bằng chỉ số SAR; <b>tiếng ồn</b> cần bịt tai; <b>không gian hẹp</b> có thể gây lo âu.</li><li><b>Thuốc cản từ gadolinium</b>: hiếm khi dị ứng; ở người suy thận nặng, một số thuốc cũ liên quan tới xơ hóa hệ thống do thận (NSF), nên cần kiểm tra chức năng thận.</li></ul>
+    </div>
+    <div class="apps">
+      <div class="app"><span class="where">Thần kinh</span><h4>Não và tủy sống</h4><p>Đột quỵ (DWI phát hiện sớm), u não, xơ cứng rải rác, động kinh, viêm. Cột sống: thoát vị đĩa đệm, chèn ép tủy.</p></div>
+      <div class="app"><span class="where">Cơ xương khớp</span><h4>Khớp, dây chằng, sụn</h4><p>Rách dây chằng chéo, sụn chêm ở gối; chóp xoay ở vai; tổn thương tủy xương mà X-quang không thấy.</p></div>
+      <div class="app"><span class="where">Tim mạch, bụng</span><h4>Tim, gan, tụy, tiền liệt tuyến</h4><p>Đánh giá cơ tim, sẹo cơ tim; khối u gan, đường mật (MRCP); ung thư tiền liệt tuyến; MRA mạch máu không cần tia X.</p></div>
+      <div class="app"><span class="where">Nghiên cứu</span><h4>MRI chức năng (fMRI)</h4><p>Tín hiệu BOLD thay đổi theo lượng oxy trong máu, cho thấy vùng não hoạt động khi làm một nhiệm vụ.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>B₀, tesla (T)</td><td>Từ trường chính của máy và đơn vị đo. Máy lâm sàng thường 1,5 T hoặc 3 T.</td></tr>
+          <tr><td>Tần số Larmor</td><td>Tần số tiến động của spin; với proton ≈ 42,58 MHz cho mỗi tesla.</td></tr>
+          <tr><td>RF <span class="en">(radiofrequency)</span></td><td>Xung sóng radio dùng để kích thích spin.</td></tr>
+          <tr><td>T1, T2, T2*</td><td>Hằng số thời gian hồi phục dọc, suy giảm ngang, và suy giảm ngang có tính cả sự không đồng đều của từ trường.</td></tr>
+          <tr><td>TR, TE</td><td>Thời gian lặp lại giữa hai lần kích thích; thời gian từ kích thích tới lúc thu tín hiệu (echo).</td></tr>
+          <tr><td>Gradient</td><td>Từ trường biến thiên tuyến tính theo vị trí, dùng để mã hóa không gian.</td></tr>
+          <tr><td>k-space</td><td>Dữ liệu thô dạng số phức, là biến đổi Fourier của ảnh.</td></tr>
+          <tr><td>SAR <span class="en">(specific absorption rate)</span></td><td>Công suất sóng RF mô hấp thụ trên mỗi kg (W/kg), có giới hạn an toàn.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: ảnh não là phantom vẽ bằng hình học, không phải ảnh thật; tín hiệu theo công thức spin echo đơn giản (bỏ qua hiệu ứng xung 180°, T2*, nhiều thành phần). T1, T2, PD là giá trị gần đúng ở 1,5 T tổng hợp từ <a href="#ref1">[1]</a>, <a href="#ref2">[2]</a>; giá trị đo thực tế khác nhau giữa các nghiên cứu và tăng theo từ trường (xem <a href="#ref4">[4]</a> cho 3 T).</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">D. W. McRobbie, E. A. Moore, M. J. Graves, M. R. Prince, <i>MRI from Picture to Proton</i>, 3rd ed., Cambridge University Press, 2017.</li>
+      <li id="ref2">J. T. Bushberg, J. A. Seibert, E. M. Leidholdt, J. M. Boone, <i>The Essential Physics of Medical Imaging</i>, 4th ed., Wolters Kluwer, 2020.</li>
+      <li id="ref3">R. W. Brown, Y.-C. N. Cheng, E. M. Haacke, M. R. Thompson, R. Venkatesan, <i>Magnetic Resonance Imaging: Physical Principles and Sequence Design</i>, 2nd ed., Wiley, 2014.</li>
+      <li id="ref4">G. J. Stanisz et al., "T1, T2 relaxation and magnetization transfer in tissue at 3T", <i>Magnetic Resonance in Medicine</i> 54(3):507–512, 2005. <a href="https://doi.org/10.1002/mrm.20605" rel="noopener">Liên kết</a></li>
+      <li id="ref5">ACR Committee on MR Safety, "ACR Manual on MR Safety", American College of Radiology, 2024. <a href="https://www.acr.org/Clinical-Resources/Radiology-Safety/MR-Safety" rel="noopener">acr.org</a></li>
+      <li id="ref6">ACR Committee on Drugs and Contrast Media, <i>ACR Manual on Contrast Media</i>, American College of Radiology, 2024. <a href="https://www.acr.org/Clinical-Resources/Contrast-Manual" rel="noopener">acr.org</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Quay lại</small><b>Ảnh y khoa</b></a>
+      <a class="next" href="2-ct.html"><small>Phần 2</small><b>Nguyên lý CT</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/ay.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

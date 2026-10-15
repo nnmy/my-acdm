@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Số phức | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Số phức: mặt phẳng phức, mô đun và góc, phép nhân là phép quay, công thức Euler, và ứng dụng trong điện, tín hiệu, MRI.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/6-so-phuc.html)
+  - Minh họa: lib/demos/cx-plane.js (mục #mat-phang).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 6</p>
+  <h1><span class="dot"></span>Số phức</h1>
+  <p class="lead">Số phức z = a + bi với i² = −1. Tên gọi "số ảo" gây hiểu lầm: số phức là cách gọn nhất để mô tả phép quay và dao động, nên kỹ sư điện, kỹ sư viễn thông, nhà vật lý dùng chúng hằng ngày.</p>
+</header>
+
+<section class="part" id="mat-phang">
+  <div class="wrap">
+    <h2>Mặt phẳng phức</h2>
+    <div class="prose">
+      <p>Phương trình \(x^2 + 1 = 0\) không có nghiệm thực. Đặt \(i\) là số có \(i^2 = -1\), ta mở rộng tập số thành \(z = a + bi\) với \(a\) là <span class="term">phần thực</span>, \(b\) là <span class="term">phần ảo</span>. Mỗi số phức ứng với một điểm \((a, b)\) trên mặt phẳng: trục ngang là số thực, trục đứng là số ảo.</p>
+    </div>
+    <div class="formula"><div class="eq">\[ z = a + bi = r(\cos\theta + i\sin\theta), \qquad r = |z| = \sqrt{a^2+b^2},\quad \theta = \arg z \]</div><p class="where">\(r\): mô đun (khoảng cách tới gốc); \(\theta\): argument (góc so với trục thực). Hai cách viết là tọa độ Descartes và tọa độ cực của cùng một điểm.</p></div>
+    <div class="demo" id="demoCx" data-demo="cx-plane">
+      <div class="demo-title"><h4>Mặt phẳng phức</h4><span>Kéo z và w, chọn phép toán</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="phep-toan">
+  <div class="wrap">
+    <h2>Cộng là tịnh tiến, nhân là quay</h2>
+    <div class="prose">
+      <p>Cộng hai số phức là cộng phần thực với phần thực, phần ảo với phần ảo: giống cộng hai vectơ. Phép nhân thú vị hơn nhiều: <b>mô đun nhân nhau, góc cộng nhau</b>. Nhân với \(i\) (mô đun 1, góc 90°) là quay 90° ngược chiều kim đồng hồ; nhân với \(i\) hai lần là quay 180°, tức đổi dấu: đó là lý do \(i^2 = -1\).</p>
+    </div>
+    <div class="formula"><div class="eq">\[ (a+bi)(c+di) = (ac - bd) + (ad + bc)i, \qquad r_1 e^{i\theta_1}\cdot r_2 e^{i\theta_2} = r_1 r_2\, e^{i(\theta_1+\theta_2)} \]</div></div>
+    <div class="worked"><b class="lbl">Ví dụ</b><p>\((1+i)^2 = 1 + 2i + i^2 = 2i\). Theo dạng cực: \(|1+i| = \sqrt2\), góc 45°; bình phương thì mô đun \(\sqrt2\cdot\sqrt2 = 2\), góc 90°: đúng là \(2i\).</p><p>Phương trình \(x^2 + 2x + 5 = 0\) có \(\Delta = 4 - 20 = -16 < 0\), nghiệm \(x = -1 \pm 2i\). Mọi đa thức bậc n có đúng n nghiệm phức (tính cả bội): định lý cơ bản của đại số.</p></div>
+
+  </div>
+</section>
+
+<section class="part" id="euler">
+  <div class="wrap">
+    <h2>Công thức Euler: nối hàm mũ với lượng giác</h2>
+    <div class="formula"><div class="eq">\[ e^{i\theta} = \cos\theta + i\sin\theta, \qquad e^{i\pi} + 1 = 0 \]</div><p class="where">Khi \(\theta\) tăng đều theo thời gian, \(e^{i\omega t}\) quay đều trên vòng tròn đơn vị; hình chiếu xuống trục thực là \(\cos\omega t\).</p></div>
+    <div class="prose">
+      <p>Đây là mẹo lớn của kỹ thuật: thay vì cộng, nhân các hàm sin, cos rắc rối, người ta biểu diễn dao động bằng một mũi tên quay \(A e^{i(\omega t + \varphi)}\) (gọi là <span class="term">phasor</span>). Lệch pha thành góc, khuếch đại thành nhân mô đun, đạo hàm thành nhân với \(i\omega\): phương trình vi phân của mạch điện biến thành phép nhân chia đại số.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Điện</span><h4>Trở kháng trong mạch xoay chiều</h4><p>Kỹ sư điện viết trở kháng \(Z = R + j\omega L + \frac{1}{j\omega C}\) (dùng j thay i để tránh nhầm với dòng điện). Ví dụ R = 30 Ω nối tiếp cuộn cảm 40 Ω: |Z| = 50 Ω, dòng lệch pha 53° so với điện áp. Định luật Ohm vẫn dùng được: I = U/Z.</p></div>
+      <div class="app"><span class="where">Viễn thông</span><h4>Wi-Fi, 4G, 5G</h4><p>Mỗi ký hiệu truyền đi là một số phức: biên độ và pha của sóng mang. Điều chế QAM đặt 16, 64, 256… điểm trên mặt phẳng phức; máy thu đo số phức nhận được và chọn điểm gần nhất để giải mã bit.</p></div>
+      <div class="app"><span class="where">Ảnh y khoa</span><h4>Tín hiệu MRI</h4><p>Máy MRI thu tín hiệu dạng số phức (biên độ và pha) vào "k-space"; ảnh là biến đổi Fourier ngược của dữ liệu này. Ảnh pha còn dùng để đo dòng chảy máu và phát hiện chảy máu vi thể.</p></div>
+      <div class="app"><span class="where">Âm thanh, ảnh</span><h4>Biến đổi Fourier</h4><p>Biến đổi Fourier phân tích tín hiệu thành tổng các \(e^{i2\pi ft}\). Phần mềm chỉnh âm (equalizer), nhận dạng giọng nói, nén âm thanh và ảnh đều dựa trên các phép biến đổi thuộc họ này.</p></div>
+      <div class="app"><span class="where">Điều khiển</span><h4>Hệ thống có ổn định không?</h4><p>Hành vi của hệ (máy bay, xe tự lái, bộ điều nhiệt) quyết định bởi nghiệm phức của phương trình đặc trưng. Phần thực âm: dao động tắt dần, hệ ổn định; phần thực dương: dao động lớn dần, mất kiểm soát.</p></div>
+      <div class="app"><span class="where">Toán, nghệ thuật</span><h4>Fractal Mandelbrot</h4><p>Lặp \(z \to z^2 + c\) bắt đầu từ 0 với mỗi số phức c; tô màu theo việc dãy có chạy ra vô cực hay không. Một quy tắc một dòng tạo ra hình có chi tiết vô hạn.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Số phức là điểm (hoặc vectơ) trên mặt phẳng; i² = −1.</li><li>Cộng = tịnh tiến; nhân = quay (cộng góc) và co giãn (nhân mô đun).</li><li>e^(iθ) = cos θ + i sin θ: dao động là hình chiếu của chuyển động quay.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Phần thực, phần ảo <span class="en">(real, imaginary part)</span></td><td>a và b trong z = a + bi.</td></tr>
+          <tr><td>Mô đun <span class="en">(modulus)</span></td><td>|z| = √(a² + b²): khoảng cách từ z tới gốc tọa độ.</td></tr>
+          <tr><td>Argument</td><td>Góc của z so với trục thực dương.</td></tr>
+          <tr><td>Số phức liên hợp <span class="en">(complex conjugate)</span></td><td>z̄ = a − bi: đối xứng của z qua trục thực.</td></tr>
+          <tr><td>Phasor</td><td>Số phức biểu diễn biên độ và pha của một dao động hình sin.</td></tr>
+          <tr><td>Trở kháng <span class="en">(impedance)</span></td><td>Mở rộng của điện trở cho mạch xoay chiều, là một số phức.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li id="ref1">T. Needham, <i>Visual Complex Analysis</i>, Oxford University Press, 1997.</li>
+      <li id="ref2">P. J. Nahin, <i>An Imaginary Tale: The Story of √−1</i>, Princeton University Press, 1998.</li>
+      <li id="ref3">J. Abramson et al., <i>Algebra and Trigonometry</i>, 2nd ed., OpenStax, 2021, mục 2.4 và 8.5 (số phức). <a href="https://openstax.org/details/books/algebra-and-trigonometry-2e" rel="noopener">openstax.org</a></li>
+      <li id="ref4">J. W. Nilsson, S. A. Riedel, <i>Electric Circuits</i>, 11th ed., Pearson, 2019 (phasor, trở kháng).</li>
+      <li id="ref5">D. G. Nishimura, <i>Principles of Magnetic Resonance Imaging</i>, Stanford University, 2010 (tín hiệu phức, k-space).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="5-luong-giac.html"><small>Phần 5</small><b>Lượng giác</b></a>
+      <a class="next" href="7-mu-logarit.html"><small>Phần 7</small><b>Hàm mũ và logarit</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

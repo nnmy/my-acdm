@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phương trình vi phân | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Phương trình vi phân: ý tưởng, trường hướng, bốn mô hình kinh điển, phương pháp Euler, và ứng dụng trong y khoa, kỹ thuật, dịch tễ.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/4-phuong-trinh-vi-phan.html)
+  - Minh họa: lib/demos/ode-models.js (mục #y-tuong); dùng chung lib/demos/plot.js.
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 4</p>
+  <h1><span class="dot"></span>Phương trình vi phân</h1>
+  <p class="lead">Phương trình vi phân không cho biết một đại lượng bằng bao nhiêu, mà cho biết nó thay đổi nhanh thế nào tùy theo trạng thái hiện tại. Giải phương trình là đi từ quy luật thay đổi tới dự đoán tương lai.</p>
+</header>
+
+<section class="part" id="y-tuong">
+  <div class="wrap">
+    <h2>Quy luật của sự thay đổi</h2>
+    <div class="prose">
+      <p>Một cốc cà phê nguội càng nhanh khi nó càng nóng hơn phòng. Một lượng thuốc trong máu bị thải càng nhanh khi nồng độ càng cao. Những câu như vậy viết thành phương trình chứa đạo hàm: <span class="term">phương trình vi phân</span>. Ví dụ đơn giản nhất:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \frac{dy}{dt} = k\,y \quad\Longrightarrow\quad y(t) = y_0\,e^{kt} \]</div><p class="where">Tốc độ thay đổi tỉ lệ với chính lượng hiện có. \(k > 0\): tăng trưởng mũ (thời gian nhân đôi \(\ln 2/k\)); \(k < 0\): phân rã (thời gian bán thải \(\ln 2/|k|\)).</p></div>
+    <div class="prose">
+      <p>Ở mỗi điểm \((t, y)\), phương trình cho biết hệ số góc của nghiệm đi qua điểm đó. Vẽ các gạch nhỏ có độ dốc ấy ta được <span class="term">trường hướng</span>; mỗi nghiệm là một đường đi "thuận theo" các gạch, giống chiếc lá trôi theo dòng nước. Giá trị ban đầu \(y_0\) chọn ra đường nào.</p>
+    </div>
+    <div class="demo" id="demoOde" data-demo="ode-models">
+      <div class="demo-title"><h4>Quy luật thay đổi</h4><span>Chọn mô hình, đổi tham số; bấm vào đồ thị để đổi giá trị ban đầu</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="mo-hinh">
+  <div class="wrap">
+    <h2>Bốn mô hình kinh điển</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Mô hình</th><th>Phương trình</th><th>Nghiệm, hành vi</th></tr></thead>
+        <tbody>
+          <tr><td>Phân rã, tăng trưởng mũ</td><td>\(y' = ky\)</td><td>\(y = y_0 e^{kt}\): thuốc thải trừ, chất phóng xạ, vi khuẩn khi dư thức ăn.</td></tr>
+          <tr><td>Tăng trưởng logistic</td><td>\(P' = rP\,(1 - P/K)\)</td><td>Lúc đầu gần như mũ, rồi chậm lại và bão hòa ở sức chứa K: quần thể sinh vật, người dùng một sản phẩm mới.</td></tr>
+          <tr><td>Định luật làm nguội Newton</td><td>\(T' = -k\,(T - T_{\text{môi trường}})\)</td><td>\(T = T_m + (T_0 - T_m)e^{-kt}\): nhiệt độ tiến về nhiệt độ môi trường theo hàm mũ.</td></tr>
+          <tr><td>Dao động tắt dần</td><td>\(m x'' + c x' + k x = 0\)</td><td>Lò xo, giảm xóc, con lắc có ma sát: dao động với biên độ giảm dần, hoặc bò từ từ về cân bằng nếu ma sát lớn.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="worked"><b class="lbl">Ví dụ: cà phê nguội</b><p>Cà phê 90°C trong phòng 25°C, sau 10 phút còn 70°C. Từ \(T - 25 = 65\,e^{-kt}\): \(45 = 65\,e^{-10k}\), nên \(k = \ln(65/45)/10 \approx 0{,}0368\) mỗi phút.</p><p>Khi nào còn 50°C (vừa uống)? \(25 = 65\,e^{-kt}\) cho \(t = \ln(65/25)/k \approx 26\) phút.</p></div>
+
+  </div>
+</section>
+
+<section class="part" id="giai-so">
+  <div class="wrap">
+    <h2>Giải bằng máy tính</h2>
+    <div class="prose">
+      <p>Phần lớn phương trình vi phân trong thực tế (thời tiết, mạch điện phức tạp, mô hình dịch có nhiều nhóm tuổi) không giải được bằng công thức. Máy tính đi từng bước nhỏ \(h\): biết trạng thái hiện tại thì biết hệ số góc, đi theo hệ số góc đó một đoạn \(h\). Đó là <span class="term">phương pháp Euler</span>:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ y_{n+1} = y_n + h\,f(t_n, y_n) \]</div><p class="where">Sai số tích lũy tỉ lệ với \(h\). Phương pháp Runge–Kutta bậc 4 (RK4) lấy trung bình bốn hệ số góc trong mỗi bước, sai số tỉ lệ \(h^4\); đây là đường "đúng" trong minh họa.</p></div>
+    <div class="prose">
+      <p>Bật "Hiện phương pháp Euler" trong minh họa ở trên và tăng bước h để thấy đường đỏ lệch dần khỏi nghiệm thật, nhất là với dao động: Euler làm năng lượng tăng dần một cách giả tạo.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Y khoa</span><h4>Dược động học</h4><p>Nồng độ thuốc sau một liều tiêm thường giảm theo \(C' = -kC\). Từ thời gian bán thải (paracetamol khoảng 2–3 giờ) người ta tính khoảng cách giữa các liều để nồng độ ổn định trong vùng an toàn và hiệu quả.</p></div>
+      <div class="app"><span class="where">Dịch tễ</span><h4>Mô hình SIR</h4><p>Chia dân số thành Dễ nhiễm (S), Đang nhiễm (I), Đã hồi phục (R) với các phương trình \(S' = -\beta SI\), \(I' = \beta SI - \gamma I\), \(R' = \gamma I\). Từ đó có hệ số lây R₀ và ngưỡng miễn dịch cộng đồng.</p></div>
+      <div class="app"><span class="where">Khảo cổ</span><h4>Định tuổi carbon-14</h4><p>Carbon-14 phân rã với thời gian bán rã khoảng 5730 năm. Đo tỉ lệ C-14 còn lại trong xương, gỗ là suy ra được thời gian kể từ khi sinh vật chết.</p></div>
+      <div class="app"><span class="where">Ô tô</span><h4>Hệ thống treo</h4><p>Lò xo và giảm chấn là một dao động tắt dần. Kỹ sư chọn độ cứng và hệ số giảm chấn gần mức tới hạn để xe qua ổ gà không nảy lên nảy xuống nhiều lần.</p></div>
+      <div class="app"><span class="where">Điện tử</span><h4>Mạch RC</h4><p>Tụ điện nạp qua điện trở theo \(V' = (V_{\text{nguồn}} - V)/RC\), hằng số thời gian τ = RC. Đèn flash máy ảnh, mạch hẹn giờ, bộ lọc âm thanh đều dựa vào đó.</p></div>
+      <div class="app"><span class="where">Khí tượng</span><h4>Dự báo thời tiết</h4><p>Khí quyển được mô tả bằng hệ phương trình vi phân đạo hàm riêng của chất lưu. Siêu máy tính giải chúng từng bước thời gian trên lưới toàn cầu để ra dự báo hằng ngày.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>PTVP mô tả tốc độ thay đổi theo trạng thái; cần thêm điều kiện ban đầu để có một nghiệm cụ thể.</li><li>Tốc độ tỉ lệ với lượng hiện có ⇒ hàm mũ; có giới hạn sức chứa ⇒ logistic.</li><li>Máy tính giải từng bước nhỏ; bước càng nhỏ và phương pháp càng tốt thì càng chính xác.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Phương trình vi phân thường <span class="en">(ODE)</span></td><td>Phương trình chứa hàm một biến và các đạo hàm của nó.</td></tr>
+          <tr><td>Phương trình đạo hàm riêng <span class="en">(PDE)</span></td><td>Chứa đạo hàm theo nhiều biến (ví dụ không gian và thời gian): truyền nhiệt, sóng, chất lưu.</td></tr>
+          <tr><td>Điều kiện ban đầu <span class="en">(initial condition)</span></td><td>Giá trị tại thời điểm bắt đầu, chọn ra một nghiệm cụ thể.</td></tr>
+          <tr><td>Trường hướng <span class="en">(slope field)</span></td><td>Các đoạn thẳng nhỏ cho biết hệ số góc của nghiệm tại mỗi điểm.</td></tr>
+          <tr><td>Thời gian bán thải <span class="en">(half-life)</span></td><td>Thời gian để lượng giảm còn một nửa; bằng ln 2/k.</td></tr>
+          <tr><td>Tắt dần tới hạn <span class="en">(critical damping)</span></td><td>Mức ma sát vừa đủ để về cân bằng nhanh nhất mà không dao động.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: nghiệm tham chiếu tính bằng RK4 với 1200 bước; tham số (k, r, K = 10, nhiệt độ phòng 25°C, ω = 1,5) là giả định để dễ quan sát.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">W. E. Boyce, R. C. DiPrima, D. B. Meade, <i>Elementary Differential Equations and Boundary Value Problems</i>, 11th ed., Wiley, 2017.</li>
+      <li id="ref2">S. H. Strogatz, <i>Nonlinear Dynamics and Chaos</i>, 2nd ed., CRC Press, 2015.</li>
+      <li id="ref3">W. O. Kermack, A. G. McKendrick, "A contribution to the mathematical theory of epidemics", <i>Proc. R. Soc. A</i> 115:700–721, 1927. <a href="https://doi.org/10.1098/rspa.1927.0118" rel="noopener">Liên kết</a></li>
+      <li id="ref4">M. Rowland, T. N. Tozer, <i>Clinical Pharmacokinetics and Pharmacodynamics</i>, 4th ed., Lippincott Williams &amp; Wilkins, 2011.</li>
+      <li id="ref5">G. Strang, E. Herman et al., <i>Calculus Volume 2</i>, OpenStax, 2016, chương 4 (Introduction to Differential Equations). <a href="https://openstax.org/details/books/calculus-volume-2" rel="noopener">openstax.org</a></li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-tich-phan.html"><small>Phần 3</small><b>Tích phân</b></a>
+      <a class="next" href="5-luong-giac.html"><small>Phần 5</small><b>Lượng giác</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

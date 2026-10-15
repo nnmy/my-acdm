@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hàm mũ và logarit | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Hàm mũ và logarit: tăng trưởng theo tỷ lệ, số e, quy tắc 72, tính chất logarit, thang logarit (decibel, pH, động đất) và ứng dụng.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/7-mu-logarit.html)
+  - Minh họa: lib/demos/exp-interest.js (mục #mu); dùng chung lib/demos/plot.js.
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 7</p>
+  <h1><span class="dot"></span>Hàm mũ và logarit</h1>
+  <p class="lead">Hàm mũ mô tả thứ tăng hoặc giảm theo tỷ lệ: mỗi bước nhân thêm một hệ số. Logarit là phép ngược, trả lời câu hỏi "lũy thừa bao nhiêu?". Hai công cụ này giúp xử lý những con số trải từ rất nhỏ tới rất lớn.</p>
+</header>
+
+<section class="part" id="mu">
+  <div class="wrap">
+    <h2>Tăng trưởng theo tỷ lệ</h2>
+    <div class="prose">
+      <p>Lãi đơn cộng thêm một khoản cố định mỗi năm; lãi kép nhân thêm một tỉ lệ cố định. Sau \(t\) năm với lãi suất \(r\), ghép lãi \(n\) lần mỗi năm:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ A = P\Big(1 + \frac{r}{n}\Big)^{nt} \xrightarrow{\;n\to\infty\;} P\,e^{rt} \]</div><p class="where">\(e \approx 2{,}71828\) là cơ số "tự nhiên": \(e^x\) là hàm có tốc độ tăng bằng chính nó. Thời gian nhân đôi \(= \ln 2 / r \approx 0{,}693/r\).</p></div>
+    <div class="prose">
+      <p>Quy tắc 72 ước nhẩm thời gian nhân đôi: lấy 72 chia cho lãi suất tính theo %. Lãi 6%/năm thì khoảng 12 năm tiền gấp đôi. Quy tắc dùng 72 thay vì 69,3 vì 72 chia hết cho nhiều số và bù cho việc ghép lãi theo năm.</p>
+    </div>
+    <div class="demo" id="demoExp" data-demo="exp-interest">
+      <div class="demo-title"><h4>Lãi kép</h4><span>Tiền tăng theo tỷ lệ: mỗi kỳ nhân thêm một hệ số</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="worked"><b class="lbl">Ví dụ</b><p>Gửi 100 triệu, lãi 6%/năm, ghép theo năm: sau 10 năm có \(100 \times 1{,}06^{10} \approx 179{,}1\) triệu; sau 30 năm khoảng 574,3 triệu. Lãi đơn cùng lãi suất sau 30 năm chỉ được 280 triệu.</p></div>
+
+  </div>
+</section>
+
+<section class="part tint" id="log">
+  <div class="wrap">
+    <h2>Logarit: hỏi số mũ</h2>
+    <div class="formula"><div class="eq">\[ \log_b x = y \iff b^y = x, \qquad \log(xy) = \log x + \log y, \qquad \log(x^k) = k\log x \]</div><p class="where">\(\log_{10}\): logarit thập phân (đếm số chữ số); \(\ln = \log_e\): logarit tự nhiên; \(\log_2\): số lần chia đôi, dùng trong tin học.</p></div>
+    <div class="prose">
+      <p>Logarit biến phép nhân thành phép cộng. Trước khi có máy tính, người ta nhân hai số lớn bằng cách tra bảng logarit rồi cộng; thước tính (slide rule) của kỹ sư thế kỷ 20 là hai thang logarit trượt lên nhau.</p>
+    </div>
+    <div class="prose">
+      <p>Muốn biết bao lâu thì tiền gấp đôi? Giải \(1{,}06^t = 2\): lấy logarit hai vế, \(t = \dfrac{\ln 2}{\ln 1{,}06} \approx 11{,}9\) năm. Logarit là công cụ để "kéo" ẩn số ra khỏi số mũ.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thang">
+  <div class="wrap">
+    <h2>Thang logarit quanh ta</h2>
+    <div class="prose">
+      <p>Khi một đại lượng trải qua nhiều bậc độ lớn, ta đo nó bằng logarit: mỗi bước trên thang là nhân thêm một hệ số, không phải cộng thêm một lượng. Giác quan con người cũng gần như vậy: tai cảm nhận âm lượng, mắt cảm nhận độ sáng theo kiểu logarit.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thang</th><th>Công thức</th><th>Một bước nghĩa là</th></tr></thead>
+        <tbody>
+          <tr><td>Độ to âm thanh (dB)</td><td>\(L = 10\log_{10}(I/I_0)\)</td><td>+10 dB = cường độ ×10; +3 dB ≈ ×2.</td></tr>
+          <tr><td>Độ pH</td><td>\(\text{pH} = -\log_{10}[\text{H}^+]\)</td><td>Giảm 1 đơn vị = nồng độ ion H⁺ ×10 (chua hơn 10 lần).</td></tr>
+          <tr><td>Độ lớn động đất (Mw)</td><td>theo logarit mô-men địa chấn</td><td>+1 độ ≈ năng lượng ×32; +2 độ ≈ ×1000.</td></tr>
+          <tr><td>Cấp sao biểu kiến</td><td>\(m = -2{,}5\log_{10}(F/F_0)\)</td><td>5 cấp = độ sáng ×100; số càng nhỏ sao càng sáng.</td></tr>
+          <tr><td>Thông tin (bit)</td><td>\(\log_2 N\)</td><td>Cần bao nhiêu câu hỏi có/không để chọn 1 trong N khả năng.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Bật "Trục tung thang logarit" trong minh họa lãi kép: đường cong mũ thành đường thẳng. Đồ thị số ca bệnh, giá cổ phiếu dài hạn, số transistor trên chip thường vẽ bằng thang log vì lý do này.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Tài chính</span><h4>Lãi kép và lạm phát</h4><p>Lạm phát 4%/năm làm giá cả gấp đôi sau khoảng 18 năm (72/4). Khoản vay lãi kép cũng tăng theo cùng quy luật: trả chậm càng lâu, tiền lãi càng phình nhanh.</p></div>
+      <div class="app"><span class="where">Dịch tễ</span><h4>Lây lan theo cấp số nhân</h4><p>Giai đoạn đầu dịch, số ca tăng theo hàm mũ: thời gian nhân đôi 3 ngày nghĩa là sau 1 tháng gấp khoảng 1000 lần. Đó là lý do can thiệp sớm vài ngày tạo khác biệt lớn.</p></div>
+      <div class="app"><span class="where">Sức khỏe</span><h4>Decibel và thính lực</h4><p>Hội thoại khoảng 60 dB, xe máy, máy khoan 90–100 dB. Tiếp xúc lâu từ 85 dB trở lên có nguy cơ tổn thương thính lực; mỗi +3 dB nên giảm một nửa thời gian tiếp xúc.</p></div>
+      <div class="app"><span class="where">Y khoa, hóa học</span><h4>pH máu</h4><p>pH máu bình thường 7,35–7,45. Xuống 7,0 nghĩa là nồng độ H⁺ gấp khoảng 2,5 lần mức 7,4: nhiễm toan nặng, đe dọa tính mạng.</p></div>
+      <div class="app"><span class="where">Địa chấn</span><h4>Độ lớn động đất</h4><p>Trận động đất 7 độ giải phóng năng lượng gấp khoảng 32 lần trận 6 độ và khoảng 1000 lần trận 5 độ. Thang đo nén khoảng chênh khổng lồ đó thành vài con số dễ so sánh.</p></div>
+      <div class="app"><span class="where">Tin học</span><h4>Tìm kiếm nhị phân</h4><p>Tìm một tên trong danh bạ 1 triệu người đã sắp xếp chỉ cần khoảng 20 lần so sánh, vì \(\log_2 10^6 \approx 20\). Thuật toán "thời gian log" là lý do máy tìm kiếm trả lời gần như tức thì.</p></div>
+      <div class="app"><span class="where">Ảnh y khoa</span><h4>Tia X bị suy giảm theo hàm mũ</h4><p>Cường độ tia X qua vật dày x giảm theo \(I = I_0 e^{-\mu x}\) (định luật Beer–Lambert). Máy CT lấy logarit của tỉ số \(I_0/I\) để ra tổng hệ số suy giảm trên đường tia, rồi dựng ảnh.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Hàm mũ: mỗi bước nhân một hệ số; logarit: hỏi số mũ.</li><li>Thời gian nhân đôi ≈ 72 / (lãi suất %), hay chính xác ln 2 / r.</li><li>log biến nhân thành cộng; thang log biến tăng trưởng mũ thành đường thẳng.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Hàm mũ <span class="en">(exponential function)</span></td><td>Hàm dạng a^x: biến số nằm ở số mũ.</td></tr>
+          <tr><td>Số e</td><td>Hằng số ≈ 2,71828, giới hạn của (1 + 1/n)^n; cơ số của hàm mũ tự nhiên.</td></tr>
+          <tr><td>Logarit tự nhiên <span class="en">(natural log, ln)</span></td><td>Logarit cơ số e.</td></tr>
+          <tr><td>Thang logarit <span class="en">(log scale)</span></td><td>Thang mà các vạch cách đều ứng với các bội số bằng nhau (×10, ×2…).</td></tr>
+          <tr><td>Thời gian nhân đôi <span class="en">(doubling time)</span></td><td>Thời gian để một đại lượng tăng gấp đôi khi tăng theo tỉ lệ không đổi.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: công thức lãi kép chuẩn; không tính thuế, phí, lạm phát. Thời gian nhân đôi tính chính xác bằng logarit và so với quy tắc 72.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">J. Abramson et al., <i>Algebra and Trigonometry</i>, 2nd ed., OpenStax, 2021, chương 6 (Exponential and Logarithmic Functions). <a href="https://openstax.org/details/books/algebra-and-trigonometry-2e" rel="noopener">openstax.org</a></li>
+      <li id="ref2">NIOSH, <i>Criteria for a Recommended Standard: Occupational Noise Exposure</i>, DHHS (NIOSH) Publication No. 98-126, 1998 (85 dBA, quy tắc +3 dB). <a href="https://www.cdc.gov/niosh/docs/98-126/" rel="noopener">cdc.gov</a></li>
+      <li id="ref3">H. Kanamori, "The energy release in great earthquakes", <i>Journal of Geophysical Research</i> 82(20):2981–2987, 1977. <a href="https://doi.org/10.1029/JB082i020p02981" rel="noopener">Liên kết</a></li>
+      <li id="ref4">USGS, "Earthquake Magnitude, Energy Release, and Shaking Intensity". <a href="https://www.usgs.gov/programs/earthquake-hazards/earthquake-magnitude-energy-release-and-shaking-intensity" rel="noopener">usgs.gov</a></li>
+      <li id="ref5">J. T. Bushberg, J. A. Seibert, E. M. Leidholdt, J. M. Boone, <i>The Essential Physics of Medical Imaging</i>, 4th ed., Wolters Kluwer, 2020 (suy giảm tia X).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="6-so-phuc.html"><small>Phần 6</small><b>Số phức</b></a>
+      <a class="next" href="index.html"><small>Quay lại</small><b>Toán học &amp; ứng dụng</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

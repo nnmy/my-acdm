@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lượng giác | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Lượng giác: tỉ số trong tam giác vuông, vòng tròn đơn vị, radian, sóng sin, các định lý và ứng dụng trong đo đạc, điện, âm thanh, đồ họa.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/5-luong-giac.html)
+  - Minh họa: lib/demos/trig-circle.js (mục #vong-tron).
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 5</p>
+  <h1><span class="dot"></span>Lượng giác</h1>
+  <p class="lead">Lượng giác bắt đầu từ tam giác vuông: biết một góc và một cạnh là tính được các cạnh còn lại. Mở rộng lên vòng tròn, sin và cos trở thành ngôn ngữ của mọi thứ quay vòng và lặp lại: sóng âm, dòng điện xoay chiều, mùa trong năm.</p>
+</header>
+
+<section class="part" id="tam-giac">
+  <div class="wrap">
+    <h2>Trong tam giác vuông</h2>
+    <div class="prose">
+      <p>Với góc nhọn \(\alpha\) trong tam giác vuông, ba tỉ số giữa các cạnh chỉ phụ thuộc vào góc, không phụ thuộc tam giác to hay nhỏ:</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \sin\alpha = \frac{\text{đối}}{\text{huyền}}, \qquad \cos\alpha = \frac{\text{kề}}{\text{huyền}}, \qquad \tan\alpha = \frac{\text{đối}}{\text{kề}} = \frac{\sin\alpha}{\cos\alpha} \]</div><p class="where">Câu nhớ quen thuộc: "Sin đi học, Cos không hư, Tan đoàn kết" (sin = đối/huyền, cos = kề/huyền, tan = đối/kề).</p></div>
+    <div class="worked"><b class="lbl">Ví dụ: đo chiều cao cây</b><p>Đứng cách gốc cây 20 m, nhìn lên ngọn cây thấy góc ngẩng 35°; mắt cao 1,6 m. Chiều cao cây \(= 20 \tan 35^\circ + 1{,}6 \approx 20 \times 0{,}700 + 1{,}6 \approx 15{,}6\) m. Không cần trèo lên cây.</p></div>
+
+  </div>
+</section>
+
+<section class="part tint" id="vong-tron">
+  <div class="wrap">
+    <h2>Vòng tròn lượng giác và radian</h2>
+    <div class="prose">
+      <p>Đặt góc \(\theta\) ở tâm vòng tròn bán kính 1, đo từ trục hoành ngược chiều kim đồng hồ. Điểm trên vòng tròn có tọa độ \((\cos\theta, \sin\theta)\). Định nghĩa này dùng được cho mọi góc, kể cả góc tù, góc âm, góc lớn hơn một vòng, và cho ngay hệ thức</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \sin^2\theta + \cos^2\theta = 1 \]</div><p class="where">Chính là định lý Pythagore trong tam giác có cạnh huyền 1.</p></div>
+    <div class="prose">
+      <span class="term">Radian</span> đo góc bằng độ dài cung tương ứng trên vòng tròn bán kính 1: một vòng là \(2\pi\) rad = 360°, nên 1 rad ≈ 57,3°. Toán và vật lý dùng radian vì công thức gọn hơn: \((\sin x)' = \cos x\) chỉ đúng khi x tính bằng radian.
+    </div>
+    <div class="demo" id="demoTrig" data-demo="trig-circle">
+      <div class="demo-title"><h4>Vòng tròn lượng giác</h4><span>Kéo điểm trên vòng tròn: sin là độ cao, cos là độ ngang</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="song">
+  <div class="wrap">
+    <h2>Từ vòng tròn đến sóng</h2>
+    <div class="prose">
+      <p>Một điểm quay đều trên vòng tròn có độ cao biến thiên theo hình sin. Vì vậy mọi dao động đều đặn đều viết được dạng</p>
+    </div>
+    <div class="formula"><div class="eq">\[ y(t) = A\sin(2\pi f t + \varphi) \]</div><p class="where">\(A\): biên độ (độ lớn); \(f\): tần số (số lần lặp mỗi giây, Hz); \(\varphi\): pha (lệch thời điểm bắt đầu).</p></div>
+    <div class="prose">
+      <p>Cộng nhiều sóng sin với tần số, biên độ khác nhau tạo ra bất kỳ dạng sóng tuần hoàn nào (chuỗi Fourier). Đó là lý do một nốt đàn guitar và nốt piano cùng cao độ vẫn nghe khác nhau: cùng tần số cơ bản nhưng khác tỉ lệ các họa âm.</p>
+    </div>
+    <h3>Tam giác bất kỳ</h3>
+    <div class="formula"><div class="eq">\[ \frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}, \qquad c^2 = a^2 + b^2 - 2ab\cos C \]</div><p class="where">Định lý sin và định lý cos: biết ba yếu tố (có ít nhất một cạnh) là giải được cả tam giác. Định lý cos là Pythagore mở rộng: góc C vuông thì cos C = 0.</p></div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Xây dựng</span><h4>Độ dốc mái, đường, cầu thang</h4><p>Độ dốc đường 10% nghĩa là \(\tan\alpha = 0{,}1\), tức góc khoảng 5,7°. Thợ xây tính chiều dài kèo mái từ góc mái và bề ngang nhà bằng cos.</p></div>
+      <div class="app"><span class="where">Trắc địa, định vị</span><h4>Đo khoảng cách không cần tới nơi</h4><p>Đo góc từ hai điểm biết trước tới một mục tiêu là tính được vị trí của nó (tam giác đạc). Bản đồ địa hình, đo bề rộng sông, khoảng cách tới các vì sao gần đều dùng cách này.</p></div>
+      <div class="app"><span class="where">Điện</span><h4>Điện xoay chiều 220 V, 50 Hz</h4><p>Điện lưới Việt Nam có điện áp \(u = 220\sqrt2 \sin(100\pi t)\) vôn: đỉnh khoảng 311 V, đổi chiều 100 lần mỗi giây. "220 V" là giá trị hiệu dụng.</p></div>
+      <div class="app"><span class="where">Âm thanh</span><h4>Nốt nhạc và tai nghe chống ồn</h4><p>Nốt La chuẩn là sóng 440 Hz. Tai nghe chống ồn phát sóng ngược pha (lệch 180°) với tiếng ồn để hai sóng triệt tiêu nhau.</p></div>
+      <div class="app"><span class="where">Đồ họa, game</span><h4>Xoay hình</h4><p>Xoay điểm (x, y) quanh gốc một góc θ: \(x' = x\cos\theta - y\sin\theta\), \(y' = x\sin\theta + y\cos\theta\). Mọi phần mềm đồ họa, game 3D, bản đồ điện thoại làm phép này hàng triệu lần mỗi giây.</p></div>
+      <div class="app"><span class="where">Năng lượng, thiên văn</span><h4>Mùa và pin mặt trời</h4><p>Độ dài ngày trong năm dao động gần như hình sin. Công suất tấm pin mặt trời tỉ lệ với cos của góc giữa tia nắng và pháp tuyến tấm pin, nên người ta nghiêng tấm pin theo vĩ độ.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>sin, cos, tan là tỉ số cạnh, chỉ phụ thuộc góc.</li><li>Trên vòng tròn đơn vị: điểm (cos θ, sin θ); sin² + cos² = 1.</li><li>360° = 2π rad; giải tích luôn dùng radian.</li><li>Mọi dao động đều đặn là sóng sin: biên độ, tần số, pha.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Radian</td><td>Đơn vị góc: độ dài cung trên vòng tròn bán kính 1. π rad = 180°.</td></tr>
+          <tr><td>Vòng tròn lượng giác <span class="en">(unit circle)</span></td><td>Vòng tròn tâm O bán kính 1 dùng để định nghĩa sin, cos cho mọi góc.</td></tr>
+          <tr><td>Biên độ, tần số, pha <span class="en">(amplitude, frequency, phase)</span></td><td>Độ lớn, số lần lặp mỗi giây, và độ lệch thời điểm của một sóng.</td></tr>
+          <tr><td>Chu kỳ <span class="en">(period)</span></td><td>Thời gian một lần lặp, bằng 1/tần số. sin, cos có chu kỳ 2π.</td></tr>
+          <tr><td>Giá trị hiệu dụng <span class="en">(RMS)</span></td><td>Với sóng sin bằng đỉnh chia √2; là con số ghi trên thiết bị điện.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li id="ref1">J. Abramson et al., <i>Algebra and Trigonometry</i>, 2nd ed., OpenStax, 2021, chương 7–8. <a href="https://openstax.org/details/books/algebra-and-trigonometry-2e" rel="noopener">openstax.org</a></li>
+      <li id="ref2">J. Stewart, D. Clegg, S. Watson, <i>Calculus: Early Transcendentals</i>, 9th ed., Cengage, 2020 (phụ lục lượng giác).</li>
+      <li id="ref3">E. Maor, <i>Trigonometric Delights</i>, Princeton University Press, 1998.</li>
+      <li id="ref4">J. D. Foley, A. van Dam, S. K. Feiner, J. F. Hughes, <i>Computer Graphics: Principles and Practice</i>, 3rd ed., Addison-Wesley, 2013 (phép quay).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-phuong-trinh-vi-phan.html"><small>Phần 4</small><b>Phương trình vi phân</b></a>
+      <a class="next" href="6-so-phuc.html"><small>Phần 6</small><b>Số phức</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

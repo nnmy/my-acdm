@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tích phân | Toán học &amp;amp; ứng dụng | My N. Nguyen</title>
+<meta name="description" content="Tích phân: tổng Riemann, định lý cơ bản của giải tích, tích phân số, và các ứng dụng trong đời sống, y khoa.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/tm.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (toan-hoc/3-tich-phan.html)
+  - Minh họa: lib/demos/int-riemann.js (mục #riemann); dùng chung lib/demos/plot.js.
+    Mỗi minh họa là một file lib/demos/<id>.js; trên trang chỉ có khung <div class="demo" data-demo="<id>"> giữ chỗ,
+    file JS được tải khi người đọc cuộn tới gần.
+  - Chữ: sửa trực tiếp trong các <section class="part">. Công thức: MathJax, \( ... \) trong dòng, \[ ... \] riêng dòng.
+  - Mục lục nổi tự dựng từ các section (h2) và h3; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); cổng mã: ../common/gate.js; style chung: lib/tm.css; tiện ích: lib/tm.js
+  =====================================================================
+-->
+</head>
+<body data-home-label="Trang chủ Toán học &amp; ứng dụng">
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Toán học &amp; ứng dụng</a> / Phần 3</p>
+  <h1><span class="dot"></span>Tích phân</h1>
+  <p class="lead">Tích phân cộng dồn vô số phần rất nhỏ thành một tổng: diện tích dưới đường cong, quãng đường từ vận tốc, tổng điện năng từ công suất. Định lý cơ bản của giải tích cho thấy nó là phép ngược của đạo hàm.</p>
+</header>
+
+<section class="part" id="riemann">
+  <div class="wrap">
+    <h2>Cộng các hình chữ nhật</h2>
+    <div class="prose">
+      <p>Xe chạy đều 60 km/h trong 2 giờ thì đi 120 km: diện tích hình chữ nhật dưới đồ thị vận tốc. Nếu vận tốc thay đổi, chia thời gian thành \(n\) khoảng nhỏ, coi vận tốc gần như không đổi trong mỗi khoảng, rồi cộng các hình chữ nhật. Chia càng mịn, tổng càng sát. Giới hạn của tổng khi \(n \to \infty\) là <span class="term">tích phân xác định</span>.</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \int_a^b f(x)\,dx = \lim_{n\to\infty} \sum_{i=1}^{n} f(x_i^*)\,\Delta x, \qquad \Delta x = \frac{b-a}{n} \]</div><p class="where">Dấu \(\int\) là chữ S kéo dài (Summa, tổng); \(dx\) nhắc rằng ta cộng các mảnh có bề rộng rất nhỏ. Phần đồ thị nằm dưới trục hoành được tính là diện tích âm.</p></div>
+    <div class="demo" id="demoInt" data-demo="int-riemann">
+      <div class="demo-title"><h4>Cộng các hình chữ nhật</h4><span>Tăng n: tổng diện tích các hình tiến tới tích phân</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-ban">
+  <div class="wrap">
+    <h2>Định lý cơ bản của giải tích</h2>
+    <div class="prose">
+      <p>Cộng vô số hình chữ nhật thì quá cực. May mắn là có lối tắt: nếu \(F\) là một <span class="term">nguyên hàm</span> của \(f\) (tức \(F' = f\)) thì</p>
+    </div>
+    <div class="formula"><div class="eq">\[ \int_a^b f(x)\,dx = F(b) - F(a) \]</div><p class="where">Ý nghĩa: tổng các thay đổi nhỏ (f là tốc độ thay đổi của F) bằng thay đổi tổng cộng. Quãng đường đi được bằng vị trí cuối trừ vị trí đầu.</p></div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>f(x)</th><th>Một nguyên hàm F(x)</th></tr></thead>
+        <tbody>
+          <tr><td>\(x^n\ (n \ne -1)\)</td><td>\(\dfrac{x^{n+1}}{n+1}\)</td></tr>
+          <tr><td>\(1/x\)</td><td>\(\ln|x|\)</td></tr>
+          <tr><td>\(e^x\)</td><td>\(e^x\)</td></tr>
+          <tr><td>\(\sin x\)</td><td>\(-\cos x\)</td></tr>
+          <tr><td>\(\cos x\)</td><td>\(\sin x\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="worked"><b class="lbl">Ví dụ</b><p>\(\displaystyle\int_0^2 x^2\,dx = \frac{2^3}{3} - \frac{0^3}{3} = \frac{8}{3} \approx 2{,}667\). Trong minh họa, chọn x² trên [0, 2] và tăng n để thấy tổng tiến về 2,667.</p></div>
+
+  </div>
+</section>
+
+<section class="part" id="tinh-so">
+  <div class="wrap">
+    <h2>Khi không có công thức: tích phân số</h2>
+    <div class="prose">
+      <p>Nhiều hàm không có nguyên hàm viết được bằng hàm sơ cấp, ví dụ \(e^{-x^2/2}\) (đường cong hình chuông của phân phối chuẩn). Máy tính khi đó cộng trực tiếp với các quy tắc thông minh hơn hình chữ nhật:</p>
+    </div>
+    <div class="prose">
+      <ul><li><b>Quy tắc hình thang</b>: nối thẳng hai đầu mỗi khoảng; sai số tỉ lệ \(1/n^2\).</li><li><b>Quy tắc trung điểm</b>: hình chữ nhật cao bằng giá trị ở giữa khoảng; cũng \(1/n^2\), thường tốt hơn hình thang một chút.</li><li><b>Quy tắc Simpson</b>: thay mỗi cặp khoảng bằng một parabol; sai số \(1/n^4\): tăng n gấp đôi, sai số giảm 16 lần.</li></ul>
+    </div>
+    <div class="prose">
+      <p>Dữ liệu đo thực tế (lấy mẫu mỗi giây, mỗi phút) cũng được tích phân theo đúng cách này: không cần biết công thức của hàm, chỉ cần các điểm đo.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="ung-dung">
+  <div class="wrap">
+    <h2>Ứng dụng trong đời sống</h2>
+    <div class="apps">
+      <div class="app"><span class="where">Giao thông</span><h4>Quãng đường từ vận tốc</h4><p>Đồng hồ ODO cộng dồn vận tốc theo thời gian để ra quãng đường. Hệ thống dẫn đường quán tính trong máy bay tích phân gia tốc hai lần để ra vị trí khi mất GPS.</p></div>
+      <div class="app"><span class="where">Điện</span><h4>Hóa đơn tiền điện</h4><p>Công tơ điện đo công suất P(t) và cộng dồn: điện năng (kWh) \(= \int P(t)\,dt\). Máy lạnh 1,2 kW chạy 8 giờ là 9,6 kWh, nhưng thực tế ít hơn vì máy nén bật tắt theo nhiệt độ.</p></div>
+      <div class="app"><span class="where">Y khoa</span><h4>Liều thuốc thực nhận (AUC)</h4><p>Diện tích dưới đường cong nồng độ thuốc theo thời gian (AUC) cho biết cơ thể thực sự nhận bao nhiêu thuốc. AUC dùng để so thuốc gốc với thuốc generic và chỉnh liều.</p></div>
+      <div class="app"><span class="where">Y khoa</span><h4>Cung lượng tim</h4><p>Phương pháp pha loãng: bơm một lượng chất chỉ thị (hoặc nước lạnh) vào tĩnh mạch, đo nồng độ c(t) ở động mạch. Cung lượng tim = lượng chất chỉ thị / \(\int c(t)\,dt\) (công thức Stewart–Hamilton).</p></div>
+      <div class="app"><span class="where">Ảnh y khoa</span><h4>Thể tích khối u, cơ quan</h4><p>Trên ảnh CT, MRI, đo diện tích khối u ở từng lát rồi nhân bề dày lát và cộng lại (nguyên lý Cavalieri): một tích phân số theo trục dọc cơ thể.</p></div>
+      <div class="app"><span class="where">Thống kê</span><h4>Xác suất là diện tích</h4><p>Xác suất một biến rơi vào khoảng [a, b] là diện tích dưới đường mật độ trên khoảng đó. Khoảng 68% dữ liệu phân phối chuẩn nằm trong ±1 độ lệch chuẩn quanh trung bình.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul><li>Tích phân = giới hạn của tổng các mảnh nhỏ "chiều cao × bề rộng".</li><li>Định lý cơ bản: tích phân của tốc độ thay đổi = thay đổi tổng cộng, F(b) − F(a).</li><li>Không có nguyên hàm sơ cấp thì tính số (hình thang, Simpson); dữ liệu đo cũng tích phân được.</li></ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Tích phân xác định <span class="en">(definite integral)</span></td><td>Một con số: tổng có dấu của f(x)dx trên [a, b].</td></tr>
+          <tr><td>Nguyên hàm <span class="en">(antiderivative)</span></td><td>Hàm F có đạo hàm bằng f; xác định sai khác một hằng số C.</td></tr>
+          <tr><td>Tổng Riemann <span class="en">(Riemann sum)</span></td><td>Tổng các hình chữ nhật xấp xỉ diện tích dưới đồ thị.</td></tr>
+          <tr><td>AUC <span class="en">(area under the curve)</span></td><td>Diện tích dưới đường cong; trong dược học là đường nồng độ thuốc theo thời gian.</td></tr>
+          <tr><td>Tích phân số <span class="en">(numerical integration)</span></td><td>Tính gần đúng tích phân bằng các công thức cộng có trọng số.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+<ul><li><b>Minh họa</b>: giá trị đúng tính bằng nguyên hàm; riêng e^(−x²/2) dùng quy tắc Simpson 2000 khoảng làm giá trị tham chiếu. Hàm vận tốc xe là giả định.</li></ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">G. Strang, E. Herman et al., <i>Calculus Volume 1</i>, OpenStax, 2016, chương 5; <i>Calculus Volume 2</i>, chương 2–3. <a href="https://openstax.org/subjects/math" rel="noopener">openstax.org</a></li>
+      <li id="ref2">J. Stewart, D. Clegg, S. Watson, <i>Calculus: Early Transcendentals</i>, 9th ed., Cengage, 2020.</li>
+      <li id="ref3">M. Rowland, T. N. Tozer, <i>Clinical Pharmacokinetics and Pharmacodynamics</i>, 4th ed., Lippincott Williams &amp; Wilkins, 2011 (AUC).</li>
+      <li id="ref4">A. C. Guyton, J. E. Hall, <i>Textbook of Medical Physiology</i>, 14th ed., Elsevier, 2020 (đo cung lượng tim bằng pha loãng chất chỉ thị).</li>
+      <li id="ref5">H. J. G. Gundersen, E. B. Jensen, "The efficiency of systematic sampling in stereology and its prediction", <i>Journal of Microscopy</i> 147(3):229–263, 1987 (nguyên lý Cavalieri).</li>
+    </ol>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-dao-ham.html"><small>Phần 2</small><b>Đạo hàm</b></a>
+      <a class="next" href="4-phuong-trinh-vi-phan.html"><small>Phần 4</small><b>Phương trình vi phân</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/tm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
