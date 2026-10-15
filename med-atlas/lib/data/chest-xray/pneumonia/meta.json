@@ -1,0 +1,26 @@
+{
+ "id": "pneumonia",
+ "source": "nih",
+ "source_image": "00021710_003.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 59,
+ "sex": "M",
+ "view": "PA",
+ "nih_labels": "Infiltration",
+ "pixel_mm": 0.4178,
+ "expert_boxes": [
+  {
+   "label": "Infiltrate",
+   "xywh": [
+    598.1,
+    633.9,
+    207.0,
+    182.0
+   ]
+  }
+ ],
+ "bytes": 434873
+}

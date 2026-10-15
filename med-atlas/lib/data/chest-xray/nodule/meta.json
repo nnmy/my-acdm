@@ -1,0 +1,26 @@
+{
+ "id": "nodule",
+ "source": "nih",
+ "source_image": "00013951_001.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 63,
+ "sex": "F",
+ "view": "PA",
+ "nih_labels": "Nodule",
+ "pixel_mm": 0.4178,
+ "expert_boxes": [
+  {
+   "label": "Nodule",
+   "xywh": [
+    301.2,
+    266.6,
+    62.8,
+    49.8
+   ]
+  }
+ ],
+ "bytes": 430477
+}

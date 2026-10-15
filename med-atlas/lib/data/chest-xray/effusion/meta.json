@@ -1,0 +1,26 @@
+{
+ "id": "effusion",
+ "source": "nih",
+ "source_image": "00021181_002.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 58,
+ "sex": "F",
+ "view": "PA",
+ "nih_labels": "Effusion",
+ "pixel_mm": 0.3287,
+ "expert_boxes": [
+  {
+   "label": "Effusion",
+   "xywh": [
+    150.8,
+    390.6,
+    285.6,
+    207.1
+   ]
+  }
+ ],
+ "bytes": 436860
+}

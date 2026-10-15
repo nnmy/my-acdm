@@ -1,0 +1,45 @@
+{
+ "_huong_dan": "Danh sách ca theo thứ tự hiện trên nút. id = tên thư mục; label = chữ trên nút (tiếng Việt); en = từ khóa tiếng Anh hiện bên dưới.",
+ "cases": [
+  {
+   "id": "normal",
+   "label": "Bình thường",
+   "en": "Normal"
+  },
+  {
+   "id": "tuberculosis",
+   "label": "Lao phổi",
+   "en": "Tuberculosis"
+  },
+  {
+   "id": "pneumonia",
+   "label": "Viêm phổi",
+   "en": "Pneumonia"
+  },
+  {
+   "id": "effusion",
+   "label": "Tràn dịch màng phổi",
+   "en": "Pleural effusion"
+  },
+  {
+   "id": "pneumothorax",
+   "label": "Tràn khí màng phổi",
+   "en": "Pneumothorax"
+  },
+  {
+   "id": "cardiomegaly",
+   "label": "Tim to",
+   "en": "Cardiomegaly"
+  },
+  {
+   "id": "mass",
+   "label": "U phổi",
+   "en": "Lung mass"
+  },
+  {
+   "id": "nodule",
+   "label": "Nốt phổi",
+   "en": "Pulmonary nodule"
+  }
+ ]
+}

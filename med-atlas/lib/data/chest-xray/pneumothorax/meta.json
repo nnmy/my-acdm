@@ -1,0 +1,26 @@
+{
+ "id": "pneumothorax",
+ "source": "nih",
+ "source_image": "00021782_028.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 31,
+ "sex": "F",
+ "view": "PA",
+ "nih_labels": "Pneumothorax",
+ "pixel_mm": 0.3324,
+ "expert_boxes": [
+  {
+   "label": "Pneumothorax",
+   "xywh": [
+    133.3,
+    99.7,
+    222.1,
+    442.1
+   ]
+  }
+ ],
+ "bytes": 457069
+}

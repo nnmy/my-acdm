@@ -1,0 +1,101 @@
+{
+ "_huong_dan": "Nội dung chữ của từng cấu trúc giải phẫu (viết tay; script không đụng tới). Khóa = key dùng trong structures của case.json. source chỉ dùng để hiện chú thích khi case.json không ghi. ipa: phiên âm IPA của tên tiếng Anh (giọng Mỹ, không kèm dấu /).",
+ "structures": {
+  "phoi-phai": {
+   "vi": "Phổi phải",
+   "en": "Right lung",
+   "color": "#3787c4",
+   "desc": "Có ba thùy: trên, giữa, dưới. Trên phim chụp thẳng, phổi phải nằm ở bên trái ảnh (người bệnh quay mặt về phía người đọc). Nhu mô chứa khí nên cản tia X ít, hiện màu tối; các vệt sáng mảnh bên trong là mạch máu phổi.",
+   "clinical": "Khi đọc phim, so sánh hai phế trường theo từng vùng (đỉnh, trên, giữa, dưới). Một vùng trắng hơn bên đối diện gợi ý dịch, mủ hoặc mô đặc (viêm phổi, u, xẹp phổi); vùng đen hơn và mất vân phổi gợi ý khí ngoài phổi (tràn khí màng phổi) hoặc phổi bị phá hủy (bóng khí).",
+   "ipa": "raɪt lʌŋ"
+  },
+  "phoi-trai": {
+   "vi": "Phổi trái",
+   "en": "Left lung",
+   "color": "#3fa0a8",
+   "desc": "Có hai thùy: trên (gồm cả phần lưỡi) và dưới. Nhỏ hơn phổi phải vì tim lệch sang trái, nên bờ trong phía dưới lõm vào theo bóng tim.",
+   "clinical": "Thùy dưới trái nằm một phần sau bóng tim; tổn thương ở đây (viêm phổi, xẹp phổi) dễ bị bỏ sót, nên cần nhìn xuyên qua bóng tim và xem bờ vòm hoành trái có còn rõ không.",
+   "ipa": "lɛft lʌŋ"
+  },
+  "tim": {
+   "vi": "Bóng tim",
+   "en": "Cardiac silhouette",
+   "color": "#d8312a",
+   "desc": "Bờ phải bóng tim (bên trái ảnh) chủ yếu là nhĩ phải; bờ trái (bên phải ảnh) từ trên xuống gồm quai động mạch chủ, thân động mạch phổi, tiểu nhĩ trái và thất trái. Mỏm tim nằm ở phía dưới bên trái người bệnh.",
+   "clinical": "Chỉ số tim–ngực (bề ngang lớn nhất của tim chia bề ngang lồng ngực) trên phim thẳng sau–trước bình thường dưới 0,5. Trên phim chụp nằm (trước–sau) tim trông to hơn thật, nên không dùng ngưỡng này. Bờ tim bị xóa (dấu bóng) gợi ý tổn thương ở thùy giữa phải hoặc phần lưỡi phổi trái nằm sát tim.",
+   "ipa": "ˈkɑːrdiæk ˌsɪluˈɛt"
+  },
+  "trung-that-tren": {
+   "vi": "Trung thất trên",
+   "en": "Superior mediastinum",
+   "color": "#8f63c9",
+   "desc": "Dải mờ ở giữa ngực phía trên tim, giữa hai phổi. Chứa các mạch máu lớn (động mạch chủ, tĩnh mạch chủ trên, các nhánh), khí quản, thực quản, tuyến ức và hạch.",
+   "clinical": "Trung thất rộng bất thường có thể do phình hoặc bóc tách động mạch chủ, hạch to (lao, lymphoma), u tuyến ức hay bướu giáp lan vào ngực. Phim chụp nằm và hít vào không đủ sâu cũng làm trung thất trông rộng hơn.",
+   "ipa": "suˈpɪriər ˌmiːdiəˈstaɪnəm"
+  },
+  "khi-quan": {
+   "vi": "Khí quản",
+   "en": "Trachea",
+   "color": "#f2c230",
+   "desc": "Cột khí tối chạy dọc giữa cổ và trung thất trên, thường nằm chồng lên cột sống hoặc lệch nhẹ sang phải. Chia đôi thành hai phế quản gốc ở carina, ngang khoảng đốt sống ngực 4–5.",
+   "clinical": "Khí quản bị đẩy lệch sang bên đối diện gợi ý tràn khí màng phổi áp lực, tràn dịch lượng lớn hoặc khối u lớn; bị kéo về phía bên bệnh gợi ý xẹp phổi hoặc xơ phổi. Phim chụp nghiêng người cũng làm khí quản trông lệch giả.",
+   "ipa": "ˈtreɪkiə"
+  },
+  "quai-dmc": {
+   "vi": "Quai động mạch chủ",
+   "en": "Aortic knob",
+   "color": "#e8873a",
+   "desc": "Chỗ lồi tròn ở bờ trái trung thất trên, là hình chiếu của cung động mạch chủ khi nó vòng ra sau.",
+   "clinical": "To và cong hơn ở người cao tuổi, tăng huyết áp lâu năm. Vôi hóa thành quai động mạch chủ thường gặp ở người già. Bờ quai bị mờ hay trung thất rộng đột ngột ở người đau ngực dữ dội cần nghĩ tới bóc tách động mạch chủ.",
+   "ipa": "eɪˈɔːrtɪk nɑːb"
+  },
+  "ron-phoi-phai": {
+   "vi": "Rốn phổi phải",
+   "en": "Right hilum",
+   "color": "#2e9d4f",
+   "desc": "Vùng mờ ở bờ trong phổi phải, nơi động mạch và tĩnh mạch phổi, phế quản gốc đi vào phổi. Trên phim, phần lớn độ mờ của rốn phổi là do mạch máu.",
+   "clinical": "Bình thường rốn phổi trái cao hơn rốn phổi phải một chút. Rốn phổi to, dạng nhiều cục gợi ý hạch to (lao, sarcoidosis, lymphoma, ung thư di căn); to đều hai bên dạng ống gợi ý tăng áp động mạch phổi.",
+   "ipa": "raɪt ˈhaɪləm"
+  },
+  "ron-phoi-trai": {
+   "vi": "Rốn phổi trái",
+   "en": "Left hilum",
+   "color": "#2e9d4f",
+   "desc": "Vùng mờ ở bờ trong phổi trái, phía dưới quai động mạch chủ, gồm chủ yếu động mạch phổi trái và phế quản gốc trái.",
+   "clinical": "Thường cao hơn rốn phổi phải. Khi một rốn phổi bị kéo lên hay xuống bất thường, cần nghĩ tới xẹp hoặc xơ thùy phổi cùng bên.",
+   "ipa": "lɛft ˈhaɪləm"
+  },
+  "vom-hoanh-phai": {
+   "vi": "Vòm hoành phải",
+   "en": "Right hemidiaphragm",
+   "color": "#7bcde8",
+   "desc": "Bờ cong trên của cơ hoành phải, ngăn cách phổi phải với gan. Thường cao hơn vòm hoành trái khoảng 1–3 cm.",
+   "clinical": "Vòm hoành dẹt, thấp gợi ý phổi căng phồng (khí phế thũng, hen nặng). Vòm hoành nâng cao một bên gợi ý liệt thần kinh hoành, xẹp thùy dưới hoặc bệnh dưới hoành. Liềm khí tự do dưới hoành trên phim đứng là dấu hiệu thủng tạng rỗng.",
+   "ipa": "raɪt ˌhɛmiˈdaɪəfræm"
+  },
+  "vom-hoanh-trai": {
+   "vi": "Vòm hoành trái",
+   "en": "Left hemidiaphragm",
+   "color": "#7bcde8",
+   "desc": "Bờ cong trên của cơ hoành trái; bên dưới thường thấy bóng hơi dạ dày. Phần trong của vòm hoành trái nằm sau bóng tim.",
+   "clinical": "Mất bờ vòm hoành trái phía sau tim (dấu bóng) là dấu hiệu gợi ý xẹp hoặc viêm thùy dưới phổi trái.",
+   "ipa": "lɛft ˌhɛmiˈdaɪəfræm"
+  },
+  "goc-suon-hoanh-phai": {
+   "vi": "Góc sườn hoành phải",
+   "en": "Right costophrenic angle",
+   "color": "#0b6e99",
+   "desc": "Góc nhọn tạo bởi thành ngực bên và vòm hoành phải, là điểm thấp nhất của khoang màng phổi trên phim thẳng.",
+   "clinical": "Bình thường nhọn và sắc. Góc bị tù là dấu hiệu sớm của tràn dịch màng phổi: trên phim thẳng đứng thường cần khoảng 200 mL dịch trở lên mới thấy; phim nghiêng nhạy hơn.",
+   "ipa": "raɪt ˌkɑːstoʊˈfrɛnɪk ˈæŋɡəl"
+  },
+  "goc-suon-hoanh-trai": {
+   "vi": "Góc sườn hoành trái",
+   "en": "Left costophrenic angle",
+   "color": "#0b6e99",
+   "desc": "Góc nhọn giữa thành ngực bên và vòm hoành trái.",
+   "clinical": "Như bên phải: góc tù gợi ý tràn dịch màng phổi hoặc dày dính màng phổi cũ (sau viêm, lao).",
+   "ipa": "lɛft ˌkɑːstoʊˈfrɛnɪk ˈæŋɡəl"
+  }
+ }
+}

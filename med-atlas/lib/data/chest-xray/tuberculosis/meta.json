@@ -1,0 +1,25 @@
+{
+ "id": "tuberculosis",
+ "source": "montgomery",
+ "source_image": "MCUCXR_0108_1",
+ "size": [
+  1016,
+  1024
+ ],
+ "age": 40,
+ "sex": "M",
+ "view": "PA",
+ "clinical_reading": "extensive cavitary TB smear and culture positive involving LUL lungula and some areas in rt lung as well; pt had previously normal CXR (1Y ago) but positive TST and contact with active case",
+ "pixel_mm": 0.3461,
+ "expert_masks": {
+  "lung-r": "lung-r.png",
+  "lung-l": "lung-l.png"
+ },
+ "crop_from_original": [
+  1,
+  0,
+  4019,
+  4050
+ ],
+ "bytes": 375572
+}

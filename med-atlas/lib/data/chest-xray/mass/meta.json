@@ -1,0 +1,26 @@
+{
+ "id": "mass",
+ "source": "nih",
+ "source_image": "00022192_003.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 73,
+ "sex": "M",
+ "view": "PA",
+ "nih_labels": "Mass",
+ "pixel_mm": 0.4178,
+ "expert_boxes": [
+  {
+   "label": "Mass",
+   "xywh": [
+    175.5,
+    221.1,
+    262.2,
+    303.4
+   ]
+  }
+ ],
+ "bytes": 428558
+}

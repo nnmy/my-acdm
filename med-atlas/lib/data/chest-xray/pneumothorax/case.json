@@ -1,0 +1,30 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). structures: vùng nhận diện khi rê chuột {key (khóa trong anatomy.json), source: expert|ai, mask: file | poly: [[x,y],...] | ellipse: [cx,cy,rx,ry] | line: [[x,y],...] + width}. markers (luôn là AI tự vẽ): {kind: circle|arrow|line, at/pts, r, dir (độ, 0 = sang phải, 90 = lên trên), text}. Khung của bác sĩ lấy tự động từ meta.json (expert_boxes). Tọa độ là pixel của image.png.",
+ "title": "Tràn khí màng phổi phải",
+ "short": "Tràn khí màng phổi",
+ "summary": [
+  "Khí lọt vào khoang màng phổi làm phổi xẹp lại một phần. Tràn khí tự phát hay gặp ở nam trẻ, cao gầy, hút thuốc; tràn khí thứ phát gặp ở người có bệnh phổi sẵn (COPD, lao) hoặc sau chấn thương, thủ thuật.",
+  "Tràn khí áp lực (khí vào mà không ra được, đẩy trung thất sang bên kia) là cấp cứu, cần giải áp ngay mà không đợi phim."
+ ],
+ "findings": [
+  "Tìm đường màng phổi tạng: một đường trắng rất mảnh chạy song song với thành ngực, ở đỉnh hoặc vùng bên.",
+  "Phía ngoài đường đó tối đều và không còn vân phổi (mạch máu): đó là khí trong khoang màng phổi.",
+  "Ảnh có dây điện cực, ống và chỉ thép vùng ngực: người bệnh đang được theo dõi hoặc sau phẫu thuật, bối cảnh thường gặp của tràn khí do thủ thuật."
+ ],
+ "structures": [],
+ "markers": [],
+ "sources": [
+  {
+   "cite": "Wang X và cs., 2017",
+   "title": "ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks",
+   "url": "https://openaccess.thecvf.com/content_cvpr_2017/html/Wang_ChestX-ray8_Hospital-Scale_Chest_CVPR_2017_paper.html"
+  },
+  {
+   "cite": "NIH Clinical Center",
+   "title": "NIH ChestX-ray14 (trang tải dữ liệu)",
+   "url": "https://nihcc.app.box.com/v/ChestXray-NIHCC"
+  }
+ ],
+ "license": "Ảnh của NIH Clinical Center, sử dụng không hạn chế; yêu cầu ghi nguồn NIH Clinical Center, dẫn link trang tải và trích dẫn Wang và cs. 2017.",
+ "note": "Đường màng phổi rất mảnh; trên màn hình nhỏ nên phóng to khung khoanh vùng và tăng tương phản."
+}

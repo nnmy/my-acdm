@@ -1,0 +1,25 @@
+{
+ "id": "normal",
+ "source": "montgomery",
+ "source_image": "MCUCXR_0001_0",
+ "size": [
+  1024,
+  720
+ ],
+ "age": 27,
+ "sex": "F",
+ "view": "PA",
+ "clinical_reading": "normal",
+ "pixel_mm": 0.4178,
+ "expert_masks": {
+  "lung-r": "lung-r.png",
+  "lung-l": "lung-l.png"
+ },
+ "crop_from_original": [
+  1,
+  0,
+  4891,
+  3440
+ ],
+ "bytes": 277574
+}

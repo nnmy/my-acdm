@@ -1,0 +1,275 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). structures: vùng nhận diện khi rê chuột {key (khóa trong anatomy.json), source: expert|ai, mask: file | poly: [[x,y],...] | ellipse: [cx,cy,rx,ry] | line: [[x,y],...] + width}. markers (luôn là AI tự vẽ): {kind: circle|arrow|line, at/pts, r, dir (độ, 0 = sang phải, 90 = lên trên), text}. Khung của bác sĩ lấy tự động từ meta.json (expert_boxes). Tọa độ là pixel của image.png.",
+ "title": "Phim ngực bình thường",
+ "short": "Bình thường",
+ "detail": "Nữ, 27 tuổi, phim thẳng sau–trước, đứng",
+ "summary": [
+  "Phim chụp thẳng sau–trước (PA) khi người bệnh đứng, hít vào sâu: tia X đi từ lưng ra trước ngực, phim áp vào ngực. Phổi phải của người bệnh nằm bên trái ảnh (chữ R ở góc trên).",
+  "Bấm vào một vùng trên ảnh để xem tên và ý nghĩa của cấu trúc. Phổi phải và trái dùng mặt nạ có sẵn của bộ dữ liệu; các mốc còn lại do AI tự vẽ, chưa được bác sĩ duyệt."
+ ],
+ "structures": [
+  {
+   "key": "phoi-phai",
+   "source": "expert",
+   "mask": "lung-r.png"
+  },
+  {
+   "key": "phoi-trai",
+   "source": "expert",
+   "mask": "lung-l.png"
+  },
+  {
+   "key": "khi-quan",
+   "source": "ai",
+   "poly": [
+    [
+     500,
+     30
+    ],
+    [
+     540,
+     30
+    ],
+    [
+     542,
+     235
+    ],
+    [
+     530,
+     258
+    ],
+    [
+     512,
+     258
+    ],
+    [
+     498,
+     235
+    ]
+   ]
+  },
+  {
+   "key": "trung-that-tren",
+   "source": "ai",
+   "poly": [
+    [
+     498,
+     110
+    ],
+    [
+     560,
+     105
+    ],
+    [
+     568,
+     200
+    ],
+    [
+     600,
+     245
+    ],
+    [
+     605,
+     330
+    ],
+    [
+     465,
+     335
+    ],
+    [
+     485,
+     300
+    ],
+    [
+     498,
+     200
+    ]
+   ]
+  },
+  {
+   "key": "quai-dmc",
+   "source": "ai",
+   "ellipse": [
+    588,
+    265,
+    22,
+    30
+   ]
+  },
+  {
+   "key": "tim",
+   "source": "ai",
+   "poly": [
+    [
+     470,
+     340
+    ],
+    [
+     560,
+     335
+    ],
+    [
+     605,
+     340
+    ],
+    [
+     640,
+     390
+    ],
+    [
+     680,
+     440
+    ],
+    [
+     720,
+     490
+    ],
+    [
+     745,
+     550
+    ],
+    [
+     700,
+     570
+    ],
+    [
+     560,
+     578
+    ],
+    [
+     470,
+     575
+    ],
+    [
+     452,
+     545
+    ],
+    [
+     455,
+     470
+    ],
+    [
+     465,
+     400
+    ]
+   ]
+  },
+  {
+   "key": "ron-phoi-phai",
+   "source": "ai",
+   "ellipse": [
+    452,
+    352,
+    28,
+    42
+   ]
+  },
+  {
+   "key": "ron-phoi-trai",
+   "source": "ai",
+   "ellipse": [
+    628,
+    330,
+    28,
+    40
+   ]
+  },
+  {
+   "key": "vom-hoanh-phai",
+   "source": "ai",
+   "line": [
+    [
+     185,
+     590
+    ],
+    [
+     230,
+     560
+    ],
+    [
+     280,
+     538
+    ],
+    [
+     330,
+     530
+    ],
+    [
+     380,
+     535
+    ],
+    [
+     420,
+     548
+    ],
+    [
+     448,
+     570
+    ]
+   ],
+   "width": 14
+  },
+  {
+   "key": "vom-hoanh-trai",
+   "source": "ai",
+   "line": [
+    [
+     748,
+     553
+    ],
+    [
+     800,
+     558
+    ],
+    [
+     850,
+     568
+    ],
+    [
+     885,
+     582
+    ],
+    [
+     908,
+     600
+    ]
+   ],
+   "width": 14
+  },
+  {
+   "key": "goc-suon-hoanh-phai",
+   "source": "ai",
+   "ellipse": [
+    186,
+    588,
+    16,
+    16
+   ]
+  },
+  {
+   "key": "goc-suon-hoanh-trai",
+   "source": "ai",
+   "ellipse": [
+    905,
+    596,
+    16,
+    16
+   ]
+  }
+ ],
+ "markers": [],
+ "findings": [],
+ "sources": [
+  {
+   "cite": "Jaeger S và cs., 2014",
+   "title": "Two public chest X-ray datasets for computer-aided screening of pulmonary diseases",
+   "url": "https://doi.org/10.3978/j.issn.2223-4292.2014.11.20"
+  },
+  {
+   "cite": "Candemir S và cs., 2014",
+   "title": "Lung segmentation in chest radiographs using anatomical atlases with nonrigid registration",
+   "url": "https://doi.org/10.1109/TMI.2013.2290491"
+  }
+ ],
+ "license": "Bộ Montgomery của Thư viện Y khoa Quốc gia Hoa Kỳ (NLM), công bố cho nghiên cứu và giáo dục; yêu cầu trích dẫn Jaeger và cs. 2014 và Candemir và cs. 2014. Mặt nạ phổi do nhóm tác giả vẽ dưới sự giám sát của bác sĩ chẩn đoán hình ảnh."
+}

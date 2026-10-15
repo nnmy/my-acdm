@@ -1,0 +1,26 @@
+{
+ "id": "cardiomegaly",
+ "source": "nih",
+ "source_image": "00021443_000.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "age": 59,
+ "sex": "M",
+ "view": "PA",
+ "nih_labels": "Cardiomegaly",
+ "pixel_mm": 0.4178,
+ "expert_boxes": [
+  {
+   "label": "Cardiomegaly",
+   "xywh": [
+    286.1,
+    372.8,
+    545.0,
+    415.0
+   ]
+  }
+ ],
+ "bytes": 445331
+}

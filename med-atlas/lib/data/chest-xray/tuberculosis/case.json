@@ -1,0 +1,74 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). structures: vùng nhận diện khi rê chuột {key (khóa trong anatomy.json), source: expert|ai, mask: file | poly: [[x,y],...] | ellipse: [cx,cy,rx,ry] | line: [[x,y],...] + width}. markers (luôn là AI tự vẽ): {kind: circle|arrow|line, at/pts, r, dir (độ, 0 = sang phải, 90 = lên trên), text}. Khung của bác sĩ lấy tự động từ meta.json (expert_boxes). Tọa độ là pixel của image.png.",
+ "title": "Lao phổi",
+ "short": "Lao phổi",
+ "detail": "Nam, 40 tuổi, phim thẳng sau–trước",
+ "reading_vi": "Lao hang lan rộng, xét nghiệm đờm và cấy đều dương tính; tổn thương thùy trên phổi trái và phần lưỡi, một số vùng ở phổi phải. Phim một năm trước bình thường; phản ứng tuberculin dương tính, có tiếp xúc với người bệnh lao.",
+ "summary": [
+  "Lao phổi do vi khuẩn Mycobacterium tuberculosis, lây qua đường hô hấp. Việt Nam thuộc nhóm các nước có gánh nặng bệnh lao cao theo Tổ chức Y tế Thế giới, nên X-quang ngực vẫn là công cụ sàng lọc quan trọng.",
+  "Lao sau sơ nhiễm thường ở đỉnh phổi và phân thùy sau của thùy trên, vì vùng này thông khí tốt, giàu oxy. Phim chỉ gợi ý; chẩn đoán xác định cần xét nghiệm đờm (soi, cấy, xét nghiệm sinh học phân tử)."
+ ],
+ "findings": [
+  "Đám mờ không đều, xen nốt và dải xơ ở vùng trên phổi trái (bên phải ảnh).",
+  "Vùng sáng tròn có viền dày ở đỉnh phổi trái: gợi ý hang lao, nơi chứa rất nhiều vi khuẩn và lây mạnh.",
+  "Các nốt mờ rải rác quanh rốn phổi phải: tổn thương lan theo đường phế quản.",
+  "Đối chiếu với phim bình thường: đỉnh phổi hai bên phải sáng đều như nhau."
+ ],
+ "structures": [
+  {
+   "key": "phoi-phai",
+   "source": "expert",
+   "mask": "lung-r.png"
+  },
+  {
+   "key": "phoi-trai",
+   "source": "expert",
+   "mask": "lung-l.png"
+  }
+ ],
+ "markers": [
+  {
+   "kind": "circle",
+   "at": [
+    652,
+    158
+   ],
+   "r": 24,
+   "text": "Hang lao (gợi ý)",
+   "lab": "left"
+  },
+  {
+   "kind": "ellipse",
+   "at": [
+    690,
+    300
+   ],
+   "rx": 125,
+   "ry": 165,
+   "text": "Tổn thương thùy trên trái",
+   "lab": "below"
+  },
+  {
+   "kind": "arrow",
+   "at": [
+    360,
+    470
+   ],
+   "dir": 225,
+   "text": "Nốt rải rác phổi phải"
+  }
+ ],
+ "sources": [
+  {
+   "cite": "Jaeger S và cs., 2014",
+   "title": "Two public chest X-ray datasets for computer-aided screening of pulmonary diseases",
+   "url": "https://doi.org/10.3978/j.issn.2223-4292.2014.11.20"
+  },
+  {
+   "cite": "Candemir S và cs., 2014",
+   "title": "Lung segmentation in chest radiographs using anatomical atlases with nonrigid registration",
+   "url": "https://doi.org/10.1109/TMI.2013.2290491"
+  }
+ ],
+ "license": "Bộ Montgomery của Thư viện Y khoa Quốc gia Hoa Kỳ (NLM), công bố cho nghiên cứu và giáo dục; yêu cầu trích dẫn Jaeger và cs. 2014 và Candemir và cs. 2014. Mặt nạ phổi do nhóm tác giả vẽ dưới sự giám sát của bác sĩ chẩn đoán hình ảnh."
+}

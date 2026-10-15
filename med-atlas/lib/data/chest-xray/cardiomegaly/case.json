@@ -1,0 +1,59 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). structures: vùng nhận diện khi rê chuột {key (khóa trong anatomy.json), source: expert|ai, mask: file | poly: [[x,y],...] | ellipse: [cx,cy,rx,ry] | line: [[x,y],...] + width}. markers (luôn là AI tự vẽ): {kind: circle|arrow|line, at/pts, r, dir (độ, 0 = sang phải, 90 = lên trên), text}. Khung của bác sĩ lấy tự động từ meta.json (expert_boxes). Tọa độ là pixel của image.png.",
+ "title": "Tim to",
+ "short": "Tim to",
+ "summary": [
+  "Bóng tim to trên phim gợi ý buồng tim giãn hoặc thành tim dày (suy tim, bệnh van tim, bệnh cơ tim, tăng huyết áp lâu năm), hoặc tràn dịch màng ngoài tim. Phim không phân biệt được các nguyên nhân này; cần siêu âm tim.",
+  "Đo chỉ số tim–ngực (CTR): bề ngang lớn nhất của bóng tim chia cho bề ngang lớn nhất phía trong lồng ngực. Trên phim thẳng sau–trước, CTR lớn hơn 0,5 gợi ý tim to."
+ ],
+ "findings": [
+  "Bóng tim lan rộng sang cả hai bên, mỏm tim sát thành ngực trái.",
+  "Chỉ số tim–ngực ước tính khoảng 0,54 (hai đường đo do AI đặt, chỉ để minh họa cách đo)."
+ ],
+ "structures": [],
+ "markers": [
+  {
+   "kind": "line",
+   "pts": [
+    [
+     325,
+     690
+    ],
+    [
+     790,
+     690
+    ]
+   ],
+   "text": "Bề ngang tim",
+   "lab": "above"
+  },
+  {
+   "kind": "line",
+   "pts": [
+    [
+     60,
+     712
+    ],
+    [
+     915,
+     712
+    ]
+   ],
+   "text": "Bề ngang lồng ngực",
+   "lab": "below"
+  }
+ ],
+ "sources": [
+  {
+   "cite": "Wang X và cs., 2017",
+   "title": "ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks",
+   "url": "https://openaccess.thecvf.com/content_cvpr_2017/html/Wang_ChestX-ray8_Hospital-Scale_Chest_CVPR_2017_paper.html"
+  },
+  {
+   "cite": "NIH Clinical Center",
+   "title": "NIH ChestX-ray14 (trang tải dữ liệu)",
+   "url": "https://nihcc.app.box.com/v/ChestXray-NIHCC"
+  }
+ ],
+ "license": "Ảnh của NIH Clinical Center, sử dụng không hạn chế; yêu cầu ghi nguồn NIH Clinical Center, dẫn link trang tải và trích dẫn Wang và cs. 2017."
+}

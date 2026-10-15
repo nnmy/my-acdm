@@ -1,0 +1,30 @@
+{
+ "_huong_dan": "Nội dung chữ của ca (viết tay; script không đụng tới). structures: vùng nhận diện khi rê chuột {key (khóa trong anatomy.json), source: expert|ai, mask: file | poly: [[x,y],...] | ellipse: [cx,cy,rx,ry] | line: [[x,y],...] + width}. markers (luôn là AI tự vẽ): {kind: circle|arrow|line, at/pts, r, dir (độ, 0 = sang phải, 90 = lên trên), text}. Khung của bác sĩ lấy tự động từ meta.json (expert_boxes). Tọa độ là pixel của image.png.",
+ "title": "Viêm phổi vùng đáy phổi trái",
+ "short": "Viêm phổi",
+ "summary": [
+  "Viêm phổi làm phế nang chứa đầy dịch viêm và mủ thay cho khí, nên vùng phổi đó cản tia X như mô đặc: gọi là đông đặc. Là nguyên nhân nhập viện thường gặp ở cả trẻ em và người cao tuổi.",
+  "Ca này nằm ở đáy phổi trái, sát và sau bóng tim, vị trí rất dễ bỏ sót: phải nhìn xuyên qua bóng tim và so độ sáng với vùng tương ứng bên phải."
+ ],
+ "findings": [
+  "Đám mờ ở vùng đáy phổi trái, sát bờ tim, đậm hơn hẳn vùng tương ứng bên phải (so hai bên trong khung bác sĩ khoanh).",
+  "Ở bên phải, nhu mô đáy phổi vẫn tối và thấy rõ các vân mạch máu tới sát vòm hoành; bên trái, vùng này bị đám mờ che lấp.",
+  "Một đám mờ chạm vào bờ tim hay bờ vòm hoành và làm bờ đó mất rõ (dấu bóng) giúp đoán tổn thương nằm ở thùy nào; trên ảnh này cần phim nghiêng hoặc CT để xác định chắc chắn."
+ ],
+ "structures": [],
+ "markers": [],
+ "sources": [
+  {
+   "cite": "Wang X và cs., 2017",
+   "title": "ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks",
+   "url": "https://openaccess.thecvf.com/content_cvpr_2017/html/Wang_ChestX-ray8_Hospital-Scale_Chest_CVPR_2017_paper.html"
+  },
+  {
+   "cite": "NIH Clinical Center",
+   "title": "NIH ChestX-ray14 (trang tải dữ liệu)",
+   "url": "https://nihcc.app.box.com/v/ChestXray-NIHCC"
+  }
+ ],
+ "license": "Ảnh của NIH Clinical Center, sử dụng không hạn chế; yêu cầu ghi nguồn NIH Clinical Center, dẫn link trang tải và trích dẫn Wang và cs. 2017.",
+ "note": "Nhãn gốc của ảnh trong bộ dữ liệu là \"Infiltration\" (thâm nhiễm), rút tự động từ báo cáo; hình ảnh phù hợp một đám đông đặc ở đáy phổi trái."
+}
