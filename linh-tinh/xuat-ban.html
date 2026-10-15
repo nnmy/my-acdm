@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xuất bản khoa học | Linh tinh | My N. Nguyen</title>
+<meta name="description" content="Cơ bản về xuất bản khoa học: Web of Science, SCIE, ESCI, Scopus, Impact Factor, CiteScore, SJR, Q1–Q4, và cách nhận biết, tránh tạp chí săn mồi.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/lt.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (linh-tinh/xuat-ban.html)
+  - Demo: lib/demos/journal-check.js (đầu trang), lib/demos/journal-metrics.js (mục #chi-so).
+  - Chữ: sửa trực tiếp trong các <section class="part">; nguồn: mục #co-so.
+  - Navbar, footer: ../common (site.css, site.js); style chung: lib/lt.css; tiện ích: lib/lt.js
+  =====================================================================
+-->
+</head>
+<body data-no-toc>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Linh tinh</a> / Xuất bản khoa học</p>
+  <h1><span class="dot"></span>Xuất bản khoa học</h1>
+  <p class="lead">Web of Science, Scopus, SCIE, ESCI, IF, CiteScore, Q1: những từ ai làm nghiên cứu cũng gặp. Trang này giải thích chúng nghĩa là gì, đọc chúng sao cho đúng, và làm sao để không gửi bài vào tay tạp chí săn mồi. Bắt đầu bằng công cụ tự kiểm tra một tạp chí.</p>
+</header>
+
+<section class="part" id="thu">
+  <div class="wrap">
+    <div class="demo plain" id="demoCheck" data-demo="journal-check">
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="danh-muc">
+  <div class="wrap">
+    <h2>Tạp chí "có trong" đâu?</h2>
+    <div class="prose">
+      <p>Một bài báo khoa học thường được đánh giá trước hết qua nơi nó được đăng. Các <span class="term">cơ sở dữ liệu trích dẫn</span> chọn lọc tạp chí theo tiêu chí riêng (bình duyệt, đạo đức xuất bản, đều đặn, được trích dẫn), rồi ghi lại mọi trích dẫn giữa các bài. "Tạp chí ISI", "tạp chí SCI", "tạp chí Scopus" mà ta hay nghe là nói tới việc tạp chí có tên trong các cơ sở dữ liệu này.</p>
+      <p>Hai cơ sở lớn nhất là <span class="term">Web of Science</span> của Clarivate (tiền thân là ISI, Institute for Scientific Information, do Eugene Garfield lập) và <span class="term">Scopus</span> của Elsevier. Mỗi bên tự chọn tạp chí, nên một tạp chí có thể có trong cả hai, chỉ một, hoặc không có trong cái nào.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Danh mục</th><th>Thuộc</th><th>Phạm vi</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>SCIE (Science Citation Index Expanded)</td><td>Web of Science Core Collection</td><td>Khoa học tự nhiên, kỹ thuật, y sinh</td><td>"SCI" là chỉ mục gốc (từ 1964); Clarivate đã gộp SCI vào SCIE từ năm 2020, nên hiện không còn danh mục SCI riêng <a href="#ref4">[4]</a>.</td></tr>
+          <tr><td>SSCI (Social Sciences Citation Index)</td><td>Web of Science Core Collection</td><td>Khoa học xã hội</td><td></td></tr>
+          <tr><td>AHCI (Arts & Humanities Citation Index)</td><td>Web of Science Core Collection</td><td>Nghệ thuật, nhân văn</td><td></td></tr>
+          <tr><td>ESCI (Emerging Sources Citation Index)</td><td>Web of Science Core Collection</td><td>Mọi ngành</td><td>Tạp chí đạt tiêu chí chất lượng nhưng chưa đạt tiêu chí về mức ảnh hưởng. Từ 2023 cũng có Impact Factor <a href="#ref2">[2]</a>.</td></tr>
+          <tr><td>Scopus</td><td>Elsevier</td><td>Mọi ngành, nhiều tạp chí hơn Web of Science</td><td>Có CiteScore, SJR, SNIP; xếp hạng Q1–Q4 phổ biến nhất là của SCImago (SJR).</td></tr>
+          <tr><td>DOAJ (Directory of Open Access Journals)</td><td>Tổ chức phi lợi nhuận</td><td>Tạp chí truy cập mở</td><td>Không phải cơ sở trích dẫn, nhưng có xét tiêu chí minh bạch: một dấu hiệu tốt với tạp chí truy cập mở.</td></tr>
+          <tr><td>PubMed / MEDLINE</td><td>Thư viện Y khoa Quốc gia Hoa Kỳ</td><td>Y sinh</td><td>Có trong PubMed chưa chắc có trong MEDLINE (được chọn lọc); bài đăng ở tạp chí kém đôi khi vẫn vào PubMed qua kho PubMed Central.</td></tr>
+        </tbody>
+        <caption>Tra cứu chính thức: Master Journal List (mjl.clarivate.com) cho Web of Science; Scopus Sources (scopus.com/sources) cho Scopus. Ở Việt Nam, nhiều quy định về đào tạo tiến sĩ và xét chức danh giáo sư còn dựa trên danh mục tạp chí được Hội đồng Giáo sư nhà nước tính điểm; nên đối chiếu văn bản hiện hành.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="chi-so">
+  <div class="wrap">
+    <h2>Các chỉ số: IF, CiteScore và những con số khác</h2>
+    <div class="prose">
+      <p>Các chỉ số tạp chí đều có chung ý tưởng: trung bình mỗi bài của tạp chí được trích dẫn bao nhiêu lần trong một khoảng thời gian. Chúng khác nhau ở khoảng thời gian, loại bài được đếm, và có điều chỉnh theo ngành hay không.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Chỉ số</th><th>Của ai</th><th>Cách tính (rút gọn)</th><th>Lưu ý</th></tr></thead>
+        <tbody>
+          <tr><td><b>Journal Impact Factor (JIF, "IF")</b></td><td>Clarivate (Journal Citation Reports)</td><td>Số trích dẫn trong năm Y tới các bài đăng năm Y−1 và Y−2, chia cho số bài nghiên cứu và tổng quan đăng trong hai năm đó.</td><td>Công bố mỗi năm (khoảng tháng 6) cho năm trước. Từ 2023 hiển thị một chữ số thập phân và có cho cả tạp chí ESCI, AHCI <a href="#ref2">[2]</a>. Chỉ Clarivate cấp JIF.</td></tr>
+          <tr><td><b>Journal Citation Indicator (JCI)</b></td><td>Clarivate</td><td>Trích dẫn trung bình đã chuẩn hóa theo ngành, loại bài, năm; cửa sổ 3 năm.</td><td>1,0 nghĩa là bằng trung bình thế giới của ngành: so sánh được giữa các ngành.</td></tr>
+          <tr><td><b>CiteScore</b></td><td>Elsevier (Scopus)</td><td>Trích dẫn trong 4 năm Y−3…Y tới các tài liệu đăng trong cùng 4 năm đó, chia cho số tài liệu.</td><td>Đếm cả bài hội nghị, chương sách; miễn phí tra cứu <a href="#ref5">[5]</a>.</td></tr>
+          <tr><td><b>SJR</b></td><td>SCImago (dữ liệu Scopus)</td><td>Trích dẫn có trọng số: trích dẫn từ tạp chí uy tín được tính nặng hơn (giống PageRank).</td><td>Nguồn của xếp hạng Q1–Q4 thường thấy trên scimagojr.com <a href="#ref6">[6]</a>.</td></tr>
+          <tr><td><b>SNIP</b></td><td>CWTS Leiden (dữ liệu Scopus)</td><td>Trích dẫn mỗi bài, chia cho "mức trích dẫn tiềm năng" của ngành.</td><td>Điều chỉnh cho ngành ít trích dẫn <a href="#ref7">[7]</a>.</td></tr>
+          <tr><td><b>Q1–Q4</b></td><td>JCR hoặc SJR</td><td>Chia các tạp chí trong một chuyên ngành thành bốn phần theo chỉ số; Q1 là 25% cao nhất.</td><td>Q của JCR (theo JIF) và Q của SJR thường khác nhau; một tạp chí có thể Q1 ngành này, Q3 ngành khác.</td></tr>
+          <tr><td><b>h-index</b></td><td>Hirsch (2005)</td><td>h bài có ít nhất h trích dẫn mỗi bài.</td><td>Thường dùng cho tác giả; phụ thuộc mạnh vào ngành và số năm làm việc <a href="#ref8">[8]</a>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="demo" id="demoMetrics" data-demo="journal-metrics">
+      <div class="demo-title"><h4>IF và CiteScore tính ra sao</h4><span>Một tạp chí giả định; đổi ngành, số bài tổng quan, tự trích dẫn</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Ba điều cần nhớ khi đọc chỉ số. Một: IF là chỉ số của <i>tạp chí</i>, không phải của từng bài; phần lớn bài trong một tạp chí được trích dẫn ít hơn IF của nó <a href="#ref9">[9]</a>. Hai: không so IF giữa các ngành khác nhau; nếu cần so, dùng chỉ số đã chuẩn hóa (JCI, SNIP) hoặc so thứ hạng trong cùng ngành. Ba: IF bị đẩy lên được bằng nhiều bài tổng quan, tự trích dẫn hay "trao đổi trích dẫn" giữa các tạp chí. Tuyên bố DORA và Tuyên ngôn Leiden khuyến nghị không dùng chỉ số tạp chí để đánh giá từng nhà khoa học <a href="#ref10">[10]</a>, <a href="#ref11">[11]</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="san-moi">
+  <div class="wrap">
+    <h2>Tạp chí săn mồi và cách tránh</h2>
+    <div class="prose">
+      <p><span class="term">Tạp chí săn mồi</span> <span class="en">(predatory journal)</span> là tạp chí đặt lợi ích tài chính lên trên chất lượng khoa học: đưa thông tin sai hoặc gây hiểu nhầm (về chỉ mục, chỉ số, ban biên tập), không bình duyệt thật hoặc bình duyệt qua loa, thiếu minh bạch về phí, và mời chào ồ ạt <a href="#ref12">[12]</a>. Bài đăng ở đó khó được công nhận, có thể làm mất uy tín tác giả, và gần như không rút lại được để đăng nơi khác.</p>
+      <p>Có vài biến thể cần biết. <span class="term">Tạp chí bị chiếm đoạt</span> <span class="en">(hijacked journal)</span>: kẻ gian dựng website giả, mạo danh một tạp chí thật đang có trong Web of Science hoặc Scopus, thu phí của tác giả. <span class="term">Hội nghị săn mồi</span>: hội nghị "quốc tế" nhận mọi bài, thu phí cao. <span class="term">Xưởng bài báo</span> <span class="en">(paper mill)</span>: dịch vụ bán bài viết sẵn hoặc bán suất đứng tên tác giả, kể cả trong tạp chí thật. Lưu ý: thu phí xuất bản không phải là dấu hiệu săn mồi; nhiều tạp chí truy cập mở uy tín thu phí, nhưng công bố rõ và bình duyệt nghiêm túc.</p>
+    </div>
+    <div class="prose">
+      <ul>
+        <li><b>Bắt đầu từ danh mục chính thức</b>: tìm tạp chí bằng ISSN trên Master Journal List và Scopus Sources, rồi vào website <i>qua liên kết trong danh mục</i>, không qua email hay kết quả tìm kiếm <a href="#ref18">[18]</a>.</li>
+        <li><b>Đối chiếu ISSN</b> trên ISSN Portal <a href="#ref17">[17]</a>; với tạp chí truy cập mở, tra DOAJ <a href="#ref16">[16]</a>; xem nhà xuất bản có là thành viên COPE hay OASPA không <a href="#ref15">[15]</a>.</li>
+        <li><b>Đọc vài bài gần đây</b> trong đúng chuyên ngành: chất lượng có tương xứng không, ban biên tập có ai bạn biết không.</li>
+        <li><b>Dùng danh sách Think. Check. Submit.</b> <a href="#ref14">[14]</a> và các dấu hiệu trong công cụ ở đầu trang <a href="#ref13">[13]</a>.</li>
+        <li><b>Hỏi người có kinh nghiệm</b>: thầy hướng dẫn, đồng nghiệp, thư viện trường.</li>
+        <li><b>Cẩn thận với danh sách đen</b>: danh sách Beall nổi tiếng đã ngừng cập nhật từ 2017; các danh sách khác có thể lỗi thời hoặc có tranh cãi. Không có danh sách nào thay được việc tự kiểm tra.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul>
+        <li><b>"Có IF"</b> từ 2023 không còn có nghĩa là SCIE hay SSCI: tạp chí ESCI, AHCI cũng có IF. Muốn biết tạp chí thuộc danh mục nào, tra Master Journal List.</li>
+        <li><b>Chỉ số chỉ so được trong cùng ngành</b>, và không nói lên chất lượng của một bài cụ thể.</li>
+        <li><b>Mọi "chỉ số ảnh hưởng" không do Clarivate cấp</b> mà gọi là Impact Factor đều là dấu hiệu đáng ngờ.</li>
+        <li><b>Vào website tạp chí từ danh mục chính thức</b>, không từ email mời nộp bài.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu">
+  <div class="wrap">
+    <h2>Giải thích thuật ngữ</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Thuật ngữ</th><th>Nghĩa là gì</th></tr></thead>
+        <tbody>
+          <tr><td>Bình duyệt (peer review)</td><td>Các nhà khoa học cùng ngành đọc và đánh giá bài trước khi đăng.</td></tr>
+          <tr><td>Truy cập mở (open access)</td><td>Ai cũng đọc được bài miễn phí; chi phí thường do tác giả hoặc tổ chức tài trợ trả.</td></tr>
+          <tr><td>APC (article processing charge)</td><td>Phí xử lý bài báo mà tác giả trả khi bài được nhận ở tạp chí truy cập mở.</td></tr>
+          <tr><td>ISSN</td><td>Mã số chuẩn quốc tế 8 chữ số cho một ấn phẩm định kỳ; bản in và bản điện tử có ISSN riêng.</td></tr>
+          <tr><td>DOI</td><td>Mã định danh vĩnh viễn của một bài báo, ví dụ 10.1001/jama.295.1.90.</td></tr>
+          <tr><td>JCR</td><td>Journal Citation Reports: nơi Clarivate công bố JIF, JCI và xếp hạng tạp chí hằng năm.</td></tr>
+          <tr><td>Tự trích dẫn</td><td>Bài trong tạp chí trích dẫn bài khác của chính tạp chí đó (hoặc tác giả trích dẫn chính mình).</td></tr>
+          <tr><td>COPE</td><td>Ủy ban Đạo đức Xuất bản (Committee on Publication Ethics), đưa ra hướng dẫn cho biên tập viên và nhà xuất bản.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Định nghĩa chỉ số</b>: JIF theo Garfield <a href="#ref1">[1]</a> và Clarivate <a href="#ref2">[2]</a>; CiteScore theo <a href="#ref5">[5]</a>; SJR <a href="#ref6">[6]</a>, SNIP <a href="#ref7">[7]</a>, h-index <a href="#ref8">[8]</a>.</li>
+        <li><b>Minh họa IF và CiteScore</b>: tạp chí giả định 200 bài mỗi năm; mức trích dẫn mỗi bài theo phân bố log-chuẩn (lệch phải, như dữ liệu thật <a href="#ref9">[9]</a>); đường cong trích dẫn theo tuổi bài, tỉ lệ bài tổng quan được trích dẫn nhiều hơn (×3) là giả định để minh họa.</li>
+        <li><b>Công cụ kiểm tra tạp chí</b>: các dấu hiệu tổng hợp từ <a href="#ref12">[12]</a>–<a href="#ref15">[15]</a>; trọng số và ngưỡng do người soạn chọn, không phải công cụ phân loại đã được kiểm chứng.</li>
+      </ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">E. Garfield, "The history and meaning of the journal impact factor", <i>JAMA</i> 295(1):90–93, 2006. <a href="https://doi.org/10.1001/jama.295.1.90" rel="noopener">Liên kết</a></li>
+      <li id="ref2">Clarivate, "Unveiling the Journal Citation Reports 2023", 2023. <a href="https://clarivate.com/blog/unveiling-the-journal-citation-reports-2023-supporting-research-integrity-with-trusted-tools-and-data/" rel="noopener">Liên kết</a></li>
+      <li id="ref3">Clarivate, <i>Journal Citation Reports</i>. <a href="https://jcr.clarivate.com" rel="noopener">jcr.clarivate.com</a></li>
+      <li id="ref4">Clarivate, <i>Master Journal List</i>. <a href="https://mjl.clarivate.com" rel="noopener">mjl.clarivate.com</a></li>
+      <li id="ref5">C. James et al., "CiteScore metrics: Creating journal metrics from the Scopus citation index", <i>Learned Publishing</i> 32(4):367–374, 2019. <a href="https://doi.org/10.1002/leap.1246" rel="noopener">Liên kết</a></li>
+      <li id="ref6">B. González-Pereira, V. P. Guerrero-Bote, F. Moya-Anegón, "A new approach to the metric of journals' scientific prestige: The SJR indicator", <i>J. Informetrics</i> 4(3):379–391, 2010. <a href="https://www.scimagojr.com" rel="noopener">scimagojr.com</a></li>
+      <li id="ref7">H. F. Moed, "Measuring contextual citation impact of scientific journals", <i>J. Informetrics</i> 4(3):265–277, 2010.</li>
+      <li id="ref8">J. E. Hirsch, "An index to quantify an individual's scientific research output", <i>PNAS</i> 102(46):16569–16572, 2005. <a href="https://doi.org/10.1073/pnas.0507655102" rel="noopener">Liên kết</a></li>
+      <li id="ref9">V. Larivière et al., "A simple proposal for the publication of journal citation distributions", <i>bioRxiv</i> 062109, 2016. <a href="https://doi.org/10.1101/062109" rel="noopener">Liên kết</a></li>
+      <li id="ref10">San Francisco Declaration on Research Assessment (DORA), 2012. <a href="https://sfdora.org" rel="noopener">sfdora.org</a></li>
+      <li id="ref11">D. Hicks et al., "The Leiden Manifesto for research metrics", <i>Nature</i> 520:429–431, 2015. <a href="https://doi.org/10.1038/520429a" rel="noopener">Liên kết</a></li>
+      <li id="ref12">A. Grudniewicz et al., "Predatory journals: no definition, no defence", <i>Nature</i> 576:210–212, 2019. <a href="https://doi.org/10.1038/d41586-019-03759-y" rel="noopener">Liên kết</a></li>
+      <li id="ref13">L. Shamseer et al., "Potential predatory and legitimate biomedical journals: can you tell the difference? A cross-sectional comparison", <i>BMC Medicine</i> 15:28, 2017. <a href="https://doi.org/10.1186/s12916-017-0785-9" rel="noopener">Liên kết</a></li>
+      <li id="ref14">Think. Check. Submit. <a href="https://thinkchecksubmit.org" rel="noopener">thinkchecksubmit.org</a></li>
+      <li id="ref15">COPE, DOAJ, OASPA, WAME, <i>Principles of Transparency and Best Practice in Scholarly Publishing</i>. <a href="https://publicationethics.org" rel="noopener">publicationethics.org</a></li>
+      <li id="ref16">Directory of Open Access Journals. <a href="https://doaj.org" rel="noopener">doaj.org</a></li>
+      <li id="ref17">ISSN International Centre, <i>ISSN Portal</i>. <a href="https://portal.issn.org" rel="noopener">portal.issn.org</a></li>
+      <li id="ref18">Retraction Watch, <i>Hijacked Journal Checker</i>. <a href="https://retractionwatch.com/the-retraction-watch-hijacked-journal-checker/" rel="noopener">retractionwatch.com</a></li>
+    </ol>
+    <p class="disclaimer">Thông tin về danh mục và chỉ số cập nhật tới 10/2026; các tổ chức có thể thay đổi cách tính và tiêu chí. Hãy kiểm tra trên trang chính thức trước khi ra quyết định.</p>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Quay lại</small><b>Linh tinh</b></a>
+      <a class="next" href="noi-song.html"><small>Trang sau</small><b>Chọn nơi sống</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/lt.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

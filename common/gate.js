@@ -1,12 +1,12 @@
 /* =====================================================================
-   Cổng mở khóa cho my-acdm. Mọi trang đều nạp file này ĐỒNG BỘ trong <head>, ngay sau <meta charset>:
+   Cổng mở khóa cho my-library. Mọi trang đều nạp file này ĐỒNG BỘ trong <head>, ngay sau <meta charset>:
        <style>html.gate-locked body{visibility:hidden!important}</style>
        <script src="../common/gate.js"></script>        (đường dẫn tương đối tới common/)
    và thẻ <html> có sẵn class="gate-locked".
 
    HAI NHÓM NỘI DUNG
    - Mặc định: phải nhập đúng mã mới xem được (mọi trang, kể cả trang chủ index.html).
-   - Công khai: các thư mục trong PUBLIC bên dưới (tính từ thư mục gốc my-acdm), ai vào cũng xem được.
+   - Công khai: các thư mục trong PUBLIC bên dưới (tính từ thư mục gốc my-library), ai vào cũng xem được.
      Chuyển một mục sang công khai / khóa lại: chỉ cần sửa PUBLIC, không phải sửa các trang.
    Trang mới: nhớ chép 3 dòng trên (và class trên <html>) vào trang, nếu không trang đó sẽ không bị khóa.
 
@@ -24,7 +24,7 @@
 (() => {
   'use strict';
   const HOME = 'https://nnmy.github.io/';
-  const STORE_KEY = 'acdm-gate';
+  const STORE_KEY = 'acdm-gate';      // giữ tên cũ (từ my-acdm) để người đã nhập mã không phải nhập lại
   const PROMPT = 'Bạn và tui lần đầu gặp nhau ở tỉnh/thành phố nào (nhập không dấu, không khoảng cách)';
   const SALT = '276fe92fd02d531189918104aa6eaee3';
   const ITER = 200000;
@@ -38,7 +38,7 @@
     'c9996ac3ba26a4d3325242e21d048bcfac325e460f12e0a5e352daa8cfc44210',
   ]);
 
-  const PUBLIC = ['linh-tinh'];           // thư mục công khai (cấp đầu tiên dưới thư mục gốc my-acdm)
+  const PUBLIC = [];                      // thư mục công khai (cấp đầu tiên dưới thư mục gốc my-library), VD: ['linh-tinh']. Nội dung công khai nay nằm ở my-collection.
 
   const root = document.documentElement;
   // thư mục gốc của site = thư mục cha của common/ (lấy từ chính đường dẫn file này)

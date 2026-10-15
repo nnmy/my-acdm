@@ -5,7 +5,7 @@
 <style>html.gate-locked body{visibility:hidden!important}</style>
 <script src="common/gate.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Academia | My N. Nguyen</title>
+<title>My Library | My N. Nguyen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,16 +63,16 @@ h1 .dot { display: inline-block; flex: none; width: 16px; height: 16px; backgrou
 <body>
 <noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
 <nav class="site-nav" aria-label="Site">
-  <a class="site-mark" href="index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My Academia</span></a>
+  <a class="site-mark" href="index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
   <ul>
     <li><a href="https://nnmy.github.io/">Profile</a></li>
-    <li><a href="index.html" class="active" aria-current="page">Academia</a></li>
-    <li><a href="https://nnmy.github.io/my-library">Library</a></li>
+    <li><a href="index.html" class="active" aria-current="page">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
   </ul>
 </nav>
 <div class="wrap">
   <header>
-    <h1>MY ACADEMIA</h1>
+    <h1>MY LIBRARY</h1>
   </header>
 
   <div id="shelves"></div>
@@ -82,7 +82,7 @@ h1 .dot { display: inline-block; flex: none; width: 16px; height: 16px; backgrou
 
 <script>
 /* =====================================================
-   DANH SÁCH THEO MỤC (my-acdm: bài viết học thuật)
+   DANH SÁCH THEO MỤC (my-library: bài viết học thuật, có khóa bằng mã)
    Mỗi mục (section) có tiêu đề và danh sách thẻ. Thêm thẻ mới: tạo thư mục con (có index.html),
    rồi thêm một phần tử vào "items" của mục phù hợp. Link bắt đầu bằng http(s) được đánh dấu ↗ (trang bên ngoài).
    icon: lưới pixel (số hàng/cột tùy ý), mỗi ký tự là một ô: "." = trống, các ký tự khác tra trong iconColors.
@@ -219,8 +219,8 @@ const SECTIONS = [
       {
         name: "Linh tinh",
         href: "linh-tinh/index.html",
-        desc: "Các minh họa tương tác độc lập cho người đọc phổ thông: màn hình và đôi mắt, cơ thể khi về già, ...",
-        tags: ["Interactive", "Health", "Everyday science"],
+        desc: "Các minh họa tương tác độc lập cho người đọc phổ thông: xuất bản khoa học, chọn nơi sống, ...",
+        tags: ["Interactive", "Everyday science"],
         // pixel art: con xúc xắc
         iconColors: { o: "#1d1d21", w: "#ffffff", s: "#3787c4" },
         icon: [

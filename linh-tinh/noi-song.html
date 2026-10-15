@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chọn nơi sống | Linh tinh | My N. Nguyen</title>
+<meta name="description" content="So sánh Việt Nam, Nhật Bản, Úc, New Zealand, Đài Loan, Đức, Pháp, Thụy Điển, Ireland, Canada cho người có bằng tiến sĩ: thu nhập ròng, chi phí, giá nhà, lương hưu, y tế, nhập tịch và hai quốc tịch, an toàn, thiên tai, ngôn ngữ, cộng đồng người Việt.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/lt.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (linh-tinh/noi-song.html)
+  - Demo: lib/demos/country-compare.js (đầu trang); số liệu ở mảng C trong file đó.
+  - Bảng: sửa trực tiếp trong các <section class="part">; nguồn: mục #co-so. Số liệu tra ngày 13/10/2026.
+  - Navbar, footer: ../common (site.css, site.js); style chung: lib/lt.css; tiện ích: lib/lt.js
+  =====================================================================
+-->
+</head>
+<body data-no-toc>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site">
+  <a class="site-mark" href="../index.html"><img src="https://nnmy.github.io/lib/logo-my.svg" alt="" width="30" height="30"><span>My N. Nguyen - Library</span></a>
+  <ul>
+    <li><a href="https://nnmy.github.io/">Profile</a></li>
+    <li><a href="../index.html">Library</a></li>
+    <li><a href="https://nnmy.github.io/my-collection">Collection</a></li>
+  </ul>
+</nav>
+
+<main class="lt-page">
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Linh tinh</a> / Chọn nơi sống</p>
+  <h1><span class="dot"></span>Chọn nơi sống</h1>
+  <p class="lead">Lấy Việt Nam và Nhật Bản làm hai mốc tham chiếu, so sánh với Úc, New Zealand, Đài Loan, Đức, Pháp, Thụy Điển, Ireland và Canada (các nước cho phép giữ hai quốc tịch, hoặc cho phép có điều kiện) theo những gì quan trọng với một người có bằng tiến sĩ: tiền còn lại mỗi tháng, giá nhà, lương hưu, y tế, đường nhập tịch, an toàn, thiên tai, ngôn ngữ và cộng đồng người Việt. Số liệu tra cứu ngày 13/10/2026.</p>
+</header>
+
+<section class="part" id="thu">
+  <div class="wrap">
+    <div class="demo plain" id="demoCountry" data-demo="country-compare">
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="thuat-ngu-dung">
+  <div class="wrap">
+    <h2>Gọi cho đúng tên</h2>
+    <div class="prose">
+      <p>Vài cách gọi thường ngày có thuật ngữ chuẩn tương ứng; biết đúng tên giúp tra cứu số liệu chính thức dễ hơn.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Cách gọi thường ngày</th><th>Thuật ngữ</th><th>Nghĩa</th></tr></thead>
+        <tbody>
+          <tr><td>Thu nhập về tay</td><td>Thu nhập ròng <span class="en">(net income, take-home pay)</span></td><td>Lương sau khi trừ thuế thu nhập và các khoản bảo hiểm bắt buộc.</td></tr>
+          <tr><td>Lương trừ thuế trừ ăn uống tiêu xài</td><td>Số dư sau chi tiêu, khoản tiết kiệm được <span class="en">(savings after expenses)</span></td><td>Thu nhập ròng trừ chi phí sinh hoạt và tiền nhà. "Thu nhập khả dụng" <span class="en">(disposable income)</span> là tên gọi của thu nhập ròng, <i>chưa</i> trừ chi tiêu.</td></tr>
+          <tr><td>Khả năng sở hữu nhà theo số năm thu nhập</td><td>Tỉ lệ giá nhà trên thu nhập <span class="en">(price-to-income ratio)</span></td><td>Số năm thu nhập (thường của cả hộ) cần để mua một căn nhà, nếu không chi tiêu gì khác.</td></tr>
+          <tr><td>Mức hưu trí</td><td>Tỉ lệ thay thế lương hưu <span class="en">(pension replacement rate)</span></td><td>Lương hưu bằng bao nhiêu phần trăm thu nhập lúc còn đi làm.</td></tr>
+          <tr><td>Xin thêm quốc tịch</td><td>Nhập tịch <span class="en">(naturalisation)</span>, kèm điều kiện được giữ hai quốc tịch <span class="en">(dual citizenship)</span></td><td>Có hai điều kiện độc lập: nước mới cho phép giữ quốc tịch cũ, và nước cũ không tước quốc tịch khi bạn nhập quốc tịch khác.</td></tr>
+          <tr><td>Cộng đồng người gốc Việt trước 1975</td><td>Cộng đồng người Việt hải ngoại hình thành trước 1975</td><td>Phần lớn cộng đồng người Việt ở Úc, Canada, Đức hình thành sau 1975; ở Pháp có từ thời thuộc địa.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="quoc-tich">
+  <div class="wrap">
+    <h2>Nhập tịch và giữ hai quốc tịch</h2>
+    <div class="prose">
+      <p>Ngoài Nhật Bản (đưa vào làm mốc tham chiếu thứ hai, cùng Việt Nam), danh sách chỉ gồm các nước cho phép (hoặc cho phép có điều kiện) giữ quốc tịch cũ khi nhập tịch. Một số nước phát triển khác như Hà Lan, Áo, Singapore nói chung yêu cầu từ bỏ quốc tịch cũ nên không đưa vào. Thời gian dưới đây là thời gian cư trú tối thiểu <i>sau khi</i> đã có diện cư trú phù hợp; tổng thời gian từ lúc đến thường dài hơn, vì trước đó phải có visa làm việc rồi thường trú.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nước</th><th>Cư trú tối thiểu</th><th>Điều kiện quan trọng</th><th>Giữ quốc tịch cũ?</th></tr></thead>
+        <tbody>
+          <tr><td>Nhật Bản (tham chiếu)</td><td>Luật ghi 5 năm, nhưng từ 1/4/2026 Bộ Tư pháp xét theo chuẩn thực tế khoảng 10 năm</td><td>Xét 5 năm hồ sơ thuế và 2 năm đóng lương hưu, bảo hiểm y tế; tiếng Nhật đủ dùng trong đời sống; tự túc tài chính. Chuẩn mới áp dụng cả cho hồ sơ chưa có kết quả.</td><td>Không: phải từ bỏ quốc tịch cũ <a href="#ref21">[21]</a></td></tr>
+          <tr><td>Úc</td><td>4 năm cư trú hợp pháp, trong đó ít nhất 1 năm là thường trú nhân</td><td>Giới hạn số ngày vắng mặt; thi hiểu biết về Úc (bằng tiếng Anh).</td><td>Được <a href="#ref16">[16]</a></td></tr>
+          <tr><td>New Zealand</td><td>5 năm với tư cách resident, có mặt ít nhất 1 350 ngày (tối thiểu 240 ngày mỗi năm)</td><td>Hiểu tiếng Anh cơ bản; tư cách tốt.</td><td>Được <a href="#ref17">[17]</a></td></tr>
+          <tr><td>Đài Loan</td><td>5 năm, mỗi năm ít nhất 183 ngày</td><td>Thường phải nộp chứng nhận đã từ bỏ quốc tịch gốc. Ngoại lệ: "chuyên gia cao cấp" được Bộ ngành đề cử, gồm giảng viên từ trợ lý giáo sư trở lên tại trường Đài Loan hoặc người có công bố trên tạp chí quốc tế uy tín, được giữ quốc tịch cũ.</td><td>Có điều kiện <a href="#ref13">[13]</a></td></tr>
+          <tr><td>Đức</td><td>5 năm (đường nhanh 3 năm đã bị bãi bỏ từ 10/2025)</td><td>Tiếng Đức B1; bài thi "Leben in Deutschland"; tự lo được tài chính.</td><td>Được (từ 6/2024) <a href="#ref11">[11]</a></td></tr>
+          <tr><td>Pháp</td><td>5 năm; rút xuống 2 năm nếu đã hoàn thành 2 năm học sau đại học tại Pháp</td><td>Hội nhập, tiếng Pháp (luật nhập cư 2024 nâng yêu cầu ngôn ngữ), thu nhập ổn định.</td><td>Được <a href="#ref20">[20]</a></td></tr>
+          <tr><td>Thụy Điển</td><td>8 năm (từ 6/6/2026, trước đó 5 năm)</td><td>Yêu cầu tự túc tài chính; thi hiểu biết xã hội (từ 8/2026) và tiếng Thụy Điển (dự kiến từ 10/2027). Luật mới áp dụng cả cho hồ sơ chưa được giải quyết.</td><td>Được <a href="#ref12">[12]</a></td></tr>
+          <tr><td>Ireland</td><td>5 năm cư trú "tính được" trong 9 năm, năm cuối liên tục</td><td>Tư cách tốt; không có bài thi ngôn ngữ.</td><td>Được <a href="#ref19">[19]</a></td></tr>
+          <tr><td>Canada</td><td>1 095 ngày có mặt trong 5 năm, sau khi là thường trú nhân</td><td>Tiếng Anh hoặc Pháp; thi quốc tịch; khai thuế đầy đủ.</td><td>Được <a href="#ref18">[18]</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p><b>Phía Việt Nam</b>: theo Luật Quốc tịch (sửa đổi 2025, hiệu lực 1/7/2025), người Việt Nam định cư ở nước ngoài chưa mất quốc tịch theo luật thì vẫn còn quốc tịch Việt Nam; nhập quốc tịch nước khác không làm tự động mất quốc tịch Việt Nam. Luật sửa đổi cũng bổ sung quy định về quốc tịch đối với người làm việc trong cơ quan nhà nước, nên nếu dự định về làm việc ở cơ quan, trường công, cần kiểm tra kỹ quy định hiện hành <a href="#ref14">[14]</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="huu-tri">
+  <div class="wrap">
+    <h2>Hưu trí và bảo hiểm y tế</h2>
+    <div class="prose">
+      <p>Tỉ lệ thay thế dưới đây là dự báo của OECD cho người bắt đầu đi làm năm 2024 và đóng đủ cả đời ở nước đó, từ các chế độ bắt buộc. Người có bằng tiến sĩ thường thu nhập trên trung bình nên tỉ lệ thường gần cột "gấp đôi trung bình" hơn; người đến muộn, đóng ít năm sẽ nhận ít hơn nhiều.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nước</th><th>Lương hưu ròng / lương ròng (TB; gấp đôi TB)</th><th>Hệ thống hưu trí</th><th>Bảo hiểm y tế</th></tr></thead>
+        <tbody>
+          <tr><td>Việt Nam</td><td>không có trong OECD</td><td>BHXH bắt buộc; lương hưu từ 45% (đủ 20 năm với nam, 15 năm với nữ), mỗi năm thêm 2%, tối đa 75%.</td><td>BHYT bắt buộc theo lương.</td></tr>
+          <tr><td>Nhật Bản</td><td>42%; —</td><td>Lương hưu quốc dân và bảo hiểm hưu trí cho người làm công (18,3% lương, chia đôi).</td><td>Bảo hiểm y tế bắt buộc cho mọi người cư trú; người bệnh thường trả 30% chi phí, có trần chi phí hằng tháng.</td></tr>
+          <tr><td>Úc</td><td>53%; 38%</td><td>Superannuation bắt buộc (chủ đóng 12% từ 7/2025) và lương hưu cơ bản có kiểm tra tài sản.</td><td>Medicare cho công dân, thường trú nhân; người có visa tạm thường phải mua bảo hiểm tư.</td></tr>
+          <tr><td>New Zealand</td><td>44%; 24%</td><td>NZ Super phổ quát (yêu cầu số năm cư trú đang được nâng dần lên 20 năm); KiwiSaver tự nguyện.</td><td>Y tế công cho người đủ điều kiện (công dân, resident, một số visa làm việc dài hạn).</td></tr>
+          <tr><td>Đài Loan</td><td>không có trong OECD</td><td>Bảo hiểm lao động và quỹ hưu trí lao động (chủ đóng tối thiểu 6% vào tài khoản cá nhân).</td><td>Bảo hiểm y tế toàn dân (NHI), người nước ngoài có việc làm được tham gia.</td></tr>
+          <tr><td>Đức</td><td>53%; —</td><td>Bảo hiểm hưu trí bắt buộc 18,6% lương, chia đôi người lao động và chủ.</td><td>Bảo hiểm y tế bắt buộc (công hoặc tư); mức đóng công khoảng 17% lương chia đôi.</td></tr>
+          <tr><td>Pháp</td><td>70%; 59%</td><td>Hưu trí cơ bản và hưu trí bổ sung bắt buộc.</td><td>Assurance Maladie toàn dân, thường mua thêm bảo hiểm bổ sung (mutuelle).</td></tr>
+          <tr><td>Thụy Điển</td><td>66%; 84%</td><td>Lương hưu theo thu nhập, phần đầu tư cá nhân, và hưu trí nghề nghiệp theo thỏa ước lao động.</td><td>Y tế công, phí khám thấp, có trần chi phí mỗi năm.</td></tr>
+          <tr><td>Ireland</td><td>dưới 35%; —</td><td>Lương hưu nhà nước theo số năm đóng; tự động tham gia quỹ hưu trí nghề nghiệp bắt đầu từ 2026.</td><td>Y tế công nhưng khám bác sĩ gia đình thường mất phí; nhiều người mua bảo hiểm tư.</td></tr>
+          <tr><td>Canada</td><td>45%; 25%</td><td>CPP/QPP theo đóng góp và OAS theo số năm cư trú.</td><td>Bảo hiểm y tế của tỉnh; một số tỉnh có thời gian chờ với người mới đến.</td></tr>
+        </tbody>
+        <caption>Tỉ lệ thay thế: OECD Pensions at a Glance 2025 <a href="#ref10">[10]</a>; người thu nhập trung bình (TB) và gấp đôi trung bình. Thông tin hệ thống, y tế: trang chính thức của từng nước, tóm lược.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="nha-dat">
+  <div class="wrap">
+    <h2>Mua nhà và quyền sở hữu của người nước ngoài</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nước</th><th>Giá nhà / thu nhập (năm)</th><th>Người nước ngoài mua nhà ở</th></tr></thead>
+        <tbody>
+          <tr><td>Việt Nam</td><td>32,7</td><td>Công dân: đầy đủ. Người nước ngoài: chỉ nhà ở trong dự án được phép, sở hữu tối đa 50 năm (gia hạn được), giới hạn số căn mỗi tòa nhà.</td></tr>
+          <tr><td>Nhật Bản</td><td>11,7</td><td>Không hạn chế theo quốc tịch (có quy định báo cáo khi mua đất gần khu vực quan trọng về an ninh).</td></tr>
+          <tr><td>Úc</td><td>8,2</td><td>Phải được FIRB chấp thuận, chủ yếu chỉ được mua nhà mới; cấm mua nhà đã qua sử dụng từ 1/4/2025 tới 31/3/2027. Thường trú nhân, công dân mua tự do <a href="#ref16">[16]</a>.</td></tr>
+          <tr><td>New Zealand</td><td>7,9</td><td>Cấm người nước ngoài mua nhà ở từ 2018; ngoại lệ gồm công dân Úc, Singapore và người có resident visa đang thường trú tại NZ <a href="#ref17">[17]</a>.</td></tr>
+          <tr><td>Đài Loan</td><td>20,5</td><td>Theo nguyên tắc có đi có lại; theo danh sách hiện hành, công dân Việt Nam không được mua bất động sản. Có quốc tịch Đài Loan thì mua như công dân <a href="#ref15">[15]</a>.</td></tr>
+          <tr><td>Đức</td><td>7,8</td><td>Không hạn chế theo quốc tịch.</td></tr>
+          <tr><td>Pháp</td><td>8,3</td><td>Không hạn chế theo quốc tịch.</td></tr>
+          <tr><td>Thụy Điển</td><td>7,0</td><td>Không hạn chế theo quốc tịch.</td></tr>
+          <tr><td>Ireland</td><td>6,2</td><td>Không hạn chế theo quốc tịch.</td></tr>
+          <tr><td>Canada</td><td>7,2</td><td>Cấm người không phải công dân, thường trú nhân mua nhà ở tới 1/1/2027, có ngoại lệ (gồm một số người lao động tạm trú) <a href="#ref18">[18]</a>.</td></tr>
+        </tbody>
+        <caption>Giá nhà / thu nhập: giá căn hộ 90 m² chia cho thu nhập khả dụng trung vị của một hộ gia đình, Numbeo giữa năm 2026 <a href="#ref4">[4]</a>. Trung bình cả nước; ở các thành phố lớn (Sydney, Auckland, Đài Bắc, Hà Nội, TP.HCM) tỉ lệ cao hơn nhiều.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="rui-ro">
+  <div class="wrap">
+    <h2>Khí hậu, thiên tai và an ninh</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nước</th><th>WorldRiskIndex 2025</th><th>Global Peace Index 2026</th><th>Đặc điểm chính</th></tr></thead>
+        <tbody>
+          <tr><td>Việt Nam</td><td>25,92 (hạng 13/193)</td><td>hạng 41</td><td>Bão, lũ, sạt lở, nắng nóng; xâm nhập mặn và nước biển dâng ở đồng bằng sông Cửu Long.</td></tr>
+          <tr><td>Nhật Bản</td><td>24,81 (hạng 17)</td><td>hạng 10</td><td>Động đất, sóng thần, bão, mưa lớn, nắng nóng mùa hè; tuyết dày ở phía bắc và ven biển Nhật Bản.</td></tr>
+          <tr><td>Úc</td><td>21,90</td><td>hạng 20</td><td>Nắng nóng cực đoan, cháy rừng, hạn hán, lũ lụt.</td></tr>
+          <tr><td>New Zealand</td><td>15,20</td><td>hạng 2</td><td>Động đất, núi lửa, lũ; khí hậu ôn hòa.</td></tr>
+          <tr><td>Đài Loan</td><td>không có trong chỉ số</td><td>hạng 42</td><td>Động đất, bão; căng thẳng quân sự ở eo biển Đài Loan là rủi ro an ninh cần cân nhắc.</td></tr>
+          <tr><td>Đức</td><td>4,28</td><td>hạng 28</td><td>Lũ (như lũ năm 2021), các đợt nắng nóng mùa hè; mùa đông lạnh.</td></tr>
+          <tr><td>Pháp</td><td>7,75</td><td>hạng 99</td><td>Nắng nóng, cháy rừng miền nam, lũ. Hạng GPI thấp chủ yếu do chỉ số quân sự hóa (quân đội lớn, vũ khí hạt nhân, hiện diện quân sự ở nước ngoài).</td></tr>
+          <tr><td>Thụy Điển</td><td>3,38</td><td>hạng 40</td><td>Rủi ro thiên tai thấp; mùa đông dài, lạnh, ít nắng. Gia nhập NATO năm 2024.</td></tr>
+          <tr><td>Ireland</td><td>3,25</td><td>hạng 5</td><td>Rủi ro thiên tai thấp; mưa nhiều, bão gió mùa đông.</td></tr>
+          <tr><td>Canada</td><td>19,88</td><td>hạng 14</td><td>Lạnh giá, cháy rừng (mùa cháy kỷ lục năm 2023), lũ.</td></tr>
+        </tbody>
+        <caption>WorldRiskIndex: rủi ro thảm họa từ thiên tai, có tính cả khả năng ứng phó của xã hội; càng cao càng rủi ro <a href="#ref7">[7]</a>. Global Peace Index: 23 chỉ số về an ninh xã hội, xung đột và quân sự hóa, 163 nước <a href="#ref6">[6]</a>.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="ngon-ngu">
+  <div class="wrap">
+    <h2>Ngôn ngữ và cộng đồng người Việt</h2>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Nước</th><th>Tiếng Anh</th><th>Tiếng Hoa</th><th>Cộng đồng người Việt</th></tr></thead>
+        <tbody>
+          <tr><td>Việt Nam</td><td>EF EPI 2025: 500, hạng 64 (trung bình)</td><td>Có cộng đồng người Hoa lâu đời.</td><td>—</td></tr>
+          <tr><td>Nhật Bản</td><td>EF EPI 2025: 446, hạng 96 (rất thấp); đời sống hằng ngày cần tiếng Nhật</td><td>Cộng đồng người Trung Quốc lớn nhất trong người nước ngoài (khoảng 930 000); chữ Hán giúp đọc hiểu một phần.</td><td>Rất lớn và đang tăng: khoảng 681 000 người Việt cư trú (cuối 2025), nhóm người nước ngoài đông thứ hai, phần lớn đến sau 2010. Trước 1975 có du học sinh (từ phong trào Đông Du đầu thế kỷ 20) nhưng ít.</td></tr>
+          <tr><td>Úc</td><td>Bản ngữ</td><td>Tiếng Quan thoại là ngôn ngữ phổ biến nhất sau tiếng Anh trong gia đình.</td><td>Lớn (khoảng 270 000 người sinh tại Việt Nam, điều tra 2021), chủ yếu hình thành sau 1975; trước 1975 có ít sinh viên du học.</td></tr>
+          <tr><td>New Zealand</td><td>Bản ngữ</td><td>Cộng đồng người Hoa đông ở Auckland.</td><td>Nhỏ, hình thành sau 1975.</td></tr>
+          <tr><td>Đài Loan</td><td>Hạn chế trong đời sống hằng ngày</td><td>Bản ngữ (Quan thoại, chữ phồn thể).</td><td>Đông (lao động, cô dâu), chủ yếu từ thập niên 1990.</td></tr>
+          <tr><td>Đức</td><td>EF EPI 2025: 615, hạng 4 (rất cao)</td><td>Nhỏ.</td><td>Khoảng 200 000 (kể cả thế hệ sinh ở Đức): thuyền nhân ở Tây Đức sau 1975 và lao động hợp tác ở Đông Đức.</td></tr>
+          <tr><td>Pháp</td><td>EF EPI 2025: 539 (trung bình); đời sống hằng ngày chủ yếu tiếng Pháp</td><td>Có khu người Hoa ở Paris (quận 13).</td><td>Lâu đời nhất: có từ thời thuộc địa, du học và lao động từ đầu thế kỷ 20, trước 1975.</td></tr>
+          <tr><td>Thụy Điển</td><td>EF EPI 2025: 609, hạng 8 (rất cao)</td><td>Nhỏ.</td><td>Nhỏ, sau 1975.</td></tr>
+          <tr><td>Ireland</td><td>Bản ngữ</td><td>Nhỏ.</td><td>Rất nhỏ.</td></tr>
+          <tr><td>Canada</td><td>Bản ngữ (Québec chủ yếu tiếng Pháp)</td><td>Lớn, nhất là Vancouver và Toronto.</td><td>Lớn (khoảng 275 000 người gốc Việt, điều tra 2021); có một số du học sinh từ trước 1975, phần lớn đến sau 1975.</td></tr>
+        </tbody>
+        <caption>Tiếng Anh: EF English Proficiency Index 2025 <a href="#ref9">[9]</a>; điểm của Đài Loan năm 2025 không tra được nên để trống. Số liệu cộng đồng là ước lượng làm tròn từ điều tra dân số (Úc, Canada) và ước tính thường được trích dẫn (Đức, Pháp).</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="ghi-nho">
+  <div class="wrap">
+    <h2>Điều cần nhớ</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Số liệu là trung bình cả nước.</b> Thu nhập, chi phí và giá nhà khác rất nhiều giữa các thành phố, và giữa làm trong trường đại học với làm trong công ty.</li>
+        <li><b>Numbeo là dữ liệu do người dùng đóng góp</b>, hữu ích để so sánh tương đối, không phải thống kê chính thức. Chi phí sinh hoạt và tiền mướn nhà ở đây được quy đổi theo chỉ số từ mốc Đức, chỉ để ước lượng.</li>
+        <li><b>Luật nhập tịch đang thay đổi nhanh</b>: Nhật Bản xét theo chuẩn khoảng 10 năm từ 4/2026, Thụy Điển nâng lên 8 năm từ 6/2026, Đức bỏ đường 3 năm từ 10/2025. Kiểm tra trang chính thức trước khi lên kế hoạch.</li>
+        <li><b>Hai quốc tịch cần hai nước cùng đồng ý</b>: nước mới cho giữ quốc tịch cũ, và Việt Nam không tước quốc tịch của bạn.</li>
+        <li><b>GDP/người của Ireland bị đẩy lên</b> bởi lợi nhuận của các tập đoàn đa quốc gia đặt trụ sở ở đó; không phản ánh thu nhập của người dân.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="co-so">
+  <div class="wrap">
+    <h2>Cơ sở và tài liệu tham khảo</h2>
+    <div class="prose">
+      <ul>
+        <li><b>Minh họa ở đầu trang</b>: thu nhập = lương ròng trung bình (mọi ngành, Numbeo 12/10/2026 <a href="#ref3">[3]</a>) × hệ số bạn chọn. Chi phí 1 người (không tính nhà) và tiền mướn căn 1 phòng ngủ ngoài trung tâm quy đổi từ mốc Đức (Numbeo 10/2026 <a href="#ref2">[2]</a>: 1 111 USD và 628 € ≈ 701 USD) theo Cost of Living Index và Rent Index giữa năm 2026 <a href="#ref1">[1]</a>.</li>
+        <li><b>Chất lượng sống, an toàn, y tế, ô nhiễm</b>: Numbeo giữa năm 2026 <a href="#ref5">[5]</a>. <b>GDP/người</b>: IMF WEO 4/2026 <a href="#ref8">[8]</a>.</li>
+        <li>Hệ số mặc định 1,5 là giả định: người có bằng tiến sĩ thường có thu nhập trên trung bình, nhưng chênh lệch rất khác nhau theo ngành và nơi làm việc. Hãy chỉnh theo lời mời làm việc thực tế.</li>
+      </ul>
+    </div>
+    <ol class="refs">
+      <li id="ref1">Numbeo, <i>Cost of Living Index by Country 2026 Mid-Year</i>. <a href="https://www.numbeo.com/cost-of-living/rankings_by_country.jsp" rel="noopener">numbeo.com</a></li>
+      <li id="ref2">Numbeo, <i>Cost of Living in Germany</i>, cập nhật 12/10/2026. <a href="https://www.numbeo.com/cost-of-living/country_result.jsp?country=Germany" rel="noopener">numbeo.com</a></li>
+      <li id="ref3">Numbeo, <i>Average Monthly Net Salary (After Tax) by Country</i>, cập nhật 12/10/2026. <a href="https://www.numbeo.com/cost-of-living/prices_by_country.jsp?itemId=105" rel="noopener">numbeo.com</a></li>
+      <li id="ref4">Numbeo, <i>Property Prices Index by Country 2026 Mid-Year</i>. <a href="https://www.numbeo.com/property-investment/rankings_by_country.jsp" rel="noopener">numbeo.com</a></li>
+      <li id="ref5">Numbeo, <i>Quality of Life Index by Country 2026 Mid-Year</i>. <a href="https://www.numbeo.com/quality-of-life/rankings_by_country.jsp" rel="noopener">numbeo.com</a></li>
+      <li id="ref6">Institute for Economics &amp; Peace, <i>Global Peace Index 2026</i>. <a href="https://www.visionofhumanity.org" rel="noopener">visionofhumanity.org</a></li>
+      <li id="ref7">Bündnis Entwicklung Hilft, IFHV, <i>WorldRiskReport 2025</i>. <a href="https://www.misereor.org/fileadmin/user_upload_misereororg/publication/en/worldriskreport-2025.pdf" rel="noopener">Liên kết</a></li>
+      <li id="ref8">IMF, <i>World Economic Outlook</i>, April 2026. <a href="https://www.imf.org/en/Publications/WEO" rel="noopener">imf.org</a></li>
+      <li id="ref9">EF Education First, <i>EF English Proficiency Index 2025</i>. <a href="https://www.ef.com/epi" rel="noopener">ef.com/epi</a></li>
+      <li id="ref10">OECD, <i>Pensions at a Glance 2025</i>, bảng 4.4–4.5. <a href="https://www.oecd.org/en/publications/2025/11/pensions-at-a-glance-2025_76510fe4/full-report/net-pension-replacement-rates-mandatory-and-voluntary-schemes_199626d9.html" rel="noopener">Liên kết</a></li>
+      <li id="ref11">Đức: Bundesamt für Migration und Flüchtlinge, nhập tịch; Bundestag bãi bỏ đường nhập tịch 3 năm ngày 8/10/2025. <a href="https://www.bamf.de" rel="noopener">bamf.de</a></li>
+      <li id="ref12">Thụy Điển: Deloitte, "Sweden tightens citizenship requirements: new rules take effect", 2026. <a href="https://www.deloitte.com/se/sv/services/tax/blogs/sweden-tightens-citizenship-requirements-new-rules-take-effect.html" rel="noopener">Liên kết</a></li>
+      <li id="ref13">Đài Loan: Bộ Nội vụ trả lời kiến nghị về quốc tịch kép, Taiwan News 11/2024; Luật Quốc tịch (國籍法). <a href="https://www.taiwannews.com.tw/en/news/5979228" rel="noopener">Liên kết</a></li>
+      <li id="ref14">Việt Nam: Luật số 79/2025/QH15 sửa đổi, bổ sung một số điều của Luật Quốc tịch Việt Nam. <a href="https://thuvienphapluat.vn/van-ban/Quyen-dan-su/Luat-Quoc-tich-Viet-Nam-sua-doi-2025-so-79-2025-QH15-660522.aspx" rel="noopener">thuvienphapluat.vn</a></li>
+      <li id="ref15">Đài Loan: quy định người nước ngoài mua bất động sản theo nguyên tắc có đi có lại (Luật Đất đai, Điều 17–18). <a href="https://fwnews.com.tw/?p=35396" rel="noopener">fwnews.com.tw</a></li>
+      <li id="ref16">Úc: Department of Home Affairs (quốc tịch); Foreign Investment Review Board (mua nhà). <a href="https://immi.homeaffairs.gov.au" rel="noopener">immi.homeaffairs.gov.au</a>, <a href="https://foreigninvestment.gov.au" rel="noopener">foreigninvestment.gov.au</a></li>
+      <li id="ref17">New Zealand: Department of Internal Affairs (quốc tịch); Land Information New Zealand (đầu tư nước ngoài). <a href="https://www.dia.govt.nz" rel="noopener">dia.govt.nz</a>, <a href="https://www.linz.govt.nz" rel="noopener">linz.govt.nz</a></li>
+      <li id="ref18">Canada: Immigration, Refugees and Citizenship Canada; Prohibition on the Purchase of Residential Property by Non-Canadians Act. <a href="https://www.canada.ca" rel="noopener">canada.ca</a></li>
+      <li id="ref19">Ireland: Immigration Service Delivery, Department of Justice (quốc tịch). <a href="https://www.irishimmigration.ie" rel="noopener">irishimmigration.ie</a></li>
+      <li id="ref20">Pháp: Service-Public.fr, naturalisation. <a href="https://www.service-public.fr" rel="noopener">service-public.fr</a></li>
+      <li id="ref21">Nhật Bản: Bộ Tư pháp (法務省), hướng dẫn xét nhập tịch áp dụng từ 1/4/2026; Cục Quản lý Xuất nhập cảnh, số người nước ngoài cư trú cuối 2025 (Jiji Press, 27/3/2026). <a href="https://www.moj.go.jp" rel="noopener">moj.go.jp</a>, <a href="https://www.nippon.com/en/news/yjj2026032700900" rel="noopener">nippon.com</a></li>
+    </ol>
+    <p class="disclaimer">Số liệu tra cứu ngày 13/10/2026. Luật cư trú, nhập tịch, thuế và mua nhà thay đổi thường xuyên; đây không phải tư vấn pháp lý hay tài chính. Hãy kiểm tra trang chính thức hoặc hỏi luật sư di trú trước khi ra quyết định.</p>
+
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="xuat-ban.html"><small>Trang trước</small><b>Xuất bản khoa học</b></a>
+      <a class="next" href="index.html"><small>Quay lại</small><b>Linh tinh</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/lt.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,10 +1,10 @@
 /* =====================================================================
-   Shared site chrome for My Academia: minigame ở footer của mọi trang, titan ăn lá.
+   Shared site chrome for My Library: minigame ở footer của mọi trang, titan ăn lá.
    Cách dùng: site.css, khối <footer class="site-foot"> (canvas #catCanvas + nút #catBtn), rồi
    <script src="../common/site.js" defer></script>.
 
    - Titan luôn tự đi bộ từ đầu này sang đầu kia của thanh ngang (lúc đầu là người đàn ông,
-     cao bằng con gà trong minigame của my-library).
+     cao bằng con gà trong minigame của my-collection).
    - Nhấn Play: một chiếc lá xanh bay lên, nhấp nháy, dừng ở độ cao cao hơn đỉnh đầu titan 5-20%.
      Dưới nút hiện "Press ← ↑ → to eat the food"; nút Play bị mờ (không bấm được) cho tới khi lá được ăn.
      ← →: chạy về hướng đó, giữ càng lâu càng nhanh (tối đa gấp 4 lần đi bộ); thả ra thì titan lại tự đi.
@@ -21,7 +21,7 @@
    - Khi titan đã cao từ 50% chiều cao màn hình trở lên: lần nhảy kế tiếp, vừa chạm đất là
      thanh ngang gãy, titan rơi hẳn xuống chỗ gãy, hiện "Too Heavy. Game Over!".
      Nhấn Play lần nữa để chơi lại từ đầu.
-   Vẽ kiểu pixel art nét sketch như minigame con gà của my-library: mỗi bộ phận chỉ còn đường viền, có màu, không tô
+   Vẽ kiểu pixel art nét sketch như minigame con gà của my-collection: mỗi bộ phận chỉ còn đường viền, có màu, không tô
    (riêng chiếc lá được tô màu). Canvas (#catCanvas) cao dần lên phía trên footer (đè lên nội dung,
    không nhận chuột) khi titan lớn.
    Màn hình cảm ứng: hàng nút ◀ ▶ ▼ ▲ hiện dưới thanh ngang thay cho phím mũi tên (xem TOUCH, .titan-pad trong site.css).
@@ -42,10 +42,10 @@ const ctx = canvas.getContext('2d');
 
 /* ---------------- settings ---------------- */
 const BASE_H = 140;            // chiều cao canvas mặc định (khớp #catCanvas trong site.css)
-const GROUND = 24;             // thanh ngang cách đáy canvas (khớp minigame con gà của my-library)
+const GROUND = 24;             // thanh ngang cách đáy canvas (khớp minigame con gà của my-collection)
 const PIX = 2;                 // mỗi điểm ảnh của sprite = 2 px (người cây)
 const PIX0 = 1;                // người đàn ông lúc đầu nhỏ: 1 px để còn thấy được nét viền (không tô)
-const H0 = 44;                 // chiều cao ban đầu (px) = chiều cao con gà (my-library)
+const H0 = 44;                 // chiều cao ban đầu (px) = chiều cao con gà (my-collection)
 const GROW = 1.10;             // mỗi lá: cao thêm 10%
 const LEAF_UP = [0.05, 0.20];  // lá dừng cao hơn đỉnh đầu titan 5-20% chiều cao titan
 const HEAVY = 0.5;             // từ 50% chiều cao màn hình: lần nhảy kế tiếp làm gãy thanh ngang
@@ -80,7 +80,7 @@ function setHeight(h) {
 const needHeight = () => Math.min(window.innerHeight * 1.5,
   Math.max(T.hT * (1.1 + JUMP_MAX), leaf ? leaf.alt + 40 : 0, T.wings ? window.innerHeight - GROUND - 20 : 0) + GROUND + 30);
 
-/* ---------------- sketch sprites (cùng cách với minigame con gà của my-library) ----------------
+/* ---------------- sketch sprites (cùng cách với minigame con gà của my-collection) ----------------
    Mỗi bộ phận tô bằng một màu khóa trên canvas nhỏ, rồi chỉ giữ điểm ảnh ở mép bộ phận
    (giáp chỗ trống hoặc giáp bộ phận vẽ trước nó) bằng màu nét của bộ phận đó. */
 const PARTS = ['wing', 'legB', 'armB', 'legF', 'body', 'head', 'hair', 'armF', 'detail', 'eye'];

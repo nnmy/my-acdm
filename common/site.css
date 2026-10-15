@@ -1,5 +1,5 @@
 /* =====================================================================
-   Shared site chrome for My Library: navbar + footer mini game.
+   Shared site chrome for My Library (my-library, có khóa): navbar + footer mini game.
    Matches the profile page at https://nnmy.github.io/
    Everything is prefixed with "site-" (or uses #catCanvas / #catBtn)
    so it never clashes with a tool's own styles.
