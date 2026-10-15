@@ -34,9 +34,14 @@
     const s = (p.nameEn || p.nameNative || '?').trim().split(/\s+/);
     return (s[0][0] + (s.length > 1 ? s[s.length - 1][0] : '')).toUpperCase();
   }
+  /* vị trí + độ phóng của ảnh trong khung (z = 1: vừa khít khung; z > 1: phóng quanh điểm x% y%) */
+  function imgPos(ph) {
+    const x = ph.x ?? 50, y = ph.y ?? 50, z = Math.max(1, Math.min(4, +ph.z || 1));
+    return `object-position:${x}% ${y}%` + (z > 1 ? `;transform:scale(${z});transform-origin:${x}% ${y}%` : '');
+  }
   function photoHtml(p, photoUrl, style = '') {
     const url = p.photo && photoUrl(p.photo.id);
-    if (url) return `<div class="ky-ph"${style}><img src="${url}" alt="" style="object-position:${p.photo.x ?? 50}% ${p.photo.y ?? 50}%"></div>`;
+    if (url) return `<div class="ky-ph"${style}><img src="${url}" alt="" style="${imgPos(p.photo)}"></div>`;
     return `<div class="ky-ph ky-noimg"${style}><span>${esc(initials(p))}</span></div>`;
   }
   function lineHtml(l, ex) {

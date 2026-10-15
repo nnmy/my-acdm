@@ -29,6 +29,7 @@
     landscape: '<rect x="3" y="6" width="18" height="12" rx="1"/>',
     tag: '<rect x="4" y="5" width="16" height="12" rx="1"/><path d="M4 6l8 6 8-6"/>',
     text: '<path d="M5 6V4h14v2M12 4v16M9 20h6"/>',
+    zoom: '<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/>',
   };
   const icon = n => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
   function applyIcons(root = document) {
@@ -40,6 +41,11 @@
   let S = M.emptyState();
   const urls = new Map();
   const photoUrl = id => urls.get(id) || null;
+  /* ảnh trong khung 3:4: x, y = vị trí (%), z = độ phóng (1 = vừa khít khung, tối đa ZMAX) */
+  const ZMAX = 4;
+  const zOf = ph => Math.max(1, Math.min(ZMAX, +(ph && ph.z) || 1));
+  const imgPos = ph => `object-position:${ph.x ?? 50}% ${ph.y ?? 50}%` +
+    (zOf(ph) > 1 ? `;transform:scale(${zOf(ph)});transform-origin:${ph.x ?? 50}% ${ph.y ?? 50}%` : '');
 
   /* ---------------- lưu ---------------- */
   let saveT = null;
@@ -141,7 +147,7 @@
     };
     const rows = list.map(({ m, p }) => {
       const th = p.photo && photoUrl(p.photo.id)
-        ? `<img class="thumb" src="${photoUrl(p.photo.id)}" alt="" style="object-position:${p.photo.x}% ${p.photo.y}%">`
+        ? `<div class="thumb"><img src="${photoUrl(p.photo.id)}" alt="" style="${imgPos(p.photo)}"></div>`
         : `<div class="thumb ph">${esc((personLabel(p)[0] || '?').toUpperCase())}</div>`;
       const nLabs = S.members.filter(x => x.personId === p.id).length;
       return `<tr><td class="th">${th}</td><td><b>${esc(personLabel(p))}</b>${p.nameNative && p.nameNative !== personLabel(p) ? `<br><span class="muted">${esc(p.nameNative)}</span>` : ''}` +
@@ -238,9 +244,10 @@
   }
   function drawFrame() {
     $('#pFrame').innerHTML = ed.photo && ed.photo.url
-      ? `<img src="${ed.photo.url}" alt="" style="object-position:${ed.photo.x}% ${ed.photo.y}%">`
+      ? `<img src="${ed.photo.url}" alt="" style="${imgPos(ed.photo)}">`
       : `<div class="ph">${icon('person')}</div>`;
-    $('#pPhotoDel').hidden = !ed.photo;
+    $('#pPhotoDel').hidden = $('#pZoomRow').hidden = !ed.photo;
+    if (ed.photo) $('#pZoom').value = zOf(ed.photo);
   }
   function fillPersonFields(p) {
     $('#pNameNative').value = p.nameNative || ''; $('#pNameEn').value = p.nameEn || '';
@@ -325,9 +332,9 @@
       await KStore.putPhoto(id, ed.photo.blob);
       if (p.photo) { await KStore.delPhoto(p.photo.id); urls.delete(p.photo.id); }
       urls.set(id, ed.photo.url);
-      p.photo = { id, w: ed.photo.w, h: ed.photo.h, x: ed.photo.x, y: ed.photo.y };
+      p.photo = { id, w: ed.photo.w, h: ed.photo.h, x: ed.photo.x, y: ed.photo.y, z: zOf(ed.photo) };
     } else if (ed.photo && p.photo) {
-      p.photo.x = ed.photo.x; p.photo.y = ed.photo.y;
+      p.photo.x = ed.photo.x; p.photo.y = ed.photo.y; p.photo.z = zOf(ed.photo);
     } else if (!ed.photo && p.photo) {
       await KStore.delPhoto(p.photo.id); urls.delete(p.photo.id); p.photo = null;
     }
@@ -354,31 +361,85 @@
   async function pickPhoto(file) {
     try {
       const { blob, w, h } = await KIO.processPhoto(file);
-      ed.photo = { blob, w, h, x: 50, y: 50, url: URL.createObjectURL(blob) };
+      ed.photo = { blob, w, h, x: 50, y: 50, z: 1, url: URL.createObjectURL(blob) };
       drawFrame();
     } catch (e) { toast('Không đọc được ảnh này.'); }
   }
+  /* khung ảnh: kéo để dời; thanh trượt, lăn chuột hoặc chụm hai ngón để phóng to */
   function bindFrameDrag() {
     const f = $('#pFrame');
-    let st = null;
+    const clamp = v => Math.max(0, Math.min(100, v));
+    // kích thước ảnh (đã phóng) và phần thừa so với khung, đơn vị px của khung
+    const geom = ph => {
+      const fw = f.clientWidth, fh = f.clientHeight, z = zOf(ph);
+      const imgR = (ph.w || 3) / (ph.h || 4), cover = imgR > fw / fh;
+      const W = (cover ? fh * imgR : fw) * z, H = (cover ? fh : fw / imgR) * z;
+      return { fw, fh, W, H, ox: W - fw, oy: H - fh };
+    };
+    const paint = () => {
+      const img = f.querySelector('img');
+      if (!img) return;
+      const ph = ed.photo, z = zOf(ph);
+      img.style.objectPosition = `${ph.x}% ${ph.y}%`;
+      img.style.transformOrigin = `${ph.x}% ${ph.y}%`;
+      img.style.transform = z > 1 ? `scale(${z})` : '';
+      $('#pZoom').value = z;
+    };
+    // đổi độ phóng, giữ nguyên điểm ảnh đang nằm dưới (fx, fy) trong khung
+    const setZoom = (z, fx, fy) => {
+      const ph = ed && ed.photo;
+      if (!ph) return;
+      const g0 = geom(ph);
+      if (fx == null) { fx = g0.fw / 2; fy = g0.fh / 2; }
+      const u = (fx + ph.x / 100 * g0.ox) / g0.W, v = (fy + ph.y / 100 * g0.oy) / g0.H;
+      ph.z = Math.round(Math.max(1, Math.min(ZMAX, z)) * 100) / 100;
+      const g = geom(ph);
+      ph.x = g.ox > 0.5 ? clamp((u * g.W - fx) / g.ox * 100) : 50;
+      ph.y = g.oy > 0.5 ? clamp((v * g.H - fy) / g.oy * 100) : 50;
+      paint();
+    };
+    const local = (cx, cy) => { const r = f.getBoundingClientRect(); return [cx - r.left - f.clientLeft, cy - r.top - f.clientTop]; };
+
+    const pts = new Map();
+    let st = null, pinch = null;
+    const restart = () => {
+      const ps = [...pts.values()];
+      st = pinch = null;
+      if (!ed || !ed.photo || !ps.length) return;
+      if (ps.length === 1) st = { x: ps[0].x, y: ps[0].y, px: ed.photo.x, py: ed.photo.y };
+      else pinch = { d: Math.hypot(ps[0].x - ps[1].x, ps[0].y - ps[1].y) || 1, z: zOf(ed.photo) };
+    };
     f.addEventListener('pointerdown', e => {
       if (!ed || !ed.photo) return;
-      st = { x: e.clientX, y: e.clientY, px: ed.photo.x, py: ed.photo.y };
       f.setPointerCapture(e.pointerId);
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      restart();
     });
     f.addEventListener('pointermove', e => {
-      if (!st) return;
-      const r = f.getBoundingClientRect(), ph = ed.photo;
-      const frameR = r.width / r.height, imgR = ph.w / ph.h;
-      const overX = imgR > frameR ? r.height * imgR - r.width : 0;
-      const overY = imgR < frameR ? r.width / imgR - r.height : 0;
-      ph.x = overX ? Math.max(0, Math.min(100, st.px - (e.clientX - st.x) / overX * 100)) : 50;
-      ph.y = overY ? Math.max(0, Math.min(100, st.py - (e.clientY - st.y) / overY * 100)) : 50;
-      const img = f.querySelector('img');
-      if (img) img.style.objectPosition = `${ph.x}% ${ph.y}%`;
+      if (!pts.has(e.pointerId) || !ed || !ed.photo) return;
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const ph = ed.photo;
+      if (pinch) {
+        const [a, b] = [...pts.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        setZoom(pinch.z * d / pinch.d, ...local((a.x + b.x) / 2, (a.y + b.y) / 2));
+      } else if (st) {
+        const g = geom(ph);
+        ph.x = g.ox > 0.5 ? clamp(st.px - (e.clientX - st.x) / g.ox * 100) : 50;
+        ph.y = g.oy > 0.5 ? clamp(st.py - (e.clientY - st.y) / g.oy * 100) : 50;
+        paint();
+      }
     });
-    const end = () => { st = null; };
+    const end = e => { pts.delete(e.pointerId); restart(); };
     f.addEventListener('pointerup', end); f.addEventListener('pointercancel', end);
+    f.addEventListener('wheel', e => {
+      if (!ed || !ed.photo) return;
+      e.preventDefault();
+      const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      setZoom(zOf(ed.photo) * Math.exp(-dy * 0.0025), ...local(e.clientX, e.clientY));
+    }, { passive: false });
+    f.addEventListener('dblclick', () => { if (ed && ed.photo) setZoom(1); });
+    $('#pZoom').addEventListener('input', e => setZoom(+e.target.value));
   }
 
   /* ================= TAB 2: XUẤT ================= */
@@ -533,8 +594,13 @@
         const blob = await htmlToImage.toBlob(b.pages[i], { pixelRatio: 2, backgroundColor: '#ffffff', fontEmbedCSS: fontCSS });
         files.push({ name: `${base}-trang-${String(i + 1).padStart(2, '0')}.png`, data: new Uint8Array(await blob.arrayBuffer()) });
       }
-      download(KZip.write(files), base + '-png.zip');
-      toast(`Đã tạo ${files.length} ảnh PNG.`);
+      if (files.length === 1) {                    // một trang: tải thẳng file PNG, không nén
+        download(new Blob([files[0].data], { type: 'image/png' }), base + '.png');
+        toast('Đã tạo ảnh PNG.');
+      } else {
+        download(KZip.write(files), base + '-png.zip');
+        toast(`Đã tạo ${files.length} ảnh PNG.`);
+      }
     } catch (e) {
       console.error(e);
       toast('Không tạo được ảnh PNG: ' + (e.message || e));

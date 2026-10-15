@@ -40,9 +40,9 @@
   <p class="lead">Tạo kỷ yếu các thành viên trong lab hoặc lớp học.</p>
   <p class="privacy">Dữ liệu chỉ nằm tại máy bạn, chúng tui không lấy hay tải nó lên Internet. Xin thận trọng với các thông tin cá nhân mà bạn sử dụng.</p>
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-tab="data">Lab và thành viên</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="export">Xuất kỷ yếu</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="io">Nhập và sao lưu</button>
+    <button class="tab" role="tab" aria-selected="true" data-tab="data">Thêm người</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="export">Xuất file</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="io">Sao lưu</button>
   </div>
 </header>
 
@@ -178,10 +178,13 @@
     <div class="sec sec-person">
       <div class="photo-edit">
         <div>
-          <div class="photo-frame" id="pFrame"></div>
+          <div class="photo-frame" id="pFrame" title="Kéo để dời ảnh; lăn chuột hoặc chụm hai ngón để phóng to"></div>
           <div class="btnrow" style="margin-top:6px">
             <button class="ibtn" type="button" id="pPhotoPick" data-icon="image" title="Chọn ảnh" aria-label="Chọn ảnh"></button>
             <button class="ibtn danger" type="button" id="pPhotoDel" data-icon="x" title="Bỏ ảnh" aria-label="Bỏ ảnh"></button>
+          </div>
+          <div class="zoom-row" id="pZoomRow" title="Phóng to: kéo thanh trượt, lăn chuột hoặc chụm hai ngón trên ảnh">
+            <span data-icon="zoom"></span><input type="range" id="pZoom" min="1" max="4" step="0.01" value="1" aria-label="Phóng to ảnh">
           </div>
         </div>
         <div class="pgrid">

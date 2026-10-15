@@ -68,12 +68,13 @@
     const [rw, rh] = [3, 4];
     const target = rw / rh, cur = ph.w / ph.h;
     const px = (ph.x ?? 50) / 100, py = (ph.y ?? 50) / 100;
-    if (cur > target) {           // ảnh rộng hơn khung: cắt hai bên
-      const f = target / cur, left = (1 - f) * px;
-      return { l: Math.round(left * 1e5), r: Math.round((1 - f - left) * 1e5), t: 0, b: 0 };
-    }
-    const f = cur / target, top = (1 - f) * py;
-    return { t: Math.round(top * 1e5), b: Math.round((1 - f - top) * 1e5), l: 0, r: 0 };
+    const z = Math.max(1, Math.min(4, +ph.z || 1));          // độ phóng do người dùng chọn
+    // phần ảnh nhìn thấy (tỉ lệ so với cả ảnh) khi phủ kín khung, rồi chia cho độ phóng
+    let fw = cur > target ? target / cur : 1, fh = cur > target ? 1 : cur / target;
+    fw /= z; fh /= z;
+    const left = (1 - fw) * px, top = (1 - fh) * py;
+    const k = v => Math.round(Math.max(0, v) * 1e5);
+    return { l: k(left), r: k(1 - fw - left), t: k(top), b: k(1 - fh - top) };
   }
 
   async function make(st, ex, getPhotoBlob) {
