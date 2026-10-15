@@ -1,0 +1,7 @@
+playwright>=1.42
+beautifulsoup4
+lxml
+pypdf>=4
+reportlab
+pillow
+eng_to_ipa        # tùy chọn: tự tra phiên âm IPA cho thuật ngữ

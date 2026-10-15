@@ -1,0 +1,33 @@
+#!only
+# Thuật ngữ cho trang cuối PDF (pdf-export). Mỗi dòng: English | IPA | Tiếng Việt | 中文 | pinyin | Diễn nghĩa
+# Hoặc gọn hơn: English | IPA | Tiếng Việt | Diễn nghĩa. Bỏ dòng #!only để kết hợp với thuật ngữ tự trích.
+Conjugation | ˌkɑːndʒəˈɡeɪʃən | Chia động từ | 动词活用 | dòngcí huóyòng | Biến đổi đuôi động từ, tính từ để diễn đạt thì, phủ định, lịch sự: 食べる → 食べます → 食べました.
+Counter word | ˈkaʊntər wɝːd | Trợ số từ | 助数词 | zhùshùcí | Từ đi sau số để đếm theo loại vật: ～枚 (vật mỏng), ～本 (vật dài), ～人 (người).
+Furigana | ˌfʊriˈɡɑːnə | Furigana | 振假名 | zhènjiǎmíng | Chữ kana nhỏ viết trên hoặc cạnh kanji để chỉ cách đọc.
+Geminate consonant | ˈdʒɛmɪnət ˈkɑːnsənənt | Âm ngắt (xúc âm) | 促音 | cùyīn | Phụ âm kép được ghi bằng っ nhỏ, tạo một nhịp ngừng ngắn: きって kitte (con tem).
+Greeting | ˈɡriːtɪŋ | Câu chào hỏi | 问候语 | wènhòuyǔ | Các câu cố định dùng theo tình huống: いただきます trước bữa ăn, お邪魔します khi vào nhà người khác.
+Hiragana | ˌhɪrəˈɡɑːnə | Hiragana | 平假名 | píngjiǎmíng | Bảng chữ mềm gồm 46 ký tự cơ bản, dùng cho từ thuần Nhật, trợ từ và đuôi chia động từ.
+Honorific language | ˌɑːnəˈrɪfɪk ˈlæŋɡwɪdʒ | Tôn kính ngữ | 尊敬语 | zūnjìngyǔ | Cách nói nâng cao hành động của người khác: いらっしゃる thay cho 行く/来る/いる.
+Humble language | ˈhʌmbəl ˈlæŋɡwɪdʒ | Khiêm nhường ngữ | 谦让语 | qiānràngyǔ | Cách nói hạ thấp hành động của mình: 申します thay cho 言います.
+i-adjective | ˈaɪ ˈædʒɪktɪv | Tính từ đuôi い | い形容词 | i xíngróngcí | Tính từ kết thúc bằng い, tự chia được: 高い → 高くない → 高かった.
+Idiom | ˈɪdiəm | Thành ngữ | 惯用语 | guànyòngyǔ | Cụm từ cố định có nghĩa bóng, không suy ra từ nghĩa từng chữ: 猫の手も借りたい (bận tối mắt).
+Kana | ˈkɑːnə | Kana | 假名 | jiǎmíng | Chữ ghi âm tiết của tiếng Nhật, gồm hiragana và katakana.
+Kanji | ˈkɑːndʒi | Kanji (chữ Hán) | 日本汉字 | Rìběn hànzì | Chữ Hán dùng trong tiếng Nhật để viết gốc danh từ, động từ, tính từ.
+Katakana | ˌkɑːtəˈkɑːnə | Katakana | 片假名 | piànjiǎmíng | Bảng chữ cứng, dùng cho từ ngoại lai, tên nước ngoài, từ tượng thanh và nhấn mạnh.
+Keigo | ˈkeɪɡoʊ | Kính ngữ | 敬语 | jìngyǔ | Hệ thống cách nói lịch sự gồm tôn kính ngữ, khiêm nhường ngữ và lịch sự ngữ.
+Kun'yomi | ˌkʊnˈjoʊmi | Âm Kun (cách đọc Nhật) | 训读 | xùndú | Cách đọc kanji bằng từ thuần Nhật có cùng nghĩa: 山 đọc やま yama.
+Loanword | ˈloʊnwɝːd | Từ ngoại lai | 外来语 | wàiláiyǔ | Từ mượn từ ngôn ngữ phương Tây, viết bằng katakana: テレビ (tivi), パン (bánh mì).
+Long vowel | lɔːŋ ˈvaʊəl | Trường âm | 长音 | chángyīn | Nguyên âm kéo dài gấp đôi, đổi nghĩa của từ: おばさん (cô, dì) và おばあさん (bà).
+na-adjective | ˈnɑː ˈædʒɪktɪv | Tính từ đuôi な | な形容词 | na xíngróngcí | Tính từ cần な khi đứng trước danh từ: 静かな部屋 (căn phòng yên tĩnh); chia giống danh từ.
+On'yomi | ˌoʊnˈjoʊmi | Âm On (âm Hán) | 音读 | yīndú | Cách đọc kanji mô phỏng âm tiếng Hán cổ, thường gặp trong từ ghép: 山 trong 富士山 đọc さん san.
+Onomatopoeia | ˌɑːnəˌmætəˈpiːə | Từ tượng thanh, tượng hình | 拟声拟态词 | nǐshēng nǐtàicí | Từ mô phỏng âm thanh hay trạng thái: わんわん (gâu gâu), きらきら (lấp lánh), ぺこぺこ (đói meo).
+Particle | ˈpɑːrtɪkəl | Trợ từ | 助词 | zhùcí | Từ nhỏ đứng sau danh từ để chỉ vai trò trong câu: は (chủ đề), を (tân ngữ), に (đích, thời điểm).
+Past tense | pæst tɛns | Thì quá khứ | 过去时 | guòqùshí | Dạng diễn tả việc đã xảy ra: ～ました (lịch sự), ～た (thông thường).
+Pitch accent | pɪtʃ ˈæksɛnt | Trọng âm cao độ | 音高重音 | yīngāo zhòngyīn | Sự lên xuống cao độ giữa các mora giúp phân biệt từ: はし (đũa) và はし (cầu).
+Plain form | pleɪn fɔːrm | Thể thông thường | 普通体 | pǔtōngtǐ | Dạng câu dùng với bạn bè, người thân: 食べる, 行かない, 高かった.
+Polite form | pəˈlaɪt fɔːrm | Thể lịch sự (～ます/～です) | 礼貌体 | lǐmàotǐ | Dạng câu dùng với người lạ, cấp trên, nơi công cộng; đuôi ～ます, ～です.
+Slang | slæŋ | Tiếng lóng | 俚语 | lǐyǔ | Từ ngữ thân mật, thường dùng giữa người trẻ: やばい, マジ, 草.
+Te-form | ˈteɪ fɔːrm | Thể て | て形 | te xíng | Dạng động từ đuôi て/で, dùng để nối câu, nhờ vả (～てください) và tạo thì tiếp diễn (～ている).
+Uchi–soto | ˈuːtʃi ˈsoʊtoʊ | Trong–ngoài (uchi–soto) | 内外之别 | nèiwài zhī bié | Phân biệt người trong nhóm và người ngoài nhóm, quyết định cách xưng hô: 母 khi nói về mẹ mình, お母さん khi nói về mẹ người khác.
+Verb group | vɝːb ɡruːp | Nhóm động từ | 动词分类 | dòngcí fēnlèi | Động từ chia thành ba nhóm theo cách biến đổi: nhóm I (書く), nhóm II (食べる), nhóm III (する, 来る).
+Negative form | ˈnɛɡətɪv fɔːrm | Thể phủ định | 否定形 | fǒudìngxíng | Dạng diễn tả “không”: ～ません (lịch sự), ～ない (thông thường).

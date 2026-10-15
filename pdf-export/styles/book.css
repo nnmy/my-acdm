@@ -1,0 +1,57 @@
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:"Be Vietnam Pro","Noto Sans CJK SC",sans-serif;color:#000;background:#fff;font-size:10.4pt;line-height:1.5}
+.sec-title{font-family:"VT323",monospace;font-weight:400;font-size:34pt;line-height:1;margin:0 0 5mm;padding-bottom:3mm;border-bottom:2.2pt solid #000}
+/* cover */
+body.cover{width:158mm;height:210mm;overflow:hidden}
+.cv{position:relative;width:158mm;height:210mm;display:flex;flex-direction:column;align-items:center;box-sizing:border-box}
+.band{display:flex;width:100%;justify-content:center;flex-wrap:nowrap;overflow:hidden}
+.band i{display:block;flex:none}
+.band.b2{opacity:1}
+.band.bot{position:absolute;bottom:0;left:0}
+.art{margin-top:24mm;padding:7mm;border:1.6mm solid #000;box-shadow:2.4mm 2.4mm 0 #3787c4;background:#fff;line-height:0}
+.chips{display:flex;gap:4mm;margin-top:11mm;align-items:flex-end;justify-content:center;flex-wrap:wrap;max-width:130mm;min-height:4mm}
+.cv-title{font-family:"VT323",monospace;font-weight:400;font-size:46pt;line-height:.95;text-align:center;margin:13mm 10mm 0;color:#000}
+.cv-rule{width:40mm;height:1.6mm;background:#000;margin:7mm 0 0;box-shadow:1.6mm 1.6mm 0 #d8312a}
+.cv-author{font-family:"VT323",monospace;font-size:22pt;margin:7mm 0 0;letter-spacing:.08em;color:#000}
+/* toc */
+.toc a{display:flex;align-items:baseline;text-decoration:none;color:#000;break-inside:avoid}
+.toc .t0{font-weight:700;font-size:11.2pt;margin:4.2mm 0 1.2mm;padding-top:1.2mm;border-top:.8pt solid #000;break-after:avoid}
+.toc .t0:first-of-type{border-top:0}
+.toc .t0 .no{font-family:"VT323",monospace;font-weight:400;font-size:16pt;color:#0d5aa7;width:11mm;flex:none}
+.toc .t1{font-size:9.6pt;margin:.9mm 0 .9mm 11mm;color:#111}
+.toc .tt{flex:0 1 auto}
+.toc .ld{flex:1 1 auto;border-bottom:.9pt dotted #444;margin:0 1.6mm;transform:translateY(-1mm);min-width:6mm}
+.toc .pn{flex:none;font-variant-numeric:tabular-nums;font-weight:600}
+/* glossary */
+.g-intro{font-size:9.2pt;color:#222;margin:0 0 3mm;font-style:italic}
+.g-letter{font-family:"VT323",monospace;font-size:24pt;line-height:1;color:#0d5aa7;border-bottom:1pt solid #000;margin:5mm 0 2mm;padding-bottom:.6mm;break-after:avoid}
+.g-entry{break-inside:avoid;padding:1.6mm 0 2mm;border-bottom:.5pt solid #9aa0a8}
+.g-head{line-height:1.3}
+.g-en{font-weight:700;font-size:11pt}
+.g-ipa{font-family:"Noto Sans","DejaVu Sans",sans-serif;font-size:9.4pt;color:#2a2a2a}
+.g-tr{margin:.8mm 0 .6mm;font-size:10pt;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:1.4mm;row-gap:.4mm}
+.g-lab{font-size:7pt;font-weight:700;color:#fff;background:#0d5aa7;padding:.1mm 1.1mm;border-radius:.6mm;line-height:1.5;font-family:"Be Vietnam Pro","Noto Sans CJK SC",sans-serif}
+.g-vi{font-weight:600;margin-right:2.2mm}
+.g-zh{font-family:"Noto Sans CJK SC",sans-serif;font-weight:500}
+.g-py{font-style:italic;color:#7a1d12}
+.g-def{font-size:9.6pt;color:#000;text-align:justify}
+.gloss.jp .g-def{font-family:"Be Vietnam Pro","Noto Sans CJK JP",sans-serif}
+.sec-title{font-family:"Be Vietnam Pro",sans-serif!important;font-weight:700!important;font-size:19pt!important;border-bottom:0!important;margin:0 0 6mm!important;padding:0!important}
+/* cover */
+.cv{justify-content:flex-start}
+.art{margin-top:38mm!important;padding:5mm!important;border:1.2mm solid #000!important;box-shadow:1.6mm 1.6mm 0 #3787c4!important}
+.cv-title{font-family:"Be Vietnam Pro",sans-serif!important;font-weight:700!important;font-size:30pt!important;line-height:1.15!important;margin:14mm 12mm 0!important}
+.cv-rule{width:34mm!important;height:1.2mm!important;margin-top:8mm!important;box-shadow:1.2mm 1.2mm 0 #d8312a!important}
+.cv-author{position:absolute;bottom:34mm;left:0;right:0;text-align:center;font-family:"Be Vietnam Pro",sans-serif!important;font-weight:600;font-size:15.4pt!important;letter-spacing:.06em;margin:0!important}
+/* toc */
+.toc .t0{border-top:0!important;margin:0 0 1mm!important;padding:0!important;font-size:11pt}
+.toc .gap{height:5mm}
+.toc .ld{border-bottom:0!important;transform:none!important;overflow:hidden;white-space:nowrap;color:#555;font-weight:400;margin:0 1.4mm!important}
+.toc .ld::after{content:"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --"}
+.toc .t1{margin:.8mm 0 .8mm 6mm!important}
+/* glossary letters */
+.g-letter{font-family:"Be Vietnam Pro",sans-serif!important;font-weight:700;font-size:15pt!important}
+.toc a{gap:0}
+.toc .tt{flex:0 1 auto;min-width:0}
+.toc .ld{flex:1 1 0;min-width:5mm;width:0}
+.toc .pn{flex:none;min-width:7mm;text-align:right}

@@ -1,0 +1,122 @@
+/* ===== E-ink print overrides ===== */
+:root{
+  --ink:#000; --paper:#fff; --mist:#fff; --line:#7a7f87; --muted:#33373d;
+  --sea:#0d5aa7; --sky:#2f86c8; --pos:#c0161d; --neg:#0d5aa7; --gold:#c08a00;
+  --violet:#6a3fae; --green:#1f7a45; --edge:#6b7078; --edge-2:#6b7078; --hv:#7a1d12;
+  --site-ink:#000; --site-muted:#33373d; --site-line:#7a7f87;
+  --body:"Be Vietnam Pro","Noto Sans CJK SC",sans-serif;
+  --nav-h:0px; --pad-x:0px;
+}
+html{scroll-behavior:auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#fff!important;color:#000!important}
+body{font-size:10.6pt!important;line-height:1.55!important;-webkit-font-smoothing:auto}
+main,main.wrap{padding:0!important;margin:0!important;max-width:none!important}
+.wrap{max-width:none!important;padding:0!important;margin:0!important}
+.prose,.page-head .lead{max-width:none!important}
+p{margin:0 0 2.2mm!important; orphans:3; widows:3}
+a{color:#0d4f94!important;text-decoration:none!important}
+.site-nav,.site-foot,.pager,.demo,.say,.ftoc,.crumb,.demo-loading,.tn-tools,button,canvas,noscript,.ftoc-btn{display:none!important}
+
+/* chapter title */
+.page-head{padding:0 0 4mm!important;margin:0!important;border-bottom:2.2pt solid #000}
+.page-head h1{font-family:"VT323",monospace!important;font-size:34pt!important;line-height:1!important;margin:0!important;display:flex;align-items:center;color:#000}
+.page-head h1 .dot{width:11px!important;height:11px!important;margin-right:12px!important;background:var(--sea)!important;box-shadow:3px 3px 0 var(--pos)!important}
+.page-head .lead{color:#1a1a1a!important;font-size:10.6pt;margin-top:3mm!important;font-style:italic}
+.chap-no{font-family:"VT323",monospace;font-size:15pt;color:var(--sea);letter-spacing:.06em;margin:0 0 1mm}
+
+/* sections */
+.part,.part.tint{padding:5mm 0 2mm!important;margin:0!important;border-top:1.2pt solid #000!important;background:#fff!important}
+.page-head + .part{border-top:0!important}
+.part > .wrap > h2,.part h2{font-family:"VT323",monospace!important;font-size:24pt!important;line-height:1.02!important;margin:0 0 3mm!important;color:#000;break-after:avoid}
+.part h3,h3{font-size:12.5pt!important;line-height:1.3!important;margin:5mm 0 2mm!important;break-after:avoid;color:#000}
+h4{break-after:avoid;font-size:11pt}
+main p,main li{hyphens:manual!important}
+.term{font-weight:700!important;color:#000!important}
+.en{color:#3a3f47!important}
+b,strong{color:#000}
+ul,ol{padding-left:6mm}
+li{margin-bottom:1mm}
+
+/* boxes */
+.formula{background:#fff!important;border:0.8pt solid #000!important;margin:3mm 0!important;padding:2mm 4mm!important;break-inside:avoid;max-width:100%!important;overflow:visible!important}
+.formula .where{color:#1a1a1a!important;font-size:9.4pt!important}
+.callout,.guide,.worked,.tn-note,.bio{background:#fff!important;border:0.8pt solid #000!important;border-left:3.2pt solid var(--sea)!important;box-shadow:none!important;color:#000!important;break-inside:avoid;padding:2.5mm 3.5mm!important;margin:3mm 0!important}
+.fig,figure{break-inside:avoid;margin:3mm 0!important;max-width:100%}
+.fig img,figure img,img,svg{max-width:100%;height:auto}
+figcaption,.fig .cap{color:#1a1a1a!important;font-size:9.4pt}
+.tablewrap{overflow:visible!important;max-width:100%}
+table{border-collapse:collapse!important;width:100%;font-size:9.4pt!important;background:#fff!important}
+th,td{border:0.6pt solid #000!important;padding:1.2mm 1.6mm!important;background:#fff!important;color:#000!important;vertical-align:top}
+th{font-weight:700!important}
+tr{break-inside:avoid}
+thead{display:table-header-group}
+pre,code{white-space:pre-wrap!important;word-break:break-word;color:#000!important;background:#fff!important}
+pre{border:0.6pt solid #000;padding:2mm!important;font-size:8.6pt!important}
+.refs{font-size:9pt!important;color:#1a1a1a!important}
+.refs *{color:#1a1a1a}
+.timeline{break-inside:auto}
+mjx-container{color:#000}
+mjx-container[display="true"]{margin:1.5mm 0!important;overflow:visible!important}
+mjx-container svg{max-width:100%}
+
+/* language cards */
+details.grp{border:0.8pt solid #000!important;border-radius:0!important;background:#fff!important;overflow:visible!important;margin:0 0 4mm!important}
+details.grp > summary{list-style:none;background:#fff!important;border-bottom:0.8pt solid #000!important;break-after:avoid;padding:2mm 3mm!important}
+details.grp > summary::before,details.grp > summary::-webkit-details-marker{display:none!important}
+details.grp > summary .t{font-weight:700;font-size:12pt;color:#000}
+details.grp > summary .n{color:#33373d!important}
+.grp-body{padding:3mm!important}
+.vw{border:0.6pt solid #000!important;border-radius:0!important;background:#fff!important;break-inside:avoid}
+.vgrid{gap:2mm!important}
+.ro{color:#0d4f94!important}
+.hv{color:#7a1d12!important}
+.mean,.mn,.ex,.tn-src{color:#000!important}
+.mn{color:#1a1a1a!important}
+.tn-src{font-size:8.8pt;color:#33373d!important}
+.gram{border-bottom:0.6pt solid #000!important;break-inside:avoid}
+.cmp,.symtab{break-inside:auto}
+.magbar,.ext-badge{display:none!important}
+/* demo snapshots */
+figure.demo-snap{margin:3.5mm 0!important;text-align:center;break-inside:avoid}
+figure.demo-snap img{max-width:100%;max-height:168mm;width:auto;height:auto;border:0.6pt solid #000;display:inline-block}
+/* static groups (from <details>) */
+.grp-static{border:0.8pt solid #000;margin:0 0 4mm;background:#fff}
+.grp-head{display:block;border-bottom:0.8pt solid #000;padding:2mm 3mm 1.6mm;break-after:avoid;background:#fff}
+.grp-head h2.grp-h{font-family:"VT323",monospace!important;font-weight:400;font-size:20pt!important;line-height:1!important;margin:0!important;color:#000}
+.grp-meta{font-size:9pt;color:#33373d;display:flex;gap:3mm;margin-top:.5mm}
+.grp-meta .en{font-style:italic}
+.vgrid,.vgrid.wide{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2.2mm!important}
+.vw .mn{background:#fff!important;border:0.6pt solid #000!important;border-left:2.4pt solid var(--gold)!important}
+/* ===== revision 2: no pixel fonts, simpler chapter head, captions, history ===== */
+:root{--pixel-vi:"Be Vietnam Pro",sans-serif;--site-pixel:"Be Vietnam Pro",sans-serif}
+h1,h2,h3,h4,.page-head h1,.part h2,.part > .wrap > h2,.grp-head h2.grp-h,.demo-title h4{font-family:"Be Vietnam Pro","Noto Sans CJK SC",sans-serif!important}
+.page-head{border-bottom:0!important;padding:0!important;margin:0 0 7mm!important}
+.page-head h1{display:block!important;font-size:19pt!important;font-weight:700!important;line-height:1.25!important;margin:0 0 6.5mm!important}
+.page-head h1 .dot{display:none!important}
+.page-head .lead{margin:0!important}
+.part > .wrap > h2,.part h2{font-size:15pt!important;font-weight:700!important;line-height:1.25!important;margin:0 0 3mm!important}
+.part h3,h3{font-size:12pt!important;font-weight:700!important}
+.part,.part.tint{padding:4mm 0 1mm!important;border-top:0.8pt solid #000!important}
+.page-head + .part{border-top:0!important;padding-top:0!important}
+.grp-head h2.grp-h{font-size:13pt!important;font-weight:700!important;line-height:1.25!important}
+/* figures + captions */
+figure.fig,figure.demo-snap{break-inside:avoid;margin:3.5mm 0!important;text-align:center}
+figure.fig img{max-width:100%;max-height:150mm;height:auto}
+figure figcaption{text-align:left!important;font-size:9pt!important;line-height:1.45;color:#111!important;margin-top:1.6mm!important;padding:0 1mm}
+figure figcaption b:first-child{color:#0d4f94}
+.figrow{display:block!important}
+.figrow figure{display:block}
+/* history as plain text */
+.hist p{margin:0 0 2.4mm!important;text-align:justify}
+.hist p > b:first-child{color:#000}
+/* appendix table col */
+td.chcol,th.chcol{width:9mm;text-align:center!important;white-space:nowrap;color:#333!important;font-size:8.4pt!important}
+/* song-con scenario boxes */
+.sc-box{border:0.8pt solid #000;margin:0 0 2.5mm;padding:0 3mm 1.5mm;break-inside:avoid}
+.sc-box h4{margin:0 -3mm 1.5mm;padding:1mm 3mm;font-size:10pt;color:#fff;background:#0d5aa7}
+.sc-box.no h4{background:#1B1920}.sc-box.after h4{background:#4a5059}.sc-box.sos h4{background:#c0161d}
+.sc-box ul{margin:0;padding-left:5mm}.sc-box li{margin:.6mm 0;text-align:left!important}
+h4.sc-sub{font-size:11pt;margin:4mm 0 2mm;break-after:avoid}
+.sc-src{font-size:8.8pt;color:#333!important;margin-top:1mm!important}
+figure.demo-snap img{max-height:140mm!important}
+figure.fig img{max-height:95mm!important;width:auto!important;max-width:100%!important}

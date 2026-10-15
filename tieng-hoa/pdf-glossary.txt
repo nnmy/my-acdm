@@ -1,0 +1,33 @@
+#!only
+# Thuật ngữ cho trang cuối PDF (pdf-export). Mỗi dòng: English | IPA | Tiếng Việt | 中文 | pinyin | Diễn nghĩa
+# Hoặc gọn hơn: English | IPA | Tiếng Việt | Diễn nghĩa. Bỏ dòng #!only để kết hợp với thuật ngữ tự trích.
+Character variant | ˈkærəktər ˈvɛriənt | Biến thể (của bộ thủ/chữ) | 变体 | biàntǐ | Hình dạng khác của cùng một bộ hay chữ, thường khi đứng ở vị trí khác: 人 → 亻, 水 → 氵.
+Chinese character | ˌtʃaɪˈniːz ˈkærəktər | Chữ Hán | 汉字 | hànzì | Chữ viết biểu ý của tiếng Hoa; mỗi chữ ứng với một âm tiết và mang nghĩa.
+Coda | ˈkoʊdə | Âm cuối | 韵尾 | yùnwěi | Phụ âm hoặc bán âm kết thúc âm tiết; tiếng phổ thông chỉ còn -n, -ng, trong khi Hán Việt còn giữ -p, -t, -k.
+Cognate | ˈkɑːɡneɪt | Từ cùng gốc | 同源词 | tóngyuáncí | Từ ở các ngôn ngữ khác nhau có chung nguồn gốc, như 學生 xuésheng, học sinh, 学生 gakusei, 학생 haksaeng.
+Convenience store | kənˈviːniəns stɔːr | Cửa hàng tiện lợi | 便利店 | biànlìdiàn | Ở Đài Loan thường gọi là 超商 chāoshāng; nơi mua đồ, nạp thẻ, in tài liệu, nhận hàng.
+Entering tone | ˈɛntərɪŋ toʊn | Thanh nhập | 入声 | rùshēng | Âm tiết tận cùng bằng -p, -t, -k trong tiếng Hán trung đại; còn trong Hán Việt (học, nhất) nhưng mất trong tiếng phổ thông.
+Final | ˈfaɪnəl | Vận mẫu | 韵母 | yùnmǔ | Phần âm tiết đứng sau thanh mẫu, gồm nguyên âm và âm cuối (như -ang trong táng).
+Homophone | ˈhɑːməfoʊn | Chữ đồng âm | 同音字 | tóngyīnzì | Các chữ đọc giống nhau nhưng viết và nghĩa khác nhau; nguồn gốc của nhiều lỗi viết nhầm.
+Ideogrammatic compound | ˌɪdiəɡrəˈmætɪk ˈkɑːmpaʊnd | Chữ hội ý | 会意字 | huìyìzì | Chữ ghép từ hai thành phần cùng gợi nghĩa: 休 = người tựa cây → nghỉ; 明 = mặt trời + mặt trăng → sáng.
+Initial | ɪˈnɪʃəl | Thanh mẫu | 声母 | shēngmǔ | Phụ âm đầu của âm tiết tiếng Hoa, như b, zh, q.
+Kanji | ˈkɑːndʒi | Kanji (chữ Hán tiếng Nhật) | 日本汉字 | Rìběn hànzì | Chữ Hán dùng trong tiếng Nhật; một số chữ đã được giản lược nên khác với chữ phồn thể.
+Mandarin Chinese | ˈmændərɪn ˌtʃaɪˈniːz | Tiếng Hoa phổ thông | 普通话 | pǔtōnghuà | Ngôn ngữ chuẩn dựa trên giọng Bắc Kinh; ở Đài Loan gọi là 國語 guóyǔ.
+Measure word | ˈmɛʒər wɝːd | Lượng từ | 量词 | liàngcí | Từ đứng giữa số và danh từ: 一杯茶 yì bēi chá (một ly trà), 一張票 (một tấm vé).
+Mnemonic | nɪˈmɑːnɪk | Mẹo nhớ | 记忆诀窍 | jìyì juéqiào | Câu chuyện hay hình ảnh giúp ghi nhớ chữ, ví dụ 好 = mẹ (女) bên con (子) → tốt.
+Neutral tone | ˈnuːtrəl toʊn | Thanh nhẹ | 轻声 | qīngshēng | Âm tiết đọc ngắn và nhẹ, không mang thanh điệu rõ, như 的 de, 嗎 ma.
+Phono-semantic compound | ˌfoʊnoʊsɪˈmæntɪk ˈkɑːmpaʊnd | Chữ hình thanh | 形声字 | xíngshēngzì | Chữ gồm một phần gợi nghĩa (bộ thủ) và một phần gợi âm; chiếm phần lớn chữ Hán.
+Pictogram | ˈpɪktəɡræm | Chữ tượng hình | 象形字 | xiàngxíngzì | Chữ vẽ lại hình dạng sự vật: 日 (mặt trời), 山 (núi), 木 (cây).
+Pinyin | ˌpɪnˈjɪn | Pinyin (bính âm) | 拼音 | pīnyīn | Hệ phiên âm tiếng Hoa bằng chữ Latin, có dấu thanh: mā, má, mǎ, mà.
+Radical | ˈrædɪkəl | Bộ thủ | 部首 | bùshǒu | Thành phần gợi nghĩa của chữ Hán và là cơ sở để tra từ điển; hệ truyền thống có 214 bộ.
+Romanization | ˌroʊmənaɪˈzeɪʃən | Phiên âm Latin | 罗马化 | luómǎhuà | Ghi cách đọc một ngôn ngữ bằng chữ cái Latin (pinyin cho tiếng Hoa, Revised Romanization cho tiếng Hàn).
+Simplified Chinese | ˈsɪmplɪfaɪd ˌtʃaɪˈniːz | Chữ giản thể | 简体字 | jiǎntǐzì | Chữ Hán đã giảm số nét, dùng ở Trung Quốc đại lục và Singapore.
+Sino-Vietnamese | ˌsaɪnoʊ viˌɛtnəˈmiːz | Âm Hán Việt | 汉越音 | Hàn-Yuè yīn | Cách đọc chữ Hán theo tiếng Việt, hình thành từ khoảng thế kỷ 8–10; giúp đoán nghĩa và âm của nhiều từ.
+Stroke | stroʊk | Nét chữ | 笔画 | bǐhuà | Mỗi lần đặt bút và nhấc bút khi viết chữ Hán; số nét dùng để tra từ điển.
+Stroke order | stroʊk ˈɔːrdər | Thứ tự nét | 笔顺 | bǐshùn | Quy tắc viết nét nào trước: trên trước dưới sau, trái trước phải sau, ngang trước sổ sau.
+Tone | toʊn | Thanh điệu | 声调 | shēngdiào | Đường nét cao độ của âm tiết giúp phân biệt nghĩa; tiếng phổ thông có 4 thanh và thanh nhẹ.
+Tone sandhi | toʊn ˈsændi | Biến điệu | 变调 | biàndiào | Thanh điệu đổi theo âm tiết đứng sau, như 不要 đọc bú yào, 一杯 đọc yì bēi.
+Traditional Chinese | trəˈdɪʃənəl ˌtʃaɪˈniːz | Chữ phồn thể | 繁体字 | fántǐzì | Chữ Hán giữ dạng đầy đủ truyền thống; dùng chính thức ở Đài Loan, Hồng Kông, Ma Cao.
+Zhuyin | ˌdʒuːˈjɪn | Chú âm (Bopomofo) | 注音符号 | zhùyīn fúhào | Bộ ký hiệu phiên âm riêng (ㄅㄆㄇㄈ…) dùng phổ biến ở Đài Loan để dạy đọc chữ.
+Hangul | ˈhɑːŋɡuːl | Hangul (chữ Hàn) | 韩文 | Hánwén | Bảng chữ cái tiếng Hàn do vua Sejong ban hành năm 1446; ghép phụ âm và nguyên âm thành khối âm tiết.
+Shinjitai | ʃɪnˈdʒiːtaɪ | Shinjitai (chữ mới Nhật) | 新字体 | xīn zìtǐ | Dạng chữ Hán giản lược mà Nhật Bản chuẩn hóa sau năm 1946, khác cả phồn thể lẫn giản thể.
