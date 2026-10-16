@@ -233,9 +233,10 @@ select.inp.sm { width: auto; flex: none; padding: 4px 6px; }
   .viewer { margin-bottom: 0; }
   #ghim { padding-bottom: 120px; }
 }
-/* nút cuộn tới đầu / cuối trình xem (lib/scroll-btns.js), nằm trong bảng điều khiển cạnh "Phóng to" */
+/* nút cuộn ↑ ↓ trong bảng điều khiển (lib/scroll-btns.js): bấm cuộn một đoạn, giữ để cuộn liên tục */
 .vscroll { display: inline-flex; flex: none; margin-left: auto; }
-.vscroll .btn { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border-width: 1.5px; }
+.vscroll .btn { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border-width: 1.5px;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
 .vscroll .btn + .btn { border-left-width: 0; }
 .inline input[type=range] { min-width: 0; }
 .vscroll .btn:hover { transform: none; box-shadow: none; background: var(--mist); }

@@ -476,7 +476,7 @@ async function start(opt) {
   $('cxInfoMin').addEventListener('click', () => S.infoMin(!$('cxViewer').classList.contains('info-min')));
   $('cxCtlMin').addEventListener('click', () => ctlMin(!$('cxControls').classList.contains('min')));
   S.infoMin(false); ctlMin(matchMedia('(max-width: 700px)').matches);
-  new IntersectionObserver(es => es.forEach(e => $('cxControls').classList.toggle('away', !e.isIntersecting)), { threshold: 0.15 }).observe($('cxStage'));
+  // ẩn/hiện bảng điều khiển nổi (điện thoại): do lib/scroll-btns.js lo, hiện tới khi gặp phần Ghim
   // ghim
   $('btnPdf').addEventListener('click', exportPdf);
   try {

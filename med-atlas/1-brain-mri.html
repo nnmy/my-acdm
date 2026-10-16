@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
 <link rel="stylesheet" href="lib/fonts/fonts.css">
 <link rel="stylesheet" href="../common/site.css">
-<link rel="stylesheet" href="lib/atlas.css?v=20261017b">
+<link rel="stylesheet" href="lib/atlas.css?v=20261018">
 <!--
   =====================================================================
   HOW TO EDIT  (med-atlas/1-brain-mri.html, MRI NÃO)
@@ -22,8 +22,8 @@
     trong đoạn nạp compare) để trình duyệt không dùng bản cũ đã lưu.
   - Các id trong khung .viewer (cv-t1, cv-t2, slice, segMode, find, info, ...) được atlas.js dùng; giữ nguyên khi sửa.
   - Bố cục: cột trái = ảnh + bảng điều khiển; cột phải = khung thông tin (thu gọn được).
-    Trên điện thoại, bảng điều khiển nổi ở đáy màn hình, thu gọn được.
-    Bảng điều khiển có 2 nút ↑ ↓ cuộn tới đầu / cuối trình xem (lib/scroll-btns.js + .vscroll trong atlas.css);
+    Trên điện thoại, bảng điều khiển nổi ở đáy màn hình, thu gọn được; hiện tới khi gặp phần Ghim (lib/scroll-btns.js).
+    Bảng điều khiển có 2 nút ↑ ↓ (bấm: cuộn một đoạn; giữ: cuộn liên tục) (lib/scroll-btns.js + .vscroll trong atlas.css);
     trang này: cuối dòng "Lát cắt"; trình xem bệnh và X-quang ngực: dòng "Phóng to".
   - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server, Live Server);
     GitHub Pages chạy bình thường. Không dùng dịch vụ ngoài (font cục bộ trong lib/fonts/).
@@ -71,7 +71,7 @@
       </div>
 
       <div class="controls" id="controls">
-        <div class="ctl-head"><span>Điều khiển</span><span class="vscroll vs-head" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span><button class="iconbtn" type="button" id="ctlMin" aria-controls="ctlBody"></button></div>
+        <div class="ctl-head"><span>Điều khiển</span><span class="vscroll vs-head" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="up" title="Cuộn lên (giữ để cuộn liên tục)" aria-label="Cuộn lên"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="down" title="Cuộn xuống (giữ để cuộn liên tục)" aria-label="Cuộn xuống"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span><button class="iconbtn" type="button" id="ctlMin" aria-controls="ctlBody"></button></div>
         <div class="ctl-body" id="ctlBody">
           <div class="ctl">
             <span class="lab" id="lbOrient">Hướng cắt</span>
@@ -83,7 +83,7 @@
           </div>
           <div class="ctl">
             <label class="lab" for="slice">Lát cắt</label>
-            <div class="inline"><input type="range" id="slice" min="0" max="100" value="50"><output id="sliceOut" for="slice"></output><span class="vscroll" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span></div>
+            <div class="inline"><input type="range" id="slice" min="0" max="100" value="50"><output id="sliceOut" for="slice"></output><span class="vscroll" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="up" title="Cuộn lên (giữ để cuộn liên tục)" aria-label="Cuộn lên"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="down" title="Cuộn xuống (giữ để cuộn liên tục)" aria-label="Cuộn xuống"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span></div>
           </div>
           <div class="ctl">
             <label class="lab" for="segMode">Phân vùng</label>
@@ -163,7 +163,7 @@
   </div>
 </footer>
 
-<script src="lib/atlas.js?v=20261009b"></script>
+<script src="lib/atlas.js?v=20261018"></script>
 <script>
   ATLAS.start({
     data: 'lib/data/brain-mri/', organ: 'brain-mri', title: 'MRI não', mods: ['t1', 't2'],
@@ -182,7 +182,7 @@
     let ready = null, tok = 0;
     const load = () => ready || (ready = new Promise((ok, bad) => {
       const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'lib/compare.css?v=20261017'; document.head.appendChild(css);
-      const js = document.createElement('script'); js.src = 'lib/compare.js?v=20261017'; js.onload = ok; js.onerror = () => bad(new Error('Không tải được lib/compare.js'));
+      const js = document.createElement('script'); js.src = 'lib/compare.js?v=20261018'; js.onload = ok; js.onerror = () => bad(new Error('Không tải được lib/compare.js'));
       document.body.appendChild(js);
     }));
     let started = false;
@@ -205,7 +205,7 @@
     tabs.forEach(b => b.addEventListener('click', () => { if (b.getAttribute('aria-pressed') !== 'true') show(b.dataset.view); }));
   })();
 </script>
-<script src="lib/scroll-btns.js?v=20261017"></script>
+<script src="lib/scroll-btns.js?v=20261018"></script>
 <script src="../common/site.js" defer></script>
 <script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

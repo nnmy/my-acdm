@@ -664,7 +664,7 @@ function wireControls() {
   $('ctlMin').addEventListener('click', () => setCtlMin(!$('controls').classList.contains('min')));
   setInfoMin(false); setCtlMin(false);
   // trên điện thoại, bảng điều khiển nổi chỉ hiện khi khung ảnh còn trên màn hình
-  new IntersectionObserver(es => es.forEach(e => $('controls').classList.toggle('away', !e.isIntersecting)), { threshold: 0.15 }).observe($('stage'));
+  // ẩn/hiện bảng điều khiển nổi (điện thoại): do lib/scroll-btns.js lo, hiện tới khi gặp phần Ghim
   window.addEventListener('scroll', () => { tip().hidden = true; }, { passive: true });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.lock && !e.defaultPrevented) setLock(null); });
 }

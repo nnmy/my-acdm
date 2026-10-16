@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
 <link rel="stylesheet" href="lib/fonts/fonts.css">
 <link rel="stylesheet" href="../common/site.css">
-<link rel="stylesheet" href="lib/atlas.css?v=20261017b">
+<link rel="stylesheet" href="lib/atlas.css?v=20261018">
 <link rel="stylesheet" href="lib/cxr.css?v=20261017">
 <!--
   =====================================================================
@@ -53,7 +53,7 @@
         <div class="readout-strip" id="cxReadout" aria-live="polite"></div>
       </div>
       <div class="controls" id="cxControls">
-        <div class="ctl-head"><span>Điều khiển</span><span class="vscroll vs-head" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span><button class="iconbtn" type="button" id="cxCtlMin" aria-controls="cxCtlBody"></button></div>
+        <div class="ctl-head"><span>Điều khiển</span><span class="vscroll vs-head" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="up" title="Cuộn lên (giữ để cuộn liên tục)" aria-label="Cuộn lên"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="down" title="Cuộn xuống (giữ để cuộn liên tục)" aria-label="Cuộn xuống"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span><button class="iconbtn" type="button" id="cxCtlMin" aria-controls="cxCtlBody"></button></div>
         <div class="ctl-body" id="cxCtlBody">
           <div class="ctl">
             <label class="lab" for="cxLevel">Khoanh vùng</label>
@@ -72,7 +72,7 @@
           </div>
           <div class="ctl">
             <span class="lab">Phóng to</span>
-            <div class="inline cx-zoomrow"><output id="cxZoomOut" style="min-width:3.5em">100%</output><span class="cx-zoomhint" style="font-size:13px;color:var(--muted);flex:1 1 140px;line-height:1.35">nhấp đúp ảnh để phóng to, kéo để di chuyển</span><button class="btn" type="button" id="cxReset" style="padding:4px 10px">Đặt lại</button><span class="vscroll" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span></div>
+            <div class="inline cx-zoomrow"><output id="cxZoomOut" style="min-width:3.5em">100%</output><span class="cx-zoomhint" style="font-size:13px;color:var(--muted);flex:1 1 140px;line-height:1.35">nhấp đúp ảnh để phóng to, kéo để di chuyển</span><button class="btn" type="button" id="cxReset" style="padding:4px 10px">Đặt lại</button><span class="vscroll" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="up" title="Cuộn lên (giữ để cuộn liên tục)" aria-label="Cuộn lên"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="down" title="Cuộn xuống (giữ để cuộn liên tục)" aria-label="Cuộn xuống"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span></div>
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@
   </div>
 </footer>
 
-<script src="lib/cxr.js?v=20261015c"></script>
+<script src="lib/cxr.js?v=20261018"></script>
 <script>
   CXR.start({
     data: 'lib/data/chest-xray/',
@@ -159,7 +159,7 @@
     printFile: 'ghichu_xquang_nguc',           // tên file mặc định: ghichu_xquang_nguc yyyymmdd_HHMMSS.pdf
   });
 </script>
-<script src="lib/scroll-btns.js?v=20261017"></script>
+<script src="lib/scroll-btns.js?v=20261018"></script>
 <script src="../common/site.js" defer></script>
 <script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
