@@ -233,9 +233,21 @@ select.inp.sm { width: auto; flex: none; padding: 4px 6px; }
   .viewer { margin-bottom: 0; }
   #ghim { padding-bottom: 120px; }
 }
+/* nút cuộn trang nổi (lib/scroll-btns.js): chỉ hiện trên điện thoại, mờ để không che ảnh, rõ khi chạm */
+.scroll-btns { display: none; }
+@media (max-width: 700px) {
+  .scroll-btns { display: flex; flex-direction: column; gap: 8px; position: fixed; z-index: 61;
+    right: calc(8px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transition: bottom .2s; }
+  .scroll-btns button { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 2px solid var(--ink);
+    background: #fff; color: var(--ink); cursor: pointer; opacity: .3; transition: opacity .15s;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+  .scroll-btns button:active { opacity: .85; background: var(--mist); }
+  .scroll-btns button:disabled { opacity: .12; cursor: default; }
+  .scroll-btns svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: square; stroke-linejoin: miter; pointer-events: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .loader .bar i, .controls { transition: none; }
+  .btn, .loader .bar i, .controls, .scroll-btns, .scroll-btns button { transition: none; }
 }
 
 /* ---------- 5. bản in / PDF ----------
