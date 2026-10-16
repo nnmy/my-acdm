@@ -41,3 +41,6 @@
   .cx-films.two { grid-template-columns: 1fr; }
   .cx-films.two .film, .cx-films .film { aspect-ratio: 1 / 1; }
 }
+
+/* dòng "Phóng to": hẹp quá thì nút Đặt lại và hai nút cuộn ↑ ↓ xuống hàng dưới, để chữ hướng dẫn khỏi bị bóp thành cột */
+.cx-zoomrow { flex-wrap: wrap; row-gap: 6px; }

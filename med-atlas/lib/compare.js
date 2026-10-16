@@ -541,7 +541,7 @@ function markup(cfg) {
     <div class="readout-strip" aria-live="polite"><div id="dz-rd-control"></div><div id="dz-rd-patient"></div></div>
   </div>
   <div class="dz-ctl" id="dzCtl">
-    <div class="dz-ctl-head"><span>Điều khiển</span><button class="iconbtn" type="button" id="dzCtlMin" aria-controls="dzCtlBody"></button></div>
+    <div class="dz-ctl-head"><span>Điều khiển</span><span class="vscroll vs-head" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span><button class="iconbtn" type="button" id="dzCtlMin" aria-controls="dzCtlBody"></button></div>
     <div class="dz-ctl-body" id="dzCtlBody">
       <div class="ctl">
         <span class="lab" id="dzLbMod">Chuỗi xung</span>
@@ -562,8 +562,11 @@ function markup(cfg) {
       </div>
       <div class="ctl">
         <span class="lab" id="dzLbZoom">Phóng to</span>
-        <div class="seg-btns" role="group" aria-labelledby="dzLbZoom">
-          ${[1, 2, 4].map(z => `<button class="btn" type="button" data-dz-zoom="${z}" aria-pressed="false">${z}×</button>`).join('')}
+        <div class="inline">
+          <div class="seg-btns dz-zoom" role="group" aria-labelledby="dzLbZoom">
+            ${[1, 2, 4].map(z => `<button class="btn" type="button" data-dz-zoom="${z}" aria-pressed="false">${z}×</button>`).join('')}
+          </div>
+          <span class="vscroll" role="group" aria-label="Cuộn trang"><button class="btn" type="button" data-vscroll="top" title="Cuộn tới đầu trình xem" aria-label="Cuộn tới đầu trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="btn" type="button" data-vscroll="end" title="Cuộn tới cuối trình xem" aria-label="Cuộn tới cuối trình xem"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></span>
         </div>
       </div>
     </div>

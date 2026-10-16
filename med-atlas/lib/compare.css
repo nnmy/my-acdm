@@ -39,6 +39,7 @@
 .dz-ctl-body { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; padding: 12px 16px 14px; }
 .dz-ctl .ctl { grid-template-columns: 92px minmax(0, 1fr); }
 .dz-ctl .btn.dz-reg { flex: none; padding: 4px 10px; white-space: nowrap; }
+.dz-ctl .seg-btns.dz-zoom { flex: 1; }   /* 1× 2× 4× chiếm phần còn lại, hai nút cuộn ↑ ↓ (atlas.css .vscroll) nằm bên phải */
 
 /* phần chữ của ca: hai cột dưới khung ảnh */
 .dz-info { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); border-top: 2px solid var(--ink); }

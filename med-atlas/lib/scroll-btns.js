@@ -1,98 +1,41 @@
 /* =====================================================================
-   Nút cuộn trang nổi (chỉ trên điện thoại, xem .scroll-btns trong atlas.css).
-   Trên điện thoại, trình xem ảnh chiếm gần hết bề ngang và nuốt thao tác vuốt
-   (kéo lát cắt, phóng to...), nên khó cuộn trang khi đang ở vùng trình xem.
-   Hai nút mũi tên lên/xuống ở góc phải giúp cuộn trang; nút mờ (opacity) để
-   không che ảnh, rõ hơn khi chạm.
-   - Bấm: cuộn ~70% chiều cao màn hình. Giữ: cuộn liên tục.
-   - Tự nâng lên phía trên bảng điều khiển nổi ở đáy (.controls / .dz-ctl).
-   - Nút mờ hẳn và không bấm được khi đã ở đầu/cuối trang.
+   Nút cuộn tới đầu / cuối trình xem (↑ ↓), nằm trong bảng điều khiển của mỗi trình xem,
+   cạnh dòng "Phóng to" (trang MRI người khoẻ: dòng "Cuộn trang"). Chạy trên cả máy tính và điện thoại.
+   Markup:  <span class="vscroll" role="group" aria-label="Cuộn trang">
+              <button class="btn" type="button" data-vscroll="top">…</button>
+              <button class="btn" type="button" data-vscroll="end">…</button></span>
+   Nghe click chung trên document, nên dùng được cả cho trình xem tạo sau (lib/compare.js).
+     ↑ (top): đưa đầu trình xem (kể cả hàng nút chọn ảnh ngay trên nó) lên sát dưới thanh điều hướng.
+     ↓ (end): đưa cuối trình xem ra giữa màn hình: nửa trên là trình xem, nửa dưới là nội dung thường.
+   "Cuối trình xem": .viewer -> mép dưới của nó; trình xem bệnh .dz -> mép trên phần chữ .dz-info.
    Dùng ở: 1-brain-mri.html, 1b-brain-disease.html, 2-chest-xray.html.
    ===================================================================== */
 (() => {
   'use strict';
-  const SVG = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
-  const box = document.createElement('div');
-  box.className = 'scroll-btns';
-  box.innerHTML =
-    `<button type="button" data-dir="-1" aria-label="Cuộn lên" title="Cuộn lên">${SVG('M12 19V5M5 12l7-7 7 7')}</button>` +
-    `<button type="button" data-dir="1" aria-label="Cuộn xuống" title="Cuộn xuống">${SVG('M12 5v14M5 12l7 7 7-7')}</button>`;
-  document.body.appendChild(box);
-  const [up, down] = box.querySelectorAll('button');
-  const mq = matchMedia('(max-width: 700px)');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const absTop = el => el.getBoundingClientRect().top + scrollY;
+  const navH = () => { const n = document.querySelector('nav.site-nav'); return n ? n.getBoundingClientRect().height : 0; };
 
-  /* vị trí: luôn nằm trên bảng điều khiển nổi đang hiện (nếu có) */
-  const GAP = 10, BASE = 16;
-  function place() {
-    if (!mq.matches) return;
-    let bottom = BASE;
-    for (const el of document.querySelectorAll('.controls, .dz-ctl')) {
-      if (el.classList.contains('away') || !el.getClientRects().length || getComputedStyle(el).position !== 'fixed') continue;
-      const r = el.getBoundingClientRect();
-      if (r.height && r.top < innerHeight) bottom = Math.max(bottom, innerHeight - r.top + GAP);
-    }
-    box.style.bottom = `calc(${Math.round(bottom)}px + env(safe-area-inset-bottom, 0px))`;
+  function startOf(viewer) {
+    // hàng nút chọn ảnh/ca (.vw-tabs) nằm ngay phía trên trình xem: tính luôn vào phần đầu
+    let el = viewer, prev = viewer.previousElementSibling;
+    if (!prev && viewer.parentElement) prev = viewer.parentElement.previousElementSibling;   // trình xem bệnh nằm trong #dzHost
+    if (prev && prev.matches('.vw-tabs') && !prev.hidden && absTop(viewer) - (absTop(prev) + prev.offsetHeight) < 80) el = prev;
+    return absTop(el);
+  }
+  function endOf(viewer) {
+    const info = viewer.matches('.dz') && viewer.querySelector('.dz-info');
+    return info ? absTop(info) : absTop(viewer) + viewer.offsetHeight;
+  }
+  function go(btn) {
+    const viewer = btn.closest('.viewer, .dz');
+    if (!viewer) return;
+    const y = btn.dataset.vscroll === 'top' ? startOf(viewer) - navH() - 8 : endOf(viewer) - innerHeight / 2;
     const max = document.documentElement.scrollHeight - innerHeight;
-    up.disabled = scrollY <= 2;
-    down.disabled = scrollY >= max - 2;
+    scrollTo({ top: Math.max(0, Math.min(max, Math.round(y))), behavior: reduce.matches ? 'auto' : 'smooth' });
   }
-  let raf = 0;
-  const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; place(); }); };
-  addEventListener('scroll', schedule, { passive: true });
-  addEventListener('resize', schedule);
-  mq.addEventListener ? mq.addEventListener('change', schedule) : mq.addListener(schedule);
-  // bảng điều khiển trượt ra/vào, thu gọn/mở rộng, hoặc được tạo sau (trình xem bệnh não)
-  document.addEventListener('transitionend', schedule, true);
-  document.addEventListener('click', () => setTimeout(schedule, 50), true);
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(schedule);
-    ro.observe(document.body);
-    const seen = new WeakSet();
-    const watch = () => document.querySelectorAll('.controls, .dz-ctl').forEach(el => { if (!seen.has(el)) { seen.add(el); ro.observe(el); } });
-    watch();
-    new MutationObserver(() => { watch(); schedule(); }).observe(document.body, { childList: true, subtree: true });
-  }
-
-  /* cuộn: bấm = một bước; giữ = cuộn liên tục cho tới khi thả tay */
-  const step = dir => scrollBy({ top: dir * Math.round(innerHeight * 0.7), behavior: reduce.matches ? 'auto' : 'smooth' });
-  let hold = null, skipClick = false;
-  function stopHold() {
-    if (!hold) return;
-    clearTimeout(hold.t); cancelAnimationFrame(hold.raf);
-    if (hold.moved) skipClick = true;          // vừa giữ để cuộn: bỏ qua cú click đi kèm khi thả tay
-    hold = null;
-  }
-  box.addEventListener('pointerdown', e => {
-    const b = e.target.closest('button');
-    if (!b || b.disabled) return;
-    const dir = +b.dataset.dir;
-    stopHold(); skipClick = false;
-    hold = { moved: false, raf: 0 };
-    hold.t = setTimeout(() => {               // giữ quá 350 ms: chuyển sang cuộn liên tục
-      if (!hold) return;
-      hold.moved = true;
-      let last = performance.now();
-      const tick = now => {
-        if (!hold) return;
-        const max = document.documentElement.scrollHeight - innerHeight;
-        if ((dir < 0 && scrollY <= 0) || (dir > 0 && scrollY >= max - 1)) { stopHold(); return; }   // tới đầu/cuối trang
-        scrollBy(0, dir * (now - last) * 1.2);  // ~1200 px/giây
-        last = now;
-        hold.raf = requestAnimationFrame(tick);
-      };
-      hold.raf = requestAnimationFrame(tick);
-    }, 350);
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-vscroll]');
+    if (b) { e.preventDefault(); go(b); }
   });
-  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => box.addEventListener(t, stopHold));
-  ['pointerup', 'pointercancel', 'blur'].forEach(t => addEventListener(t, stopHold));   // thả tay ở chỗ khác / nút vừa bị khóa
-  box.addEventListener('click', e => {
-    const b = e.target.closest('button');
-    if (!b) return;
-    if (skipClick) { skipClick = false; return; }
-    step(+b.dataset.dir);
-  });
-  box.addEventListener('contextmenu', e => e.preventDefault());   // giữ lâu không bật menu
-
-  place();
 })();
