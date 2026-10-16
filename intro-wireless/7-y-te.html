@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Không dây trong y tế | Không dây | My N. Nguyen</title>
+<meta name="description" content="Thiết bị cấy ghép giao tiếp không dây: dải MICS/MedRadio quanh 400 MHz, vì sao chọn tần số đó, sóng đi xuyên mô cơ thể; liên kết cảm ứng; Bluetooth trong thiết bị y tế; an toàn: SAR, nhiễu, bảo mật.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/7-y-te.html, phần 7: KHÔNG DÂY TRONG Y TẾ)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      tissue.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 7</p>
+  <h1><span class="dot"></span>Không dây trong y tế</h1>
+  <p class="lead">Một cái máy tạo nhịp tim nằm dưới da ngực có thể gửi dữ liệu nhịp tim về cho bác sĩ mỗi đêm, chạy bằng một cục pin không thay được suốt chục năm. Làm được vậy phải chọn tần số rất khéo, phát cực nhỏ, và nghĩ tới chuyện an toàn từ đầu. Phần này ghép những gì đã học ở các phần trước vào một trường hợp đặc biệt: sóng phải đi xuyên qua chính cơ thể người.</p>
+</header>
+<section class="part" id="thiet-bi">
+  <div class="wrap">
+    <h2>Thiết bị trong người cần nói chuyện với bên ngoài</h2>
+    <div class="prose">
+      <p>Nhiều thiết bị y tế hiện đại nằm trong hoặc sát cơ thể: <b>máy tạo nhịp tim</b> và <b>máy khử rung cấy ghép</b> (ICD), <b>máy kích thích thần kinh</b> (cho bệnh Parkinson, đau mạn tính), <b>ốc tai điện tử</b>, <b>bơm insulin</b>, <b>cảm biến đường huyết liên tục</b> (CGM) dán trên da. Chúng cần gửi dữ liệu ra ngoài (nhịp tim, cảnh báo, lượng pin) và nhận lệnh chỉnh thông số từ bác sĩ.</p>
+      <p>Yêu cầu khắt khe hơn hẳn điện thoại: pin của máy tạo nhịp phải chạy 7–15 năm, thay pin là phải mổ; sóng phải đi xuyên qua vài cm mô; công suất phát phải cực nhỏ để không làm nóng mô và không gây nhiễu thiết bị khác; và không ai được phép điều khiển thiết bị trái phép.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="mics">
+  <div class="wrap">
+    <h2>Dải MICS/MedRadio quanh 400 MHz</h2>
+    <div class="prose">
+      <p>Năm 1999, Mỹ dành riêng dải 402–405 MHz cho thiết bị cấy ghép, gọi là <span class="term">MICS</span> <span class="en">(Medical Implant Communication Service)</span>; châu Âu và nhiều nước khác theo sau. Năm 2009, dải này được mở rộng và đổi tên thành <span class="term">MedRadio</span> <span class="en">(Medical Device Radiocommunications Service)</span>, lõi là 401–406 MHz, cộng thêm vài đoạn khác cho các thiết bị y tế đeo trên người. Vài đặc điểm chính:</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp" style="min-width:560px">
+        <thead><tr><th>Đặc điểm</th><th>Giá trị</th><th>Vì sao</th></tr></thead>
+        <tbody>
+          <tr><td><b>Công suất phát</b></td><td>tối đa 25 µW (EIRP), tức −16 dBm</td><td>Bằng khoảng 1/4.000 của router Wi-Fi: đủ đi 2 m, không làm nóng mô.</td></tr>
+          <tr><td><b>Độ rộng kênh</b></td><td>tối đa 300 kHz</td><td>Chỉ cần vài chục tới vài trăm kbit/s cho dữ liệu nhịp tim, thông số.</td></tr>
+          <tr><td><b>Nghe trước khi nói</b></td><td>bắt buộc dò kênh rảnh trước khi phát</td><td>Dải này xài chung với bóng thám không khí tượng, phải tránh nhau.</td></tr>
+          <tr><td><b>Thức dậy</b></td><td>bộ phát trong người ngủ gần như mọi lúc</td><td>Chỉ thức khi nhận tín hiệu đánh thức từ máy bên ngoài, để giữ pin.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <h3>Vì sao là 400 MHz</h3>
+      <p>Đây là chuyện đánh đổi ở <a href="1-song-vo-tuyen.html#song-la-gi">phần 1</a>, cộng thêm một nhân vật mới: cơ thể người, phần lớn là nước muối. Tần số càng cao, nước trong mô hấp thụ sóng càng mạnh, biến năng lượng thành nhiệt (đúng nguyên lý lò vi sóng). Tần số càng thấp, sóng xuyên tốt nhưng ăng-ten phải dài. Quanh 400 MHz, sóng xuyên mô còn khá, mà bước sóng <i>trong mô</i> chỉ cỡ 10 cm (sóng đi chậm hơn trong mô nên bước sóng ngắn lại), nên một ăng-ten uốn gọn trong vỏ máy tạo nhịp vẫn chạy được.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \frac{P(z)}{P_0} = e^{-2\alpha z}, \qquad \delta = \frac{1}{\alpha} \]</div>
+      <p class="where"><b>P<sub>0</sub></b>: công suất sóng lúc vừa vào mô; <b>P(z)</b>: công suất còn lại sau khi đi sâu một đoạn <b>z</b>; <b>e</b> ≈ 2,718: cơ số của hàm mũ, e<sup>−x</sup> là một hàm giảm dần, cứ thêm x một đơn vị thì giảm còn khoảng 37%; <b>α</b> (“an-pha”): hệ số suy giảm, cho biết mô “nuốt” sóng nhanh cỡ nào, phụ thuộc tần số và tính chất điện của mô (hằng số điện môi, độ dẫn điện); <b>δ</b> (“đen-ta” nhỏ): <span class="term">độ sâu xuyên thấu</span>, quãng đường mà sau đó công suất chỉ còn khoảng 13,5%. Ở mô cơ, δ cỡ 5 cm ở 403 MHz nhưng chỉ cỡ 2 cm ở 2,45 GHz.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Mỗi đường là một tần số, cho biết công suất còn lại (tính bằng dB, xem <a href="1-song-vo-tuyen.html#suy-hao">phần 1</a>) khi sóng đi sâu vào mô cơ. Đường càng dốc, mô nuốt sóng càng mạnh. Bấm chọn tần số, kéo <b>độ sâu</b> tới chỗ đặt thiết bị (máy tạo nhịp thường nằm dưới da 1–2 cm, thiết bị cấy sâu trong bụng có thể 5–10 cm). Minh họa chỉ tính phần bị mô hấp thụ, chưa tính phản xạ ở mặt da và phần sóng tỏa ra theo khoảng cách, nên con số thực tế còn lớn hơn.</div>
+    <div class="demo" id="demoTissue" data-demo="tissue">
+      <div class="demo-title"><h4>Sóng đi xuyên cơ thể</h4><span>Chọn tần số, kéo độ sâu của thiết bị cấy ghép</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="cam-ung">
+  <div class="wrap">
+    <h2>Khi áp sát: cuộn dây và cảm ứng</h2>
+    <div class="prose">
+      <p>Trước khi có MICS, máy tạo nhịp nói chuyện với bên ngoài bằng một “cây đũa” có cuộn dây, bác sĩ phải áp sát lên ngực bệnh nhân. Đó chính là liên kết cảm ứng ở <a href="3-nfc-qi.html#tu-truong">phần 3</a>, chạy ở tần số thấp cỡ trăm kHz. Ưu điểm: rất khó nghe lén hay can thiệp từ xa. Nhược điểm: bệnh nhân phải tới phòng khám.</p>
+      <p>Cảm ứng vẫn rất được việc ở những chỗ cần <b>truyền năng lượng</b> qua da. Ốc tai điện tử gồm phần ngoài đeo sau tai và phần cấy dưới da đầu, giữ chung chỗ bằng một cặp nam châm; âm thanh đã xử lý và cả điện nuôi phần cấy được gửi qua da bằng hai cuộn dây, giống sạc Qi thu nhỏ. Một số máy kích thích thần kinh có pin sạc cũng được sạc qua da theo cách này.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="ble-y-te">
+  <div class="wrap">
+    <h2>Bluetooth bước vô y tế</h2>
+    <div class="prose">
+      <p>Thiết bị đeo hoặc cấy nông dưới da ngày càng xài <a href="4-bluetooth-wifi.html#bluetooth">Bluetooth Low Energy</a>: cảm biến đường huyết liên tục gửi số đo về điện thoại vài phút một lần, bơm insulin nhận lệnh từ ứng dụng, một số máy tạo nhịp đời mới gửi dữ liệu thẳng tới ứng dụng trên điện thoại bệnh nhân, rồi điện thoại chuyển lên máy chủ cho bác sĩ. Lợi thế là ai cũng có sẵn điện thoại, khỏi cần máy thu riêng. Cái giá là 2,4 GHz bị mô hấp thụ mạnh hơn (thử lại minh họa ở trên) và phải chia chợ với Wi-Fi.</p>
+      <p>Trong bệnh viện, một số nước còn dành riêng dải 2360–2400 MHz, ngay sát dưới dải ISM, cho <span class="term">mạng cảm biến quanh người bệnh</span> <span class="en">(MBAN)</span>: các miếng dán đo điện tim, nhịp thở, SpO₂ gửi về trung tâm mà không cần dây nhợ quanh giường.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="an-toan">
+  <div class="wrap">
+    <h2>An toàn: nhiệt, nhiễu và bảo mật</h2>
+    <div class="prose">
+      <h3>Nhiệt và SAR</h3>
+      <p>Sóng vô tuyến không làm biến đổi DNA như tia X; tác động đã được xác nhận của nó lên mô là làm ấm lên. Để giới hạn chuyện này, người ta đo <span class="term">SAR</span> <span class="en">(specific absorption rate)</span>: mỗi kg mô hấp thụ bao nhiêu watt. Điện thoại bán ở Mỹ phải có SAR không quá 1,6 W/kg (lấy trung bình trên 1 g mô), ở châu Âu không quá 2 W/kg (trung bình trên 10 g). Thiết bị MICS phát 25 µW thì thấp hơn những giới hạn này rất xa.</p>
+      <h3>Nhiễu với thiết bị cấy ghép</h3>
+      <p>Các hãng máy tạo nhịp khuyên giữ điện thoại cách máy khoảng 15 cm, ví dụ không bỏ điện thoại vào túi áo ngực ngay trên chỗ cấy. Lý do chủ yếu là nam châm: máy tạo nhịp có một công tắc từ, nam châm mạnh đặt sát có thể chuyển nó sang chế độ đặc biệt. Điện thoại đời mới có vòng nam châm cho sạc Qi2/MagSafe nên lời khuyên này càng đáng nhớ. Người có thiết bị cấy ghép nên hỏi bác sĩ hoặc đọc hướng dẫn của hãng cho đúng loại máy của mình.</p>
+      <h3>Bảo mật</h3>
+      <p>Thiết bị nói chuyện được từ xa thì cũng có nguy cơ bị kẻ xấu nói chuyện. Năm 2008, một nhóm nghiên cứu chứng minh có thể đọc dữ liệu và gửi lệnh tới một máy khử rung cấy ghép bằng thiết bị vô tuyến tự chế. Năm 2017, Cục Quản lý Thực phẩm và Dược phẩm Mỹ (FDA) thông báo cập nhật phần mềm cho khoảng 465.000 máy tạo nhịp của một hãng để vá lỗ hổng bảo mật vô tuyến; việc cập nhật làm tại phòng khám. Ngày nay, thiết bị y tế mới được yêu cầu mã hóa, xác thực và có kế hoạch vá lỗi ngay từ khâu thiết kế.</p>
+    </div>
+    <div class="callout"><b>Lưu ý.</b> Trang này chỉ nhằm giải thích nguyên lý kỹ thuật, không phải lời khuyên y khoa. Mọi quyết định liên quan tới thiết bị cấy ghép cần hỏi bác sĩ điều trị.</div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(P_0,\ P(z)\)</td><td>P nought, P of z</td><td>Công suất lúc vào mô; công suất còn lại ở độ sâu z.</td></tr>
+          <tr><td class="sym">\(z\)</td><td>depth</td><td>Độ sâu trong mô.</td></tr>
+          <tr><td class="sym">\(e\)</td><td>Euler's number</td><td>Số e ≈ 2,718, cơ số của hàm mũ.</td></tr>
+          <tr><td class="sym">\(\alpha\)</td><td>alpha, attenuation constant</td><td>Hệ số suy giảm: mô nuốt sóng nhanh cỡ nào.</td></tr>
+          <tr><td class="sym">\(\delta\)</td><td>delta, penetration depth</td><td>Độ sâu xuyên thấu: sau quãng này công suất còn ≈ 13,5%.</td></tr>
+          <tr><td class="sym">EIRP</td><td>equivalent isotropic radiated power</td><td>Công suất phát quy đổi, tính cả độ lợi ăng-ten.</td></tr>
+          <tr><td class="sym">SAR</td><td>specific absorption rate</td><td>Số watt mỗi kg mô hấp thụ (W/kg).</td></tr>
+          <tr><td class="sym">µW</td><td>microwatt</td><td>Một phần triệu watt.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>FCC, 47 CFR Part 95, Subpart I (MedRadio Service); ETSI EN 301 839 (thiết bị cấy ghép hoạt động ở 402–405 MHz).</li>
+      <li>H. S. Savci, A. Sula, Z. Wang, N. S. Dogan, E. Arvas, “MICS transceivers: regulatory standards and applications”, <i>Proc. IEEE SoutheastCon</i> (2005) 179–182.</li>
+      <li>S. Gabriel, R. W. Lau, C. Gabriel, “The dielectric properties of biological tissues: III. Parametric models for the dielectric spectrum of tissues”, <i>Phys. Med. Biol.</i> 41 (1996) 2271–2293.</li>
+      <li>D. Halperin, T. S. Heydt-Benjamin, B. Ransford, S. S. Clark, B. Defend, W. Morgan, K. Fu, T. Kohno, W. H. Maisel, “Pacemakers and implantable cardiac defibrillators: software radio attacks and zero-power defenses”, <i>IEEE Symposium on Security and Privacy</i> (2008) 129–142.</li>
+      <li>U.S. FDA, “Firmware update to address cybersecurity vulnerabilities identified in Abbott's (formerly St. Jude Medical's) implantable cardiac pacemakers”, Safety Communication, 29/08/2017.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="6-ve-tinh.html"><small>Phần 6</small><b>Vệ tinh: GNSS và Starlink</b></a>
+      <a class="next" href="index.html"><small>Hết loạt bài</small><b>Về trang chủ Không dây</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Không dây | My N. Nguyen</title>
+<meta name="description" content="Nhập môn các công nghệ giao tiếp không dây: sóng vô tuyến, điều chế, NFC, sạc Qi, Bluetooth, AirDrop, Wi-Fi, 4G LTE, GNSS, Starlink, MICS/MedRadio, với các minh họa tương tác.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/index.html, trang chủ module Không dây)
+  - Danh sách trang con: mảng PAGES ở cuối file.
+      done: true  -> thẻ bấm được;  done: false -> thẻ mờ "Sắp có".
+  - icon: lưới pixel giống my-library/index.html ("." = trống,
+    ký tự khác tra trong iconColors).
+  - Bảng "So sánh nhanh" (#so-sanh) viết thẳng bằng HTML bên dưới lưới thẻ.
+  - Trang chung của module: lib/wl.css (giao diện), lib/wl.js (tiện ích, tải minh họa, mục lục nổi).
+  =====================================================================
+-->
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; list-style: none; padding: 0; margin: 0 0 40px; }
+  .card { display: flex; flex-direction: column; height: 100%; background: #fff; color: var(--ink); text-decoration: none;
+    border: 2px solid var(--ink); box-shadow: 0 6px 18px rgba(27,25,32,.10); padding: 20px 20px 18px; transition: transform .15s, box-shadow .15s; }
+  a.card:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(27,25,32,.16); }
+  .card.soon { box-shadow: 0 4px 12px rgba(27,25,32,.06); border-color: #9DA4AD; color: var(--muted); }
+  .card.soon .icon { opacity: .45; filter: grayscale(.6); }
+  .card-body { display: flex; align-items: flex-start; gap: 16px; flex: 1; }
+  .icon { display: block; flex: none; align-self: center; }   /* pixel art canh giữa theo chiều dọc */
+  .card h3 .num { color: var(--sea); margin-right: 12px; }
+  .card.soon .num { color: var(--muted); }
+  .card h3 { margin: 2px 0 6px; font: 400 30px/1.05 var(--pixel-vi); }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.5; text-align: justify; hyphens: auto; }
+  .page-head .lead { text-align: justify; hyphens: auto; }
+  .grid > li, .card h3 { text-align: left; }
+  .page-head h1 { align-items: flex-start; }
+  .page-head h1 .dot { margin-top: .42em; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .tags li { font-size: 12.5px; padding: 1px 9px; background: var(--mist); border: 1px solid var(--line); color: var(--ink); }
+  .badge { align-self: flex-start; margin-top: 12px; font-size: 12.5px; font-weight: 600; padding: 1px 8px; border: 1px dashed #9DA4AD; }
+  .cmpbox h2 { font-size: clamp(34px, 4.4vw, 48px); margin: 0 0 6px; }
+  .cmpbox { margin-bottom: 60px; }
+  .cmpbox td:last-child { text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } a.card:hover { transform: none; } }
+</style>
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main class="wrap">
+  <header class="page-head">
+    <h1><span class="dot"></span>Không dây</h1>
+    <p class="lead">Thẻ xe buýt, sạc không dây, tai nghe Bluetooth, Wi-Fi, 4G, GPS, Starlink, máy tạo nhịp tim: những thứ này nghe thì khác nhau, nhưng đều dựa trên vài nguyên lý chung về sóng điện từ. Loạt bài đi từ chuyện sóng là gì, cách chở dữ liệu lên sóng, rồi lần lượt mổ xẻ từng công nghệ, kèm các minh họa tương tác. Toán được giữ ở mức tối thiểu, ký hiệu nào cũng được giải thích ngay bên dưới.</p>
+  </header>
+
+  <ul class="grid" id="pages"></ul>
+
+  <section id="so-sanh" class="cmpbox">
+    <h2>So sánh nhanh</h2>
+    <p class="note-s">Con số tiêu biểu, làm tròn; thiết bị cụ thể có thể khác.</p>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Công nghệ</th><th>Tần số</th><th>Tầm thường gặp</th><th>Tốc độ</th><th>Phần</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sạc Qi</b></td><td>khoảng 87–205 kHz</td><td>vài mm (đặt sát)</td><td>truyền năng lượng, tới ~15 W</td><td><a href="3-nfc-qi.html#qi">3</a></td></tr>
+          <tr><td><b>NFC</b></td><td>13,56 MHz</td><td>1–4 cm</td><td>106–424 kbit/s</td><td><a href="3-nfc-qi.html#nfc">3</a></td></tr>
+          <tr><td><b>MICS/MedRadio</b></td><td>401–406 MHz</td><td>cỡ 2 m</td><td>vài chục tới vài trăm kbit/s</td><td><a href="7-y-te.html#mics">7</a></td></tr>
+          <tr><td><b>Bluetooth Classic</b></td><td>2,4 GHz</td><td>cỡ 10 m</td><td>tới ~3 Mbit/s</td><td><a href="4-bluetooth-wifi.html#bluetooth">4</a></td></tr>
+          <tr><td><b>Bluetooth LE</b></td><td>2,4 GHz</td><td>10–30 m</td><td>1–2 Mbit/s</td><td><a href="4-bluetooth-wifi.html#bluetooth">4</a></td></tr>
+          <tr><td><b>AirDrop</b></td><td>2,4 GHz (tìm) + Wi-Fi 5/6 GHz (chở)</td><td>cỡ 10 m</td><td>hàng chục tới hàng trăm Mbit/s</td><td><a href="4-bluetooth-wifi.html#airdrop">4</a></td></tr>
+          <tr><td><b>Wi-Fi 6/7</b></td><td>2,4 / 5 / 6 GHz</td><td>vài chục m trong nhà</td><td>hàng trăm Mbit/s tới vài Gbit/s</td><td><a href="4-bluetooth-wifi.html#wifi">4</a></td></tr>
+          <tr><td><b>4G LTE</b></td><td>khoảng 0,7–2,7 GHz</td><td>vài trăm m tới vài km mỗi ô</td><td>vài chục tới vài trăm Mbit/s</td><td><a href="5-di-dong.html">5</a></td></tr>
+          <tr><td><b>GNSS (GPS, ...)</b></td><td>quanh 1,2 và 1,6 GHz</td><td>~20.000 km, chỉ thu</td><td>dữ liệu điều hướng cực chậm (GPS L1: 50 bit/s)</td><td><a href="6-ve-tinh.html#gnss">6</a></td></tr>
+          <tr><td><b>Starlink</b></td><td>khoảng 10,7–14,5 GHz (băng Ku)</td><td>~550 km lên vệ tinh</td><td>vài chục tới vài trăm Mbit/s</td><td><a href="6-ve-tinh.html#starlink">6</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note-s"><a href="lib/demos/run.html">Xem riêng từng minh họa tương tác</a></p>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   EDIT: danh sách trang con
+   ===================================================================== */
+const PAGES = [
+  {
+    "num": "1",
+    "name": "Sóng vô tuyến",
+    "href": "1-song-vo-tuyen.html",
+    "done": true,
+    "desc": "Tần số, bước sóng, phổ tần chia làn, ăng-ten, trường gần, vì sao ra xa là mất sóng.",
+    "tags": [
+      "Wave",
+      "Spectrum",
+      "Path loss"
+    ],
+    "iconColors": {
+      "s": "#3787c4",
+      "o": "#1B1920"
+    },
+    "icon": [
+      ".ss......ss.",
+      "s..s....s..s",
+      "s..s....s..s",
+      "....s..s....",
+      "....s..s....",
+      ".....ss.....",
+      "............",
+      "oooooooooooo"
+    ]
+  },
+  {
+    "num": "2",
+    "name": "Chở dữ liệu trên sóng",
+    "href": "2-dieu-che.html",
+    "done": true,
+    "desc": "Bit, điều biên, điều tần, điều pha, QAM, băng thông và giới hạn Shannon, chia kênh, sửa lỗi.",
+    "tags": [
+      "Modulation",
+      "QAM",
+      "Shannon"
+    ],
+    "iconColors": {
+      "o": "#1B1920",
+      "r": "#d8312a"
+    },
+    "icon": [
+      "o.o.o.o",
+      ".......",
+      "o.r.o.o",
+      ".......",
+      "o.o.o.r",
+      ".......",
+      "o.o.o.o"
+    ]
+  },
+  {
+    "num": "3",
+    "name": "NFC và sạc không dây Qi",
+    "href": "3-nfc-qi.html",
+    "done": true,
+    "desc": "Cảm ứng từ giữa hai cuộn dây, thẻ không pin, thanh toán chạm, căn cước gắn chip, sạc Qi và Qi2.",
+    "tags": [
+      "NFC",
+      "Qi",
+      "Induction"
+    ],
+    "iconColors": {
+      "o": "#1B1920",
+      "r": "#d8312a",
+      "y": "#f2c230"
+    },
+    "icon": [
+      "ooooooooo",
+      "o.......o",
+      "o.rrrrr.o",
+      "o.r...r.o",
+      "o.r.y.r.o",
+      "o.r...r.o",
+      "o.rrrrr.o",
+      "o.......o",
+      "ooooooooo"
+    ]
+  },
+  {
+    "num": "4",
+    "name": "Bluetooth, AirDrop và Wi-Fi",
+    "href": "4-bluetooth-wifi.html",
+    "done": true,
+    "desc": "Dải 2,4 GHz chật chội, nhảy tần, BLE, AirDrop, kênh và băng tần Wi-Fi, MIMO, các thế hệ Wi-Fi.",
+    "tags": [
+      "Bluetooth",
+      "AirDrop",
+      "Wi-Fi"
+    ],
+    "iconColors": {
+      "s": "#3787c4",
+      "W": "#ffffff"
+    },
+    "icon": [
+      ".sssssss.",
+      "ssssWssss",
+      "ssssWWsss",
+      "ssWsWsWss",
+      "sssWWWsss",
+      "ssssWssss",
+      "sssWWWsss",
+      "ssWsWsWss",
+      "ssssWWsss",
+      "ssssWssss",
+      ".sssssss."
+    ]
+  },
+  {
+    "num": "5",
+    "name": "Mạng di động 4G LTE",
+    "href": "5-di-dong.html",
+    "done": true,
+    "desc": "Ô mạng, tái sử dụng tần số, nhiễu, chuyển vùng, SIM, OFDMA và bộ lập lịch, từ 4G lên 5G.",
+    "tags": [
+      "Cellular",
+      "LTE",
+      "5G"
+    ],
+    "iconColors": {
+      "o": "#1B1920",
+      "r": "#d8312a"
+    },
+    "icon": [
+      ".r.....r.",
+      "r..r.r..r",
+      "r.r.o.r.r",
+      ".r..o..r.",
+      "....o....",
+      "...ooo...",
+      "...o.o...",
+      "..oo.oo..",
+      "..o...o..",
+      ".oo...oo.",
+      ".o.....o."
+    ]
+  },
+  {
+    "num": "6",
+    "name": "Vệ tinh: GNSS và Starlink",
+    "href": "6-ve-tinh.html",
+    "done": true,
+    "desc": "Quỹ đạo và độ trễ, định vị bằng đồng hồ, thuyết tương đối trong GPS, chảo mảng pha của Starlink.",
+    "tags": [
+      "GNSS",
+      "Starlink",
+      "Phased array"
+    ],
+    "iconColors": {
+      "s": "#3787c4",
+      "w": "#f4f2ea",
+      "o": "#1B1920"
+    },
+    "icon": [
+      "sss.....sss",
+      "sss.www.sss",
+      "sssowwwosss",
+      "sss.www.sss",
+      "sss..o..sss",
+      ".....o.....",
+      "....ooo...."
+    ]
+  },
+  {
+    "num": "7",
+    "name": "Không dây trong y tế",
+    "href": "7-y-te.html",
+    "done": true,
+    "desc": "Thiết bị cấy ghép, dải MICS/MedRadio quanh 400 MHz, sóng xuyên mô cơ thể, an toàn và bảo mật.",
+    "tags": [
+      "MedRadio",
+      "Implant",
+      "SAR"
+    ],
+    "iconColors": {
+      "r": "#d8312a"
+    },
+    "icon": [
+      ".rr...rr.",
+      "rrrr.rrrr",
+      "rrrrrrrrr",
+      "rrrrrrrrr",
+      ".rrrrrrr.",
+      "..rrrrr..",
+      "...rrr...",
+      "....r...."
+    ]
+  }
+];
+
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+function iconSVG(p) {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  const W = Math.max(...p.icon.map(r => r.length)), H = p.icon.length, CELL = 6;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', W * CELL); svg.setAttribute('height', H * CELL);
+  svg.setAttribute('class', 'icon'); svg.setAttribute('shape-rendering', 'crispEdges'); svg.setAttribute('aria-hidden', 'true');
+  p.icon.forEach((row, y) => [...row].forEach((ch, x) => {
+    const fill = p.iconColors[ch]; if (!fill) return;
+    const r = document.createElementNS(SVG_NS, 'rect');
+    r.setAttribute('x', x); r.setAttribute('y', y); r.setAttribute('width', 1); r.setAttribute('height', 1); r.setAttribute('fill', fill);
+    svg.appendChild(r);
+  }));
+  return svg;
+}
+const list = document.getElementById('pages');
+PAGES.forEach(p => {
+  const li = document.createElement('li');
+  const card = document.createElement(p.done ? 'a' : 'div');
+  card.className = 'card' + (p.done ? '' : ' soon');
+  if (p.done) card.href = p.href; else card.setAttribute('aria-disabled', 'true');
+  const body = document.createElement('div'); body.className = 'card-body';
+  const text = document.createElement('div');
+  const h = document.createElement('h3');
+  const num = document.createElement('span'); num.className = 'num'; num.textContent = p.num;
+  if (p.num) h.append(num);   // trang đọc thêm: không đánh số
+  h.append(document.createTextNode(p.name));   // số phần + tiêu đề trên cùng một dòng
+  const d = document.createElement('p'); d.textContent = p.desc;
+  text.append(h, d);
+  if (p.icon) body.append(iconSVG(p));   // thẻ không khai báo icon thì không có pixel art
+  body.append(text);
+  const tags = document.createElement('ul'); tags.className = 'tags';
+  p.tags.slice(0, 3).forEach(t => { const x = document.createElement('li'); x.textContent = t; tags.appendChild(x); });
+  card.append(body, tags);
+  if (!p.done) { const b = document.createElement('span'); b.className = 'badge'; b.textContent = 'Sắp có'; card.appendChild(b); }
+  li.appendChild(card); list.appendChild(li);
+});
+</script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

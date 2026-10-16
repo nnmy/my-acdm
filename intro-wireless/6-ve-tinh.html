@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vệ tinh: GNSS và Starlink | Không dây | My N. Nguyen</title>
+<meta name="description" content="Quỹ đạo thấp, trung bình, địa tĩnh và độ trễ; GNSS: định vị bằng thời gian, giả khoảng cách, đồng hồ nguyên tử, thuyết tương đối, sai số; Starlink: chòm vệ tinh quỹ đạo thấp, chảo mảng pha, liên kết laser.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/6-ve-tinh.html, phần 6: VỆ TINH: GNSS VÀ STARLINK)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      orbits.js
+      trilateration.js
+      phased-array.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 6</p>
+  <h1><span class="dot"></span>Vệ tinh: GNSS và Starlink</h1>
+  <p class="lead">Có hai kiểu vệ tinh mà điện thoại của bạn “nói chuyện” gần như mỗi ngày. Vệ tinh định vị chỉ phát mà không nghe, vậy mà điện thoại biết mình đang đứng ở hẻm nào. Vệ tinh Starlink thì phát lẫn nghe, đem Internet tới tận núi rừng, biển khơi. Cả hai đều xoay quanh một chuyện: đo thời gian sóng bay.</p>
+</header>
+<section class="part" id="quy-dao">
+  <div class="wrap">
+    <h2>Quỹ đạo và độ trễ</h2>
+    <div class="prose">
+      <p>Vệ tinh bay càng cao thì bay càng chậm, mất càng lâu mới hết một vòng, nhưng nhìn thấy được một vùng mặt đất càng rộng. Người ta hay chia ra ba tầng:</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tầng</th><th>Độ cao</th><th>Một vòng mất</th><th>Ví dụ</th></tr></thead>
+        <tbody>
+          <tr><td><b>Quỹ đạo thấp</b> (LEO)</td><td>vài trăm tới 2.000 km</td><td>cỡ 1,5 giờ</td><td>Starlink (~550 km), trạm vũ trụ ISS</td></tr>
+          <tr><td><b>Quỹ đạo trung bình</b> (MEO)</td><td>2.000 tới 35.786 km</td><td>vài giờ tới gần 1 ngày</td><td>GPS (20.200 km), Galileo, GLONASS</td></tr>
+          <tr><td><b>Quỹ đạo địa tĩnh</b> (GEO)</td><td>đúng 35.786 km trên xích đạo</td><td>đúng 1 ngày</td><td>Vệ tinh truyền hình, VINASAT</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ T = 2\pi\sqrt{\frac{r^3}{GM}}, \qquad t_\text{trễ} \gtrsim \frac{4h}{c} \]</div>
+      <p class="where"><b>T</b>: thời gian bay hết một vòng; <b>r</b>: khoảng cách từ tâm Trái Đất tới vệ tinh, bằng bán kính Trái Đất (6371 km) cộng độ cao <b>h</b>; <b>GM</b>: một hằng số cho biết Trái Đất hút mạnh cỡ nào (≈ 3,99 × 10¹⁴ m³/s²); r³ là r × r × r. Công thức nói: lên cao gấp 4 lần (tính từ tâm) thì một vòng lâu gấp 8 lần. <b>t<sub>trễ</sub></b>: thời gian tối thiểu cho một lượt hỏi–đáp đi qua vệ tinh. Câu hỏi đi lên vệ tinh rồi xuống trạm mặt đất (2h), câu trả lời đi ngược lại (thêm 2h), tổng cộng 4h, chia cho tốc độ ánh sáng c. Dấu ≳ nghĩa là “ít nhất bằng”: thực tế còn cộng thêm thời gian xử lý và đi đường xa.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Trái Đất và ba quỹ đạo được vẽ đúng tỉ lệ khoảng cách. Chọn một loại quỹ đạo: các ô vuông là vệ tinh, hình quạt mờ là vùng mặt đất mỗi vệ tinh phủ được (khi vệ tinh nằm cao hơn một góc tối thiểu so với đường chân trời). Chấm vàng là một người đứng yên trên mặt đất, quay theo Trái Đất. Với GEO, để ý vệ tinh cứ đứng yên trên đầu người đó. Tick <b>Phóng to</b> để thấy rõ quỹ đạo thấp.</div>
+    <div class="demo" id="demoOrbits" data-demo="orbits">
+      <div class="demo-title"><h4>Quỹ đạo thấp, trung bình, địa tĩnh</h4><span>Chọn một loại quỹ đạo; hình vẽ đúng tỉ lệ khoảng cách</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="gnss">
+  <div class="wrap">
+    <h2>GNSS: định vị bằng đồng hồ</h2>
+    <div class="prose">
+      <p><span class="term">GNSS</span> <span class="en">(global navigation satellite system)</span> là tên chung của các hệ thống định vị vệ tinh: GPS của Mỹ, GLONASS của Nga, Galileo của châu Âu, BeiDou của Trung Quốc. Điện thoại đời mới thu được cả bốn cùng lúc. Cách chúng chạy giống nhau, và đơn giản tới bất ngờ: mỗi vệ tinh mang đồng hồ nguyên tử cực chuẩn, liên tục phát ra “tôi là vệ tinh số mấy, lúc phát tin này là mấy giờ mấy phút mấy giây, và tôi đang ở chỗ này”.</p>
+      <p>Điện thoại nhận tin, so với đồng hồ của mình để biết sóng đã bay mất bao lâu, nhân với tốc độ ánh sáng là ra khoảng cách tới vệ tinh. Biết khoảng cách tới một vệ tinh, ta chỉ biết mình nằm đâu đó trên một mặt cầu quanh nó; ba mặt cầu cắt nhau thì ra một điểm.</p>
+      <h3>Cái khó: đồng hồ của điện thoại</h3>
+      <p>Sóng bay 300 m mỗi micro giây (một phần triệu giây). Đồng hồ thạch anh trong điện thoại lệch vài micro giây là chuyện thường, tức sai cả cây số. Mẹo ở đây: vì đồng hồ điện thoại lệch <i>như nhau</i> với mọi vệ tinh, ta coi độ lệch đó là một ẩn số nữa. Ba ẩn vị trí (đông–tây, bắc–nam, cao–thấp) cộng một ẩn đồng hồ là bốn ẩn, nên cần ít nhất <b>bốn vệ tinh</b>. Giải xong, điện thoại vừa biết mình ở đâu, vừa có giờ chuẩn tới từng phần tỉ giây.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \rho_i = \sqrt{(x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2} + c\,\Delta t \]</div>
+      <p class="where"><b>ρ<sub>i</sub></b> (“rô”): <span class="term">giả khoảng cách</span> <span class="en">(pseudorange)</span> tới vệ tinh thứ i, tức thời gian bay đo được nhân với c; <b>x, y, z</b>: tọa độ của điện thoại (chưa biết); <b>x<sub>i</sub>, y<sub>i</sub>, z<sub>i</sub></b>: tọa độ vệ tinh i (vệ tinh tự báo); căn bậc hai là khoảng cách thật theo định lý Pythagoras; <b>Δt</b>: độ lệch đồng hồ của điện thoại (chưa biết); <b>c</b>: tốc độ ánh sáng. Mỗi vệ tinh cho một phương trình; bốn phương trình giải ra bốn ẩn x, y, z, Δt.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Để dễ nhìn, minh họa thu về hai chiều: vị trí chỉ có hai ẩn, cộng một ẩn đồng hồ là ba ẩn, nên cần ba vệ tinh. Vòng tròn liền quanh mỗi vệ tinh là giả khoảng cách đo được, vòng đứt là sau khi trừ độ lệch đồng hồ mà máy thu tính ra. Dấu chéo đỏ là vị trí tính ra. Bỏ tick <b>Máy thu tự giải luôn sai lệch đồng hồ</b> để thấy chuyện gì xảy ra nếu bỏ qua đồng hồ; kéo các vệ tinh chụm về một phía để thấy hình học xấu làm nhiễu nhỏ thành sai số lớn.</div>
+    <div class="demo" id="demoTri" data-demo="trilateration">
+      <div class="demo-title"><h4>Định vị bằng thời gian</h4><span>Kéo máy thu hoặc vệ tinh; chỉnh sai lệch đồng hồ và nhiễu</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <h3>Einstein trong túi quần</h3>
+      <p>Đồng hồ trên vệ tinh GPS chạy nhanh hơn đồng hồ dưới đất khoảng 38 micro giây mỗi ngày: thuyết tương đối hẹp nói đồng hồ bay nhanh thì chạy chậm lại (khoảng 7 µs/ngày), thuyết tương đối rộng nói đồng hồ ở chỗ trọng lực yếu thì chạy nhanh lên (khoảng 45 µs/ngày). Nếu không bù, vị trí sẽ trôi đi cỡ 10 km mỗi ngày. Người ta chỉnh sẵn tần số đồng hồ vệ tinh trước khi phóng, và máy thu bù thêm phần nhỏ còn lại.</p>
+      <h3>Vì sao GPS trong phố hay nhảy lung tung</h3>
+      <p>Tín hiệu GNSS tới mặt đất cực yếu (cỡ −130 dBm, yếu hơn cả tiếng ồn nền; xem <a href="1-song-vo-tuyen.html#suy-hao">phần 1</a>). Máy thu bắt được nhờ biết trước “mã” riêng của từng vệ tinh và cộng dồn tín hiệu theo thời gian. Ngoài trời trống, điện thoại thường chính xác tới vài mét. Sai số đến từ mấy nguồn chính: tầng điện ly trên cao làm sóng đi chậm lại một chút; nhà cao tầng che bớt vệ tinh và làm sóng dội qua tường kính tới máy thu theo đường vòng (<span class="term">đa đường</span>, <span class="en">multipath</span>); và vệ tinh chụm về một phía bầu trời. Điện thoại đời mới thu hai tần số (L1 và L5) để tự khử phần lớn sai số tầng điện ly, và nhờ mạng di động gửi sẵn quỹ đạo vệ tinh (<span class="term">A-GNSS</span>) để bắt sóng nhanh hơn khi vừa bật.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="starlink">
+  <div class="wrap">
+    <h2>Starlink: Internet từ quỹ đạo thấp</h2>
+    <div class="prose">
+      <p>Internet vệ tinh kiểu cũ xài vài vệ tinh địa tĩnh: phủ rộng, nhưng mỗi lượt hỏi–đáp mất hơn nửa giây chỉ vì đường bay, gọi video rất khó chịu. Starlink của SpaceX làm ngược lại: phóng hàng ngàn vệ tinh nhỏ ở độ cao khoảng 550 km. Độ trễ do đường bay chỉ còn vài mili giây, tổng độ trễ thực tế thường vài chục mili giây, gần bằng cáp quang. Cái giá: mỗi vệ tinh chỉ phủ một vùng nhỏ và vụt qua đầu trong vài phút, nên cần rất nhiều vệ tinh nối đuôi nhau, và chảo thu phải bám theo vệ tinh đang bay với tốc độ hơn 27.000 km/h.</p>
+      <h3>Cái chảo không cần xoay</h3>
+      <p>Chảo Starlink thực ra là một tấm phẳng chứa hơn ngàn ăng-ten nhỏ, gọi là <span class="term">mảng pha</span> <span class="en">(phased array)</span>. Mỗi ăng-ten phát cùng một sóng nhưng trễ đi một chút so với ăng-ten bên cạnh. Ở một hướng nào đó, các sóng gặp nhau cùng nhịp và cộng lại thành một chùm mạnh; ở các hướng khác chúng triệt tiêu nhau. Chỉnh độ trễ bằng điện tử, chùm sóng đổi hướng trong vài micro giây mà không có bộ phận nào cử động.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \Delta\varphi = 360^\circ \times \frac{d\,\sin\theta_0}{\lambda} \]</div>
+      <p class="where"><b>Δφ</b>: độ trễ pha giữa hai ăng-ten kề nhau (độ); <b>d</b>: khoảng cách giữa hai ăng-ten, thường bằng nửa bước sóng; <b>θ<sub>0</sub></b> (“thê-ta không”): hướng muốn lái chùm sóng tới, tính từ phương thẳng đứng; <b>sin</b>: hàm sin, bằng 0 khi chùm thẳng đứng và gần 1 khi chùm nghiêng gần sát mặt đất; <b>λ</b>: bước sóng. Ý nghĩa: sóng từ ăng-ten bên này phải đi xa hơn một đoạn d·sin θ<sub>0</sub> mới tới cùng đích, nên ta phát nó sớm hơn đúng bằng đoạn đó.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hàng ô vuông ở đáy là các ăng-ten, vạch đỏ bên trong mỗi ô cho biết nó phát trễ pha bao nhiêu. Nền xanh đỏ là sóng tổng của cả hàng: những gợn sóng thẳng song song là nơi các sóng cộng lại. Đường viền đen cho biết sóng mạnh cỡ nào theo từng hướng (thang dB). Kéo <b>Góc lái</b>: chùm sóng xoay theo dù ăng-ten đứng yên. Tăng <b>Số ăng-ten</b>: chùm hẹp lại và mạnh lên.</div>
+    <div class="demo" id="demoArray" data-demo="phased-array">
+      <div class="demo-title"><h4>Lái chùm sóng bằng mảng ăng-ten</h4><span>Đổi góc lái và số ăng-ten; không có bộ phận nào cử động</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <h3>Đường đi của một gói tin</h3>
+      <p>Chảo phát lên vệ tinh ở băng Ku (khoảng 14 GHz), nhận xuống ở khoảng 11–12 GHz. Vệ tinh chuyển gói tin xuống một <span class="term">trạm mặt đất</span> <span class="en">(gateway)</span> nối với Internet. Ở những nơi không có trạm mặt đất gần, như giữa đại dương, các vệ tinh đời mới chuyền gói tin cho nhau bằng <span class="term">tia laser</span> trong chân không, nơi ánh sáng chạy nhanh hơn trong cáp quang khoảng 1,5 lần. Hệ thống tính lại việc chảo nào nối với vệ tinh nào theo chu kỳ ngắn, khoảng 15 giây một lần, vì các vệ tinh liên tục bay qua.</p>
+      <p>Mưa lớn có thể làm sóng ở băng Ku yếu đi (nước hấp thụ sóng tần số cao), và chảo cần nhìn thấy khoảng trời rộng, không bị cây hay nhà che. Đời mới hơn, một số vệ tinh Starlink còn phát thẳng tới điện thoại thường ở băng tần di động (<span class="en">direct-to-cell</span>), dùng để nhắn tin ở nơi không có trạm 4G.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part tint" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(T\)</td><td>orbital period</td><td>Thời gian vệ tinh bay hết một vòng.</td></tr>
+          <tr><td class="sym">\(r,\ h\)</td><td>radius, altitude</td><td>Khoảng cách tới tâm Trái Đất; độ cao so với mặt đất.</td></tr>
+          <tr><td class="sym">\(GM\)</td><td>G M, gravitational parameter</td><td>Hằng số cho biết Trái Đất hút mạnh cỡ nào.</td></tr>
+          <tr><td class="sym">\(\gtrsim\)</td><td>greater than or about</td><td>“Ít nhất bằng, hoặc lớn hơn”.</td></tr>
+          <tr><td class="sym">\(\rho_i\)</td><td>rho i, pseudorange</td><td>Giả khoảng cách tới vệ tinh thứ i (gồm cả sai lệch đồng hồ).</td></tr>
+          <tr><td class="sym">\(x, y, z\)</td><td>coordinates</td><td>Tọa độ vị trí trong không gian.</td></tr>
+          <tr><td class="sym">\(\Delta t\)</td><td>delta t, clock bias</td><td>Độ lệch đồng hồ của máy thu.</td></tr>
+          <tr><td class="sym">\(\Delta\varphi\)</td><td>delta phi</td><td>Độ trễ pha giữa hai ăng-ten kề nhau.</td></tr>
+          <tr><td class="sym">\(\theta_0\)</td><td>theta nought</td><td>Hướng muốn lái chùm sóng tới.</td></tr>
+          <tr><td class="sym">\(\sin\)</td><td>sine</td><td>Hàm sin của một góc: 0 ở 0°, 0,5 ở 30°, 1 ở 90°.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>E. D. Kaplan, C. J. Hegarty (eds.), <i>Understanding GPS/GNSS: Principles and Applications</i>, 3rd ed., Artech House, 2017.</li>
+      <li>P. Misra, P. Enge, <i>Global Positioning System: Signals, Measurements, and Performance</i>, 2nd ed., Ganga-Jamuna Press, 2006.</li>
+      <li>N. Ashby, “Relativity in the Global Positioning System”, <i>Living Reviews in Relativity</i> 6 (2003) 1.</li>
+      <li>I. del Portillo, B. G. Cameron, E. F. Crawley, “A technical comparison of three low earth orbit satellite constellation systems to provide global broadband”, <i>Acta Astronautica</i> 159 (2019) 123–135.</li>
+      <li>R. J. Mailloux, <i>Phased Array Antenna Handbook</i>, 3rd ed., Artech House, 2017.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="5-di-dong.html"><small>Phần 5</small><b>Mạng di động 4G LTE</b></a>
+      <a class="next" href="7-y-te.html"><small>Phần 7</small><b>Không dây trong y tế</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

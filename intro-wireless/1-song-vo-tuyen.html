@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sóng vô tuyến | Không dây | My N. Nguyen</title>
+<meta name="description" content="Sóng điện từ, tần số và bước sóng, phổ tần và chuyện chia làn, ăng-ten, trường gần, sóng yếu đi theo khoảng cách và đơn vị decibel.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/1-song-vo-tuyen.html, phần 1: SÓNG VÔ TUYẾN)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      wave.js
+      spectrum.js
+      path-loss.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 1</p>
+  <h1><span class="dot"></span>Sóng vô tuyến</h1>
+  <p class="lead">Mọi công nghệ trong loạt bài này, từ cái thẻ xe buýt tới vệ tinh Starlink, đều xài chung một thứ: sóng điện từ. Phần này nói về những điều cơ bản nhất của nó: tần số và bước sóng là gì, vì sao mỗi công nghệ phải ở một “làn” riêng, ăng-ten làm gì, và tại sao ra xa một chút là mất sóng.</p>
+</header>
+<section class="part" id="song-la-gi">
+  <div class="wrap">
+    <h2>Sóng vô tuyến là gì</h2>
+    <div class="prose">
+      <p>Khi các electron trong một sợi dây kim loại bị đẩy tới đẩy lui thật nhanh, chúng tạo ra quanh sợi dây một điện trường và một từ trường cũng dao động theo. Hai trường này nuôi nhau mà lan ra xa, kể cả trong chân không, với tốc độ ánh sáng: khoảng 300.000 km mỗi giây. Đó là <span class="term">sóng điện từ</span> <span class="en">(electromagnetic wave)</span>. Ánh sáng mắt mình thấy cũng là sóng điện từ; phần có tần số thấp hơn nhiều, mắt không thấy, gọi là <span class="term">sóng vô tuyến</span> <span class="en">(radio wave)</span>.</p>
+      <p>Để tả một sóng, mình cần hai con số. <span class="term">Tần số</span> <span class="en">(frequency)</span> là số lần sóng dao động trong một giây, đo bằng hertz (Hz): 1 Hz là một lần mỗi giây, 1 MHz là một triệu lần, 1 GHz là một tỉ lần. <span class="term">Bước sóng</span> <span class="en">(wavelength)</span> là khoảng cách giữa hai đỉnh sóng liền nhau. Vì sóng luôn chạy cùng một tốc độ, tần số càng cao thì các đỉnh càng sát nhau, tức bước sóng càng ngắn.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \lambda = \frac{c}{f} \]</div>
+      <p class="where"><b>λ</b> (đọc là “lam-đa”): bước sóng, đo bằng mét; <b>c</b>: tốc độ ánh sáng, khoảng 3 × 10⁸ m/s (tức 300 triệu mét mỗi giây); <b>f</b>: tần số, đo bằng Hz. Ví dụ Wi-Fi 2,4 GHz: λ = 300.000.000 / 2.400.000.000 = 0,125 m, tức 12,5 cm. NFC ở 13,56 MHz thì λ cỡ 22 m, còn sạc Qi ở khoảng 140 kHz thì λ dài hơn 2 km.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Đường xanh là sóng, vạch đỏ đo một bước sóng. Kéo <b>Tần số</b> hoặc bấm tên một công nghệ: hình tự phóng to hay thu nhỏ để luôn thấy khoảng 3 bước sóng, và vẽ kèm một vật quen thuộc (tòa nhà, người, điện thoại, đồng xu) theo cùng tỉ lệ để bạn so. Thước đen ở góc phải dưới cho biết tỉ lệ của hình.</div>
+    <div class="demo" id="demoWave" data-demo="wave">
+      <div class="demo-title"><h4>Tần số và bước sóng</h4><span>Kéo tần số hoặc chọn một công nghệ</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Bước sóng quyết định rất nhiều thứ: ăng-ten to hay nhỏ, sóng đi xuyên tường giỏi hay dở, và một kênh truyền chở được bao nhiêu dữ liệu. Nói gọn: <b>tần số thấp</b> đi xa, xuyên vật cản tốt, nhưng chở ít dữ liệu và cần ăng-ten lớn; <b>tần số cao</b> chở được nhiều dữ liệu, ăng-ten nhỏ, nhưng đi gần và dễ bị chặn. Cả loạt bài sẽ gặp lại sự đánh đổi này nhiều lần.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="pho-tan">
+  <div class="wrap">
+    <h2>Phổ tần: con đường chung có chia làn</h2>
+    <div class="prose">
+      <p>Hãy hình dung toàn bộ các tần số là một con đường rất rộng. Nếu ai cũng phát sóng ở bất kỳ tần số nào, các tín hiệu sẽ chồng lên nhau, giống mấy người nói cùng lúc trong một căn phòng. Vì vậy <span class="term">phổ tần</span> <span class="en">(radio spectrum)</span> được chia thành từng làn và quản lý chặt: Liên minh Viễn thông Quốc tế (ITU) đặt khung chung cho cả thế giới, rồi mỗi nước tự phân bổ chi tiết. Ở Việt Nam, việc này do Cục Tần số vô tuyến điện phụ trách.</p>
+      <p>Có hai kiểu làn. <span class="term">Băng tần cấp phép</span> <span class="en">(licensed)</span> là làn riêng, nhà mạng di động phải đấu giá hoặc xin phép, trả tiền để được xài một mình, nhờ vậy ít bị nhiễu. <span class="term">Băng tần không cần cấp phép</span> <span class="en">(unlicensed)</span>, nổi tiếng nhất là dải ISM 2,4 GHz, thì ai cũng được xài miễn tuân thủ giới hạn công suất. Wi-Fi, Bluetooth, chuột không dây và cả lò vi sóng đều chen nhau ở đây, nên nó rất đông (xem <a href="4-bluetooth-wifi.html#ism">phần 4</a>).</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Trục ngang là tần số theo <b>thang log</b>: mỗi vạch đậm lớn gấp 10 lần vạch bên trái nó, nhờ vậy cả 140 kHz lẫn 30 GHz nằm vừa một hình. Mỗi hàng là một nhóm công nghệ, mỗi khối màu là một dải tần. Bấm vô khối màu hoặc nút bên dưới để đọc ghi chú; kéo <b>Vùng xem</b> để phóng to khoảng 0,3–8 GHz, nơi chen chúc nhất.</div>
+    <div class="demo" id="demoSpectrum" data-demo="spectrum">
+      <div class="demo-title"><h4>Bản đồ phổ tần</h4><span>Bấm vào một dải tần để đọc ghi chú</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="callout"><b>Con số trên bản đồ là tiêu biểu.</b> Mỗi nước, mỗi nhà mạng được cấp những đoạn khác nhau; ví dụ 4G có hàng chục “băng” được đánh số (B1, B3, B7, B8, ...), và điện thoại phải hỗ trợ đúng băng của nhà mạng nơi bạn ở thì mới bắt được.</div>
+  </div>
+</section>
+
+<section class="part" id="ang-ten">
+  <div class="wrap">
+    <h2>Ăng-ten và trường gần</h2>
+    <div class="prose">
+      <p><span class="term">Ăng-ten</span> <span class="en">(antenna)</span> là chỗ dòng điện trong mạch biến thành sóng bay ra không gian, và ngược lại. Một ăng-ten phát hiệu quả khi kích thước của nó cỡ một nửa hoặc một phần tư bước sóng. Ở 2,4 GHz, nửa bước sóng chỉ khoảng 6 cm, vừa vặn nằm trong viền điện thoại. Ở 100 MHz (radio FM), nửa bước sóng là 1,5 m, nên radio ngày xưa mới có cái cần ăng-ten dài rút ra rút vô.</p>
+      <p>Điện thoại hiện nay có cả chục ăng-ten giấu bên trong: cho 4G/5G, Wi-Fi, Bluetooth, GPS, NFC. Khung kim loại quanh máy nhiều khi chính là ăng-ten, bị chia khúc bằng mấy vạch nhựa nhỏ bạn thấy ở cạnh máy.</p>
+      <h3>Trường gần và trường xa</h3>
+      <p>Sát bên ăng-ten, trong khoảng cỡ một phần sáu bước sóng, điện trường và từ trường chưa “bứt” ra thành sóng mà còn bám quanh nguồn, giống vùng nước gợn ngay sát chỗ thả hòn đá. Đây là <span class="term">trường gần</span> <span class="en">(near field)</span>. Ra xa hơn nữa mới là <span class="term">trường xa</span> <span class="en">(far field)</span>, nơi sóng thật sự lan đi.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ r_{\text{gần}} \approx \frac{\lambda}{2\pi} \]</div>
+      <p class="where"><b>r<sub>gần</sub></b>: ranh giới gần đúng của vùng trường gần, tính từ nguồn; <b>λ</b>: bước sóng; <b>π</b> ≈ 3,14, nên 2π ≈ 6,28. Với NFC (λ ≈ 22 m), vùng trường gần rộng tới cỡ 3,5 m, lớn hơn rất nhiều so với vài cm mà NFC cần. Vì vậy NFC và sạc Qi không phát sóng mà xài từ trường của trường gần (xem <a href="3-nfc-qi.html">phần 3</a>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="suy-hao">
+  <div class="wrap">
+    <h2>Sóng yếu đi theo khoảng cách</h2>
+    <div class="prose">
+      <p>Hãy hình dung sóng tỏa ra từ ăng-ten như một quả bóng bay đang phồng lên: cùng một lượng năng lượng phải trải lên một mặt cầu ngày càng lớn. Xa gấp đôi thì diện tích mặt cầu lớn gấp bốn, nên một máy thu ở đó chỉ hứng được một phần tư công suất. Ngoài trời trống trải là vậy; trong nhà hay ngoài phố, tường, cây cối, người đi lại còn làm sóng yếu thêm.</p>
+      <h3>Decibel: đếm “số lần” cho gọn</h3>
+      <p>Công suất phát của một router Wi-Fi cỡ 0,1 W, mà công suất điện thoại nhận được chỉ cỡ một phần tỉ của mức đó. Viết toàn số 0 thì rất rối, nên dân vô tuyến xài <span class="term">decibel</span> (dB): thay vì nói “yếu đi 1000 lần”, họ nói “mất 30 dB”. Quy tắc dễ nhớ: <b>cứ 10 dB là gấp 10 lần</b>, 3 dB là gấp đôi.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp" style="min-width:520px">
+        <thead><tr><th>Mất đi</th><th>Tức là công suất còn lại</th><th>Ví dụ</th></tr></thead>
+        <tbody>
+          <tr><td>3 dB</td><td>1/2</td><td>Đi xa gấp 1,4 lần ngoài trời trống</td></tr>
+          <tr><td>10 dB</td><td>1/10</td><td>Xuyên qua một bức tường bê tông (cỡ)</td></tr>
+          <tr><td>30 dB</td><td>1/1.000</td><td></td></tr>
+          <tr><td>60 dB</td><td>1/1.000.000</td><td>Wi-Fi đi từ router tới điện thoại cách vài mét</td></tr>
+          <tr><td>180 dB</td><td>1/10¹⁸</td><td>Tín hiệu GPS bay 20.000 km xuống mặt đất</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ L\,(\text{dB}) = 10\log_{10}\frac{P_\text{phát}}{P_\text{nhận}}, \qquad P\,(\text{dBm}) = 10\log_{10}\frac{P}{1\ \text{mW}} \]</div>
+      <p class="where"><b>L</b>: suy hao (loss), tính bằng dB; <b>P<sub>phát</sub>, P<sub>nhận</sub></b>: công suất phát ra và công suất máy thu nhận được; <b>log<sub>10</sub></b>: logarit cơ số 10, hiểu đơn giản là “số chữ số 0”: log<sub>10</sub>(1000) = 3, log<sub>10</sub>(1.000.000) = 6. <b>dBm</b> là công suất so với mức chuẩn 1 mW (một phần ngàn watt): 0 dBm = 1 mW, 20 dBm = 100 mW, −90 dBm = một phần tỉ của 1 mW.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ L(d) \approx L_{1\,\text{m}} + 10\,n\log_{10}\frac{d}{1\ \text{m}}, \qquad L_{1\,\text{m}} = 20\log_{10}\frac{4\pi\,(1\ \text{m})\,f}{c} \]</div>
+      <p class="where"><b>d</b>: khoảng cách; <b>L<sub>1 m</sub></b>: suy hao ở mốc 1 m (khoảng 40 dB với 2,4 GHz); <b>n</b>: “số mũ suy hao”, cho biết môi trường cản sóng cỡ nào: n = 2 ở không gian trống (đúng quy luật quả bóng ở trên), n ≈ 3 trong nhà, n ≈ 3,5 ở phố đông. Mỗi lần xa gấp đôi, sóng mất thêm 3n dB: 6 dB ngoài trời trống, 9 dB trong nhà. Để ý f nằm ở tử số: tần số cao thì L<sub>1 m</sub> lớn hơn, vì ăng-ten nhỏ hơn hứng được ít năng lượng hơn.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Đường xanh là công suất máy thu nhận được theo khoảng cách (trục ngang thang log). Đường đứt đỏ là <b>độ nhạy</b> của máy thu: tín hiệu yếu hơn mức đó thì máy không còn nghe ra. Chọn công nghệ, môi trường, kéo khoảng cách và tick thêm vật cản để xem chấm tròn rơi vô vùng đỏ lúc nào. Thử chọn GPS: tín hiệu tới mặt đất yếu kinh khủng mà máy vẫn thu được.</div>
+    <div class="demo" id="demoLoss" data-demo="path-loss">
+      <div class="demo-title"><h4>Sóng yếu đi theo khoảng cách</h4><span>Chọn công nghệ, kéo khoảng cách, thêm vật cản</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Từ đây có mấy hệ quả quen thuộc. Wi-Fi 5 GHz nhanh hơn 2,4 GHz nhưng qua một bức tường là yếu hẳn. Trạm 4G ở nông thôn hay xài tần số thấp (900 MHz) để phủ xa, còn ở trung tâm thành phố thì cắm dày trạm tần số cao để chia cho nhiều người. Và vì cơ thể người chứa nhiều nước, ngồi đè lên điện thoại hay cầm che ăng-ten cũng làm sóng yếu đi vài dB.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(f\)</td><td>frequency</td><td>Tần số: số lần dao động mỗi giây (Hz, kHz, MHz, GHz).</td></tr>
+          <tr><td class="sym">\(\lambda\)</td><td>lambda, wavelength</td><td>Bước sóng: khoảng cách giữa hai đỉnh sóng liền nhau.</td></tr>
+          <tr><td class="sym">\(c\)</td><td>speed of light</td><td>Tốc độ ánh sáng, ≈ 3 × 10⁸ m/s. Sóng vô tuyến cũng chạy tốc độ này.</td></tr>
+          <tr><td class="sym">\(T = 1/f\)</td><td>period</td><td>Chu kỳ: thời gian của một lần dao động.</td></tr>
+          <tr><td class="sym">\(\pi\)</td><td>pi</td><td>Số pi ≈ 3,14 (tỉ lệ giữa chu vi và đường kính hình tròn).</td></tr>
+          <tr><td class="sym">\(\log_{10}\)</td><td>log base ten</td><td>Logarit cơ số 10: đếm xem một số gấp 10 bao nhiêu lần. log<sub>10</sub>(100) = 2.</td></tr>
+          <tr><td class="sym">dB</td><td>decibel</td><td>Đơn vị tỉ số công suất: 10 dB = gấp 10 lần, 3 dB ≈ gấp đôi.</td></tr>
+          <tr><td class="sym">dBm</td><td>d B m</td><td>Công suất so với 1 mW: 0 dBm = 1 mW, 30 dBm = 1 W.</td></tr>
+          <tr><td class="sym">\(L\)</td><td>path loss</td><td>Suy hao đường truyền: sóng yếu đi bao nhiêu dB trên đường đi.</td></tr>
+          <tr><td class="sym">\(n\)</td><td>path-loss exponent</td><td>Số mũ suy hao: 2 ở không gian trống, lớn hơn khi có nhiều vật cản.</td></tr>
+          <tr><td class="sym">\(d\)</td><td>distance</td><td>Khoảng cách giữa máy phát và máy thu.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>H. T. Friis, “A note on a simple transmission formula”, <i>Proc. IRE</i> 34 (1946) 254–256.</li>
+      <li>T. S. Rappaport, <i>Wireless Communications: Principles and Practice</i>, 2nd ed., Prentice Hall, 2002.</li>
+      <li>A. F. Molisch, <i>Wireless Communications</i>, 2nd ed., Wiley, 2011.</li>
+      <li>C. A. Balanis, <i>Antenna Theory: Analysis and Design</i>, 4th ed., Wiley, 2016.</li>
+      <li>ITU, <i>Radio Regulations</i>, ấn bản 2024.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="index.html"><small>Trang chủ</small><b>Không dây</b></a>
+      <a class="next" href="2-dieu-che.html"><small>Phần 2</small><b>Chở dữ liệu trên sóng</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

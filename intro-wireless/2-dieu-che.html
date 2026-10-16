@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chở dữ liệu trên sóng | Không dây | My N. Nguyen</title>
+<meta name="description" content="Bit và byte, điều biên, điều tần, điều pha, QAM và chòm điểm, băng thông, nhiễu và giới hạn Shannon, chia kênh cho nhiều người, sửa lỗi.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/2-dieu-che.html, phần 2: CHỞ DỮ LIỆU TRÊN SÓNG)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      modulation.js
+      constellation.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 2</p>
+  <h1><span class="dot"></span>Chở dữ liệu trên sóng</h1>
+  <p class="lead">Một sóng hình sin đều đều thì không mang tin gì cả. Muốn gửi tin nhắn, hình ảnh hay cuộc gọi, máy phát phải “nắn” sóng theo dữ liệu, còn máy thu phải đọc ngược ra. Phần này nói về cách nắn đó, vì sao Wi-Fi lúc nhanh lúc chậm, và làm sao cả chục người xài chung một kênh mà không giành nhau.</p>
+</header>
+<section class="part" id="bit">
+  <div class="wrap">
+    <h2>Từ tin nhắn tới bit</h2>
+    <div class="prose">
+      <p>Mọi thứ trong điện thoại, từ chữ, hình, tới giọng nói, đều được đổi thành một dãy số 0 và 1, gọi là <span class="term">bit</span>. Tám bit gom lại thành một <span class="term">byte</span>. Chữ “A” chẳng hạn là byte 01000001; một chữ có dấu tiếng Việt như “đ” tốn 2 byte; một tấm hình chụp bằng điện thoại cỡ 3 MB, tức khoảng 24 triệu bit.</p>
+      <p>Tốc độ mạng đo bằng số bit gửi được mỗi giây (bit/s). “100 Mbps” nghĩa là 100 triệu bit mỗi giây, đủ để gửi tấm hình trên trong chừng một phần tư giây. Để ý chữ <b>b</b> nhỏ là bit, <b>B</b> lớn là byte: 100 Mbps chỉ là 12,5 MB/s.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="dieu-che">
+  <div class="wrap">
+    <h2>Gắn bit lên sóng mang</h2>
+    <div class="prose">
+      <p>Máy phát tạo ra một sóng hình sin ở đúng tần số được cấp, gọi là <span class="term">sóng mang</span> <span class="en">(carrier)</span>. Một sóng hình sin chỉ có ba thứ có thể thay đổi: độ lớn (biên độ), độ dày (tần số) và thời điểm bắt đầu của mỗi nhịp (pha). Mỗi cách thay đổi theo bit là một kiểu <span class="term">điều chế</span> <span class="en">(modulation)</span>:</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ s(t) = A\,\sin(2\pi f t + \varphi) \]</div>
+      <p class="where"><b>s(t)</b>: giá trị của sóng tại thời điểm t; <b>A</b>: biên độ, tức sóng cao bao nhiêu; <b>f</b>: tần số; <b>t</b>: thời gian; <b>φ</b> (“phi”): pha, cho biết sóng bị dời sớm hay trễ bao nhiêu so với gốc, đo bằng độ (một vòng là 360°). <b>Điều biên</b> (ASK) đổi A theo bit, <b>điều tần</b> (FSK) đổi f, <b>điều pha</b> (PSK) đổi φ.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hàng trên là dãy bit, hàng giữa là sóng mang trơn, hàng dưới là sóng sau khi gắn bit. Bấm vô từng ô bit bên phải để đổi 0 thành 1 và ngược lại, rồi chuyển qua lại giữa ba kiểu điều chế. Với PSK, nhìn kỹ chỗ đổi bit: sóng bị lật ngược đột ngột.</div>
+    <div class="demo" id="demoMod" data-demo="modulation">
+      <div class="demo-title"><h4>Gắn bit lên sóng mang</h4><span>Bấm vô từng bit để đổi 0/1, chọn kiểu điều chế</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="qam">
+  <div class="wrap">
+    <h2>Nhiều bit mỗi lần: QAM</h2>
+    <div class="prose">
+      <p>Ở ba kiểu trên, mỗi nhịp chỉ chở 1 bit. Muốn nhanh hơn, ta cho mỗi nhịp, gọi là một <span class="term">ký hiệu</span> <span class="en">(symbol)</span>, mang nhiều bit cùng lúc bằng cách đổi <i>cả biên độ lẫn pha</i>. Nếu có 4 kiểu biên độ–pha khác nhau thì mỗi ký hiệu chở 2 bit (00, 01, 10, 11); 16 kiểu thì 4 bit; 256 kiểu thì 8 bit. Cách này gọi là <span class="term">QAM</span> <span class="en">(quadrature amplitude modulation, điều biên vuông góc)</span>.</p>
+      <p>Người ta vẽ mỗi kiểu biên độ–pha thành một điểm trên mặt phẳng, cả bộ điểm gọi là <span class="term">chòm điểm</span> <span class="en">(constellation)</span>. Khoảng cách từ điểm tới tâm là biên độ, góc của nó là pha. Hai trục được gọi là I và Q, ứng với hai sóng lệch nhau một phần tư nhịp; máy phát cộng hai sóng này với độ lớn khác nhau để tạo ra mọi điểm trong chòm.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ b = \log_2 M \]</div>
+      <p class="where"><b>M</b>: số điểm trong chòm; <b>b</b>: số bit mỗi ký hiệu; <b>log<sub>2</sub></b>: logarit cơ số 2, tức “phải nhân đôi bao nhiêu lần từ 1 mới ra M”. 16 = 2 × 2 × 2 × 2 nên log<sub>2</sub>16 = 4; 1024 = 2¹⁰ nên 1024-QAM chở 10 bit mỗi ký hiệu.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Dấu cộng đen là vị trí lý tưởng của các điểm. Mỗi chấm xanh là một ký hiệu máy thu nhận được: nhiễu đẩy nó lệch đi một chút, và máy thu đoán ký hiệu gốc là dấu cộng gần nhất. Chấm đỏ là đoán sai. Kéo <b>SNR</b> xuống thấp (sóng yếu, nhiễu nhiều) hoặc chọn chòm nhiều điểm hơn để thấy lỗi xuất hiện. Dòng cuối cho biết kiểu nhanh nhất còn dưới 1% lỗi ở mức SNR đó.</div>
+    <div class="demo" id="demoQam" data-demo="constellation">
+      <div class="demo-title"><h4>Chòm điểm QAM và nhiễu</h4><span>Chọn kiểu điều chế, kéo tỉ số tín hiệu/nhiễu</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <p>Đây chính là lý do Wi-Fi và 4G lúc nhanh lúc chậm. Đứng sát router, sóng mạnh, nhiễu nhỏ: máy chọn 1024-QAM (Wi-Fi 6) hay 4096-QAM (Wi-Fi 7), mỗi ký hiệu chở 10–12 bit. Đi ra xa, các đám chấm lấn nhau: máy tự hạ xuống 64-QAM, 16-QAM, rồi QPSK để giữ kết nối. Việc tự đổi kiểu điều chế theo chất lượng sóng gọi là <span class="term">thích ứng tốc độ</span> <span class="en">(rate adaptation)</span>, diễn ra liên tục hàng trăm lần mỗi giây.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="toc-do">
+  <div class="wrap">
+    <h2>Băng thông, nhiễu và tốc độ tối đa</h2>
+    <div class="prose">
+      <p>Hai thứ quyết định một kênh chở được bao nhiêu dữ liệu. Thứ nhất là <span class="term">băng thông</span> <span class="en">(bandwidth)</span>: độ rộng của làn tần số, ví dụ một kênh Wi-Fi rộng 20, 40, 80 hay 160 MHz. Làn càng rộng, gửi được càng nhiều ký hiệu mỗi giây. Thứ hai là <span class="term">tỉ số tín hiệu trên nhiễu</span> <span class="en">(SNR, signal-to-noise ratio)</span>: tín hiệu mạnh gấp bao nhiêu lần tiếng ồn nền. SNR càng cao, chòm điểm càng dày được mà không lẫn.</p>
+      <p>Năm 1948, Claude Shannon chứng minh rằng với một băng thông và một SNR cho trước, có một tốc độ tối đa mà không cách nào vượt qua được, dù kỹ thuật giỏi tới đâu.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ C = B\,\log_2\!\left(1 + \text{SNR}\right) \]</div>
+      <p class="where"><b>C</b>: dung lượng kênh (capacity), tốc độ tối đa tính bằng bit/s; <b>B</b>: băng thông, tính bằng Hz; <b>SNR</b>: tỉ số tín hiệu/nhiễu, ở đây là <i>số lần</i> (không phải dB): 20 dB = 100 lần, 30 dB = 1000 lần; <b>log<sub>2</sub></b>: như ở trên. Ví dụ một kênh Wi-Fi 80 MHz với SNR 30 dB: C = 80 triệu × log<sub>2</sub>(1001) ≈ 80 triệu × 10 ≈ 800 Mbit/s. Thiết bị thật đạt cỡ 60–80% con số này.</p>
+    </div>
+    <div class="prose">
+      <p>Công thức cho thấy một điều thú vị: tăng gấp đôi băng thông thì tốc độ gấp đôi, còn tăng gấp đôi công suất phát thì chỉ được thêm khoảng 1 bit mỗi ký hiệu. Vì vậy các thế hệ Wi-Fi và di động mới chủ yếu giành thêm băng thông (kênh 160, 320 MHz; dải 6 GHz; sóng milimet) và xài nhiều ăng-ten song song (MIMO, <a href="4-bluetooth-wifi.html#wifi">phần 4</a>), chứ không chỉ phát mạnh hơn.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="chia-se">
+  <div class="wrap">
+    <h2>Nhiều người chung một kênh</h2>
+    <div class="prose">
+      <p>Một trạm 4G phục vụ hàng trăm điện thoại, một router phục vụ cả nhà. Có mấy cách chia một làn tần số cho nhiều người, giống như chia một cái bàn họp cho nhiều người nói:</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Cách chia</th><th>Ví von</th><th>Ở đâu</th></tr></thead>
+        <tbody>
+          <tr><td><b>Theo thời gian</b> (TDMA)<span class="en">time division</span></td><td>Mỗi người nói một lượt ngắn, thay phiên nhau.</td><td>Mạng 2G GSM; Bluetooth</td></tr>
+          <tr><td><b>Theo tần số</b> (FDMA)<span class="en">frequency division</span></td><td>Mỗi người nói ở một tông giọng riêng, cùng lúc.</td><td>Radio FM, mạng 1G</td></tr>
+          <tr><td><b>Theo mã</b> (CDMA)<span class="en">code division</span></td><td>Mọi người nói cùng lúc, mỗi cặp một thứ tiếng riêng; ai chỉ nghe ra tiếng của mình.</td><td>Mạng 3G; GPS</td></tr>
+          <tr><td><b>OFDMA</b><span class="en">orthogonal frequency division</span></td><td>Chia làn thành hàng trăm làn con hẹp, chia cho từng người theo cả thời gian lẫn tần số, đổi lại sau mỗi mili giây.</td><td>4G, 5G, Wi-Fi 6 và 7</td></tr>
+          <tr><td><b>Nghe trước khi nói</b> (CSMA/CA)<span class="en">listen before talk</span></td><td>Ai muốn nói thì nghe xem có ai đang nói không, im thì nói, đụng thì chờ một chút rồi thử lại.</td><td>Wi-Fi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>OFDM, nền tảng của gần như mọi chuẩn hiện đại, có một ưu điểm lớn ngoài chuyện chia người: mỗi làn con hẹp nên mỗi ký hiệu kéo dài, ít bị ảnh hưởng khi sóng dội từ tường, nhà cao tầng tới máy thu trễ một chút. Thay vì một làn rộng chạy rất nhanh dễ bị vọng tiếng, ta có hàng trăm làn hẹp chạy chậm, cộng lại vẫn nhanh.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="sua-loi">
+  <div class="wrap">
+    <h2>Lỗi và sửa lỗi</h2>
+    <div class="prose">
+      <p>Dù khéo cỡ nào, vẫn sẽ có bit bị đọc sai. Máy phát vì vậy gửi kèm thêm bit dư theo một quy tắc toán học, gọi là <span class="term">mã sửa lỗi</span> <span class="en">(forward error correction)</span>. Nhờ phần dư này, máy thu tự phát hiện và sửa được một số bit sai mà không cần hỏi lại. Ví dụ “mã 3/4” nghĩa là cứ 4 bit gửi đi thì có 3 bit dữ liệu thật và 1 bit dư.</p>
+      <p>Nếu lỗi quá nhiều không sửa nổi, máy thu báo lại và máy phát gửi lại gói đó (<span class="term">ARQ</span>, <span class="en">automatic repeat request</span>). Bạn ít khi thấy ảnh bị lỗi vài điểm ảnh khi tải về là nhờ hai lớp này; cái bạn thấy khi sóng yếu là tải chậm, chứ hiếm khi là dữ liệu sai.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(s(t)\)</td><td>s of t</td><td>Giá trị của sóng tại thời điểm t.</td></tr>
+          <tr><td class="sym">\(A\)</td><td>amplitude</td><td>Biên độ: sóng cao bao nhiêu.</td></tr>
+          <tr><td class="sym">\(\varphi\)</td><td>phi, phase</td><td>Pha: sóng bị dời sớm hay trễ bao nhiêu (độ).</td></tr>
+          <tr><td class="sym">\(M\)</td><td>M-ary</td><td>Số điểm trong chòm điểm (2, 4, 16, 64, 256, ...).</td></tr>
+          <tr><td class="sym">\(\log_2\)</td><td>log base two</td><td>Logarit cơ số 2: nhân đôi bao nhiêu lần từ 1 thì ra số đó.</td></tr>
+          <tr><td class="sym">I, Q</td><td>in-phase, quadrature</td><td>Hai thành phần sóng lệch nhau 1/4 nhịp, là hai trục của chòm điểm.</td></tr>
+          <tr><td class="sym">\(B\)</td><td>bandwidth</td><td>Băng thông: độ rộng làn tần số (Hz).</td></tr>
+          <tr><td class="sym">SNR</td><td>signal-to-noise ratio</td><td>Tín hiệu mạnh gấp bao nhiêu lần nhiễu.</td></tr>
+          <tr><td class="sym">\(C\)</td><td>capacity</td><td>Dung lượng kênh: tốc độ tối đa theo Shannon (bit/s).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>C. E. Shannon, “A mathematical theory of communication”, <i>Bell Syst. Tech. J.</i> 27 (1948) 379–423, 623–656.</li>
+      <li>A. Goldsmith, <i>Wireless Communications</i>, Cambridge University Press, 2005.</li>
+      <li>D. Tse, P. Viswanath, <i>Fundamentals of Wireless Communication</i>, Cambridge University Press, 2005.</li>
+      <li>J. G. Proakis, M. Salehi, <i>Digital Communications</i>, 5th ed., McGraw-Hill, 2008.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="1-song-vo-tuyen.html"><small>Phần 1</small><b>Sóng vô tuyến</b></a>
+      <a class="next" href="3-nfc-qi.html"><small>Phần 3</small><b>NFC và sạc không dây Qi</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

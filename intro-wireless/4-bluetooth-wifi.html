@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bluetooth, AirDrop và Wi-Fi | Không dây | My N. Nguyen</title>
+<meta name="description" content="Dải ISM 2,4 GHz, Bluetooth Classic và Bluetooth Low Energy, nhảy tần, AirDrop (Bluetooth tìm, Wi-Fi chở), Wi-Fi: kênh, băng tần 2,4/5/6 GHz, nghe trước khi nói, MIMO, các thế hệ Wi-Fi.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/4-bluetooth-wifi.html, phần 4: BLUETOOTH, AIRDROP VÀ WI-FI)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      ism-band.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 4</p>
+  <h1><span class="dot"></span>Bluetooth, AirDrop và Wi-Fi</h1>
+  <p class="lead">Tai nghe, đồng hồ, router trong nhà, chia sẻ hình qua AirDrop: những thứ này chen chúc nhau trong vài dải tần không cần giấy phép, cách nhau chỉ vài mét. Phần này nói về cách chúng sống chung mà không giành sóng của nhau tới mức hỏng việc.</p>
+</header>
+<section class="part" id="ism">
+  <div class="wrap">
+    <h2>Dải 2,4 GHz: cái chợ chung</h2>
+    <div class="prose">
+      <p>Dải 2400–2483,5 MHz là một <span class="term">dải ISM</span> <span class="en">(industrial, scientific and medical)</span>: ai cũng được phát sóng ở đây mà không cần xin phép, miễn công suất thấp. Lò vi sóng hâm đồ ăn ở khoảng 2,45 GHz, nên các nước để dải này “thả nổi” cho những thiết bị chịu được nhiễu. Kết quả là Wi-Fi, Bluetooth, chuột, bàn phím không dây, camera trẻ em, máy bay điều khiển đều có mặt ở đây.</p>
+      <p>Wi-Fi chia dải này thành các <span class="term">kênh</span> đánh số từ 1 tới 13, tâm cách nhau 5 MHz, nhưng mỗi kênh rộng tới 20 MHz. Nghĩa là các kênh kề nhau chồng lên nhau; chỉ có ba kênh 1, 6 và 11 là không đụng nhau. Bluetooth thì chia thành 79 kênh hẹp 1 MHz (bản Classic) hoặc 40 kênh 2 MHz (bản Low Energy) và liên tục nhảy qua lại giữa chúng.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Đây là biểu đồ “thác nước”: trục ngang là tần số, trục dọc là thời gian, hàng mới nhất ở trên cùng rồi trôi dần xuống. Cột đỏ là gói tin Wi-Fi (đậm: nhà bạn, nhạt: hàng xóm), ô đen nhỏ là Bluetooth nhảy tần, ô viền đỏ là lần Bluetooth đụng nhiễu. Hàng trên cùng vẽ hình dạng các kênh Wi-Fi và ba kênh quảng bá của BLE. Thử chọn hai kênh Wi-Fi gần nhau (ví dụ 3 và 6), bật lò vi sóng, và tắt chế độ né kênh của Bluetooth. Hình được làm chậm khoảng 50 lần.</div>
+    <div class="demo" id="demoIsm" data-demo="ism-band">
+      <div class="demo-title"><h4>Dải 2,4 GHz chật chội</h4><span>Chọn kênh Wi-Fi, bật lò vi sóng, xem Bluetooth né nhau ra sao</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="bluetooth">
+  <div class="wrap">
+    <h2>Bluetooth</h2>
+    <div class="prose">
+      <p>Bluetooth sinh ra để thay sợi dây nối giữa các thiết bị cá nhân ở gần nhau, thường trong vòng 10 m. Có hai họ khác nhau, xài chung cái tên:</p>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>Bluetooth Classic</th><th>Bluetooth Low Energy (BLE)</th></tr></thead>
+        <tbody>
+          <tr><td><b>Kênh</b></td><td>79 kênh × 1 MHz</td><td>40 kênh × 2 MHz (3 kênh quảng bá, 37 kênh dữ liệu)</td></tr>
+          <tr><td><b>Tốc độ</b></td><td>tới khoảng 3 Mbit/s</td><td>1–2 Mbit/s, nhưng thường chỉ gửi từng gói nhỏ</td></tr>
+          <tr><td><b>Điện năng</b></td><td>vừa phải, kết nối liên tục</td><td>rất thấp: ngủ gần như mọi lúc, thức dậy vài mili giây để gửi rồi ngủ tiếp</td></tr>
+          <tr><td><b>Ví dụ</b></td><td>tai nghe, loa, xe hơi (đời cũ)</td><td>đồng hồ, vòng đeo tay, máy đo đường huyết, AirTag, khóa cửa; tai nghe đời mới (LE Audio)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <h3>Nhảy tần</h3>
+      <p>Bluetooth Classic đổi kênh 1600 lần mỗi giây theo một thứ tự giả ngẫu nhiên mà hai thiết bị đã thỏa thuận trước, gọi là <span class="term">nhảy tần</span> <span class="en">(frequency hopping)</span>. Lỡ đụng nhiễu ở một kênh thì chỉ hỏng một gói nhỏ, gói sau đã ở kênh khác. Bản nâng cấp <span class="term">nhảy tần thích nghi</span> <span class="en">(AFH)</span> còn ghi nhớ kênh nào hay bị nhiễu (thường là chỗ có Wi-Fi) để bỏ qua luôn, như bạn thấy trong minh họa ở trên.</p>
+      <h3>Quảng bá và ghép đôi</h3>
+      <p>Thiết bị BLE chưa kết nối thì liên tục phát những gói tin nhỏ trên ba <span class="term">kênh quảng bá</span> 37, 38, 39, được đặt khéo léo ở khe giữa các kênh Wi-Fi 1, 6 và 11. Gói quảng bá giống như cái bảng hiệu: “tôi là đồng hồ X, ai muốn kết nối thì gọi”. Khi bạn bấm ghép đôi, hai máy trao đổi khóa mã hóa một lần rồi nhớ nhau cho các lần sau.</p>
+      <p>Mạng tìm đồ thất lạc như Find My của Apple hay Find My Device của Google cũng dựa vào quảng bá BLE: cái thẻ định vị liên tục phát gói tin, điện thoại của bất kỳ ai đi ngang qua (trong mạng của hãng) nghe thấy và gửi vị trí của chính nó lên máy chủ dưới dạng mã hóa, chỉ chủ món đồ mới đọc được.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="airdrop">
+  <div class="wrap">
+    <h2>AirDrop: Bluetooth tìm, Wi-Fi chở</h2>
+    <div class="prose">
+      <p>AirDrop là ví dụ hay về việc ghép hai công nghệ, mỗi cái làm phần mình giỏi nhất. Bluetooth LE tốn ít pin nên được giao việc <b>tìm người</b>: khi bạn mở bảng chia sẻ, máy phát quảng bá BLE kèm một đoạn mã băm (hash) rút ra từ số điện thoại và email của bạn, đủ để máy người quen nhận ra mà người lạ không đọc ngược ra được.</p>
+      <p>Khi đã chọn người nhận, hai máy chuyển qua Wi-Fi để <b>chở dữ liệu</b>, nhưng không đi qua router nào cả: chúng nói chuyện trực tiếp bằng một kết nối Wi-Fi ngang hàng do Apple tự thiết kế (AWDL, <span class="en">Apple Wireless Direct Link</span>). Hai máy hẹn nhau thỉnh thoảng cùng nhảy qua một kênh chung để gửi dữ liệu, thời gian còn lại vẫn giữ kết nối Wi-Fi bình thường với router. Toàn bộ nội dung được mã hóa. Nhờ Wi-Fi, một video vài trăm MB qua trong vài giây, điều Bluetooth không làm nổi.</p>
+      <p>Chế độ “Mọi người” từng bị lạm dụng để gửi hình bậy cho người lạ chỗ đông người, nên từ iOS 16.2, chế độ này tự tắt sau 10 phút. Quick Share trên Android chạy theo ý tưởng tương tự: tìm bằng Bluetooth, chở bằng Wi-Fi trực tiếp.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="wifi">
+  <div class="wrap">
+    <h2>Wi-Fi</h2>
+    <div class="prose">
+      <p>Wi-Fi là mạng nội bộ không dây theo bộ chuẩn IEEE 802.11. Mọi thiết bị trong nhà nói chuyện với một <span class="term">điểm truy cập</span> <span class="en">(access point)</span>, thường nằm chung trong cái router nối ra Internet. Tên mạng bạn thấy trong danh sách là SSID, do điểm truy cập phát quảng bá vài lần mỗi giây.</p>
+      <h3>Ba băng tần, ba tính cách</h3>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Băng tần</th><th>Ưu điểm</th><th>Nhược điểm</th></tr></thead>
+        <tbody>
+          <tr><td><b>2,4 GHz</b></td><td>Đi xa, xuyên tường tốt; thiết bị nào cũng có.</td><td>Chỉ 3 kênh không chồng nhau, chung chợ với Bluetooth và lò vi sóng; chậm.</td></tr>
+          <tr><td><b>5 GHz</b></td><td>Nhiều kênh hơn hẳn, ghép được kênh 80–160 MHz: nhanh.</td><td>Qua một hai bức tường là yếu đi rõ (xem <a href="1-song-vo-tuyen.html#suy-hao">phần 1</a>).</td></tr>
+          <tr><td><b>6 GHz</b><span class="en">Wi-Fi 6E, Wi-Fi 7</span></td><td>Dải mới, rộng, gần như chưa ai xài: kênh tới 320 MHz, ít nhiễu.</td><td>Đi gần nhất; chỉ thiết bị đời mới có; nhiều nước chỉ mở một phần dải này.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <h3>Nghe trước khi nói</h3>
+      <p>Trong một kênh Wi-Fi, chỉ một thiết bị phát tại một thời điểm. Trước khi phát, thiết bị nghe xem kênh có rảnh không; nếu bận thì chờ, rồi chờ thêm một khoảng ngẫu nhiên để tránh đụng với người cũng đang chờ (<span class="term">CSMA/CA</span>). Đó là lý do chung cư đông người, cả chục mạng cùng một kênh thì Wi-Fi chậm dù sóng vẫn đầy vạch: mọi người phải xếp hàng chờ lượt. Tệ hơn nữa là hai mạng ở kênh chồng nhau một phần (ví dụ 3 và 6): chúng không nghe ra nhau để nhường mà chỉ thấy nhau như nhiễu.</p>
+      <h3>Nhiều ăng-ten: MIMO</h3>
+      <p>Router có ba bốn cái ăng-ten không phải để trưng. Với <span class="term">MIMO</span> <span class="en">(multiple-input multiple-output)</span>, nhiều ăng-ten phát cùng lúc nhiều luồng dữ liệu khác nhau trên cùng một kênh. Sóng dội từ tường, trần nhà tới máy thu theo những đường khác nhau, và máy thu có nhiều ăng-ten tách được các luồng ra nhờ những khác biệt nhỏ đó. Hai luồng là gần gấp đôi tốc độ. Router đời mới còn chỉnh pha của từng ăng-ten để hướng sóng về phía điện thoại của bạn (beamforming, xem <a href="6-ve-tinh.html#starlink">phần 6</a>).</p>
+      <h3>Các thế hệ Wi-Fi</h3>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Tên</th><th>Chuẩn</th><th>Năm</th><th>Điểm mới chính</th></tr></thead>
+        <tbody>
+          <tr><td>Wi-Fi 4</td><td>802.11n</td><td>2009</td><td>MIMO, kênh 40 MHz, 64-QAM; chạy cả 2,4 và 5 GHz.</td></tr>
+          <tr><td>Wi-Fi 5</td><td>802.11ac</td><td>2013</td><td>Chỉ 5 GHz, kênh tới 160 MHz, 256-QAM.</td></tr>
+          <tr><td>Wi-Fi 6 / 6E</td><td>802.11ax</td><td>2019–2021</td><td>OFDMA chia kênh cho nhiều máy cùng lúc, 1024-QAM; 6E mở thêm dải 6 GHz.</td></tr>
+          <tr><td>Wi-Fi 7</td><td>802.11be</td><td>2024</td><td>Kênh 320 MHz, 4096-QAM, một thiết bị nối cùng lúc trên nhiều băng tần (MLO).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Mẹo nhỏ.</b> Đặt router ở giữa nhà, trên cao, tránh góc khuất sau tủ sắt hay bể cá. Nhà nhiều tầng thì một hệ thống nhiều điểm phát (mesh) thường tốt hơn một router thật mạnh. Đặt mật khẩu theo chuẩn WPA2 hoặc WPA3, đừng để mạng mở.</div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: thuật ngữ viết tắt</h2>
+    <p class="prose">Trang này không có công thức mới; dưới đây là các chữ viết tắt hay gặp.</p>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Viết tắt</th><th>Đầy đủ (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">ISM</td><td>industrial, scientific, medical</td><td>Dải tần ai cũng được xài, không cần giấy phép.</td></tr>
+          <tr><td class="sym">BLE</td><td>Bluetooth Low Energy</td><td>Bluetooth tiết kiệm pin, gửi từng gói nhỏ.</td></tr>
+          <tr><td class="sym">AFH</td><td>adaptive frequency hopping</td><td>Nhảy tần thích nghi: né các kênh hay bị nhiễu.</td></tr>
+          <tr><td class="sym">AWDL</td><td>Apple Wireless Direct Link</td><td>Wi-Fi nói chuyện trực tiếp giữa hai máy Apple, không qua router.</td></tr>
+          <tr><td class="sym">SSID</td><td>service set identifier</td><td>Tên mạng Wi-Fi.</td></tr>
+          <tr><td class="sym">CSMA/CA</td><td>carrier-sense multiple access / collision avoidance</td><td>Nghe trước khi nói, chờ ngẫu nhiên để tránh đụng.</td></tr>
+          <tr><td class="sym">MIMO</td><td>multiple-input multiple-output</td><td>Nhiều ăng-ten phát và thu nhiều luồng dữ liệu cùng lúc.</td></tr>
+          <tr><td class="sym">MLO</td><td>multi-link operation</td><td>Một thiết bị nối đồng thời trên nhiều băng tần (Wi-Fi 7).</td></tr>
+          <tr><td class="sym">WPA2/3</td><td>Wi-Fi Protected Access</td><td>Chuẩn mã hóa và xác thực của mạng Wi-Fi.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>Bluetooth SIG, <i>Bluetooth Core Specification</i>, v5.4, 2023.</li>
+      <li>IEEE Std 802.11-2020; IEEE Std 802.11ax-2021; IEEE Std 802.11be-2024.</li>
+      <li>E. Perahia, R. Stacey, <i>Next Generation Wireless LANs: 802.11n and 802.11ac</i>, 2nd ed., Cambridge University Press, 2013.</li>
+      <li>M. Stute, S. Narain, A. Mariotto, A. Heinrich, D. Kreitschmann, G. Noubir, M. Hollick, “A billion open interfaces for Eve and Mallory: MitM, DoS, and tracking attacks on iOS and macOS through Apple Wireless Direct Link”, <i>USENIX Security Symposium</i> (2019).</li>
+      <li>Apple, <i>Apple Platform Security</i> (mục AirDrop security), bản cập nhật định kỳ.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="3-nfc-qi.html"><small>Phần 3</small><b>NFC và sạc không dây Qi</b></a>
+      <a class="next" href="5-di-dong.html"><small>Phần 5</small><b>Mạng di động 4G LTE</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

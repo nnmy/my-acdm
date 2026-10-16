@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mạng di động 4G LTE | Không dây | My N. Nguyen</title>
+<meta name="description" content="Mạng tế bào: trạm phát, ô mạng, tái sử dụng tần số, nhiễu và chuyển vùng; SIM và xác thực; bên trong 4G LTE: OFDMA, khối tài nguyên, bộ lập lịch, MIMO, gộp sóng mang; từ 4G lên 5G.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/5-di-dong.html, phần 5: MẠNG DI ĐỘNG 4G LTE)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      cells.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 5</p>
+  <h1><span class="dot"></span>Mạng di động 4G LTE</h1>
+  <p class="lead">Điện thoại của bạn phát sóng chỉ cỡ một phần năm watt, vậy mà vẫn gọi được cho người ở bên kia trái đất, kể cả khi đang ngồi trên xe chạy. Bí quyết nằm ở chỗ chia vùng phủ sóng ra thành rất nhiều ô nhỏ, mỗi ô một trạm, và chuyền điện thoại qua lại giữa các ô một cách êm ru.</p>
+</header>
+<section class="part" id="o-mang">
+  <div class="wrap">
+    <h2>Vì sao gọi là mạng “tế bào”</h2>
+    <div class="prose">
+      <p>Thay vì dựng một cột phát thật cao, thật mạnh cho cả thành phố, nhà mạng cắm hàng ngàn <span class="term">trạm gốc</span> <span class="en">(base station; ở 4G gọi là eNodeB)</span>, mỗi trạm phụ trách một vùng nhỏ gọi là <span class="term">ô</span> <span class="en">(cell)</span>. Vẽ ra bản đồ, các ô nằm khít nhau như tổ ong, nên mạng được gọi là <i>cellular</i>, “mạng tế bào”. Ở trung tâm thành phố, mỗi ô chỉ rộng vài trăm mét; ở nông thôn có thể vài cây số. Các trạm nối với nhau và với Internet bằng cáp quang hoặc viba, chỉ đoạn cuối từ trạm tới điện thoại mới là không dây.</p>
+      <p>Ô nhỏ có hai cái lợi. Điện thoại ở gần trạm nên chỉ cần phát yếu, đỡ tốn pin. Và cùng một làn tần số có thể được <span class="term">tái sử dụng</span> <span class="en">(frequency reuse)</span> ở những ô khác: cả thành phố có hàng triệu người xài chung vài chục MHz phổ tần mà vẫn đủ.</p>
+      <h3>Nhiễu từ ô bên cạnh</h3>
+      <p>Cái giá của tái sử dụng là nhiễu. Ở rìa ô, tín hiệu từ trạm của mình đã yếu, mà trạm bên cạnh phát cùng tần số lại mạnh gần bằng. Điều quan trọng không chỉ là sóng mạnh hay yếu, mà là sóng mình mạnh hơn nhiễu bao nhiêu.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \text{SINR} = \frac{S}{I + N} \]</div>
+      <p class="where"><b>SINR</b>: tỉ số tín hiệu trên (nhiễu từ trạm khác + tiếng ồn nền), thường đổi ra dB; <b>S</b>: công suất nhận từ trạm đang phục vụ mình; <b>I</b>: tổng công suất nhận từ các trạm khác phát cùng tần số (interference); <b>N</b>: tiếng ồn nền của máy thu (noise). Đây là bản mở rộng của SNR ở <a href="2-dieu-che.html#toc-do">phần 2</a>: SINR càng cao, điện thoại càng xài được kiểu điều chế dày điểm, tốc độ càng cao.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Mỗi cột ăng-ten là một trạm, các trạm cách nhau 1 km. Nền càng đậm ở đâu thì SINR ở đó càng cao. Kéo cái điện thoại đi khắp nơi (hoặc bấm <b>Đi bộ</b>): đường đứt nối tới trạm đang phục vụ, vòng tròn vàng nháy lên mỗi lần <b>chuyển vùng</b>. So hai chế độ: <b>mọi trạm chung tần số</b> (như 4G) và <b>chia 3 nhóm tần số</b> (như 2G ngày xưa), để ý tốc độ gần trạm và ở rìa ô.</div>
+    <div class="demo" id="demoCells" data-demo="cells">
+      <div class="demo-title"><h4>Ô mạng di động và chuyển vùng</h4><span>Kéo cái điện thoại, hoặc bấm “Đi bộ”</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+    <div class="prose">
+      <h3>Chuyển vùng</h3>
+      <p>Điện thoại liên tục đo sóng của trạm đang phục vụ và vài trạm xung quanh rồi báo về. Khi một trạm lân cận mạnh hơn hẳn (trong minh họa là hơn 3 dB), mạng ra lệnh <span class="term">chuyển vùng</span> <span class="en">(handover)</span>: điện thoại chuyển sang trạm mới trong vài chục mili giây, cuộc gọi không bị ngắt. Khoảng chênh 3 dB giống như một “vùng đệm” để điện thoại đứng ở ranh giới không bị chuyền qua chuyền lại liên tục.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="sim">
+  <div class="wrap">
+    <h2>SIM: chứng minh bạn là ai</h2>
+    <div class="prose">
+      <p>Cái thẻ SIM (hay eSIM gắn sẵn trong máy) là một con chip bảo mật nhỏ. Nó giữ hai thứ: một số định danh thuê bao (IMSI) và một <span class="term">khóa bí mật</span> mà chỉ nhà mạng có bản sao. Khóa này không bao giờ rời khỏi con chip.</p>
+      <p>Khi điện thoại xin vô mạng, nhà mạng gửi một con số ngẫu nhiên làm “câu đố”. Chip SIM trộn câu đố với khóa bí mật theo một thuật toán định sẵn và trả lời; nhà mạng tự làm phép tính giống vậy và so kết quả. Ở 4G, việc kiểm tra diễn ra cả hai chiều: điện thoại cũng kiểm tra lại mạng là thật, để tránh trạm giả. Từ cùng phép tính đó, hai bên rút ra khóa mã hóa cho cuộc gọi và dữ liệu, nên người nghe lén trên sóng chỉ thấy dữ liệu đã mã hóa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="lte">
+  <div class="wrap">
+    <h2>Bên trong 4G LTE</h2>
+    <div class="prose">
+      <p><span class="term">LTE</span> <span class="en">(Long Term Evolution)</span> là chuẩn 4G do tổ chức 3GPP soạn ra, ra mắt khoảng năm 2009 và về Việt Nam năm 2017. Một sóng mang LTE rộng từ 1,4 tới 20 MHz. Chiều xuống (trạm → điện thoại) xài <span class="term">OFDMA</span>: làn tần số được chia thành hàng trăm làn con hẹp 15 kHz (xem <a href="2-dieu-che.html#chia-se">phần 2</a>).</p>
+      <h3>Khối tài nguyên và bộ lập lịch</h3>
+      <p>Hãy hình dung tài nguyên của một trạm là một tấm lưới: trục ngang là thời gian, trục dọc là tần số. Đơn vị nhỏ nhất để chia cho người dùng là một <span class="term">khối tài nguyên</span> <span class="en">(resource block)</span>: 12 làn con trong 0,5 ms.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ 12 \times 15\ \text{kHz} = 180\ \text{kHz}, \qquad \frac{20\ \text{MHz}}{180\ \text{kHz}} \approx 100\ \text{khối (phần còn lại để làm vùng đệm)} \]</div>
+      <p class="where">Một khối tài nguyên rộng <b>180 kHz</b> (12 làn con, mỗi làn 15 kHz). Một sóng mang 20 MHz có <b>100 khối</b> theo chiều tần số. Cứ mỗi <b>1 ms</b>, trạm quyết định lại khối nào giao cho điện thoại nào.</p>
+    </div>
+    <div class="prose">
+      <p>Người ra quyết định là <span class="term">bộ lập lịch</span> <span class="en">(scheduler)</span> trong trạm. Mỗi điện thoại liên tục báo chất lượng sóng của mình (CQI); bộ lập lịch cân giữa hai mục tiêu: ưu tiên máy đang có sóng tốt để tổng tốc độ cao nhất, nhưng không bỏ đói máy ở rìa ô. Máy sóng tốt được chở 64-QAM hay 256-QAM, máy sóng yếu chỉ được QPSK. Vì vậy cùng một trạm, cùng một lúc, người ngồi gần cửa sổ tải nhanh hơn người ngồi trong góc phòng.</p>
+      <h3>Những chiêu tăng tốc</h3>
+      <p><b>MIMO</b>: trạm và điện thoại đều có nhiều ăng-ten, gửi 2–4 luồng song song như Wi-Fi ở <a href="4-bluetooth-wifi.html#wifi">phần 4</a>. <b>Gộp sóng mang</b> <span class="en">(carrier aggregation)</span>: điện thoại nối cùng lúc vào nhiều băng (ví dụ 1800 MHz và 2100 MHz) rồi cộng tốc độ lại; biểu tượng “4G+” trên một số máy là dấu hiệu của chuyện này. Cuộc gọi trên 4G thì chạy như dữ liệu Internet có ưu tiên (<span class="term">VoLTE</span>), nên tiếng rõ hơn và vừa gọi vừa lướt web được.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="5g">
+  <div class="wrap">
+    <h2>Từ 4G lên 5G</h2>
+    <div class="prose">
+      <p>5G (chuẩn NR, <span class="en">New Radio</span>) giữ ý tưởng cốt lõi của 4G (ô mạng, OFDMA, bộ lập lịch) nhưng nới rộng mọi thứ. Băng thông mỗi sóng mang lớn hơn nhiều: 100 MHz ở băng giữa quanh 3,5 GHz, tới 400 MHz ở băng sóng milimet (24 GHz trở lên). Khoảng cách giữa các làn con co giãn được (15, 30, 60, 120 kHz) để hợp với từng dải tần. Khung thời gian ngắn hơn, độ trễ có thể xuống vài mili giây.</p>
+      <p>Ở tần số cao, sóng đi gần và dễ bị chặn, nên 5G dựa nhiều vào <span class="term">MIMO khối lớn</span> <span class="en">(massive MIMO)</span>: mỗi trạm có 32, 64 hoặc nhiều ăng-ten hơn, cùng nhau lái từng chùm sóng hẹp về phía từng điện thoại. Đây chính là nguyên lý mảng ăng-ten pha mà bạn sẽ gặp trong chảo Starlink ở <a href="6-ve-tinh.html#starlink">phần 6</a>.</p>
+      <p>Ở Việt Nam, 5G được thương mại hóa từ cuối năm 2024, chủ yếu ở băng giữa quanh 3,5 GHz. Bạn có thể thấy biểu tượng 5G mà tốc độ chẳng khác 4G bao nhiêu: nhiều khi điện thoại chỉ giữ 4G làm “xương sống” và mượn thêm 5G khi có, gọi là chế độ NSA (non-standalone).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu và viết tắt</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">SINR</td><td>signal to interference plus noise ratio</td><td>Tín hiệu mạnh gấp bao nhiêu lần (nhiễu + tiếng ồn nền).</td></tr>
+          <tr><td class="sym">\(S, I, N\)</td><td>signal, interference, noise</td><td>Tín hiệu mong muốn, nhiễu từ trạm khác, tiếng ồn nền.</td></tr>
+          <tr><td class="sym">eNodeB</td><td>evolved Node B</td><td>Trạm gốc 4G.</td></tr>
+          <tr><td class="sym">IMSI</td><td>international mobile subscriber identity</td><td>Số định danh thuê bao trong SIM.</td></tr>
+          <tr><td class="sym">OFDMA</td><td>orthogonal frequency-division multiple access</td><td>Chia làn tần số thành nhiều làn con, chia cho nhiều người.</td></tr>
+          <tr><td class="sym">CQI</td><td>channel quality indicator</td><td>Điện thoại báo cho trạm biết sóng của nó tốt cỡ nào.</td></tr>
+          <tr><td class="sym">VoLTE</td><td>voice over LTE</td><td>Gọi thoại chạy trên mạng dữ liệu 4G.</td></tr>
+          <tr><td class="sym">NR, NSA</td><td>New Radio, non-standalone</td><td>Chuẩn 5G; chế độ 5G dựa vào lõi mạng 4G.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>E. Dahlman, S. Parkvall, J. Sköld, <i>4G, LTE-Advanced Pro and The Road to 5G</i>, 3rd ed., Academic Press, 2016.</li>
+      <li>S. Sesia, I. Toufik, M. Baker (eds.), <i>LTE – The UMTS Long Term Evolution: From Theory to Practice</i>, 2nd ed., Wiley, 2011.</li>
+      <li>3GPP TS 36.211 (kênh vật lý và điều chế LTE); TS 36.300 (mô tả tổng quan E-UTRA).</li>
+      <li>3GPP TR 36.814, mô hình suy hao đô thị dùng trong minh họa (PL = 128,1 + 37,6 log<sub>10</sub>d, d tính bằng km).</li>
+      <li>E. Dahlman, S. Parkvall, J. Sköld, <i>5G NR: The Next Generation Wireless Access Technology</i>, 2nd ed., Academic Press, 2021.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="4-bluetooth-wifi.html"><small>Phần 4</small><b>Bluetooth, AirDrop và Wi-Fi</b></a>
+      <a class="next" href="6-ve-tinh.html"><small>Phần 6</small><b>Vệ tinh: GNSS và Starlink</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

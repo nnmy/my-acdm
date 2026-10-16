@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi" class="gate-locked">
+<head>
+<meta charset="utf-8">
+<style>html.gate-locked body{visibility:hidden!important}</style>
+<script src="../common/gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NFC và sạc không dây Qi | Không dây | My N. Nguyen</title>
+<meta name="description" content="Truyền năng lượng và dữ liệu qua từ trường: cảm ứng điện từ, hệ số ghép, cộng hưởng; NFC, thẻ không pin, thanh toán chạm, CCCD gắn chip; sạc không dây Qi và Qi2.">
+<link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Figtree:wght@500&family=Pixelify+Sans:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common/site.css">
+<link rel="stylesheet" href="lib/wl.css">
+<!--
+  =====================================================================
+  HOW TO EDIT  (intro-wireless/3-nfc-qi.html, phần 3: NFC VÀ SẠC KHÔNG DÂY QI)
+  - Chữ và công thức: sửa trực tiếp trong các <section class="part">. Công thức viết bằng LaTeX (MathJax).
+  - Mỗi demo là một file trong lib/demos/ (tên file = data-demo), tải khi cuộn tới:
+      induction.js
+  - Chạy riêng từng demo: lib/demos/run.html?demo=<id>
+  - Mục lục nổi tự dựng từ <section class="part" id> và các h2, h3 bên trong (lib/wl.js).
+  =====================================================================
+-->
+</head>
+<body>
+<noscript><p style="visibility:visible;margin:40px auto;max-width:520px;padding:0 20px;font:16px system-ui,sans-serif">Trang cần bật JavaScript để xem.</p></noscript>
+
+<nav class="site-nav" aria-label="Site"></nav>
+<script src="../common/nav.js"></script>
+
+<main>
+<header class="wrap page-head">
+  <p class="crumb"><a href="index.html">Không dây</a> / Phần 3</p>
+  <h1><span class="dot"></span>NFC và sạc không dây Qi</h1>
+  <p class="lead">Chạm thẻ xe buýt, quẹt điện thoại thanh toán, đặt điện thoại lên đế sạc: cả ba đều không xài sóng bay đi xa mà xài từ trường giữa hai cuộn dây đặt sát nhau. Phần này giải thích vì sao cách làm đó chỉ chạy trong vài cm, và vì sao chính điều đó lại là ưu điểm.</p>
+</header>
+<section class="part" id="tu-truong">
+  <div class="wrap">
+    <h2>Truyền qua từ trường</h2>
+    <div class="prose">
+      <p>Cho dòng điện xoay chiều chạy qua một cuộn dây, quanh nó sinh ra một từ trường cũng đổi chiều liên tục. Đặt cuộn dây thứ hai gần đó, từ trường thay đổi đi xuyên qua nó sẽ làm xuất hiện một điện áp ở hai đầu cuộn thứ hai. Đó là <span class="term">cảm ứng điện từ</span> <span class="en">(electromagnetic induction)</span>, cùng nguyên lý với cục sạc có biến áp hay bếp từ trong bếp nhà bạn.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \mathcal{E} = -N\,\frac{\Delta \Phi}{\Delta t} \]</div>
+      <p class="where"><b>ℰ</b>: điện áp sinh ra trong cuộn thứ hai (volt); <b>N</b>: số vòng dây của cuộn đó; <b>Φ</b> (“phi hoa”): từ thông, tức lượng từ trường đi xuyên qua lòng cuộn dây; <b>Δ</b> (“đen-ta”) nghĩa là “lượng thay đổi”, nên ΔΦ/Δt là từ thông đổi nhanh cỡ nào. Dấu trừ chỉ nói rằng dòng cảm ứng chống lại sự thay đổi đó (định luật Lenz). Từ thông đổi càng nhanh, tức tần số càng cao, điện áp càng lớn.</p>
+    </div>
+    <div class="prose">
+      <p>Ở NFC (13,56 MHz) và Qi (cỡ 100–200 kHz), bước sóng dài hàng chục mét tới vài cây số, nên hai cuộn dây nằm sâu trong <a href="1-song-vo-tuyen.html#ang-ten">vùng trường gần</a>. Ở đây từ trường yếu đi cực nhanh: xa gấp đôi thì từ trường còn khoảng 1/8 (giảm theo lập phương khoảng cách), còn năng lượng truyền qua được giảm còn cỡ 1/64. Ra khỏi vài cm là gần như hết.</p>
+      <h3>Hệ số ghép và cộng hưởng</h3>
+      <p>Không phải đường sức từ nào của cuộn phát cũng đi xuyên qua cuộn thu. Phần “chạm” được nhau gọi là <span class="term">hệ số ghép</span> <span class="en">(coupling coefficient)</span> k, từ 0 (không dính gì) tới 1 (ghép hoàn hảo như trong lõi biến áp). Đặt sát và đúng tâm, k của đế sạc cỡ 0,3–0,6; nhấc lên vài cm hay đặt lệch, k tụt về 0,05 hoặc thấp hơn.</p>
+      <p>Để bù cho chuyện ghép lỏng, cả hai cuộn dây được gắn thêm tụ điện để <span class="term">cộng hưởng</span> <span class="en">(resonance)</span> đúng ở tần số làm việc, giống như đẩy xích đu đúng nhịp: mỗi lần đẩy nhẹ mà xích đu vẫn lên cao. Độ “nhạy nhịp” của mạch cộng hưởng gọi là <span class="term">hệ số phẩm chất</span> Q: Q càng cao, mạch càng ít hao năng lượng mỗi nhịp.</p>
+    </div>
+    <div class="formula">
+      <div class="eq">\[ \eta_{\max} = \frac{k^2 Q_1 Q_2}{\left(1 + \sqrt{1 + k^2 Q_1 Q_2}\right)^2} \]</div>
+      <p class="where"><b>η<sub>max</sub></b> (“eta”): hiệu suất tối đa truyền năng lượng từ cuộn phát sang cuộn thu, từ 0 tới 1 (tức 0% tới 100%); <b>k</b>: hệ số ghép; <b>Q<sub>1</sub>, Q<sub>2</sub></b>: hệ số phẩm chất của hai cuộn (thường vài chục tới cỡ 100); <b>√</b>: căn bậc hai. Không cần nhớ công thức, chỉ cần thấy: mọi thứ phụ thuộc vào tích k²·Q<sub>1</sub>·Q<sub>2</sub>. Tích này lớn hơn cỡ 100 thì hiệu suất trên 80%; nhỏ hơn 1 thì phần lớn năng lượng thành nhiệt.</p>
+    </div>
+    <div class="guide"><b>Cách đọc demo này.</b> Hình nhìn ngang hai cuộn dây: cuộn đỏ ở dưới là cuộn phát (đầu đọc hoặc đế sạc), cuộn vàng ở trên là cuộn thu (thẻ hoặc điện thoại). Chấm và dấu chéo trên cuộn phát cho biết dòng điện đi ra và đi vô mặt giấy. Nền xanh là từ trường của cuộn phát: đậm ở sát cuộn dây, nhạt rất nhanh khi ra xa. Kéo <b>khoảng cách d</b> và <b>độ lệch ngang s</b>, xem hệ số ghép k và hiệu suất η thay đổi. Hệ số k ở đây được tính thật từ kích thước hai vòng dây.</div>
+    <div class="demo" id="demoInd" data-demo="induction">
+      <div class="demo-title"><h4>Hai cuộn dây ghép từ</h4><span>Kéo khoảng cách và độ lệch, xem năng lượng qua được bao nhiêu</span></div>
+      <div class="demo-loading">Minh họa sẽ được tải khi bạn cuộn tới đây.</div>
+    </div>
+  </div>
+</section>
+
+<section class="part tint" id="nfc">
+  <div class="wrap">
+    <h2>NFC: chạm là nói chuyện</h2>
+    <div class="prose">
+      <p><span class="term">NFC</span> <span class="en">(near-field communication, giao tiếp trường gần)</span> chạy ở đúng 13,56 MHz, tốc độ 106–424 kbit/s: rất chậm so với Wi-Fi, nhưng đủ cho vài trăm byte của một lần thanh toán hay mở cửa. Tầm thường chỉ 1–4 cm. NFC là họ hàng của <span class="term">RFID</span>, công nghệ trong thẻ xe, thẻ nhân viên, tem chống trộm ở siêu thị.</p>
+      <h3>Thẻ không có pin</h3>
+      <p>Cái thẻ nhựa mỏng như thẻ ngân hàng hay thẻ xe buýt bên trong chỉ có một cuộn dây chạy vòng quanh mép và một con chip nhỏ xíu, không có pin. Khi đưa lại gần đầu đọc, từ trường của đầu đọc cảm ứng ra điện trong cuộn dây, đủ nuôi con chip chạy. Để trả lời, thẻ không cần phát sóng: nó bật tắt một điện trở nhỏ theo nhịp bit, làm thay đổi lượng năng lượng nó “hút” từ đầu đọc. Đầu đọc cảm nhận được sự thay đổi đó trên chính cuộn dây của mình và đọc ra dữ liệu. Cách này gọi là <span class="term">điều chế tải</span> <span class="en">(load modulation)</span>, gần giống điều biên ở <a href="2-dieu-che.html#dieu-che">phần 2</a>.</p>
+      <h3>Ba vai của điện thoại</h3>
+    </div>
+    <div class="tablewrap">
+      <table class="cmp">
+        <thead><tr><th>Chế độ</th><th>Điện thoại làm gì</th><th>Ví dụ</th></tr></thead>
+        <tbody>
+          <tr><td><b>Đầu đọc</b><span class="en">reader/writer</span></td><td>Phát từ trường, đọc thẻ hoặc chip khác.</td><td>Đọc chip trên căn cước công dân bằng ứng dụng VNeID hay ứng dụng ngân hàng; kiểm tra số dư thẻ xe.</td></tr>
+          <tr><td><b>Giả làm thẻ</b><span class="en">card emulation</span></td><td>Đóng vai một cái thẻ để máy POS đọc.</td><td>Apple Pay, Google Wallet, Samsung Wallet.</td></tr>
+          <tr><td><b>Ngang hàng</b><span class="en">peer-to-peer</span></td><td>Hai máy trao đổi qua lại.</td><td>Chạm hai máy để ghép đôi tai nghe, chia sẻ danh bạ (nay ít xài).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Khi thanh toán bằng điện thoại, số thẻ thật của bạn không đi qua máy POS. Điện thoại chỉ gửi một <span class="term">mã thay thế</span> <span class="en">(token)</span> và một chữ ký dùng một lần, tạo ra trong một con chip bảo mật riêng. Kẻ gian có ghi lại được cũng không xài lại được.</p>
+      <p>Chip trên căn cước công dân cũng là một thẻ NFC. Khi ứng dụng yêu cầu bạn quét mã trên thẻ (hoặc nhập số thẻ, ngày sinh, ngày hết hạn) rồi áp thẻ vào lưng điện thoại, điện thoại dùng các thông tin in sẵn đó làm “chìa khóa” để mở kênh mã hóa với chip, rồi đọc ra họ tên, ảnh chân dung và chữ ký số của cơ quan cấp, nhờ đó ứng dụng kiểm được thẻ là thật và không bị sửa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="qi">
+  <div class="wrap">
+    <h2>Sạc không dây Qi</h2>
+    <div class="prose">
+      <p><span class="term">Qi</span> (đọc là “chi”, theo chữ khí 氣) là chuẩn sạc không dây phổ biến nhất, do Hiệp hội Năng lượng Không dây (WPC) quản lý. Đế sạc có một cuộn dây phẳng chạy ở khoảng 100–200 kHz, lưng điện thoại có một cuộn dây tương tự. Về nguyên lý, nó là một cái biến áp bị cưa đôi: một nửa nằm trong đế, một nửa nằm trong điện thoại.</p>
+      <p>Đế sạc và điện thoại cũng nói chuyện với nhau qua chính cuộn dây đó, bằng điều chế tải giống NFC: điện thoại báo “tôi cần thêm điện” hay “bớt lại” nhiều lần mỗi giây, đế chỉnh công suất theo. Các bản Qi phổ thông cho tới 15 W; bản mới hơn nâng lên cao hơn nữa. Nhờ lắng nghe này, đế còn phát hiện được <span class="term">vật lạ</span> <span class="en">(foreign object)</span>: nếu có đồng xu hay chìa khóa nằm giữa, năng lượng bị hút mất mà điện thoại không báo nhận, đế sẽ ngắt để vật kim loại không bị nung nóng.</p>
+      <h3>Vì sao phải đặt đúng chỗ</h3>
+      <p>Trong minh họa ở trên, chọn <b>Sạc Qi</b> rồi kéo độ lệch ngang: chỉ lệch cỡ một bán kính cuộn dây là hiệu suất tụt hẳn, phần còn lại thành nhiệt. Đó là lý do sạc không dây hay làm máy ấm lên và sạc chậm hơn dây cáp. Chuẩn <span class="term">Qi2</span> (2023) mượn ý tưởng từ MagSafe của Apple: thêm một vòng nam châm để hít điện thoại vô đúng tâm cuộn dây, nhờ đó k luôn cao và ổn định. Ốp lưng quá dày cũng có tác dụng giống nhấc máy lên khỏi đế.</p>
+    </div>
+    <div class="callout"><b>Qi khác NFC ở đâu?</b> Cùng một nguyên lý, nhưng NFC chỉ cần vài mili watt để nuôi con chip và cần tần số cao hơn để gửi dữ liệu nhanh; Qi cần hàng chục watt nên chạy ở tần số thấp, nơi linh kiện công suất ít hao hơn.</div>
+  </div>
+</section>
+
+<section class="part tint" id="an-toan">
+  <div class="wrap">
+    <h2>Tầm ngắn có an toàn tuyệt đối?</h2>
+    <div class="prose">
+      <p>Tầm vài cm là một lớp bảo vệ tự nhiên: muốn đọc lén thẻ trong bóp bạn, kẻ gian phải dí thiết bị sát người. Tuy vậy nó không phải bảo vệ tuyệt đối. Với ăng-ten lớn và máy khuếch đại, các nhà nghiên cứu đã đọc được thẻ ở khoảng cách vài chục cm. Còn có kiểu <span class="term">tấn công chuyển tiếp</span> <span class="en">(relay attack)</span>: một người đứng gần nạn nhân, chuyển tín hiệu qua mạng cho đồng bọn đứng cạnh máy POS ở chỗ khác.</p>
+      <p>Vì vậy các hệ thống quan trọng không chỉ tin vào khoảng cách: thẻ ngân hàng có giới hạn số tiền cho giao dịch không cần mã PIN, ví điện thoại đòi mở khóa bằng vân tay hoặc khuôn mặt trước khi chạm, và chip căn cước chỉ chịu nói chuyện khi đầu đọc biết trước các thông tin in trên mặt thẻ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHỤ LỤC KÝ HIỆU ================= -->
+<section class="part" id="ky-hieu">
+  <div class="wrap">
+    <h2>Phụ lục: ký hiệu toán học</h2>
+    <div class="tablewrap">
+      <table class="cmp symtab">
+        <thead><tr><th>Ký hiệu</th><th>Đọc (tiếng Anh)</th><th>Ý nghĩa, nói đơn giản</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">\(\mathcal{E}\)</td><td>EMF, electromotive force</td><td>Điện áp cảm ứng sinh ra trong cuộn dây.</td></tr>
+          <tr><td class="sym">\(N\)</td><td>number of turns</td><td>Số vòng dây của cuộn.</td></tr>
+          <tr><td class="sym">\(\Phi\)</td><td>Phi, magnetic flux</td><td>Từ thông: lượng từ trường đi xuyên qua lòng cuộn dây.</td></tr>
+          <tr><td class="sym">\(\Delta\)</td><td>delta</td><td>“Lượng thay đổi”: ΔΦ/Δt là từ thông đổi nhanh cỡ nào.</td></tr>
+          <tr><td class="sym">\(k\)</td><td>coupling coefficient</td><td>Hệ số ghép: phần từ trường hai cuộn “chạm” được nhau (0 tới 1).</td></tr>
+          <tr><td class="sym">\(Q\)</td><td>quality factor</td><td>Hệ số phẩm chất: mạch cộng hưởng ít hao năng lượng cỡ nào.</td></tr>
+          <tr><td class="sym">\(\eta\)</td><td>eta, efficiency</td><td>Hiệu suất: phần trăm năng lượng truyền qua được.</td></tr>
+          <tr><td class="sym">\(\sqrt{\ }\)</td><td>square root</td><td>Căn bậc hai: √9 = 3.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÀI LIỆU THAM KHẢO ================= -->
+<section class="part tint" id="tham-khao">
+  <div class="wrap">
+    <h2>Tài liệu tham khảo</h2>
+    <ol class="refs">
+      <li>K. Finkenzeller, <i>RFID Handbook</i>, 3rd ed., Wiley, 2010.</li>
+      <li>ISO/IEC 14443 (thẻ không tiếp xúc tầm gần) và ISO/IEC 18092 (NFCIP-1).</li>
+      <li>Wireless Power Consortium, <i>Qi Specification</i>, v2.0, 2023.</li>
+      <li>A. Kurs, A. Karalis, R. Moffatt, J. D. Joannopoulos, P. Fisher, M. Soljačić, “Wireless power transfer via strongly coupled magnetic resonances”, <i>Science</i> 317 (2007) 83–86.</li>
+      <li>G. P. Hancke, “Practical attacks on proximity identification systems”, <i>IEEE Symposium on Security and Privacy</i> (2006) 328–333.</li>
+    </ol>
+    <nav class="pager" aria-label="Chuyển trang">
+      <a href="2-dieu-che.html"><small>Phần 2</small><b>Chở dữ liệu trên sóng</b></a>
+      <a class="next" href="4-bluetooth-wifi.html"><small>Phần 4</small><b>Bluetooth, AirDrop và Wi-Fi</b></a>
+    </nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="cat-lane">
+    <canvas id="catCanvas" aria-hidden="true"></canvas>
+    <button id="catBtn" aria-label="Chơi minigame" title="Chơi minigame">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.75" fill="#fff" stroke="#1B1920" stroke-width="1.5"/><path d="M9.6 7.4 17 12l-7.4 4.6z" fill="#1B1920" stroke="#1B1920" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="foot-row"><span>Content by My N. Nguyen x AI Agents</span></div>
+  </div>
+</footer>
+
+<script src="lib/wl.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="../common/site.js" defer></script>
+<script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
