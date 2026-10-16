@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="https://nnmy.github.io/lib/logo-my.svg">
 <link rel="stylesheet" href="lib/fonts/fonts.css">
 <link rel="stylesheet" href="../common/site.css">
-<link rel="stylesheet" href="lib/atlas.css?v=20261009b">
+<link rel="stylesheet" href="lib/atlas.css?v=20261016">
 <!--
   =====================================================================
   HOW TO EDIT  (med-atlas/1-brain-mri.html, MRI NÃO)
@@ -23,6 +23,7 @@
   - Các id trong khung .viewer (cv-t1, cv-t2, slice, segMode, find, info, ...) được atlas.js dùng; giữ nguyên khi sửa.
   - Bố cục: cột trái = ảnh + bảng điều khiển; cột phải = khung thông tin (thu gọn được).
     Trên điện thoại, bảng điều khiển nổi ở đáy màn hình, thu gọn được.
+    Trên điện thoại còn có 2 nút cuộn trang lên/xuống nổi ở góc phải (lib/scroll-btns.js + .scroll-btns trong atlas.css).
   - Trang đọc dữ liệu bằng fetch(): xem trên máy cần server tĩnh (python -m http.server, Live Server);
     GitHub Pages chạy bình thường. Không dùng dịch vụ ngoài (font cục bộ trong lib/fonts/).
   - Navbar: ../common/nav.js (dùng chung, sửa một chỗ); footer: ../common (site.css, site.js)
@@ -203,6 +204,7 @@
     tabs.forEach(b => b.addEventListener('click', () => { if (b.getAttribute('aria-pressed') !== 'true') show(b.dataset.view); }));
   })();
 </script>
+<script src="lib/scroll-btns.js?v=20261016"></script>
 <script src="../common/site.js" defer></script>
 <script data-goatcounter="https://nnmy99.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
