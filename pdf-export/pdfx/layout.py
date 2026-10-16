@@ -4,7 +4,7 @@ import io
 import os
 
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import ArrayObject, DictionaryObject, Fit, NameObject, NullObject
+from pypdf.generic import ArrayObject, DictionaryObject, Fit, FloatObject, NameObject, NullObject, NumberObject
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -14,6 +14,8 @@ from . import paths
 from .chapters import GOTO
 
 PW, PH = 158, 210                     # mm, tỉ lệ 3:4 (màn e-ink 7,8″ / 10,3″)
+# vùng bấm quanh số trang ở góc phải footer (mm: trái, dưới, phải, trên); rộng hơn con số để dễ chạm trên màn cảm ứng
+PAGENUM_HIT = (PW - 30, 2.5, PW - 9, 11)
 MARGIN = {'top': '15mm', 'bottom': '15mm', 'left': '12mm', 'right': '12mm'}
 _fonts_ok = False
 
@@ -133,6 +135,39 @@ def overlay(labels, title):
     return PdfReader(buf)
 
 
+def _goto(page_ref):
+    return DictionaryObject({NameObject('/S'): NameObject('/GoTo'),
+                             NameObject('/D'): ArrayObject([page_ref, NameObject('/Fit')])})
+
+
+def _pagenum_links(w, labels, ntoc, starts, toc_of):
+    """Gắn liên kết vào số trang ở footer: bấm vào là về mục lục.
+    Trang trong một chương (phụ lục, thuật ngữ) -> trang mục lục có dòng của chương đó;
+    trang mục lục thứ 2 trở đi -> trang mục lục đầu tiên. toc_of: {trang bắt đầu (đánh số từ 1): chỉ số trang mục lục}."""
+    x0, y0, x1, y1 = (v * mm for v in PAGENUM_HIT)
+    for i, lab in enumerate(labels):
+        if lab is None:
+            continue
+        if 1 <= i <= ntoc:                    # chính là trang mục lục
+            target = 1
+        else:
+            start = max((s for s in starts if s <= i), default=None)
+            target = toc_of.get(start + 1, 1) if start is not None else 1
+        if target == i:
+            continue
+        annot = DictionaryObject({
+            NameObject('/Type'): NameObject('/Annot'),
+            NameObject('/Subtype'): NameObject('/Link'),
+            NameObject('/Rect'): ArrayObject([FloatObject(x0), FloatObject(y0), FloatObject(x1), FloatObject(y1)]),
+            NameObject('/Border'): ArrayObject([NumberObject(0), NumberObject(0), NumberObject(0)]),
+            NameObject('/A'): _goto(w.pages[target].indirect_reference),
+        })
+        page = w.pages[i]
+        if '/Annots' not in page:
+            page[NameObject('/Annots')] = ArrayObject()
+        page['/Annots'].get_object().append(w._add_object(annot))
+
+
 def assemble(out_pdf, title, author, cover, toc, parts, chap_start, appx_start, gloss_start):
     """parts: [(reader, footer_label, outline_title, outline_items)], theo thứ tự sau mục lục."""
     w = PdfWriter()
@@ -149,7 +184,9 @@ def assemble(out_pdf, title, author, cover, toc, parts, chap_start, appx_start, 
     for i, lab in enumerate(labels):
         if lab is not None:
             w.pages[i].merge_page(ov.pages[i])
-    for page in w.pages:                      # liên kết nội bộ goto.local -> nhảy trang
+    ntoc = len(toc.pages)
+    toc_of = {}                               # trang đích (đánh số từ 1) -> trang mục lục đầu tiên có dòng trỏ tới nó
+    for pi, page in enumerate(w.pages):       # liên kết nội bộ goto.local -> nhảy trang
         for aref in page.get('/Annots') or []:
             a = aref.get_object()
             act = a.get('/A')
@@ -162,6 +199,8 @@ def assemble(out_pdf, title, author, cover, toc, parts, chap_start, appx_start, 
             num = int(num)
             if kind == 'page':
                 target = num - 1
+                if 1 <= pi <= ntoc:
+                    toc_of.setdefault(num, pi)
             elif kind == 'chap':
                 target = chap_start[num - 1] - 1
             else:
@@ -170,6 +209,7 @@ def assemble(out_pdf, title, author, cover, toc, parts, chap_start, appx_start, 
             a[NameObject('/A')] = DictionaryObject({
                 NameObject('/S'): NameObject('/GoTo'),
                 NameObject('/D'): ArrayObject([w.pages[target].indirect_reference, NameObject('/Fit')])})
+    _pagenum_links(w, labels, ntoc, starts, toc_of)
     w.add_outline_item('Bìa', 0)
     w.add_outline_item('Mục lục', 1)
     for (r, _, otitle, ol), base in zip(parts, starts):

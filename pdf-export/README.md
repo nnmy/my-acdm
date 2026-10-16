@@ -45,6 +45,8 @@ Mỗi cuốn mất khoảng 15–90 giây tùy số minh họa.
 - **Bìa:** tên sách, pixel art của thư mục (lấy từ `SECTIONS` ở `index.html` của trang chủ; không có thì dùng hình quyển sách), tác giả.
 - **Mục lục:** chương và các mục `h2`, bấm được; PDF có bookmark.
 - **Header và footer:** header là tên sách; footer có tên chương bên trái, số trang bên phải.
+  Bấm vào số trang để về mục lục, đúng trang mục lục có dòng của chương đang đọc
+  (vùng bấm khai báo ở `PAGENUM_HIT` trong `pdfx/layout.py`).
 - **Các chương:**
   - Minh họa tương tác được chụp thành ảnh, có chú thích "Hình x.y". Câu sát hình kiểu "demo này", "trên demo" được đổi thành tên hình.
   - Phần lịch sử (timeline) chuyển thành đoạn văn.
